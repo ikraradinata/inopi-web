@@ -1,0 +1,78 @@
+import type { Metadata } from 'next'
+import { DIVISION_PROGRAMS } from '@/lib/constants/programs'
+import ProgramKerjaSection from '@/components/sections/ProgramKerjaSection'
+import { IconFlask, IconCheck } from '@tabler/icons-react'
+
+export const metadata: Metadata = {
+  title: 'Divisi Riset & Inovasi',
+  description: 'Think tank asosiasi INOPI — mengembangkan agenda riset, framework, dan publikasi ilmiah untuk inovasi pembelajaran.',
+}
+
+export default function RisetInovasiPage() {
+  const division = DIVISION_PROGRAMS.find((d) => d.slug === 'riset-inovasi')!
+
+  return (
+    <>
+      {/* Hero */}
+      <section className="py-14" style={{ background: '#071422' }}>
+        <div className="container">
+          <div className="flex items-center gap-3 mb-4">
+            <div
+              className="w-10 h-10 rounded-[10px] flex items-center justify-center"
+              style={{ background: 'rgba(13,148,136,0.2)' }}
+            >
+              <IconFlask size={20} style={{ color: '#5dd4c8' }} />
+            </div>
+            <span
+              className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full"
+              style={{ background: 'rgba(13,148,136,0.15)', color: '#5dd4c8' }}
+            >
+              {division.role} · {division.orientation}
+            </span>
+          </div>
+          <h1
+            className="font-display font-bold mb-3 text-white"
+            style={{ fontSize: 'clamp(24px,4vw,36px)' }}
+          >
+            {division.title}
+          </h1>
+          <p className="font-body text-[14px] max-w-xl" style={{ color: '#8fa5b5' }}>
+            PIC: {division.pic.join(', ')}
+          </p>
+        </div>
+      </section>
+
+      {/* Tugas & Tanggung Jawab */}
+      {division.responsibilities && (
+        <section className="py-14 bg-white">
+          <div className="container max-w-3xl">
+            <h2 className="font-display font-bold text-[20px] mb-6" style={{ color: '#071422' }}>
+              Tugas & Tanggung Jawab
+            </h2>
+            <div className="space-y-3">
+              {division.responsibilities.map((item, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <div
+                    className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5"
+                    style={{ background: '#e0f7f5' }}
+                  >
+                    <IconCheck size={12} style={{ color: '#0d9488' }} />
+                  </div>
+                  <p className="font-body text-[14px] leading-relaxed" style={{ color: '#4a6070' }}>
+                    {item}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Program Kerja */}
+      <ProgramKerjaSection
+        semester1={division.semester1}
+        semester2={division.semester2}
+      />
+    </>
+  )
+}
