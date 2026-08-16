@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import { DIVISION_PROGRAMS } from '@/lib/constants/programs'
 import ProgramKerjaSection from '@/components/sections/ProgramKerjaSection'
+import TrainingCatalogSection from '@/components/sections/TrainingCatalogSection'
+import SkillsCubeSection from '@/components/sections/SkillsCubeSection'
 import { IconCertificate } from '@tabler/icons-react'
 
 export const metadata: Metadata = {
   title: 'Divisi Pelatihan & Sertifikasi',
-  description: 'Capacity builder INOPI — meningkatkan kompetensi SDM melalui pelatihan terstruktur dan sertifikasi nasional.',
+  description: 'Capacity builder INOPI — meningkatkan kompetensi SDM melalui pelatihan terstruktur, katalog 10 program training, dan metodologi INOPI Skills Cube.',
 }
 
 export default function PelatihanSertifikasiPage() {
@@ -42,11 +44,17 @@ export default function PelatihanSertifikasiPage() {
         </div>
       </section>
 
-      {/* Program Kerja */}
+      {/* Program Kerja Divisi */}
       <ProgramKerjaSection
         semester1={division.semester1}
         semester2={division.semester2}
       />
+
+      {/* Katalog Program Training + Learning Path */}
+      <TrainingCatalogSection />
+
+      {/* Metodologi INOPI Skills Cube */}
+      <SkillsCubeSection />
     </>
   )
 }

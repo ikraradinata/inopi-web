@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id" className={`${plusJakartaSans.variable} ${figtree.variable}`}>
-      <body className="min-h-screen flex flex-col bg-white text-[#0d1e2e]">
+      <body className="min-h-screen flex flex-col bg-white text-[#0d1e2e]" suppressHydrationWarning>
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

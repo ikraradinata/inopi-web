@@ -44,9 +44,9 @@ export const DIVISION_PROGRAMS: DivisionProgram[] = [
       },
       {
         no: 2,
-        name: 'Agenda Riset Tahunan INOPI',
+        name: 'Agenda Riset Tahunan INOPI + Publisher Jurnal',
         description: 'Workshop 1 hari bersama Dewan Pakar untuk menyepakati 3–5 tema riset prioritas.',
-        output: 'Dokumen Research Agenda 2026/2027',
+        output: 'Dokumen Research Agenda 2026/2027 & persiapan menjadi publisher jurnal',
       },
       {
         no: 3,
@@ -64,8 +64,8 @@ export const DIVISION_PROGRAMS: DivisionProgram[] = [
       },
       {
         no: 5,
-        name: 'White Paper Perdana INOPI',
-        description: '1 white paper unggulan tentang tema prioritas (mis. AI in Education Indonesia), disusun kolaboratif 4–6 anggota.',
+        name: 'Jurnal dalam Bidang LearnTech',
+        description: 'Publikasi ilmiah unggulan tentang tema prioritas terpilih (mis. AI in Education Indonesia). Disusun kolaboratif 4–6 anggota, peluncuran di Forum Nasional.',
         output: 'Peluncuran di Forum Nasional',
       },
       {
