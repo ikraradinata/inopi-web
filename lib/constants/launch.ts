@@ -48,24 +48,25 @@ export interface RundownItem {
 }
 
 /**
- * Rundown publik, diringkas dari dokumen rapat tim inti 13 Oktober 2026.
- * Segmen internal (founder call time, press conference, PIC logistik) sengaja
- * tidak ditampilkan di situs.
+ * Rundown publik, sesuai dokumen rapat tim inti 13 Oktober 2026.
+ * Kolom PIC sengaja tidak ditampilkan di situs (internal only).
  */
 export const RUNDOWN: RundownItem[] = [
+  { time: '10.00 – 10.30', segment: 'Founder call time' },
+  { time: '11.00 – 12.00', segment: 'Press conference' },
   { time: '11.00 – 12.50', segment: 'Registrasi & ISHOMA' },
   { time: '12.50 – 13.00', segment: 'Call to seat' },
   { time: '13.00 – 13.05', segment: 'Pembukaan & Indonesia Raya' },
-  { time: '13.05 – 13.10', segment: 'Sambutan Komdigi', speaker: 'Bonifasius W. Pudjianto' },
-  { time: '13.10 – 13.15', segment: 'Sambutan Kemendikdasmen', speaker: 'Gogot Suharwoto' },
-  { time: '13.15 – 13.20', segment: 'Sambutan Ketua Umum', speaker: 'Prof. Meyliana' },
-  { time: '13.20 – 13.25', segment: 'Perkenalan 26 Founder', speaker: 'Prof. Meyliana' },
-  { time: '13.25 – 13.40', segment: 'Prosesi Launching & Foto Bersama', highlight: true },
-  { time: '13.40 – 14.00', segment: 'Keynote', speaker: 'Heru Dewanto' },
-  { time: '14.00 – 14.50', segment: 'Panel 1 — AI & Learning Innovation', speaker: 'Moderator: Andy Febrico Bintoro' },
+  { time: '13.05 – 13.10', segment: 'Sambutan Komdigi' },
+  { time: '13.10 – 13.15', segment: 'Sambutan Kemendikdasmen' },
+  { time: '13.15 – 13.20', segment: 'Sambutan Ketua Umum' },
+  { time: '13.20 – 13.25', segment: 'Perkenalan 26 founder' },
+  { time: '13.25 – 13.40', segment: 'Prosesi launching, ajakan membership & foto bersama', highlight: true },
+  { time: '13.40 – 14.00', segment: 'Keynote' },
+  { time: '14.00 – 14.50', segment: 'Panel 1 — AI & Learning Innovation' },
   { time: '14.50 – 15.00', segment: 'Jeda & coffee break' },
-  { time: '15.00 – 15.50', segment: "Panel 2 — Building Indonesia's EdTech Ecosystem", speaker: 'Moderator: Nita Felia Pambudi' },
-  { time: '15.50 – 16.10', segment: 'Closing remark & networking', speaker: 'Subchan Gatot' },
+  { time: '15.00 – 15.50', segment: "Panel 2 — Building Indonesia's EdTech Ecosystem" },
+  { time: '15.50 – 16.10', segment: 'Closing remark & networking' },
 ]
 
 export interface SpeakerGroup {
