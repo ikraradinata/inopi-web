@@ -59,7 +59,7 @@ export const FOUNDERS: Founder[] = [
   // Pengurus Harian
   {
     name: 'Meyliana',
-    fullName: 'Prof. Dr. Ir. Meyliana, S.Kom., M.M., IPU, CDMS, CBDMP, CME',
+    fullName: 'Prof. Dr. Ir. Meyliana, S.Kom., M.M., IPU, ASEAN Eng, CDMS, CBDMP, CME',
     role: 'Ketua Umum',
     group: 'pengurus',
     title: 'Guru Besar Sistem Informasi',
