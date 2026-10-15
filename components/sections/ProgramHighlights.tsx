@@ -35,13 +35,13 @@ const programs = [
 
 export default function ProgramHighlights() {
   return (
-    <section style={{ background: '#f7f9fb' }} className="py-14">
+    <section style={{ background: 'var(--inopi-ivory)' }} className="py-14">
       <div className="container">
         <div className="text-center mb-10">
-          <h2 className="font-display font-bold mb-2" style={{ fontSize: 'clamp(20px,3vw,28px)', color: '#071422' }}>
+          <h2 className="font-display font-bold mb-2" style={{ fontSize: 'clamp(20px,3vw,28px)', color: 'var(--inopi-espresso)' }}>
             Program Strategis Kami
           </h2>
-          <p className="font-body text-[14px]" style={{ color: '#4a6070' }}>
+          <p className="font-body text-[14px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
             Empat divisi program yang mendorong inovasi pembelajaran nasional
           </p>
         </div>
@@ -52,25 +52,25 @@ export default function ProgramHighlights() {
             return (
               <div
                 key={p.title}
-                className="bg-white rounded-[12px] p-5 border transition-all hover:border-[#0d9488] hover:shadow-hover group"
-                style={{ borderColor: '#e0e8ef' }}
+                className="bg-white rounded-[12px] p-5 border transition-all hover:border-[var(--inopi-teal-strong)] hover:shadow-hover group"
+                style={{ borderColor: 'var(--inopi-sand)' }}
               >
                 <div
                   className="inline-flex items-center justify-center w-9 h-9 rounded-[8px] mb-3"
-                  style={{ background: '#e0f7f5' }}
+                  style={{ background: 'var(--inopi-sand)' }}
                 >
-                  <Icon size={18} style={{ color: '#0d9488' }} />
+                  <Icon size={18} style={{ color: 'var(--inopi-teal-strong)' }} />
                 </div>
-                <h3 className="font-display font-semibold text-[14px] mb-1.5" style={{ color: '#071422' }}>
+                <h3 className="font-display font-semibold text-[14px] mb-1.5" style={{ color: 'var(--inopi-espresso)' }}>
                   {p.title}
                 </h3>
-                <p className="font-body text-[13px] leading-relaxed mb-3" style={{ color: '#4a6070' }}>
+                <p className="font-body text-[13px] leading-relaxed mb-3" style={{ color: 'var(--inopi-taupe-strong)' }}>
                   {p.desc}
                 </p>
                 <Link
                   href={p.href}
                   className="font-body text-[13px] transition-colors hover:underline"
-                  style={{ color: '#0d9488' }}
+                  style={{ color: 'var(--inopi-teal-strong)' }}
                 >
                   Selengkapnya →
                 </Link>

@@ -27,33 +27,33 @@ export default function EventList() {
       <div className="container">
         <p
           className="font-body text-[11px] font-semibold uppercase tracking-widest mb-5"
-          style={{ color: '#8fa5b5' }}
+          style={{ color: 'var(--inopi-sage-strong)' }}
         >
           Agenda & Forum Nasional
         </p>
 
-        <div className="divide-y" style={{ borderColor: '#e0e8ef' }}>
+        <div className="divide-y" style={{ borderColor: 'var(--inopi-sand)' }}>
           {events.map((e) => (
             <div key={e.title} className="flex items-center gap-5 py-5">
               {/* Date circle */}
               <div
                 className="flex-shrink-0 w-14 h-14 rounded-full flex flex-col items-center justify-center"
-                style={{ background: '#e0f7f5' }}
+                style={{ background: 'var(--inopi-sand)' }}
               >
-                <span className="font-display font-bold text-[18px] leading-none" style={{ color: '#083344' }}>
+                <span className="font-display font-bold text-[18px] leading-none" style={{ color: 'var(--inopi-espresso)' }}>
                   {e.day}
                 </span>
-                <span className="font-body text-[10px] uppercase tracking-wider mt-0.5" style={{ color: '#0d9488' }}>
+                <span className="font-body text-[10px] uppercase tracking-wider mt-0.5" style={{ color: 'var(--inopi-teal-strong)' }}>
                   {e.month}
                 </span>
               </div>
 
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <h3 className="font-display font-semibold text-[14px] truncate" style={{ color: '#071422' }}>
+                <h3 className="font-display font-semibold text-[14px] truncate" style={{ color: 'var(--inopi-espresso)' }}>
                   {e.title}
                 </h3>
-                <p className="font-body text-[12px] mt-0.5" style={{ color: '#4a6070' }}>
+                <p className="font-body text-[12px] mt-0.5" style={{ color: 'var(--inopi-taupe-strong)' }}>
                   {e.venue}
                 </p>
               </div>
@@ -61,13 +61,13 @@ export default function EventList() {
               {/* Right */}
               <div className="flex items-center gap-4 flex-shrink-0">
                 <div className="hidden sm:flex items-center gap-1">
-                  <IconMapPin size={13} style={{ color: '#8fa5b5' }} />
-                  <span className="font-body text-[12px]" style={{ color: '#4a6070' }}>{e.location}</span>
+                  <IconMapPin size={13} style={{ color: 'var(--inopi-sage-strong)' }} />
+                  <span className="font-body text-[12px]" style={{ color: 'var(--inopi-taupe-strong)' }}>{e.location}</span>
                 </div>
                 <a
                   href={e.href}
-                  className="px-3 py-1.5 text-[12px] font-medium rounded-[8px] border transition-all hover:bg-[#e0f7f5]"
-                  style={{ color: '#0d9488', borderColor: '#0d9488' }}
+                  className="px-3 py-1.5 text-[12px] font-medium rounded-[8px] border transition-all hover:bg-[var(--inopi-sand)]"
+                  style={{ color: 'var(--inopi-teal-strong)', borderColor: 'var(--inopi-teal-strong)' }}
                 >
                   Daftar
                 </a>
