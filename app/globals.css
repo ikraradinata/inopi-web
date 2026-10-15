@@ -64,30 +64,64 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  /* ---------- Palet resmi INOPI (hex, untuk referensi & dipakai langsung) ---------- */
+  --inopi-taupe:     #B5A49A;  /* Primary   — shape, ikon, garis, latar section */
+  --inopi-espresso:  #35292A;  /* Primary   — judul, teks utama, wordmark, kontras */
+  --inopi-ivory:     #F6F1EC;  /* Secondary — latar utama halaman (60%) */
+  --inopi-sand:      #E4D6CC;  /* Secondary — kartu, box, latar section, divider */
+  --inopi-sage:      #87958A;  /* Secondary — elemen pendukung, DEKORATIF SAJA */
+  --inopi-orange:    #D66F45;  /* Accent    — highlight, angka besar, ikon */
+  --inopi-gold:      #C69A55;  /* Accent    — prestasi, award, keynote */
+  --inopi-teal:      #397B78;  /* Accent    — teknologi, AI, future learning */
+
+  /* ---------- Varian aman-baca (rasio kontras ≥ 4,5:1) ---------- */
+  --inopi-orange-strong: #B24F27; /* tombol CTA berteks putih, teks oranye kecil */
+  --inopi-teal-strong:   #377673; /* teks teal ukuran kecil di atas Ivory */
+  --inopi-gold-strong:   #89662E; /* teks emas ukuran kecil */
+  --inopi-taupe-strong:  #7E685C; /* teks sekunder / caption (bukan Taupe asli) */
+  --inopi-sage-strong:   #637065; /* teks sage bila benar-benar perlu */
+
+  /* ---------- Token shadcn/ui dipetakan ke palet resmi ---------- */
+  --background: hsl(30 36% 95%);            /* Ivory */
+  --foreground: hsl(355 13% 18%);           /* Espresso */
+
+  --card: hsl(0 0% 100%);                   /* putih di atas Ivory */
+  --card-foreground: hsl(355 13% 18%);
+
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(355 13% 18%);
+
+  --primary: hsl(355 13% 18%);              /* Espresso — tombol utama */
+  --primary-foreground: hsl(30 36% 95%);    /* Ivory */
+
+  --secondary: hsl(25 31% 85%);             /* Soft Sand */
+  --secondary-foreground: hsl(355 13% 18%);
+
+  --muted: hsl(25 31% 85%);
+  --muted-foreground: hsl(21 16% 43%);      /* Taupe-strong */
+
+  --accent: hsl(17 64% 43%);                /* Orange-strong — CTA */
+  --accent-foreground: hsl(0 0% 100%);
+
+  --destructive: hsl(4 76% 40%);
+  --destructive-foreground: hsl(0 0% 100%);
+
+  --border: hsl(25 31% 85%);                /* Soft Sand */
+  --input: hsl(25 31% 85%);
+  --ring: hsl(177 37% 35%);                 /* Teal — fokus keyboard */
+
+  --radius: 0.75rem;
+
+  /* ---------- Font (dimuat lewat next/font di app/layout.tsx) ---------- */
+  --font-heading: var(--font-barlow-semi), 'Barlow Semi Condensed', sans-serif;
+  --font-body: var(--font-barlow), 'Barlow', sans-serif;
+
+  /* ---------- Kompat shadcn (belum ada padanan resmi di palet INOPI) ---------- */
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -132,22 +166,6 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* INOPI Design tokens */
-:root {
-  --color-dark:       #071422;
-  --color-dark-2:     #0e2235;
-  --color-teal:       #0b7b8a;
-  --color-teal-2:     #0d9488;
-  --color-teal-btn:   #083344;
-  --color-teal-light: #e0f7f5;
-  --color-bg-2:       #f7f9fb;
-  --color-bg-3:       #eef2f7;
-  --color-text:       #0d1e2e;
-  --color-text-2:     #4a6070;
-  --color-text-3:     #8fa5b5;
-  --color-border:     #e0e8ef;
-}
-
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
@@ -169,13 +187,51 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-body), sans-serif;
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
   }
   html {
     @apply font-sans;
   }
   h1, h2, h3, h4 {
-    font-family: var(--font-display), sans-serif;
+    font-family: var(--font-heading);
+    color: var(--inopi-espresso);
+  }
+}
+
+/* =====================================================================
+   Elemen grafis resmi INOPI (dari bagian "Gaya Garis & Elemen Grafis")
+   Pakai HEMAT: maksimal 1 elemen grafis per section.
+   ===================================================================== */
+@layer components {
+  /* 1. Garis geometris gaya logo — ketebalan 2–4 px */
+  .inopi-line      { border-color: var(--inopi-taupe); border-width: 2px; }
+  .inopi-line-dark { border-color: var(--inopi-espresso); border-width: 2px; }
+
+  /* 2. Bidang diagonal — opasitas 20–40% */
+  .inopi-diagonal {
+    position: absolute; pointer-events: none;
+    background: var(--inopi-sand); opacity: 0.35;
+    transform: skewX(-35deg);
+  }
+
+  /* 4. Grid titik — Taupe, opasitas 20–40% */
+  .inopi-dots {
+    background-image: radial-gradient(var(--inopi-taupe) 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+    opacity: 0.35;
+  }
+
+  /* Gradien resmi — untuk latar, BUKAN di bawah teks kecil */
+  .inopi-gradient-warm       { background: linear-gradient(135deg, #F6F1EC, #E4D6CC); }
+  .inopi-gradient-innovation { background: linear-gradient(135deg, #D66F45, #C69A55); }
+  .inopi-gradient-teal       { background: linear-gradient(135deg, #397B78, #B5A49A); }
+
+  /* Label huruf kapital berjarak (gaya "MODERN | HUMAN-CENTERED") */
+  .inopi-eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.8125rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--inopi-taupe-strong);
   }
 }
