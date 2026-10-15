@@ -17,8 +17,18 @@ export default function Footer() {
   }
 
   return (
-    <footer style={{ background: 'var(--inopi-espresso)' }} className="pt-14 pb-6">
-      <div className="container">
+    <footer style={{ background: 'var(--inopi-espresso)' }} className="pb-6">
+      <svg
+        aria-hidden
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        style={{ display: 'block', width: '100%', height: '90px', opacity: 0.28 }}
+      >
+        <path d="M0 70 C 240 10, 480 120, 720 60 S 1200 0, 1440 50 L1440 0 L0 0 Z" fill="var(--inopi-orange)" />
+        <path d="M0 90 C 300 30, 600 120, 900 70 S 1300 20, 1440 70 L1440 0 L0 0 Z" fill="var(--inopi-gold)" opacity={0.7} />
+        <path d="M0 40 C 260 100, 620 0, 960 50 S 1320 90, 1440 30 L1440 0 L0 0 Z" fill="var(--inopi-teal)" opacity={0.8} />
+      </svg>
+      <div className="container pt-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
           {/* Col 1 */}
           <div className="lg:col-span-1" style={{ flex: '1.5' }}>

@@ -16,7 +16,7 @@ export default function StatsBar() {
             <div key={stat.label} className="flex flex-col items-center relative">
               <span
                 className="font-display font-bold text-[32px] leading-none"
-                style={{ color: 'var(--inopi-espresso)' }}
+                style={{ color: 'var(--inopi-orange)' }}
               >
                 {stat.value}
               </span>
