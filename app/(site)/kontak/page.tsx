@@ -23,7 +23,11 @@ export default function KontakPage() {
           <div>
             <div className="space-y-5">
               {[
-                { icon: IconMapPin, label: 'Alamat', value: 'Sudirman Central Business District (SCBD), Jakarta Selatan' },
+                {
+                  icon: IconMapPin,
+                  label: 'Alamat',
+                  value: 'Prosperity Tower, 8th Floor, Kawasan District 8 LOT 13 SCBD, Jl. Jend. Sudirman Kav 52-53, Senayan, Jakarta Selatan – 12190',
+                },
                 { icon: IconMail, label: 'Email', value: 'asosiasi.inopi@gmail.com' },
                 { icon: IconPhone, label: 'Telepon', value: '+62 21 555 1234 (placeholder)' },
                 { icon: IconClock, label: 'Jam Operasional', value: 'Senin–Jumat 09:00–17:00 WIB' },
