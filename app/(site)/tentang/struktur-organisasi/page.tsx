@@ -23,21 +23,21 @@ const orgSections = [
     icon: IconShieldCheck,
     description: 'Menjaga visi jangka panjang, membuka akses ke ekosistem kebijakan pendidikan nasional.',
     members: ['Pony Halim', 'Gogot Suharwoto', 'M. Aditya Warman', 'Bonifasius W. Pudjianto', 'Subchan Gatot', 'Heru Dewanto'],
-    accent: '#083344',
+    accent: 'var(--inopi-espresso)',
   },
   {
     title: 'Dewan Pengawas',
     icon: IconEye,
     description: 'Memastikan program dan keuangan sesuai AD/ART dan regulasi.',
     members: ['Paulina Pannen', 'Tutut Handayani', 'Daniel Adhinugraha W.', 'Bambang Yapri'],
-    accent: '#0b7b8a',
+    accent: 'var(--inopi-teal)',
   },
   {
     title: 'Dewan Pakar',
     icon: IconBrain,
     description: 'Memberikan legitimasi akademik dan arah inovasi berbasis evidence.',
     members: ['Stephen Budiman', 'Setyo Guritno', 'Kun Wardana', 'Ferry Sutanto', 'Jahja'],
-    accent: '#0d9488',
+    accent: 'var(--inopi-teal-strong)',
   },
 ]
 
@@ -91,14 +91,14 @@ export default function StrukturOrganisasiPage() {
         <div className="text-center mb-12">
           <div
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
-            style={{ background: '#e0f7f5', color: '#0b7b8a' }}
+            style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-teal)' }}
           >
             Organisasi INOPI
           </div>
-          <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(24px,4vw,36px)', color: '#071422' }}>
+          <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(24px,4vw,36px)', color: 'var(--inopi-espresso)' }}>
             Struktur Organisasi
           </h1>
-          <p className="font-body text-[14px] max-w-xl mx-auto" style={{ color: '#4a6070' }}>
+          <p className="font-body text-[14px] max-w-xl mx-auto" style={{ color: 'var(--inopi-taupe-strong)' }}>
             Pengurus dan divisi-divisi INOPI yang bekerja sinergis untuk mewujudkan visi organisasi.
           </p>
         </div>
@@ -111,20 +111,20 @@ export default function StrukturOrganisasiPage() {
               <div
                 key={section.title}
                 className="rounded-[12px] p-5 border bg-white"
-                style={{ borderColor: '#e0e8ef' }}
+                style={{ borderColor: 'var(--inopi-sand)' }}
               >
                 <div className="flex items-center gap-2 mb-3">
                   <div
                     className="w-8 h-8 rounded-[8px] flex items-center justify-center"
-                    style={{ background: '#e0f7f5' }}
+                    style={{ background: 'var(--inopi-sand)' }}
                   >
                     <Icon size={16} style={{ color: section.accent }} />
                   </div>
-                  <h2 className="font-display font-bold text-[15px]" style={{ color: '#071422' }}>
+                  <h2 className="font-display font-bold text-[15px]" style={{ color: 'var(--inopi-espresso)' }}>
                     {section.title}
                   </h2>
                 </div>
-                <p className="font-body text-[12px] leading-relaxed mb-4" style={{ color: '#4a6070' }}>
+                <p className="font-body text-[12px] leading-relaxed mb-4" style={{ color: 'var(--inopi-taupe-strong)' }}>
                   {section.description}
                 </p>
                 <div className="space-y-1.5">
@@ -132,11 +132,11 @@ export default function StrukturOrganisasiPage() {
                     <div key={member} className="flex items-center gap-2">
                       <div
                         className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold text-white flex-shrink-0"
-                        style={{ background: `linear-gradient(135deg, ${section.accent}, #0e2235)` }}
+                        style={{ background: `linear-gradient(135deg, ${section.accent}, var(--inopi-espresso))` }}
                       >
                         {member.split(' ').slice(0, 2).map((n) => n[0]).join('').toUpperCase()}
                       </div>
-                      <span className="font-body text-[13px]" style={{ color: '#0d1e2e' }}>
+                      <span className="font-body text-[13px]" style={{ color: 'var(--inopi-espresso)' }}>
                         {member}
                       </span>
                     </div>
@@ -149,7 +149,7 @@ export default function StrukturOrganisasiPage() {
 
         {/* Pimpinan */}
         <div className="mb-10">
-          <h2 className="font-display font-bold text-[18px] mb-5 text-center" style={{ color: '#071422' }}>
+          <h2 className="font-display font-bold text-[18px] mb-5 text-center" style={{ color: 'var(--inopi-espresso)' }}>
             Pimpinan & Sekretariat
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -159,18 +159,18 @@ export default function StrukturOrganisasiPage() {
                 <div
                   key={p.jabatan}
                   className="rounded-[12px] p-5 text-center border bg-white"
-                  style={{ borderColor: '#e0e8ef' }}
+                  style={{ borderColor: 'var(--inopi-sand)' }}
                 >
                   <div
                     className="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center text-white font-display font-bold text-[16px]"
-                    style={{ background: 'linear-gradient(135deg, #0b7b8a, #083344)' }}
+                    style={{ background: 'linear-gradient(135deg, var(--inopi-teal), var(--inopi-espresso))' }}
                   >
                     {p.name.split(' ').slice(0, 2).map((n) => n[0]).join('').toUpperCase()}
                   </div>
-                  <p className="font-body font-semibold text-[13px]" style={{ color: '#071422' }}>
+                  <p className="font-body font-semibold text-[13px]" style={{ color: 'var(--inopi-espresso)' }}>
                     {p.name}
                   </p>
-                  <p className="font-body text-[12px] mt-0.5" style={{ color: '#0d9488' }}>
+                  <p className="font-body text-[12px] mt-0.5" style={{ color: 'var(--inopi-teal-strong)' }}>
                     {p.jabatan}
                   </p>
                 </div>
@@ -181,7 +181,7 @@ export default function StrukturOrganisasiPage() {
 
         {/* Divisi */}
         <div>
-          <h2 className="font-display font-bold text-[18px] mb-5 text-center" style={{ color: '#071422' }}>
+          <h2 className="font-display font-bold text-[18px] mb-5 text-center" style={{ color: 'var(--inopi-espresso)' }}>
             Divisi-Divisi
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -191,29 +191,29 @@ export default function StrukturOrganisasiPage() {
                 <a
                   key={d.title}
                   href={d.href}
-                  className="rounded-[12px] p-5 border bg-white transition-all hover:border-[#0d9488] hover:shadow-hover block"
-                  style={{ borderColor: '#e0e8ef' }}
+                  className="rounded-[12px] p-5 border bg-white transition-all hover:border-[var(--inopi-teal-strong)] hover:shadow-hover block"
+                  style={{ borderColor: 'var(--inopi-sand)' }}
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <div
                       className="w-9 h-9 rounded-[8px] flex items-center justify-center"
-                      style={{ background: '#e0f7f5' }}
+                      style={{ background: 'var(--inopi-sand)' }}
                     >
-                      <Icon size={18} style={{ color: '#0d9488' }} />
+                      <Icon size={18} style={{ color: 'var(--inopi-teal-strong)' }} />
                     </div>
                     <div>
-                      <h3 className="font-display font-semibold text-[14px]" style={{ color: '#071422' }}>
+                      <h3 className="font-display font-semibold text-[14px]" style={{ color: 'var(--inopi-espresso)' }}>
                         {d.title}
                       </h3>
-                      <span className="font-body text-[11px]" style={{ color: '#8fa5b5' }}>
+                      <span className="font-body text-[11px]" style={{ color: 'var(--inopi-sage-strong)' }}>
                         {d.role} · {d.orientation}
                       </span>
                     </div>
                   </div>
-                  <p className="font-body text-[12px]" style={{ color: '#4a6070' }}>
+                  <p className="font-body text-[12px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
                     PIC: {d.pic}
                   </p>
-                  <span className="font-body text-[12px] mt-2 block" style={{ color: '#0d9488' }}>
+                  <span className="font-body text-[12px] mt-2 block" style={{ color: 'var(--inopi-teal-strong)' }}>
                     Lihat Program Kerja →
                   </span>
                 </a>

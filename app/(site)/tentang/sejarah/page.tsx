@@ -31,13 +31,13 @@ export default function SejarahPage() {
       {/* Hero */}
       <div className="container mb-12">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
-          style={{ background: '#e0f7f5', color: '#0b7b8a' }}>
+          style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-teal)' }}>
           Perjalanan INOPI
         </div>
-        <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(24px,4vw,36px)', color: '#071422' }}>
+        <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(24px,4vw,36px)', color: 'var(--inopi-espresso)' }}>
           Sejarah & Latar Belakang
         </h1>
-        <p className="font-body text-[14px] max-w-xl" style={{ color: '#4a6070' }}>
+        <p className="font-body text-[14px] max-w-xl" style={{ color: 'var(--inopi-taupe-strong)' }}>
           Dari gagasan kolaboratif menuju asosiasi inovasi pembelajaran terkemuka Indonesia.
         </p>
       </div>
@@ -46,7 +46,7 @@ export default function SejarahPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Timeline */}
           <div>
-            <h2 className="font-display font-bold text-[18px] mb-6" style={{ color: '#071422' }}>
+            <h2 className="font-display font-bold text-[18px] mb-6" style={{ color: 'var(--inopi-espresso)' }}>
               Perjalanan Pembentukan
             </h2>
             <div className="relative">
@@ -56,7 +56,7 @@ export default function SejarahPage() {
                   {i < timeline.length - 1 && (
                     <div
                       className="absolute left-[15px] top-7 bottom-0 w-0.5"
-                      style={{ borderLeft: '2px dashed #e0e8ef' }}
+                      style={{ borderLeft: '2px dashed var(--inopi-sand)' }}
                     />
                   )}
                   {/* Dot */}
@@ -64,31 +64,31 @@ export default function SejarahPage() {
                     {t.status === 'done' ? (
                       <div
                         className="w-8 h-8 rounded-full flex items-center justify-center"
-                        style={{ background: '#0d9488' }}
+                        style={{ background: 'var(--inopi-teal-strong)' }}
                       >
                         <IconCheck size={14} color="white" />
                       </div>
                     ) : t.status === 'launch' ? (
                       <div
                         className="w-8 h-8 rounded-full flex items-center justify-center"
-                        style={{ background: '#e0f7f5', border: '2px solid #0d9488' }}
+                        style={{ background: 'var(--inopi-sand)', border: '2px solid var(--inopi-teal-strong)' }}
                       >
-                        <IconRocket size={14} style={{ color: '#0d9488' }} />
+                        <IconRocket size={14} style={{ color: 'var(--inopi-teal-strong)' }} />
                       </div>
                     ) : (
                       <div
                         className="w-8 h-8 rounded-full flex items-center justify-center"
-                        style={{ background: '#f7f9fb', border: '2px solid #e0e8ef' }}
+                        style={{ background: 'var(--inopi-ivory)', border: '2px solid var(--inopi-sand)' }}
                       >
-                        <IconCircle size={12} style={{ color: '#8fa5b5' }} />
+                        <IconCircle size={12} style={{ color: 'var(--inopi-sage-strong)' }} />
                       </div>
                     )}
                   </div>
                   <div>
-                    <h3 className="font-display font-semibold text-[14px] mb-0.5" style={{ color: '#071422' }}>
+                    <h3 className="font-display font-semibold text-[14px] mb-0.5" style={{ color: 'var(--inopi-espresso)' }}>
                       {t.label}
                     </h3>
-                    <p className="font-body text-[13px] leading-relaxed" style={{ color: '#4a6070' }}>
+                    <p className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--inopi-taupe-strong)' }}>
                       {t.desc}
                     </p>
                   </div>
@@ -103,15 +103,15 @@ export default function SejarahPage() {
               <div
                 key={c.title}
                 className="rounded-[12px] p-5 border"
-                style={{ borderColor: '#e0e8ef' }}
+                style={{ borderColor: 'var(--inopi-sand)' }}
               >
-                <h3 className="font-display font-semibold text-[15px] mb-3" style={{ color: '#071422' }}>
+                <h3 className="font-display font-semibold text-[15px] mb-3" style={{ color: 'var(--inopi-espresso)' }}>
                   {c.title}
                 </h3>
                 <ul className="space-y-2">
                   {c.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2 font-body text-[13px]" style={{ color: '#4a6070' }}>
-                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0d9488' }} />
+                    <li key={item} className="flex items-start gap-2 font-body text-[13px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'var(--inopi-teal-strong)' }} />
                       {item}
                     </li>
                   ))}
@@ -121,12 +121,12 @@ export default function SejarahPage() {
 
             <div
               className="rounded-[12px] p-5"
-              style={{ background: '#071422' }}
+              style={{ background: 'var(--inopi-espresso)' }}
             >
               <h3 className="font-display font-semibold text-[15px] mb-3 text-white">
                 Peran INOPI
               </h3>
-              <p className="font-body text-[13px] leading-relaxed" style={{ color: '#8fa5b5' }}>
+              <p className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--inopi-sage-strong)' }}>
                 INOPI hadir sebagai katalisator yang menghubungkan akademisi, industri, dan pemerintah dalam ekosistem inovasi pembelajaran yang inklusif dan berkelanjutan — menjawab tantangan transformasi digital pendidikan Indonesia.
               </p>
             </div>
