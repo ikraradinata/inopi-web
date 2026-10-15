@@ -14,18 +14,18 @@ export default function RisetInovasiPage() {
   return (
     <>
       {/* Hero */}
-      <section className="py-14" style={{ background: '#071422' }}>
+      <section className="py-14" style={{ background: 'var(--inopi-espresso)' }}>
         <div className="container">
           <div className="flex items-center gap-3 mb-4">
             <div
               className="w-10 h-10 rounded-[10px] flex items-center justify-center"
               style={{ background: 'rgba(13,148,136,0.2)' }}
             >
-              <IconFlask size={20} style={{ color: '#5dd4c8' }} />
+              <IconFlask size={20} style={{ color: 'var(--inopi-teal)' }} />
             </div>
             <span
               className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full"
-              style={{ background: 'rgba(13,148,136,0.15)', color: '#5dd4c8' }}
+              style={{ background: 'rgba(13,148,136,0.15)', color: 'var(--inopi-teal)' }}
             >
               {division.role} · {division.orientation}
             </span>
@@ -36,7 +36,7 @@ export default function RisetInovasiPage() {
           >
             {division.title}
           </h1>
-          <p className="font-body text-[14px] max-w-xl" style={{ color: '#8fa5b5' }}>
+          <p className="font-body text-[14px] max-w-xl" style={{ color: 'var(--inopi-sage-strong)' }}>
             PIC: {division.pic.join(', ')}
           </p>
         </div>
@@ -46,7 +46,7 @@ export default function RisetInovasiPage() {
       {division.responsibilities && (
         <section className="py-14 bg-white">
           <div className="container max-w-3xl">
-            <h2 className="font-display font-bold text-[20px] mb-6" style={{ color: '#071422' }}>
+            <h2 className="font-display font-bold text-[20px] mb-6" style={{ color: 'var(--inopi-espresso)' }}>
               Tugas & Tanggung Jawab
             </h2>
             <div className="space-y-3">
@@ -54,11 +54,11 @@ export default function RisetInovasiPage() {
                 <div key={i} className="flex items-start gap-3">
                   <div
                     className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5"
-                    style={{ background: '#e0f7f5' }}
+                    style={{ background: 'var(--inopi-sand)' }}
                   >
-                    <IconCheck size={12} style={{ color: '#0d9488' }} />
+                    <IconCheck size={12} style={{ color: 'var(--inopi-teal-strong)' }} />
                   </div>
-                  <p className="font-body text-[14px] leading-relaxed" style={{ color: '#4a6070' }}>
+                  <p className="font-body text-[14px] leading-relaxed" style={{ color: 'var(--inopi-taupe-strong)' }}>
                     {item}
                   </p>
                 </div>

@@ -49,14 +49,14 @@ export default function ProgramPage() {
         <div className="mb-10">
           <div
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
-            style={{ background: '#e0f7f5', color: '#0b7b8a' }}
+            style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-teal)' }}
           >
             4 Divisi Strategis
           </div>
-          <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(24px,4vw,36px)', color: '#071422' }}>
+          <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(24px,4vw,36px)', color: 'var(--inopi-espresso)' }}>
             Program & Kegiatan Strategis
           </h1>
-          <p className="font-body text-[14px] max-w-xl" style={{ color: '#4a6070' }}>
+          <p className="font-body text-[14px] max-w-xl" style={{ color: 'var(--inopi-taupe-strong)' }}>
             Empat divisi program INOPI yang bekerja sinergis untuk mendorong ekosistem inovasi pembelajaran nasional.
           </p>
         </div>
@@ -65,16 +65,16 @@ export default function ProgramPage() {
             const Icon = p.icon
             return (
               <Link key={p.title} href={p.href}
-                className="block rounded-[12px] p-6 border bg-white transition-all hover:border-[#0d9488] hover:shadow-hover"
-                style={{ borderColor: '#e0e8ef' }}>
-                <div className="inline-flex items-center justify-center w-11 h-11 rounded-[10px] mb-4" style={{ background: '#e0f7f5' }}>
-                  <Icon size={22} style={{ color: '#0d9488' }} />
+                className="block rounded-[12px] p-6 border bg-white transition-all hover:border-[var(--inopi-teal-strong)] hover:shadow-hover"
+                style={{ borderColor: 'var(--inopi-sand)' }}>
+                <div className="inline-flex items-center justify-center w-11 h-11 rounded-[10px] mb-4" style={{ background: 'var(--inopi-sand)' }}>
+                  <Icon size={22} style={{ color: 'var(--inopi-teal-strong)' }} />
                 </div>
-                <h2 className="font-display font-bold text-[16px] mb-2" style={{ color: '#071422' }}>{p.title}</h2>
-                <p className="font-body text-[13px] leading-relaxed mb-4" style={{ color: '#4a6070' }}>{p.desc}</p>
+                <h2 className="font-display font-bold text-[16px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>{p.title}</h2>
+                <p className="font-body text-[13px] leading-relaxed mb-4" style={{ color: 'var(--inopi-taupe-strong)' }}>{p.desc}</p>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-body text-[12px]" style={{ color: '#8fa5b5' }}>Tim: {p.team}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: '#e0f7f5', color: '#0b7b8a' }}>
+                  <span className="font-body text-[12px]" style={{ color: 'var(--inopi-sage-strong)' }}>Tim: {p.team}</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-teal)' }}>
                     {p.orientation}
                   </span>
                 </div>
