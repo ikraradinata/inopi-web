@@ -156,7 +156,7 @@ export default function FoundersGrid() {
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                   {byGroup(g.id).map((f) => (
-                    <FounderCard key={f.name} founder={f} onSelect={setSelected} showRole={false} />
+                    <FounderCard key={f.name} founder={f} onSelect={setSelected} showRole />
                   ))}
                 </div>
               </div>

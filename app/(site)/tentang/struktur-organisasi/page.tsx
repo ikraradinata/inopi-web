@@ -43,7 +43,7 @@ const orgSections = [
 
 const pimpinan = [
   { jabatan: 'Ketua Umum', name: 'Meyliana', icon: IconCrown },
-  { jabatan: 'Wakil Ketua', name: 'Sunardi', icon: IconCrown },
+  { jabatan: 'Wakil Ketua Umum', name: 'Sunardi', icon: IconCrown },
   { jabatan: 'Sekretaris Jenderal', name: 'Idha Kristiana', icon: IconFileText },
   { jabatan: 'Bendahara Umum', name: 'Ikrar Adinata Arin', icon: IconCoin },
 ]

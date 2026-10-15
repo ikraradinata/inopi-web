@@ -72,7 +72,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Sunardi',
     fullName: 'Dr. Sunardi, S.Kom., M.M.S.I.',
-    role: 'Wakil Ketua',
+    role: 'Wakil Ketua Umum',
     group: 'pengurus',
     title: 'Co-Founder & CEO',
     institution: 'SUNEDU ID',
@@ -110,7 +110,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Bobi Kurniawan',
     fullName: 'Dr. Bobi Kurniawan, S.T., M.Kom.',
-    role: 'Riset & Inovasi',
+    role: 'Direktur Riset & Inovasi',
     group: 'riset',
     title: 'Direktur Aplikasi Pengembangan Pelatihan dan Service Center',
     institution: 'UNIKOM',
@@ -122,7 +122,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Nunik Afriliana',
     fullName: 'Dr. Nunik Afriliana, S.Kom., M.M.S.I.',
-    role: 'Riset & Inovasi',
+    role: 'Deputi Direktur Riset & Inovasi',
     group: 'riset',
     title: 'Ketua Program Studi Kecerdasan Buatan',
     institution: 'Universitas Multimedia Nusantara',
@@ -134,7 +134,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Nita Felia Pambudi',
     fullName: 'Nita Felia Pambudi, S.Si., S.Kom., IMScBA',
-    role: 'Program & Implementasi',
+    role: 'Direktur Program & Implementasi',
     group: 'program',
     title: 'Chief Operating Officer',
     institution: 'GreatNusa by Bina Nusantara',
@@ -146,7 +146,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Yasser Muhammad Syaiful',
     fullName: 'Yasser Muhammad Syaiful, S.T., MBA',
-    role: 'Program & Implementasi',
+    role: 'Deputi Direktur Program & Implementasi',
     group: 'program',
     title: 'Chief Commercial Officer Lingotalk; Business Development Manager SEA Duolingo',
     institution: 'Lingotalk & Duolingo',
@@ -156,15 +156,9 @@ export const FOUNDERS: Founder[] = [
     initials: 'YS',
   },
   {
-    name: 'Siti Elda Hiererra',
-    role: 'Kemitraan & Kerjasama',
-    group: 'kemitraan',
-    initials: 'SE',
-  },
-  {
     name: 'Victor Osman',
     fullName: 'Victor Osman, S.Kom., MIB',
-    role: 'Kemitraan & Kerjasama',
+    role: 'Direktur Kemitraan & Kerjasama',
     group: 'kemitraan',
     title: 'Chief Executive Officer',
     institution: 'PT Dreamaxtion Teknologi Internasional',
@@ -173,8 +167,14 @@ export const FOUNDERS: Founder[] = [
     initials: 'VO',
   },
   {
+    name: 'Siti Elda Hiererra',
+    role: 'Deputi Direktur Kemitraan & Kerjasama',
+    group: 'kemitraan',
+    initials: 'SE',
+  },
+  {
     name: 'Andy Febrico Bintoro',
-    role: 'Pelatihan & Sertifikasi',
+    role: 'Direktur Pelatihan & Sertifikasi',
     group: 'pelatihan',
     title: 'Co-Founder & CTO',
     institution: 'Maxy AI Holdings',
@@ -257,7 +257,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Daniel Adhinugraha W.',
-    role: 'Pelatihan & Sertifikasi',
+    role: 'Deputi Direktur Pelatihan & Sertifikasi',
     group: 'pelatihan',
     title: 'Culture & Performance Catalyst',
     message:
