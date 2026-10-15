@@ -8,6 +8,8 @@ export interface Plan {
   id: Tier
   name: string
   desc: string
+  /** Iuran per tahun dalam rupiah. */
+  amount: number
   price: string
   note?: string
   featured?: boolean
@@ -18,12 +20,14 @@ export const PLANS: Plan[] = [
     id: 'student',
     name: 'Student',
     desc: 'Untuk mahasiswa dan pelajar.',
+    amount: 250_000,
     price: 'Rp 250.000',
   },
   {
     id: 'professional',
     name: 'Profesional',
     desc: 'Untuk dosen, praktisi, dan profesional.',
+    amount: 500_000,
     price: 'Rp 500.000',
     featured: true,
   },
@@ -31,10 +35,13 @@ export const PLANS: Plan[] = [
     id: 'corporate',
     name: 'Corporate',
     desc: 'Untuk perusahaan dan institusi.',
+    amount: 5_000_000,
     price: 'Rp 5.000.000',
     note: 'Kuota 3 orang',
   },
 ]
+
+export const getPlan = (id: string) => PLANS.find((p) => p.id === id)
 
 export interface Benefit {
   label: string
