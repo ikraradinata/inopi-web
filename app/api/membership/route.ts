@@ -9,6 +9,7 @@ import {
   isBankConfigured,
 } from '@/lib/constants/registration'
 import { sendEmail } from '@/lib/email'
+import { appendToSheet } from '@/lib/sheet'
 
 const schema = z.object({
   category: z.enum(['student', 'professional', 'corporate']),
@@ -91,11 +92,28 @@ export async function POST(req: Request) {
     console.error('[membership] Notifikasi email tidak terkirim:', result.reason, { registrationId })
   }
 
-  // Pendaftaran tetap dianggap berhasil bagi pendaftar; kegagalan email
-  // adalah urusan internal dan sudah tercatat di log.
+  const sheetResult = await appendToSheet({
+    registrationId,
+    submittedAt,
+    category: plan.name,
+    amount: plan.amount,
+    nama: data.nama,
+    email: data.email,
+    hp: data.hp,
+    institusi: data.institusi,
+    bidang: data.bidang,
+  })
+
+  if (!sheetResult.recorded && sheetResult.reason !== 'not_configured') {
+    console.error('[membership] Gagal mencatat ke Sheet:', sheetResult.reason, { registrationId })
+  }
+
+  // Pendaftaran tetap dianggap berhasil bagi pendaftar; kegagalan email atau
+  // pencatatan Sheet adalah urusan internal dan sudah tercatat di log.
   return NextResponse.json({
     success: true,
     registrationId,
     notified: result.delivered,
+    recorded: sheetResult.recorded,
   })
 }
