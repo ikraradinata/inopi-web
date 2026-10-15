@@ -39,6 +39,68 @@ export const LAUNCH_PILLARS: LaunchPillar[] = [
   { label: 'Impact', desc: 'Creating Lasting Value' },
 ]
 
+export interface RundownItem {
+  time: string
+  segment: string
+  /** Pengisi acara di panggung. Kosong untuk segmen tanpa pembicara. */
+  speaker?: string
+  highlight?: boolean
+}
+
+/**
+ * Rundown publik, diringkas dari dokumen rapat tim inti 13 Oktober 2026.
+ * Segmen internal (founder call time, press conference, PIC logistik) sengaja
+ * tidak ditampilkan di situs.
+ */
+export const RUNDOWN: RundownItem[] = [
+  { time: '11.00 – 12.50', segment: 'Registrasi & ISHOMA' },
+  { time: '12.50 – 13.00', segment: 'Call to seat' },
+  { time: '13.00 – 13.05', segment: 'Pembukaan & Indonesia Raya' },
+  { time: '13.05 – 13.10', segment: 'Sambutan Komdigi', speaker: 'Bonifasius W. Pudjianto' },
+  { time: '13.10 – 13.15', segment: 'Sambutan Kemendikdasmen', speaker: 'Gogot Suharwoto' },
+  { time: '13.15 – 13.20', segment: 'Sambutan Ketua Umum', speaker: 'Prof. Meyliana' },
+  { time: '13.20 – 13.25', segment: 'Perkenalan 26 Founder', speaker: 'Prof. Meyliana' },
+  { time: '13.25 – 13.40', segment: 'Prosesi Launching & Foto Bersama', highlight: true },
+  { time: '13.40 – 14.00', segment: 'Keynote', speaker: 'Heru Dewanto' },
+  { time: '14.00 – 14.50', segment: 'Panel 1 — AI & Learning Innovation', speaker: 'Moderator: Andy Febrico Bintoro' },
+  { time: '14.50 – 15.00', segment: 'Jeda & coffee break' },
+  { time: '15.00 – 15.50', segment: "Panel 2 — Building Indonesia's EdTech Ecosystem", speaker: 'Moderator: Nita Felia Pambudi' },
+  { time: '15.50 – 16.10', segment: 'Closing remark & networking', speaker: 'Subchan Gatot' },
+]
+
+export interface SpeakerGroup {
+  title: string
+  subtitle?: string
+  people: string[]
+  moderator?: string
+}
+
+export const SPEAKERS: SpeakerGroup[] = [
+  {
+    title: 'Keynote',
+    subtitle: 'Beyond Technology',
+    people: ['Heru Dewanto'],
+  },
+  {
+    title: 'Panel 1',
+    subtitle: 'AI & Learning Innovation',
+    people: ['Tyo Guritno', 'Stephen Ng', 'Kun Wardana'],
+    moderator: 'Andy Febrico Bintoro',
+  },
+  {
+    title: 'Panel 2',
+    subtitle: "Building Indonesia's EdTech Ecosystem",
+    people: ['M. Aditya Warman', 'Paulina Pannen', 'Victor Osman'],
+    moderator: 'Nita Felia Pambudi',
+  },
+  {
+    title: 'Closing Remark',
+    people: ['Subchan Gatot'],
+  },
+]
+
+export const MC = ['Siti Elda Hiererra', 'Yasser Muhammad Syaiful']
+
 export const BRAND_VALUES = ['Modern', 'Human-Centered', 'Collaborative', 'Impactful'] as const
 export const BRAND_MOTTO = 'Learn · Collaborate · Innovate · Impact'
 export const BRAND_TAGLINE = 'Together for a Brighter Learning Future'

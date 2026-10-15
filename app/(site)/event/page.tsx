@@ -78,10 +78,6 @@ export default function EventPage() {
             </span>
           </div>
         </Link>
-
-        <p className="font-body text-[13px] mt-8" style={{ color: 'var(--inopi-sage-strong)' }}>
-          Agenda berikutnya — webinar bulanan INOPI Talks dan Forum Nasional — akan diumumkan setelah peluncuran.
-        </p>
       </div>
     </div>
   )

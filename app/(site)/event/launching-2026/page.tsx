@@ -11,7 +11,7 @@ import {
   IconAffiliate,
   IconChartBar,
 } from '@tabler/icons-react'
-import { LAUNCH, LAUNCH_PILLARS, BRAND_VALUES, BRAND_TAGLINE, RSVP_URL } from '@/lib/constants/launch'
+import { LAUNCH, LAUNCH_PILLARS, BRAND_VALUES, BRAND_TAGLINE, RSVP_URL, RUNDOWN, SPEAKERS, MC } from '@/lib/constants/launch'
 import LaunchCountdown from '@/components/sections/LaunchCountdown'
 
 export const metadata: Metadata = {
@@ -163,12 +163,135 @@ export default function LaunchingPage() {
         </div>
       </section>
 
-      {/* Lokasi + nilai brand */}
+      {/* Rundown & pengisi acara */}
       <section className="py-14" style={{ background: 'var(--inopi-ivory)' }}>
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-8">
+            {/* Rundown */}
+            <div>
+              <p className="inopi-eyebrow mb-3">Senin, 26 Oktober 2026</p>
+              <h2
+                className="font-display font-bold mb-6"
+                style={{ fontSize: 'clamp(20px,3vw,28px)', color: 'var(--inopi-espresso)' }}
+              >
+                Rundown Acara
+              </h2>
+
+              <div className="rounded-[16px] border overflow-hidden bg-white" style={{ borderColor: 'var(--inopi-sand)' }}>
+                {RUNDOWN.map((r, i) => (
+                  <div
+                    key={r.time}
+                    className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-5 px-5 py-3.5"
+                    style={{
+                      borderTop: i === 0 ? 'none' : '1px solid var(--inopi-sand)',
+                      background: r.highlight ? 'var(--inopi-sand)' : 'transparent',
+                    }}
+                  >
+                    <span
+                      className="font-body text-[12px] font-semibold tabular-nums flex-shrink-0 sm:w-[104px]"
+                      style={{ color: r.highlight ? 'var(--inopi-espresso)' : 'var(--inopi-taupe-strong)' }}
+                    >
+                      {r.time}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p
+                        className="font-body text-[14px] font-medium leading-snug"
+                        style={{ color: 'var(--inopi-espresso)' }}
+                      >
+                        {r.segment}
+                      </p>
+                      {r.speaker && (
+                        <p className="font-body text-[12px] mt-0.5" style={{ color: 'var(--inopi-teal-strong)' }}>
+                          {r.speaker}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="font-body text-[12px] mt-3" style={{ color: 'var(--inopi-sage-strong)' }}>
+                Registrasi dibuka pukul 11.00 WIB. Susunan acara dapat berubah sewaktu-waktu.
+              </p>
+            </div>
+
+            {/* Pengisi acara */}
+            <div>
+              <p className="inopi-eyebrow mb-3">Pengisi Acara</p>
+              <h2
+                className="font-display font-bold mb-6"
+                style={{ fontSize: 'clamp(20px,3vw,28px)', color: 'var(--inopi-espresso)' }}
+              >
+                Narasumber
+              </h2>
+
+              <div className="flex flex-col gap-3">
+                {SPEAKERS.map((s) => (
+                  <div
+                    key={s.title}
+                    className="rounded-[12px] p-5 border bg-white"
+                    style={{ borderColor: 'var(--inopi-sand)' }}
+                  >
+                    <p
+                      className="font-body text-[11px] font-semibold uppercase tracking-wider"
+                      style={{ color: 'var(--inopi-orange-strong)' }}
+                    >
+                      {s.title}
+                    </p>
+                    {s.subtitle && (
+                      <p className="font-display font-semibold text-[15px] mt-0.5 mb-2.5" style={{ color: 'var(--inopi-espresso)' }}>
+                        {s.subtitle}
+                      </p>
+                    )}
+                    <ul className={s.subtitle ? '' : 'mt-2'}>
+                      {s.people.map((p) => (
+                        <li
+                          key={p}
+                          className="flex items-center gap-2 font-body text-[13px] py-0.5"
+                          style={{ color: 'var(--inopi-espresso)' }}
+                        >
+                          <span
+                            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                            style={{ background: 'var(--inopi-orange)' }}
+                          />
+                          {p}
+                        </li>
+                      ))}
+                    </ul>
+                    {s.moderator && (
+                      <p className="font-body text-[12px] mt-2 pt-2" style={{ color: 'var(--inopi-taupe-strong)', borderTop: '1px solid var(--inopi-sand)' }}>
+                        Moderator: {s.moderator}
+                      </p>
+                    )}
+                  </div>
+                ))}
+
+                <div
+                  className="rounded-[12px] p-5 border"
+                  style={{ borderColor: 'var(--inopi-sand)', background: 'var(--inopi-sand)' }}
+                >
+                  <p
+                    className="font-body text-[11px] font-semibold uppercase tracking-wider mb-1.5"
+                    style={{ color: 'var(--inopi-taupe-strong)' }}
+                  >
+                    Pembawa Acara
+                  </p>
+                  <p className="font-body text-[13px]" style={{ color: 'var(--inopi-espresso)' }}>
+                    {MC.join(' & ')}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Lokasi + nilai brand */}
+      <section className="py-14 bg-white">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Lokasi */}
-            <div className="rounded-[16px] p-7 bg-white border" style={{ borderColor: 'var(--inopi-sand)' }}>
+            <div className="rounded-[16px] p-7 border" style={{ borderColor: 'var(--inopi-sand)', background: 'var(--inopi-ivory)' }}>
               <p className="inopi-eyebrow mb-3">Lokasi Acara</p>
               <h3 className="font-display font-bold text-[20px] mb-1" style={{ color: 'var(--inopi-espresso)' }}>
                 {LAUNCH.venue}
