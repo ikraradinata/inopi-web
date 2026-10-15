@@ -65,24 +65,24 @@ export default function KeanggotaanPage() {
       <section className="py-14 bg-white">
         <div className="container text-center max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
-            style={{ background: '#e0f7f5', color: '#0b7b8a' }}>
+            style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-teal)' }}>
             Keanggotaan INOPI
           </div>
-          <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(24px,4vw,36px)', color: '#071422' }}>
+          <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(24px,4vw,36px)', color: 'var(--inopi-espresso)' }}>
             Bergabung dengan Ekosistem Inovasi
           </h1>
-          <p className="font-body text-[14px] leading-relaxed mb-7" style={{ color: '#4a6070' }}>
+          <p className="font-body text-[14px] leading-relaxed mb-7" style={{ color: 'var(--inopi-taupe-strong)' }}>
             Jadilah bagian dari komunitas pendidik dan inovator terdepan Indonesia. Akses sumber daya, jaringan, dan program eksklusif INOPI.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link href="/keanggotaan/daftar"
               className="inline-flex items-center px-5 py-2.5 text-[14px] font-semibold text-white rounded-[8px] transition-all hover:-translate-y-px"
-              style={{ background: '#083344' }}>
+              style={{ background: 'var(--inopi-espresso)' }}>
               Daftar Sekarang
             </Link>
             <Link href="/kontak"
-              className="inline-flex items-center px-5 py-2.5 text-[14px] font-medium rounded-[8px] border transition-all hover:border-[#0d9488] hover:text-[#0d9488]"
-              style={{ color: '#071422', borderColor: '#e0e8ef' }}>
+              className="inline-flex items-center px-5 py-2.5 text-[14px] font-medium rounded-[8px] border transition-all hover:border-[var(--inopi-teal-strong)] hover:text-[var(--inopi-teal-strong)]"
+              style={{ color: 'var(--inopi-espresso)', borderColor: 'var(--inopi-sand)' }}>
               Hubungi Kami
             </Link>
           </div>
@@ -90,21 +90,21 @@ export default function KeanggotaanPage() {
       </section>
 
       {/* Benefits */}
-      <section style={{ background: '#f7f9fb' }} className="py-14">
+      <section style={{ background: 'var(--inopi-ivory)' }} className="py-14">
         <div className="container">
-          <h2 className="font-display font-bold text-center mb-8" style={{ fontSize: 'clamp(20px,3vw,26px)', color: '#071422' }}>
+          <h2 className="font-display font-bold text-center mb-8" style={{ fontSize: 'clamp(20px,3vw,26px)', color: 'var(--inopi-espresso)' }}>
             Manfaat Keanggotaan
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {benefits.map((b) => {
               const Icon = b.icon
               return (
-                <div key={b.title} className="bg-white rounded-[12px] p-5 border" style={{ borderColor: '#e0e8ef' }}>
-                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-[8px] mb-3" style={{ background: '#e0f7f5' }}>
-                    <Icon size={20} style={{ color: '#0d9488' }} />
+                <div key={b.title} className="bg-white rounded-[12px] p-5 border" style={{ borderColor: 'var(--inopi-sand)' }}>
+                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-[8px] mb-3" style={{ background: 'var(--inopi-sand)' }}>
+                    <Icon size={20} style={{ color: 'var(--inopi-teal-strong)' }} />
                   </div>
-                  <h3 className="font-display font-semibold text-[14px] mb-1.5" style={{ color: '#071422' }}>{b.title}</h3>
-                  <p className="font-body text-[13px] leading-relaxed" style={{ color: '#4a6070' }}>{b.desc}</p>
+                  <h3 className="font-display font-semibold text-[14px] mb-1.5" style={{ color: 'var(--inopi-espresso)' }}>{b.title}</h3>
+                  <p className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--inopi-taupe-strong)' }}>{b.desc}</p>
                 </div>
               )
             })}
@@ -115,7 +115,7 @@ export default function KeanggotaanPage() {
       {/* Pricing */}
       <section className="py-14 bg-white">
         <div className="container">
-          <h2 className="font-display font-bold text-center mb-8" style={{ fontSize: 'clamp(20px,3vw,26px)', color: '#071422' }}>
+          <h2 className="font-display font-bold text-center mb-8" style={{ fontSize: 'clamp(20px,3vw,26px)', color: 'var(--inopi-espresso)' }}>
             Pilih Paket Keanggotaan
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
@@ -124,37 +124,37 @@ export default function KeanggotaanPage() {
                 key={p.name}
                 className="rounded-[12px] p-6 border relative flex flex-col"
                 style={{
-                  background: p.featured ? '#071422' : '#fff',
-                  borderColor: p.featured ? '#083344' : '#e0e8ef',
+                  background: p.featured ? 'var(--inopi-espresso)' : 'var(--inopi-ivory)',
+                  borderColor: p.featured ? 'var(--inopi-espresso)' : 'var(--inopi-sand)',
                 }}
               >
                 {p.badge && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full text-white"
-                      style={{ background: '#0d9488' }}>
+                      style={{ background: 'var(--inopi-teal-strong)' }}>
                       {p.badge}
                     </span>
                   </div>
                 )}
-                <h3 className="font-display font-bold text-[16px] mb-0.5" style={{ color: p.featured ? '#fff' : '#071422' }}>
+                <h3 className="font-display font-bold text-[16px] mb-0.5" style={{ color: p.featured ? 'var(--inopi-ivory)' : 'var(--inopi-espresso)' }}>
                   {p.name}
                 </h3>
-                <p className="font-body text-[12px] mb-4" style={{ color: p.featured ? '#8fa5b5' : '#4a6070' }}>
+                <p className="font-body text-[12px] mb-4" style={{ color: p.featured ? 'var(--inopi-sage-strong)' : 'var(--inopi-taupe-strong)' }}>
                   {p.desc}
                 </p>
                 <div className="mb-5">
-                  <span className="font-display font-bold text-[24px]" style={{ color: p.featured ? '#5dd4c8' : '#083344' }}>
+                  <span className="font-display font-bold text-[24px]" style={{ color: p.featured ? 'var(--inopi-teal)' : 'var(--inopi-espresso)' }}>
                     {p.price}
                   </span>
-                  <span className="font-body text-[12px] ml-1" style={{ color: p.featured ? '#8fa5b5' : '#4a6070' }}>
+                  <span className="font-body text-[12px] ml-1" style={{ color: p.featured ? 'var(--inopi-sage-strong)' : 'var(--inopi-taupe-strong)' }}>
                     {p.period}
                   </span>
                 </div>
                 <ul className="space-y-2 mb-6 flex-1">
                   {p.features.map((f) => (
                     <li key={f} className="flex items-start gap-2 font-body text-[13px]"
-                      style={{ color: p.featured ? '#8fa5b5' : '#4a6070' }}>
-                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0d9488' }} />
+                      style={{ color: p.featured ? 'var(--inopi-sage-strong)' : 'var(--inopi-taupe-strong)' }}>
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'var(--inopi-teal-strong)' }} />
                       {f}
                     </li>
                   ))}
@@ -163,8 +163,8 @@ export default function KeanggotaanPage() {
                   href="/keanggotaan/daftar"
                   className="block text-center px-4 py-2.5 text-[13px] font-semibold rounded-[8px] border transition-all hover:-translate-y-px"
                   style={p.featured
-                    ? { background: '#0d9488', color: '#fff', borderColor: '#0d9488' }
-                    : { background: 'transparent', color: '#083344', borderColor: '#e0e8ef' }}
+                    ? { background: 'var(--inopi-teal-strong)', color: 'var(--inopi-ivory)', borderColor: 'var(--inopi-teal-strong)' }
+                    : { background: 'transparent', color: 'var(--inopi-espresso)', borderColor: 'var(--inopi-sand)' }}
                 >
                   {p.cta}
                 </Link>
@@ -175,18 +175,18 @@ export default function KeanggotaanPage() {
       </section>
 
       {/* FAQ */}
-      <section style={{ background: '#f7f9fb' }} className="py-14">
+      <section style={{ background: 'var(--inopi-ivory)' }} className="py-14">
         <div className="container max-w-2xl">
-          <h2 className="font-display font-bold text-center mb-8" style={{ fontSize: 'clamp(20px,3vw,26px)', color: '#071422' }}>
+          <h2 className="font-display font-bold text-center mb-8" style={{ fontSize: 'clamp(20px,3vw,26px)', color: 'var(--inopi-espresso)' }}>
             Pertanyaan Umum
           </h2>
           <Accordion className="space-y-2">
             {faqs.map((f, i) => (
-              <AccordionItem key={i} value={i} className="bg-white rounded-[12px] border px-5" style={{ borderColor: '#e0e8ef' }}>
-                <AccordionTrigger className="font-body font-medium text-[14px] text-left" style={{ color: '#071422' }}>
+              <AccordionItem key={i} value={i} className="bg-white rounded-[12px] border px-5" style={{ borderColor: 'var(--inopi-sand)' }}>
+                <AccordionTrigger className="font-body font-medium text-[14px] text-left" style={{ color: 'var(--inopi-espresso)' }}>
                   {f.q}
                 </AccordionTrigger>
-                <AccordionContent className="font-body text-[13px] leading-relaxed pb-4" style={{ color: '#4a6070' }}>
+                <AccordionContent className="font-body text-[13px] leading-relaxed pb-4" style={{ color: 'var(--inopi-taupe-strong)' }}>
                   {f.a}
                 </AccordionContent>
               </AccordionItem>
