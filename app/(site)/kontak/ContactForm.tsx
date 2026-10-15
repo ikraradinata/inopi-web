@@ -37,11 +37,11 @@ export default function ContactForm() {
   if (sent) {
     return (
       <div className="text-center py-12">
-        <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: '#e0f7f5' }}>
-          <IconCheck size={24} style={{ color: '#0d9488' }} />
+        <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'var(--inopi-sand)' }}>
+          <IconCheck size={24} style={{ color: 'var(--inopi-teal-strong)' }} />
         </div>
-        <h3 className="font-display font-bold text-[18px] mb-2" style={{ color: '#071422' }}>Pesan Terkirim!</h3>
-        <p className="font-body text-[14px]" style={{ color: '#4a6070' }}>
+        <h3 className="font-display font-bold text-[18px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>Pesan Terkirim!</h3>
+        <p className="font-body text-[14px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
           Pesan Anda berhasil terkirim. Tim kami akan merespons dalam 1×24 jam.
         </p>
       </div>
@@ -56,37 +56,37 @@ export default function ContactForm() {
         { name: 'subjek', label: 'Subjek', type: 'text', placeholder: 'Perihal pesan' },
       ].map((f) => (
         <div key={f.name}>
-          <label className="font-body text-[13px] font-medium mb-1 block" style={{ color: '#071422' }}>{f.label}</label>
+          <label className="font-body text-[13px] font-medium mb-1 block" style={{ color: 'var(--inopi-espresso)' }}>{f.label}</label>
           <input
             {...register(f.name as keyof FormData)}
             type={f.type}
             placeholder={f.placeholder}
-            className="w-full px-3 py-2.5 text-[13px] rounded-[8px] border outline-none focus:border-[#0d9488] transition-colors"
-            style={{ borderColor: '#e0e8ef', color: '#0d1e2e' }}
+            className="w-full px-3 py-2.5 text-[13px] rounded-[8px] border outline-none focus:border-[var(--inopi-teal-strong)] transition-colors"
+            style={{ borderColor: 'var(--inopi-sand)', color: 'var(--inopi-espresso)' }}
           />
           {errors[f.name as keyof FormData] && (
-            <p className="text-[11px] mt-1" style={{ color: '#ef4444' }}>
+            <p className="text-[11px] mt-1" style={{ color: 'var(--destructive)' }}>
               {errors[f.name as keyof FormData]?.message}
             </p>
           )}
         </div>
       ))}
       <div>
-        <label className="font-body text-[13px] font-medium mb-1 block" style={{ color: '#071422' }}>Pesan</label>
+        <label className="font-body text-[13px] font-medium mb-1 block" style={{ color: 'var(--inopi-espresso)' }}>Pesan</label>
         <textarea
           {...register('pesan')}
           rows={5}
           placeholder="Tuliskan pesan Anda..."
-          className="w-full px-3 py-2.5 text-[13px] rounded-[8px] border outline-none focus:border-[#0d9488] transition-colors resize-none"
-          style={{ borderColor: '#e0e8ef', color: '#0d1e2e' }}
+          className="w-full px-3 py-2.5 text-[13px] rounded-[8px] border outline-none focus:border-[var(--inopi-teal-strong)] transition-colors resize-none"
+          style={{ borderColor: 'var(--inopi-sand)', color: 'var(--inopi-espresso)' }}
         />
-        {errors.pesan && <p className="text-[11px] mt-1" style={{ color: '#ef4444' }}>{errors.pesan.message}</p>}
+        {errors.pesan && <p className="text-[11px] mt-1" style={{ color: 'var(--destructive)' }}>{errors.pesan.message}</p>}
       </div>
       <button
         type="submit"
         disabled={isSubmitting}
         className="py-3 text-[14px] font-semibold text-white rounded-[8px] transition-all hover:-translate-y-px disabled:opacity-60"
-        style={{ background: '#083344' }}
+        style={{ background: 'var(--inopi-espresso)' }}
       >
         {isSubmitting ? 'Mengirim...' : 'Kirim Pesan'}
       </button>
