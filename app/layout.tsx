@@ -1,21 +1,21 @@
 import type { Metadata } from 'next'
-import { Plus_Jakarta_Sans, Figtree } from 'next/font/google'
+import { Barlow_Semi_Condensed, Barlow } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import { Toaster } from '@/components/ui/sonner'
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const barlowSemiCondensed = Barlow_Semi_Condensed({
   subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  variable: '--font-display',
+  weight: ['600', '700', '800'],
+  variable: '--font-barlow-semi',
   display: 'swap',
 })
 
-const figtree = Figtree({
+const barlow = Barlow({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-body',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-barlow',
   display: 'swap',
 })
 
@@ -31,8 +31,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${plusJakartaSans.variable} ${figtree.variable}`}>
-      <body className="min-h-screen flex flex-col bg-white text-[#0d1e2e]" suppressHydrationWarning>
+    <html lang="id" className={`${barlowSemiCondensed.variable} ${barlow.variable}`}>
+      <body className="min-h-screen flex flex-col" suppressHydrationWarning>
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
