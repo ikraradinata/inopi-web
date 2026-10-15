@@ -71,7 +71,7 @@ export default function HeroSection() {
               {/* Live badge */}
               <div
                 className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold"
-                style={{ background: 'rgba(7,20,34,0.85)', color: 'var(--inopi-teal)' }}
+                style={{ background: 'color-mix(in srgb, var(--inopi-espresso) 85%, transparent)', color: 'var(--inopi-teal)' }}
               >
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--inopi-teal)] pulse-dot" />
                 LIVE RESEARCH

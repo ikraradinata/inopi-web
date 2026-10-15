@@ -19,13 +19,13 @@ export default function KemitraanPage() {
           <div className="flex items-center gap-3 mb-4">
             <div
               className="w-10 h-10 rounded-[10px] flex items-center justify-center"
-              style={{ background: 'rgba(13,148,136,0.2)' }}
+              style={{ background: 'color-mix(in srgb, var(--inopi-teal-strong) 20%, transparent)' }}
             >
               <IconNetwork size={20} style={{ color: 'var(--inopi-teal)' }} />
             </div>
             <span
               className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full"
-              style={{ background: 'rgba(13,148,136,0.15)', color: 'var(--inopi-teal)' }}
+              style={{ background: 'color-mix(in srgb, var(--inopi-teal-strong) 15%, transparent)', color: 'var(--inopi-teal)' }}
             >
               {division.role} · {division.orientation}
             </span>

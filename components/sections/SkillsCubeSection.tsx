@@ -33,7 +33,7 @@ export default function SkillsCubeSection() {
         <div className="container max-w-4xl">
           <div
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
-            style={{ background: 'rgba(13,148,136,0.15)', color: 'var(--inopi-teal)' }}
+            style={{ background: 'color-mix(in srgb, var(--inopi-teal-strong) 15%, transparent)', color: 'var(--inopi-teal)' }}
           >
             <IconCube3dSphere size={13} /> Metodologi INOPI
           </div>
