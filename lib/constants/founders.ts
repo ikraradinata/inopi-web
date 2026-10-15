@@ -2,6 +2,39 @@
 // Jabatan organisasi mengacu pada PRD v2.0; nama lengkap, jabatan profesional,
 // institusi, dan pesan bersumber dari formulir profil founder (Oktober 2026).
 
+/** Kelompok pada struktur organisasi INOPI. */
+export type FounderGroup =
+  | 'pembina'
+  | 'pengawas'
+  | 'pakar'
+  | 'pengurus'
+  | 'riset'
+  | 'program'
+  | 'kemitraan'
+  | 'pelatihan'
+
+export interface FounderGroupInfo {
+  id: FounderGroup
+  label: string
+  /** Keterangan singkat di bawah judul kelompok. */
+  desc?: string
+}
+
+/** Urutan tampil mengikuti bagan struktur organisasi. */
+export const FOUNDER_GROUPS: FounderGroupInfo[] = [
+  { id: 'pembina', label: 'Dewan Pembina' },
+  { id: 'pengawas', label: 'Dewan Pengawas' },
+  { id: 'pakar', label: 'Dewan Pakar' },
+  { id: 'pengurus', label: 'Pengurus Harian' },
+  { id: 'riset', label: 'Riset & Inovasi' },
+  { id: 'program', label: 'Program & Implementasi' },
+  { id: 'kemitraan', label: 'Kemitraan & Kerjasama' },
+  { id: 'pelatihan', label: 'Pelatihan & Sertifikasi' },
+]
+
+/** Kelompok divisi, ditampilkan di bawah satu judul bersama. */
+export const DIVISION_GROUPS: FounderGroup[] = ['riset', 'program', 'kemitraan', 'pelatihan']
+
 export interface Founder {
   /** Nama tampilan sesuai pengisian profil masing-masing founder. */
   name: string
@@ -9,6 +42,8 @@ export interface Founder {
   fullName?: string
   /** Jabatan di struktur INOPI. */
   role: string
+  /** Kelompok pada struktur organisasi. */
+  group: FounderGroup
   /** Jabatan profesional saat ini. */
   title?: string
   /** Perusahaan, lembaga, atau institusi saat ini. */
@@ -26,6 +61,7 @@ export const FOUNDERS: Founder[] = [
     name: 'Meyliana',
     fullName: 'Prof. Dr. Ir. Meyliana, S.Kom., M.M., IPU, CDMS, CBDMP, CME',
     role: 'Ketua Umum',
+    group: 'pengurus',
     title: 'Guru Besar Sistem Informasi',
     institution: 'BINUS University',
     message:
@@ -37,6 +73,7 @@ export const FOUNDERS: Founder[] = [
     name: 'Sunardi',
     fullName: 'Dr. Sunardi, S.Kom., M.M.S.I.',
     role: 'Wakil Ketua',
+    group: 'pengurus',
     title: 'Co-Founder & CEO',
     institution: 'SUNEDU ID',
     message:
@@ -47,7 +84,8 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Idha Kristiana',
     fullName: 'Dr. Idha Kristiana, S.Kom., M.M.S.I., SMIEEE',
-    role: 'Sekretaris',
+    role: 'Sekretaris Jenderal',
+    group: 'pengurus',
     title: 'Founder & CEO',
     institution: 'PT Viktori Aksara Teknologi Indonesia (V-TEKI)',
     message:
@@ -58,7 +96,8 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Ikrar Adinata Arin',
     fullName: 'Dr. Ir. Ikrar Adinata Arin, S.T., M.T.I., IPM., ASEAN Eng., SMIEEE',
-    role: 'Bendahara',
+    role: 'Bendahara Umum',
+    group: 'pengurus',
     title: 'Dosen & Peneliti; Senior Banking Technology Executive',
     institution: 'BINUS University',
     message:
@@ -72,6 +111,7 @@ export const FOUNDERS: Founder[] = [
     name: 'Bobi Kurniawan',
     fullName: 'Dr. Bobi Kurniawan, S.T., M.Kom.',
     role: 'Riset & Inovasi',
+    group: 'riset',
     title: 'Direktur Aplikasi Pengembangan Pelatihan dan Service Center',
     institution: 'UNIKOM',
     message:
@@ -83,6 +123,7 @@ export const FOUNDERS: Founder[] = [
     name: 'Nunik Afriliana',
     fullName: 'Dr. Nunik Afriliana, S.Kom., M.M.S.I.',
     role: 'Riset & Inovasi',
+    group: 'riset',
     title: 'Ketua Program Studi Kecerdasan Buatan',
     institution: 'Universitas Multimedia Nusantara',
     message:
@@ -94,6 +135,7 @@ export const FOUNDERS: Founder[] = [
     name: 'Nita Felia Pambudi',
     fullName: 'Nita Felia Pambudi, S.Si., S.Kom., IMScBA',
     role: 'Program & Implementasi',
+    group: 'program',
     title: 'Chief Operating Officer',
     institution: 'GreatNusa by Bina Nusantara',
     message:
@@ -105,6 +147,7 @@ export const FOUNDERS: Founder[] = [
     name: 'Yasser Muhammad Syaiful',
     fullName: 'Yasser Muhammad Syaiful, S.T., MBA',
     role: 'Program & Implementasi',
+    group: 'program',
     title: 'Chief Commercial Officer Lingotalk; Business Development Manager SEA Duolingo',
     institution: 'Lingotalk & Duolingo',
     message:
@@ -115,12 +158,14 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Siti Elda Hiererra',
     role: 'Kemitraan & Kerjasama',
+    group: 'kemitraan',
     initials: 'SE',
   },
   {
     name: 'Victor Osman',
     fullName: 'Victor Osman, S.Kom., MIB',
     role: 'Kemitraan & Kerjasama',
+    group: 'kemitraan',
     title: 'Chief Executive Officer',
     institution: 'PT Dreamaxtion Teknologi Internasional',
     message: 'We welcome you, and let’s be part of INOPI.',
@@ -130,6 +175,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Andy Febrico Bintoro',
     role: 'Pelatihan & Sertifikasi',
+    group: 'pelatihan',
     title: 'Co-Founder & CTO',
     institution: 'Maxy AI Holdings',
     message: 'Kontribusi dulu, yang lain mengikuti.',
@@ -141,6 +187,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Bonifasius W. Pudjianto',
     role: 'Dewan Pembina',
+    group: 'pembina',
     title: 'Kepala Badan Pengembangan SDM Komdigi',
     institution: 'Kementerian Komunikasi dan Digital',
     message: 'Keep fighting and struggling.',
@@ -151,6 +198,7 @@ export const FOUNDERS: Founder[] = [
     name: 'Gogot Suharwoto',
     fullName: 'Gogot Suharwoto, S.Pd., M.Ed., Ph.D.',
     role: 'Dewan Pembina',
+    group: 'pembina',
     title: 'Direktur Jenderal PAUD, Pendidikan Dasar, dan Pendidikan Nonformal Informal',
     institution: 'Kementerian Pendidikan Dasar dan Menengah RI',
     message:
@@ -161,12 +209,14 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Heru Dewanto',
     role: 'Dewan Pembina',
+    group: 'pembina',
     initials: 'HD',
   },
   {
     name: 'M. Aditya Warman',
     fullName: 'Dr. M. Aditya Warman, S.Psi., MBA',
     role: 'Dewan Pembina',
+    group: 'pembina',
     title: 'Co-Founder',
     institution: 'IRSCHOOL.ID',
     message: 'Menjadikan INOPI sebagai ekosistem bertumbuh bagi inovasi pendidikan Indonesia.',
@@ -175,6 +225,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Pony Halim',
     role: 'Dewan Pembina',
+    group: 'pembina',
     title: 'VP of Technology',
     institution: 'PCMan',
     message:
@@ -185,6 +236,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Subchan Gatot',
     role: 'Dewan Pembina',
+    group: 'pembina',
     title: 'Advisor, CEO & Owner',
     institution: 'PT TMMIN; PT Prisma Digital Ambara; PT Perjalanan Para Khalifah',
     message: 'Kolaborasi dan bangun relasi.',
@@ -196,6 +248,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Bambang Yapri',
     role: 'Dewan Pengawas',
+    group: 'pengawas',
     title: 'Professional Coach; Business Transformation Advisor',
     institution: 'Be a Better You',
     message: 'High Tech High Touch Ecosystem for Indonesian’s Human Capability.',
@@ -204,7 +257,8 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Daniel Adhinugraha W.',
-    role: 'Dewan Pengawas',
+    role: 'Pelatihan & Sertifikasi',
+    group: 'pelatihan',
     title: 'Culture & Performance Catalyst',
     message:
       'Terus memberi dampak positif bagi lingkungan sekitar melalui kepribadian yang memiliki kapabilitas holistik.',
@@ -213,6 +267,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Paulina Pannen',
     role: 'Dewan Pengawas',
+    group: 'pengawas',
     title: 'Guru Besar Pembelajaran, Universitas Terbuka',
     institution: 'ICE Institute, Universitas Terbuka',
     message: 'Berkarya bersama untuk Indonesia.',
@@ -223,6 +278,7 @@ export const FOUNDERS: Founder[] = [
     name: 'Tutut Handayani',
     fullName: 'Dr. Tutut Handayani, M.Psi., Psikolog',
     role: 'Dewan Pengawas',
+    group: 'pengawas',
     title: 'Psikolog',
     institution: 'Matahati Consulting',
     message:
@@ -235,6 +291,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Ferry Sutanto',
     role: 'Dewan Pakar',
+    group: 'pakar',
     title: 'Chief Executive Officer',
     institution: 'Utopiq',
     message:
@@ -245,6 +302,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Jahja',
     role: 'Dewan Pakar',
+    group: 'pakar',
     title: 'Chief Human Resources Officer',
     institution: 'Meratus Group',
     message:
@@ -256,6 +314,7 @@ export const FOUNDERS: Founder[] = [
     name: 'Kun Wardana',
     fullName: 'Dr. Ir. R. Kun Wardana Abyoto, M.T.',
     role: 'Dewan Pakar',
+    group: 'pakar',
     title: 'Dekan',
     institution: 'ISTN',
     message:
@@ -266,6 +325,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Stephen Ng',
     role: 'Dewan Pakar',
+    group: 'pakar',
     title: 'Chief Executive Officer',
     institution: 'PT WIR Asia Tbk.',
     message:
@@ -276,6 +336,7 @@ export const FOUNDERS: Founder[] = [
   {
     name: 'Tyo Guritno',
     role: 'Dewan Pakar',
+    group: 'pakar',
     title: 'CEO Inspigo.ai; AI Transformation Consultant',
     institution: 'Inspigo',
     message: 'INOPI tempat berjejaring, belajar, dan berinovasi untuk meningkatkan talenta Indonesia.',

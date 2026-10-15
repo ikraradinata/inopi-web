@@ -3,7 +3,13 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { FOUNDERS, type Founder } from '@/lib/constants/founders'
+import {
+  FOUNDERS,
+  FOUNDER_GROUPS,
+  DIVISION_GROUPS,
+  type Founder,
+  type FounderGroup,
+} from '@/lib/constants/founders'
 
 function Avatar({ founder, size }: { founder: Founder; size: number }) {
   if (founder.photo) {
@@ -34,44 +40,129 @@ function Avatar({ founder, size }: { founder: Founder; size: number }) {
   )
 }
 
+function FounderCard({
+  founder,
+  onSelect,
+  showRole,
+  featured,
+}: {
+  founder: Founder
+  onSelect: (f: Founder) => void
+  showRole: boolean
+  featured?: boolean
+}) {
+  return (
+    <button
+      onClick={() => onSelect(founder)}
+      className="text-left rounded-[12px] p-4 border bg-white transition-all hover:border-[var(--inopi-teal-strong)] hover:shadow-hover hover:scale-[1.02]"
+      style={{ borderColor: featured ? 'var(--inopi-taupe)' : 'var(--inopi-sand)' }}
+    >
+      <div className="flex justify-center mb-3">
+        <Avatar founder={founder} size={featured ? 88 : 72} />
+      </div>
+      <p
+        className="font-body font-semibold text-[13px] text-center leading-snug"
+        style={{ color: 'var(--inopi-espresso)' }}
+      >
+        {founder.name}
+      </p>
+      {showRole && (
+        <p
+          className="font-body text-[12px] text-center mt-0.5 leading-tight"
+          style={{ color: 'var(--inopi-teal-strong)' }}
+        >
+          {founder.role}
+        </p>
+      )}
+      {founder.institution && (
+        <p
+          className="font-body text-[11px] text-center mt-1 leading-tight line-clamp-2"
+          style={{ color: 'var(--inopi-sage-strong)' }}
+        >
+          {founder.institution}
+        </p>
+      )}
+    </button>
+  )
+}
+
+function GroupHeading({ label, count }: { label: string; count: number }) {
+  return (
+    <div className="flex items-center gap-3 mb-4">
+      <h2
+        className="font-display font-bold text-[15px] uppercase tracking-wider whitespace-nowrap"
+        style={{ color: 'var(--inopi-espresso)' }}
+      >
+        {label}
+      </h2>
+      <span
+        className="font-body text-[12px] tabular-nums flex-shrink-0"
+        style={{ color: 'var(--inopi-sage-strong)' }}
+      >
+        {count} orang
+      </span>
+      <span className="flex-1 h-px" style={{ background: 'var(--inopi-sand)' }} />
+    </div>
+  )
+}
+
 export default function FoundersGrid() {
   const [selected, setSelected] = useState<Founder | null>(null)
 
+  const byGroup = (g: FounderGroup) => FOUNDERS.filter((f) => f.group === g)
+  const councils = FOUNDER_GROUPS.filter((g) => ['pembina', 'pengawas', 'pakar'].includes(g.id))
+  const pengurus = byGroup('pengurus')
+  const divisions = FOUNDER_GROUPS.filter((g) => DIVISION_GROUPS.includes(g.id))
+
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {FOUNDERS.map((f) => (
-          <button
-            key={f.name}
-            onClick={() => setSelected(f)}
-            className="text-left rounded-[12px] p-4 border bg-white transition-all hover:border-[var(--inopi-teal-strong)] hover:shadow-hover hover:scale-[1.02]"
-            style={{ borderColor: 'var(--inopi-sand)' }}
-          >
-            <div className="flex justify-center mb-3">
-              <Avatar founder={f} size={72} />
-            </div>
-            <p
-              className="font-body font-semibold text-[13px] text-center leading-snug"
-              style={{ color: 'var(--inopi-espresso)' }}
-            >
-              {f.name}
-            </p>
-            <p
-              className="font-body text-[12px] text-center mt-0.5 leading-tight"
-              style={{ color: 'var(--inopi-teal-strong)' }}
-            >
-              {f.role}
-            </p>
-            {f.institution && (
-              <p
-                className="font-body text-[11px] text-center mt-1 leading-tight line-clamp-2"
-                style={{ color: 'var(--inopi-sage-strong)' }}
-              >
-                {f.institution}
-              </p>
-            )}
-          </button>
-        ))}
+      <div className="flex flex-col gap-12">
+        {/* Dewan */}
+        {councils.map((g) => {
+          const members = byGroup(g.id)
+          return (
+            <section key={g.id}>
+              <GroupHeading label={g.label} count={members.length} />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {members.map((f) => (
+                  <FounderCard key={f.name} founder={f} onSelect={setSelected} showRole={false} />
+                ))}
+              </div>
+            </section>
+          )
+        })}
+
+        {/* Pengurus Harian */}
+        <section>
+          <GroupHeading label="Pengurus Harian" count={pengurus.length} />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {pengurus.map((f) => (
+              <FounderCard key={f.name} founder={f} onSelect={setSelected} showRole featured />
+            ))}
+          </div>
+        </section>
+
+        {/* Divisi */}
+        <section>
+          <GroupHeading label="Divisi" count={divisions.reduce((n, g) => n + byGroup(g.id).length, 0)} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+            {divisions.map((g) => (
+              <div key={g.id}>
+                <p
+                  className="font-body text-[12px] font-semibold uppercase tracking-wider mb-3"
+                  style={{ color: 'var(--inopi-orange-strong)' }}
+                >
+                  {g.label}
+                </p>
+                <div className="grid grid-cols-2 gap-4">
+                  {byGroup(g.id).map((f) => (
+                    <FounderCard key={f.name} founder={f} onSelect={setSelected} showRole={false} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
 
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
