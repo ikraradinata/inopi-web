@@ -29,14 +29,14 @@ const orgSections = [
     title: 'Dewan Pengawas',
     icon: IconEye,
     description: 'Memastikan program dan keuangan sesuai AD/ART dan regulasi.',
-    members: ['Paulina Pannen', 'Tutut Handayani', 'Daniel Adhinugraha W.', 'Bambang Yapri'],
+    members: ['Paulina Pannen', 'Tutut Handayani', 'Bambang Yapri'],
     accent: 'var(--inopi-teal)',
   },
   {
     title: 'Dewan Pakar',
     icon: IconBrain,
     description: 'Memberikan legitimasi akademik dan arah inovasi berbasis evidence.',
-    members: ['Stephen Budiman', 'Setyo Guritno', 'Kun Wardana', 'Ferry Sutanto', 'Jahja'],
+    members: ['Stephen Ng', 'Tyo Guritno', 'Kun Wardana', 'Ferry Sutanto', 'Jahja'],
     accent: 'var(--inopi-teal-strong)',
   },
 ]
@@ -52,7 +52,7 @@ const divisi = [
   {
     title: 'Riset & Inovasi',
     icon: IconFlask,
-    pic: 'Bobi Kurniawan Soegoto, Nunik Afriliana',
+    pic: 'Bobi Kurniawan, Nunik Afriliana',
     role: 'Think tank asosiasi',
     orientation: 'Akademik & Ilmiah',
     href: '/program/riset-inovasi',
@@ -60,7 +60,7 @@ const divisi = [
   {
     title: 'Program & Implementasi',
     icon: IconRocket,
-    pic: 'Nita Felia, Yasser Muhammad Syaiful',
+    pic: 'Nita Felia Pambudi, Yasser Muhammad Syaiful',
     role: 'Executor asosiasi',
     orientation: 'Operasional',
     href: '/program/implementasi',
@@ -76,7 +76,7 @@ const divisi = [
   {
     title: 'Pelatihan & Sertifikasi',
     icon: IconCertificate,
-    pic: 'Andy Febrico Bintoro',
+    pic: 'Andy Febrico Bintoro, Daniel Adhinugraha W.',
     role: 'Capacity builder',
     orientation: 'Profesional & Kompetensi',
     href: '/program/pelatihan-sertifikasi',

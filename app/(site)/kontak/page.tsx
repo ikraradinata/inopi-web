@@ -23,8 +23,8 @@ export default function KontakPage() {
           <div>
             <div className="space-y-5">
               {[
-                { icon: IconMapPin, label: 'Alamat', value: 'Jakarta Innovation District, Level 14 (placeholder)' },
-                { icon: IconMail, label: 'Email', value: 'info@inopi.id' },
+                { icon: IconMapPin, label: 'Alamat', value: 'Sudirman Central Business District (SCBD), Jakarta Selatan' },
+                { icon: IconMail, label: 'Email', value: 'asosiasi.inopi@gmail.com' },
                 { icon: IconPhone, label: 'Telepon', value: '+62 21 555 1234 (placeholder)' },
                 { icon: IconClock, label: 'Jam Operasional', value: 'Senin–Jumat 09:00–17:00 WIB' },
               ].map((item) => {

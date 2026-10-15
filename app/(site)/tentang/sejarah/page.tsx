@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { IconCheck, IconCircle, IconRocket } from '@tabler/icons-react'
+import { LAUNCH } from '@/lib/constants/launch'
 
 export const metadata: Metadata = {
   title: 'Sejarah & Latar Belakang',
@@ -9,9 +10,13 @@ export const metadata: Metadata = {
 const timeline = [
   { status: 'done', label: 'Nama Disetujui AHU', desc: 'INOPI resmi terdaftar di Administrasi Hukum Umum Kemenkumham.' },
   { status: 'done', label: 'Inisiasi & Diskusi Founders', desc: '11 April 2026 — pertemuan perdana 26 founders dari berbagai institusi.' },
-  { status: 'pending', label: 'Penyusunan Visi, Misi & AD/ART', desc: 'Merumuskan landasan hukum dan arah strategis organisasi.' },
-  { status: 'pending', label: 'Pembentukan Struktur Organisasi', desc: 'Menetapkan pengurus dan divisi-divisi kerja INOPI.' },
-  { status: 'launch', label: 'Legalisasi → Soft Launch → Grand Launch', desc: 'Target Q3–Q4 2026.' },
+  { status: 'done', label: 'Penyusunan Visi, Misi & AD/ART', desc: 'Landasan hukum dan arah strategis organisasi dirumuskan bersama 26 founder.' },
+  { status: 'done', label: 'Pembentukan Struktur Organisasi', desc: 'Pengurus harian dan empat divisi kerja INOPI ditetapkan.' },
+  {
+    status: 'launch',
+    label: 'Launching INOPI',
+    desc: `${LAUNCH.dateLabel} — ${LAUNCH.venue}, ${LAUNCH.venueDetail}.`,
+  },
 ]
 
 const challenges = [
@@ -126,7 +131,7 @@ export default function SejarahPage() {
               <h3 className="font-display font-semibold text-[15px] mb-3 text-white">
                 Peran INOPI
               </h3>
-              <p className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--inopi-sage-strong)' }}>
+              <p className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--inopi-sand)' }}>
                 INOPI hadir sebagai katalisator yang menghubungkan akademisi, industri, dan pemerintah dalam ekosistem inovasi pembelajaran yang inklusif dan berkelanjutan — menjawab tantangan transformasi digital pendidikan Indonesia.
               </p>
             </div>

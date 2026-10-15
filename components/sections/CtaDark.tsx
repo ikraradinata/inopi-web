@@ -31,7 +31,7 @@ export default function CtaDark({ eyebrow, title, description, primaryCta, secon
         >
           {title}
         </h2>
-        <p className="font-body text-[14px] max-w-lg mx-auto mb-7" style={{ color: 'var(--inopi-sage-strong)' }}>
+        <p className="font-body text-[14px] max-w-lg mx-auto mb-7" style={{ color: 'var(--inopi-sand)' }}>
           {description}
         </p>
         <div className="flex flex-wrap gap-3 justify-center">
@@ -46,7 +46,7 @@ export default function CtaDark({ eyebrow, title, description, primaryCta, secon
             <Link
               href={secondaryCta.href}
               className="inline-flex items-center px-5 py-2.5 text-[14px] font-medium rounded-[8px] border transition-all hover:border-[var(--inopi-teal-strong)]"
-              style={{ color: 'var(--inopi-sage-strong)', borderColor: 'var(--inopi-espresso)' }}
+              style={{ color: 'var(--inopi-sand)', borderColor: 'var(--inopi-sand)' }}
             >
               {secondaryCta.label}
             </Link>
