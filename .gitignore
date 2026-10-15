@@ -35,3 +35,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.env*
+
+# materi sumber internal (data pribadi founder, foto resolusi tinggi)
+docs/
+CLAUDE_old.md
