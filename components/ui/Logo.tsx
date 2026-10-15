@@ -7,9 +7,9 @@ interface LogoProps {
 }
 
 export default function Logo({ className = '', iconOnly = false, light = false }: LogoProps) {
-  const strokeColor = light ? '#ffffff' : '#071422'
-  const textColor = light ? '#ffffff' : '#071422'
-  const circleFillColor = '#0d9488' // Teal brand color
+  const strokeColor = light ? 'var(--inopi-ivory)' : 'var(--inopi-espresso)'
+  const textColor = light ? 'var(--inopi-ivory)' : 'var(--inopi-espresso)'
+  const circleFillColor = 'var(--inopi-teal-strong)' // Teal brand color
 
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>

@@ -30,7 +30,7 @@ export default function Navbar({ transparent }: NavbarProps) {
         style={{
           background: transparent ? 'transparent' : 'rgba(255,255,255,0.96)',
           backdropFilter: 'blur(8px)',
-          borderBottom: '1px solid #e0e8ef',
+          borderBottom: '1px solid var(--inopi-sand)',
         }}
       >
         <div className="container flex items-center justify-between w-full">
@@ -49,10 +49,10 @@ export default function Navbar({ transparent }: NavbarProps) {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="font-body text-[13px] font-medium transition-colors hover:text-[#0d9488]"
+                    className="font-body text-[13px] font-medium transition-colors hover:text-[var(--inopi-teal-strong)]"
                     style={{
-                      color: active ? '#0d9488' : '#4a6070',
-                      borderBottom: active ? '2px solid #0d9488' : '2px solid transparent',
+                      color: active ? 'var(--inopi-teal-strong)' : 'var(--inopi-taupe-strong)',
+                      borderBottom: active ? '2px solid var(--inopi-teal-strong)' : '2px solid transparent',
                       paddingBottom: '2px',
                     }}
                   >
@@ -67,12 +67,12 @@ export default function Navbar({ transparent }: NavbarProps) {
               <Link
                 href="/keanggotaan/daftar"
                 className="hidden md:inline-flex items-center px-4 py-2 text-[13px] font-medium text-white rounded-[8px] transition-all hover:-translate-y-px"
-                style={{ background: '#083344' }}
+                style={{ background: 'var(--inopi-espresso)' }}
               >
                 Join Membership
               </Link>
               <button
-                className="md:hidden p-1.5 text-[#4a6070]"
+                className="md:hidden p-1.5 text-[var(--inopi-taupe-strong)]"
                 onClick={() => setOpen(true)}
                 aria-label="Open menu"
               >
@@ -103,7 +103,7 @@ export default function Navbar({ transparent }: NavbarProps) {
             >
               <div className="flex items-center justify-between mb-8">
                 <Logo />
-                <button onClick={() => setOpen(false)} className="p-1 text-[#4a6070]">
+                <button onClick={() => setOpen(false)} className="p-1 text-[var(--inopi-taupe-strong)]">
                   <IconX size={20} />
                 </button>
               </div>
@@ -115,8 +115,8 @@ export default function Navbar({ transparent }: NavbarProps) {
                       key={link.href}
                       href={link.href}
                       onClick={() => setOpen(false)}
-                      className="font-body text-[15px] font-medium py-1 border-b border-[#e0e8ef]"
-                      style={{ color: active ? '#0d9488' : '#0d1e2e' }}
+                      className="font-body text-[15px] font-medium py-1 border-b border-[var(--inopi-sand)]"
+                      style={{ color: active ? 'var(--inopi-teal-strong)' : 'var(--inopi-espresso)' }}
                     >
                       {link.label}
                     </Link>
@@ -127,7 +127,7 @@ export default function Navbar({ transparent }: NavbarProps) {
                 href="/keanggotaan/daftar"
                 onClick={() => setOpen(false)}
                 className="mt-4 flex items-center justify-center px-4 py-3 text-[13px] font-medium text-white rounded-[8px]"
-                style={{ background: '#083344' }}
+                style={{ background: 'var(--inopi-espresso)' }}
               >
                 Join Membership
               </Link>
