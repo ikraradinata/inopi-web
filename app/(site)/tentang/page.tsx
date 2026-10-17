@@ -13,6 +13,25 @@ const subPages = [
   { title: 'Para Pendiri', desc: '26 tokoh pendiri dari akademik dan industri.', href: '/tentang/founders' },
 ]
 
+const logoMeaning = [
+  {
+    title: 'Belah ketupat',
+    desc: 'Melambangkan keseimbangan, ketelitian, dan integritas. Empat sisinya mewakili empat pilar pembelajaran yang saling menopang secara setara: pendidik, peserta didik, institusi, dan inovasi. Bentuknya juga menyerupai permata, simbol nilai keilmuan yang terus diasah.',
+  },
+  {
+    title: 'Garis diagonal',
+    desc: 'Menggambarkan aliran ide dan transformasi dari praktik konvensional menuju praktik inovatif, sekaligus menjadi jembatan antara teori dan praktik. Garis ini membentuk huruf "I" yang tersirat: Inovasi dan Indonesia.',
+  },
+  {
+    title: 'Lingkaran kecil di puncak',
+    desc: 'Melambangkan gagasan dan percikan ide. Posisinya di luar bentuk utama menandakan keterbukaan pada pemikiran baru. Lingkaran ini juga menyerupai kepala manusia: pembelajar sebagai pusat seluruh kegiatan asosiasi.',
+  },
+  {
+    title: 'Warna netral',
+    desc: 'Taupe dan cokelat hangat menyampaikan kebijaksanaan, kedalaman, stabilitas, dan keberlanjutan.',
+  },
+]
+
 export default function TentangPage() {
   return (
     <div className="py-14">
@@ -39,6 +58,27 @@ export default function TentangPage() {
             </Link>
           ))}
         </div>
+
+        <section className="mt-14">
+          <h2 className="font-display font-bold text-[22px] mb-3" style={{ color: 'var(--inopi-espresso)' }}>
+            Makna Logo INOPI
+          </h2>
+          <p className="font-body text-[14px] leading-relaxed mb-6" style={{ color: 'var(--inopi-taupe-strong)' }}>
+            Logo INOPI dirancang minimalis dengan bentuk geometris sederhana.
+          </p>
+          <dl className="space-y-4">
+            {logoMeaning.map((m) => (
+              <div key={m.title} className="rounded-[12px] p-5" style={{ background: 'var(--inopi-sand)' }}>
+                <dt className="font-display font-semibold text-[15px] mb-1.5" style={{ color: 'var(--inopi-espresso)' }}>
+                  {m.title}
+                </dt>
+                <dd className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--inopi-espresso)' }}>
+                  {m.desc}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
       </div>
     </div>
   )

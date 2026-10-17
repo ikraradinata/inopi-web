@@ -71,7 +71,7 @@ export default function VisiMisiPage() {
             className="font-display font-bold italic max-w-2xl mx-auto"
             style={{ fontSize: 'clamp(20px,3vw,26px)', color: 'var(--inopi-ivory)', lineHeight: 1.4 }}
           >
-            "Menjadi pusat kolaborasi dan inovasi pembelajaran terdepan di Indonesia yang berdaya saing global."
+            &quot;Menjadi pusat kolaborasi dan inovasi pembelajaran terdepan di Indonesia yang berdaya saing global.&quot;
           </blockquote>
         </div>
       </section>

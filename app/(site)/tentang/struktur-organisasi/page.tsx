@@ -154,7 +154,6 @@ export default function StrukturOrganisasiPage() {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {pimpinan.map((p) => {
-              const Icon = p.icon
               return (
                 <div
                   key={p.jabatan}

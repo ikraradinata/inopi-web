@@ -1,17 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { IconCalendarEvent, IconArrowRight } from '@tabler/icons-react'
 import { LAUNCH, LAUNCH_END } from '@/lib/constants/launch'
 
+const subscribe = () => () => {}
+
 export default function AnnouncementBar() {
   // Dirender kosong di server: status bergantung pada waktu browser.
-  const [show, setShow] = useState(false)
-
-  useEffect(() => {
-    setShow(Date.now() < new Date(LAUNCH_END).getTime())
-  }, [])
+  const show = useSyncExternalStore(
+    subscribe,
+    () => Date.now() < new Date(LAUNCH_END).getTime(),
+    () => false,
+  )
 
   if (!show) return null
 

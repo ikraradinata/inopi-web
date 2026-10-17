@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import CtaDark from '@/components/sections/CtaDark'
+import PriorityProgramsSection from '@/components/sections/PriorityProgramsSection'
 import { IconFlask, IconRocket, IconCertificate, IconNetwork } from '@tabler/icons-react'
 
 export const metadata: Metadata = {
@@ -42,8 +44,16 @@ const programs = [
   },
 ]
 
+const statusLabels = [
+  { label: 'Direncanakan', meaning: 'Sudah ditetapkan pengurus, belum dimulai.' },
+  { label: 'Terbuka untuk Kolaborasi', meaning: 'Mencari mitra atau peserta untuk memulai.' },
+  { label: 'Berjalan', meaning: 'Sedang dilaksanakan.' },
+  { label: 'Selesai', meaning: 'Telah dilaksanakan; dokumentasi tersedia.' },
+]
+
 export default function ProgramPage() {
   return (
+    <>
     <div className="py-14">
       <div className="container">
         <div className="mb-10">
@@ -84,5 +94,27 @@ export default function ProgramPage() {
         </div>
       </div>
     </div>
+
+    <PriorityProgramsSection showAllLink={false}>
+      <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1.5">
+        {statusLabels.map((l) => (
+          <div key={l.label} className="font-body text-[12px] leading-relaxed">
+            <dt className="inline font-semibold" style={{ color: 'var(--inopi-espresso)' }}>{l.label}: </dt>
+            <dd className="inline" style={{ color: 'var(--inopi-taupe-strong)' }}>{l.meaning}</dd>
+          </div>
+        ))}
+      </dl>
+    </PriorityProgramsSection>
+
+    <section className="py-14" style={{ background: 'var(--inopi-ivory)' }}>
+      <div className="container">
+        <CtaDark
+          title="Punya gagasan program bersama?"
+          description="INOPI terbuka untuk riset kolaboratif, proyek percontohan, dan pengembangan kompetensi bersama mitra."
+          primaryCta={{ label: 'Ajukan Kemitraan', href: '/kemitraan' }}
+        />
+      </div>
+    </section>
+    </>
   )
 }

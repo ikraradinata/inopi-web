@@ -8,7 +8,14 @@ const statusStyle: Record<PriorityStatus, { background: string; color: string }>
   'Terbuka untuk kolaborasi': { background: 'var(--inopi-gold)', color: 'var(--inopi-espresso)' },
 }
 
-export default function PriorityProgramsSection() {
+export default function PriorityProgramsSection({
+  showAllLink = true,
+  children,
+}: {
+  showAllLink?: boolean
+  /** Ditampilkan di bawah judul, mis. definisi label status. */
+  children?: React.ReactNode
+}) {
   return (
     <section className="py-14 bg-white">
       <div className="container">
@@ -19,11 +26,12 @@ export default function PriorityProgramsSection() {
           Program Prioritas Tahun Pertama
         </p>
         <h2
-          className="font-display font-bold mb-8"
+          className="font-display font-bold mb-4"
           style={{ fontSize: 'clamp(22px,3.2vw,30px)', color: 'var(--inopi-espresso)' }}
         >
           Lima langkah awal INOPI
         </h2>
+        <div className="mb-8">{children}</div>
 
         <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {PRIORITY_PROGRAMS.map((p) => (
@@ -51,15 +59,17 @@ export default function PriorityProgramsSection() {
           ))}
         </ol>
 
-        <div className="mt-8">
-          <Link
-            href="/program"
-            className="font-body text-[14px] font-semibold underline underline-offset-4 hover:text-[var(--inopi-teal-strong)] transition-colors"
-            style={{ color: 'var(--inopi-espresso)' }}
-          >
-            Lihat semua program
-          </Link>
-        </div>
+        {showAllLink && (
+          <div className="mt-8">
+            <Link
+              href="/program"
+              className="font-body text-[14px] font-semibold underline underline-offset-4 hover:text-[var(--inopi-teal-strong)] transition-colors"
+              style={{ color: 'var(--inopi-espresso)' }}
+            >
+              Lihat semua program
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   )

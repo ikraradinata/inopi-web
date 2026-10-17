@@ -3,8 +3,7 @@ import type { MetadataRoute } from 'next'
 const BASE_URL = 'https://www.inopi.id'
 
 // Hanya halaman yang sudah ada dan layak diindeks. Halaman terima kasih
-// sengaja tidak dimasukkan. Tambahkan /acara, /tentang/tata-kelola, dan
-// /privacy saat halamannya selesai.
+// sengaja tidak dimasukkan.
 const paths = [
   '/',
   '/tentang',
@@ -12,6 +11,7 @@ const paths = [
   '/tentang/sejarah',
   '/tentang/founders',
   '/tentang/struktur-organisasi',
+  '/tentang/tata-kelola',
   '/program',
   '/program/riset-inovasi',
   '/program/implementasi',
@@ -20,11 +20,13 @@ const paths = [
   '/kemitraan',
   '/keanggotaan',
   '/keanggotaan/daftar',
+  '/acara',
   '/event',
   '/event/launching-2026',
   '/riset',
   '/berita',
   '/kontak',
+  '/privacy',
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
