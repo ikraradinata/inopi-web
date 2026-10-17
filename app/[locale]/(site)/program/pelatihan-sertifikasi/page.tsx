@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 import { getDivision } from '@/lib/constants/programs'
 import ProgramKerjaSection from '@/components/sections/ProgramKerjaSection'
 import TrainingCatalogSection from '@/components/sections/TrainingCatalogSection'
@@ -16,6 +17,8 @@ export default async function PelatihanSertifikasiPage({ params }: { params: Pro
   setRequestLocale(locale)
   const t = await getTranslations({ locale, namespace: 'Programs' })
   const division = getDivision('pelatihan-sertifikasi', t)
+  // Katalog training besar: kirim ke browser hanya untuk halaman ini.
+  const { Training } = (await getMessages()) as { Training: Record<string, unknown> }
 
   return (
     <>
@@ -55,7 +58,9 @@ export default async function PelatihanSertifikasiPage({ params }: { params: Pro
       />
 
       {/* Katalog Program Training + Learning Path */}
-      <TrainingCatalogSection />
+      <NextIntlClientProvider messages={{ Training }}>
+        <TrainingCatalogSection />
+      </NextIntlClientProvider>
 
       {/* Metodologi INOPI Skills Cube */}
       <SkillsCubeSection />

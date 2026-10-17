@@ -1,15 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import {
-  TRAINING_PROGRAMS,
-  HORIZON_LABELS,
-  PLACEMENT_MATRIX,
-  INDUSTRY_USE_CASES,
-  LEARNING_PATH,
-  type TrainingHorizon,
-} from '@/lib/constants/training'
-import { RATIONALE } from '@/lib/constants/skillsCube'
+import { useTranslations } from 'next-intl'
+import type { TrainingHorizon, TrainingProgram } from '@/lib/constants/training'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { IconSparkles } from '@tabler/icons-react'
@@ -23,7 +16,19 @@ function priorityBadgeStyle(priority: number) {
 }
 
 export default function TrainingCatalogSection() {
+  const t = useTranslations('Training')
   const [activeHorizon, setActiveHorizon] = useState<TrainingHorizon>('short')
+
+  const TRAINING_PROGRAMS = t.raw('programs') as TrainingProgram[]
+  const HORIZON_LABELS = t.raw('horizons') as Record<TrainingHorizon, { label: string; range: string }>
+  const PLACEMENT_MATRIX = t.raw('placementMatrix') as {
+    proficiency: string
+    proficiencyDesc: string
+    cells: { grade: string; codes: string[] }[]
+  }[]
+  const INDUSTRY_USE_CASES = t.raw('industryUseCases') as { industry: string; priority: number; useCase: string; expert: string }[]
+  const LEARNING_PATH = t.raw('learningPath') as { order: number; level: string; program: string; func: string }[]
+  const RATIONALE = t.raw('rationale') as { points: { title: string; desc: string }[]; conclusion: string }
 
   return (
     <>
@@ -34,16 +39,13 @@ export default function TrainingCatalogSection() {
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
             style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-teal)' }}
           >
-            <IconSparkles size={13} /> Produk Unggulan Divisi
+            <IconSparkles size={13} /> {t('ui.badge')}
           </div>
           <h2 className="font-display font-bold text-[22px] mb-3" style={{ color: 'var(--inopi-espresso)' }}>
-            Training: Langkah Nyata Pertama INOPI
+            {t('ui.title')}
           </h2>
           <p className="font-body text-[14px] leading-relaxed mb-8" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            Blueprint kurikulum & materi pelatihan INOPI untuk peningkatan produktivitas kerja dan employability —{' '}
-            <strong>10 program</strong> dalam <strong>3 horizon waktu peluncuran</strong>, dipetakan pada matriks
-            Proficiency Level × Job Grade, mencakup 10 hard skills dan 12 soft skills, dengan 12 industri sebagai
-            sumber studi kasus.
+            {t.rich('ui.intro', { b: (chunks) => <strong>{chunks}</strong> })}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -61,7 +63,7 @@ export default function TrainingCatalogSection() {
 
           <div className="rounded-[12px] p-5" style={{ background: 'var(--inopi-espresso)' }}>
             <p className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--inopi-sage-strong)' }}>
-              <span className="font-display font-semibold text-white">Kesimpulan: </span>
+              <span className="font-display font-semibold text-white">{t('ui.conclusionLabel')}</span>
               {RATIONALE.conclusion}
             </p>
           </div>
@@ -72,10 +74,10 @@ export default function TrainingCatalogSection() {
       <section className="py-14" style={{ background: 'var(--inopi-ivory)' }}>
         <div className="container max-w-4xl">
           <h2 className="font-display font-bold text-[20px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>
-            Program Mana yang Cocok untuk Saya?
+            {t('ui.placementTitle')}
           </h2>
           <p className="font-body text-[13px] mb-6" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            Matriks penempatan program berdasarkan Proficiency Level × Job Grade.
+            {t('ui.placementIntro')}
           </p>
           <div className="overflow-x-auto rounded-[12px] border bg-white" style={{ borderColor: 'var(--inopi-sand)' }}>
             <table className="w-full border-collapse min-w-[560px]">
@@ -85,9 +87,9 @@ export default function TrainingCatalogSection() {
                     className="text-left font-body text-[11px] font-semibold uppercase tracking-wide p-3 border-b"
                     style={{ color: 'var(--inopi-sage-strong)', borderColor: 'var(--inopi-sand)' }}
                   >
-                    Proficiency ↓ / Job Grade →
+                    {t('ui.placementCorner')}
                   </th>
-                  {['Staf', 'Manager', 'Executive'].map((g) => (
+                  {(t.raw('ui.grades') as string[]).map((g) => (
                     <th
                       key={g}
                       className="text-left font-body text-[11px] font-semibold uppercase tracking-wide p-3 border-b"
@@ -136,7 +138,7 @@ export default function TrainingCatalogSection() {
       <section className="py-14 bg-white">
         <div className="container max-w-4xl">
           <h2 className="font-display font-bold text-[20px] mb-6" style={{ color: 'var(--inopi-espresso)' }}>
-            Katalog 10 Program Training
+            {t('ui.catalogTitle')}
           </h2>
 
           <Tabs
@@ -189,7 +191,7 @@ export default function TrainingCatalogSection() {
                                 className="font-body text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full"
                                 style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-teal)' }}
                               >
-                                ⭐ Flagship
+                                {t('ui.flagship')}
                               </span>
                             )}
                             <span className="font-display font-semibold text-[14px]" style={{ color: 'var(--inopi-espresso)' }}>
@@ -210,12 +212,12 @@ export default function TrainingCatalogSection() {
                           {/* Spec grid */}
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
                             {[
-                              { label: 'Proficiency', value: program.spec.proficiency },
-                              { label: 'Job Grade', value: program.spec.jobGrade },
-                              { label: 'Komposisi Skill', value: program.spec.skillComposition },
-                              { label: 'Format', value: program.spec.format },
-                              ...(program.spec.capacity ? [{ label: 'Kapasitas', value: program.spec.capacity }] : []),
-                              { label: 'Harga', value: program.spec.price },
+                              { label: t('ui.spec.proficiency'), value: program.spec.proficiency },
+                              { label: t('ui.spec.jobGrade'), value: program.spec.jobGrade },
+                              { label: t('ui.spec.skillComposition'), value: program.spec.skillComposition },
+                              { label: t('ui.spec.format'), value: program.spec.format },
+                              ...(program.spec.capacity ? [{ label: t('ui.spec.capacity'), value: program.spec.capacity }] : []),
+                              { label: t('ui.spec.price'), value: program.spec.price },
                             ].map((s) => (
                               <div key={s.label} className="rounded-[10px] p-3" style={{ background: 'var(--inopi-ivory)' }}>
                                 <span className="font-body text-[10px] font-semibold uppercase tracking-wide block mb-0.5" style={{ color: 'var(--inopi-sage-strong)' }}>
@@ -240,10 +242,10 @@ export default function TrainingCatalogSection() {
                                     <thead>
                                       <tr>
                                         <th className="text-left font-body text-[10px] font-semibold uppercase tracking-wide p-2.5 border-b" style={{ color: 'var(--inopi-sage-strong)', borderColor: 'var(--inopi-sand)', background: 'var(--inopi-ivory)' }}>
-                                          Modul
+                                          {t('ui.module')}
                                         </th>
                                         <th className="text-left font-body text-[10px] font-semibold uppercase tracking-wide p-2.5 border-b w-24" style={{ color: 'var(--inopi-sage-strong)', borderColor: 'var(--inopi-sand)', background: 'var(--inopi-ivory)' }}>
-                                          Durasi
+                                          {t('ui.duration')}
                                         </th>
                                         {group.metaLabel && (
                                           <th className="text-left font-body text-[10px] font-semibold uppercase tracking-wide p-2.5 border-b" style={{ color: 'var(--inopi-sage-strong)', borderColor: 'var(--inopi-sand)', background: 'var(--inopi-ivory)' }}>
@@ -284,13 +286,13 @@ export default function TrainingCatalogSection() {
                           {program.certificationSchemes && (
                             <div className="mb-5">
                               <h4 className="font-display font-semibold text-[13px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>
-                                3 Skema Sertifikasi Awal
+                                {t('ui.certTitle')}
                               </h4>
                               <div className="overflow-x-auto rounded-[8px] border" style={{ borderColor: 'var(--inopi-sand)' }}>
                                 <table className="w-full border-collapse min-w-[480px]">
                                   <thead>
                                     <tr>
-                                      {['Skema', 'Terhubung ke Program', 'Struktur Asesmen'].map((h2) => (
+                                      {(t.raw('ui.certHeaders') as string[]).map((h2) => (
                                         <th key={h2} className="text-left font-body text-[10px] font-semibold uppercase tracking-wide p-2.5 border-b" style={{ color: 'var(--inopi-sage-strong)', borderColor: 'var(--inopi-sand)', background: 'var(--inopi-ivory)' }}>
                                           {h2}
                                         </th>
@@ -315,7 +317,7 @@ export default function TrainingCatalogSection() {
                           {program.customization && (
                             <div className="mb-4">
                               <span className="font-body text-[11px] font-semibold uppercase tracking-wide block mb-2" style={{ color: 'var(--inopi-sage-strong)' }}>
-                                Kustomisasi / Varian
+                                {t('ui.customization')}
                               </span>
                               <div className="flex flex-wrap gap-1.5">
                                 {program.customization.map((c) => (
@@ -330,7 +332,7 @@ export default function TrainingCatalogSection() {
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                               <span className="font-body text-[11px] font-semibold uppercase tracking-wide block mb-1" style={{ color: 'var(--inopi-sage-strong)' }}>
-                                Trainer
+                                {t('ui.trainer')}
                               </span>
                               <p className="font-body text-[12px] leading-relaxed" style={{ color: 'var(--inopi-taupe-strong)' }}>
                                 {program.trainers.join(', ')}
@@ -339,7 +341,7 @@ export default function TrainingCatalogSection() {
                             {program.targetMarket && (
                               <div>
                                 <span className="font-body text-[11px] font-semibold uppercase tracking-wide block mb-1" style={{ color: 'var(--inopi-sage-strong)' }}>
-                                  Target Market
+                                  {t('ui.targetMarket')}
                                 </span>
                                 <p className="font-body text-[12px] leading-relaxed" style={{ color: 'var(--inopi-taupe-strong)' }}>
                                   {program.targetMarket}
@@ -362,16 +364,16 @@ export default function TrainingCatalogSection() {
       <section className="py-14" style={{ background: 'var(--inopi-ivory)' }}>
         <div className="container max-w-4xl">
           <h2 className="font-display font-bold text-[20px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>
-            Industri Use Case — Bahan Materi & Kustomisasi
+            {t('ui.industryTitle')}
           </h2>
           <p className="font-body text-[13px] mb-6" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            12 industri sebagai sumber studi kasus nyata untuk kustomisasi materi training.
+            {t('ui.industryIntro')}
           </p>
           <div className="overflow-x-auto rounded-[12px] border bg-white" style={{ borderColor: 'var(--inopi-sand)' }}>
             <table className="w-full border-collapse min-w-[720px]">
               <thead>
                 <tr>
-                  {['Industri', 'Prioritas', 'Use Case Materi', 'Expert Terkait'].map((h) => (
+                  {(t.raw('ui.industryHeaders') as string[]).map((h) => (
                     <th key={h} className="text-left font-body text-[11px] font-semibold uppercase tracking-wide p-3 border-b" style={{ color: 'var(--inopi-sage-strong)', borderColor: 'var(--inopi-sand)' }}>
                       {h}
                     </th>
@@ -386,7 +388,7 @@ export default function TrainingCatalogSection() {
                     </td>
                     <td className="p-3 border-b" style={{ borderColor: 'var(--inopi-sand)' }}>
                       <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium" style={priorityBadgeStyle(row.priority)}>
-                        Prioritas {row.priority}
+                        {t('ui.priority', { n: row.priority })}
                       </span>
                     </td>
                     <td className="p-3 border-b font-body text-[12px]" style={{ color: 'var(--inopi-taupe-strong)', borderColor: 'var(--inopi-sand)' }}>
@@ -407,10 +409,10 @@ export default function TrainingCatalogSection() {
       <section className="py-14 bg-white">
         <div className="container max-w-3xl">
           <h2 className="font-display font-bold text-[20px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>
-            Learning Path — Jalur Pengembangan Peserta
+            {t('ui.pathTitle')}
           </h2>
           <p className="font-body text-[13px] mb-8" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            Funnel bertahap dari pintu masuk ekosistem hingga menjadi multiplier bagi INOPI.
+            {t('ui.pathIntro')}
           </p>
           <div className="relative">
             {LEARNING_PATH.map((step, i) => (
