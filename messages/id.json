@@ -1945,5 +1945,575 @@
         "targetMarket": "Analyst, engineer, product manager teknis, IT staff"
       }
     ]
+  },
+  "SkillsCube": {
+    "ui": {
+      "badge": "Metodologi INOPI",
+      "title": "INOPI Skills Cube",
+      "intro": "Kerangka analisis 4 dimensi kebutuhan pelatihan — Proficiency × Job Grade × Skill (Hard/Soft) × Industri. Pelatihan seragam tidak lagi cukup: kebutuhan skill berbeda menurut level, jabatan, jenis keterampilan, dan industri. INOPI Skills Cube memetakan semuanya agar pelatihan tepat sasaran.",
+      "dimensionsTitle": "Satu Cube, Empat Dimensi",
+      "proficiency": "Proficiency Level",
+      "jobGrade": "Job Grade",
+      "layersTitle": "Lapisan Assessment · Coaching · Delivery",
+      "layersIntro": "Dua lapisan tipis membungkus setiap sel cube — menentukan bagaimana skill diukur, dilatih, dan disampaikan.",
+      "codesTitle": "Sistem Kode",
+      "formatLabel": "Format: ",
+      "codesLegend": "Industri · Jenis + Domain Skill · Grade + Level",
+      "hardCodes": "Kode Hard Skill (H)",
+      "softCodes": "Kode Soft Skill (S)",
+      "examples": "Contoh Penerapan",
+      "reading": "Cara Membaca Grade × Level",
+      "readingNote": "Angka makin besar = makin senior & makin dalam.",
+      "hardMatrixTitle": "Matriks Prioritas Hard Skill per Industri",
+      "hardMatrixLegend": "Tinggi = mendesak & meluas · Sedang = penting/berkembang · Emerging = mulai relevan",
+      "hardMatrixCorner": "Emerging Tech \\ Industri",
+      "softMatrixTitle": "Matriks Prioritas Soft Skill per Jenjang",
+      "softMatrixLegend": "Analytical thinking, creative thinking & resilience = prioritas tinggi di semua jenjang (WEF 2025).",
+      "softMatrixCorner": "Soft Skill \\ Job Grade",
+      "recoTitle": "Rekomendasi Berbasis Data",
+      "topHard": "Top 5 Hard Skill Paling Dibutuhkan",
+      "topSoft": "Top 5 Soft Skill Paling Dibutuhkan",
+      "comboTitle": "Kombinasi Prioritas per Kelompok Industri",
+      "hardSkill": "Hard Skill: ",
+      "softSkill": "Soft Skill: ",
+      "useCase": "Use Case: ",
+      "flowTitle": "Alur Penerapan — 6 Tahap",
+      "metricsTitle": "Metrik Keberhasilan"
+    },
+    "levels": {
+      "high": "Tinggi",
+      "medium": "Sedang",
+      "emerging": "Emerging"
+    },
+    "supportingStats": [
+      {
+        "value": "+148%",
+        "label": "Lonjakan permintaan talenta AI di Indonesia (2023–2025)"
+      },
+      {
+        "value": "9 juta",
+        "label": "Kebutuhan tambahan talenta digital hingga 2030"
+      },
+      {
+        "value": "~100 ribu",
+        "label": "Kekurangan tenaga ahli keamanan siber"
+      },
+      {
+        "value": "39%",
+        "label": "Skill inti yang berubah pada 2030 (WEF)"
+      }
+    ],
+    "dimensions": [
+      {
+        "no": 1,
+        "name": "Proficiency Level",
+        "detail": "Basic (L1) · Intermediate (L2) · Advanced (L3)"
+      },
+      {
+        "no": 2,
+        "name": "Job Grade",
+        "detail": "Staff (G1) · Manager (G2) · Executive (G3)"
+      },
+      {
+        "no": 3,
+        "name": "Skill",
+        "detail": "Hard Skill (H) · Soft Skill (S)"
+      },
+      {
+        "no": 4,
+        "name": "Industri",
+        "detail": "Banking, Healthcare, Manufacturing, Tech, dll."
+      }
+    ],
+    "proficiencyLevels": [
+      {
+        "level": "Basic",
+        "code": "L1",
+        "desc": "Mengenal konsep dasar & mengikuti prosedur dengan bimbingan"
+      },
+      {
+        "level": "Intermediate",
+        "code": "L2",
+        "desc": "Menerapkan skill mandiri; menangani masalah menengah"
+      },
+      {
+        "level": "Advanced",
+        "code": "L3",
+        "desc": "Merancang solusi, mengevaluasi, memimpin & inovasi strategis"
+      }
+    ],
+    "jobGrades": [
+      {
+        "grade": "Staff",
+        "code": "G1",
+        "desc": "Pelaksana — kemahiran teknis & penyelesaian tugas harian"
+      },
+      {
+        "grade": "Manager",
+        "code": "G2",
+        "desc": "Pengelola — orkestrasi tim, keputusan taktis, problem solving"
+      },
+      {
+        "grade": "Executive",
+        "code": "G3",
+        "desc": "Strategis — visi, tata kelola, kepemimpinan transformasi"
+      }
+    ],
+    "layers": [
+      {
+        "code": "A",
+        "name": "Assessment",
+        "func": "Mengukur & memetakan kompetensi",
+        "components": [
+          "Skill gap assessment",
+          "Pre-test & post-test",
+          "Competency mapping (L1→L3)",
+          "Sertifikasi berjenjang",
+          "Evaluasi dampak kerja"
+        ]
+      },
+      {
+        "code": "C",
+        "name": "Coaching",
+        "func": "Mendampingi peningkatan skill",
+        "components": [
+          "Mentoring 1-on-1",
+          "On-the-job coaching",
+          "Feedback & review berkala",
+          "Peer & group learning",
+          "Pendampingan proyek nyata"
+        ]
+      },
+      {
+        "code": "D",
+        "name": "Delivery",
+        "func": "Menyampaikan pembelajaran",
+        "components": [
+          "Blended learning",
+          "Workshop & studi kasus industri",
+          "Project-based learning",
+          "Microlearning",
+          "e-Learning + kelas tatap muka"
+        ]
+      }
+    ],
+    "skillCodes": {
+      "hard": [
+        {
+          "name": "AI & Machine Learning",
+          "code": "AI"
+        },
+        {
+          "name": "Big Data & Analytics",
+          "code": "DATA"
+        },
+        {
+          "name": "Cloud Computing",
+          "code": "CLOUD"
+        },
+        {
+          "name": "Cyber Security",
+          "code": "CYBER"
+        },
+        {
+          "name": "Internet of Things",
+          "code": "IOT"
+        },
+        {
+          "name": "Blockchain",
+          "code": "BLOCK"
+        },
+        {
+          "name": "Immersive Tech / AR-VR",
+          "code": "XR"
+        },
+        {
+          "name": "Robotics / Automation",
+          "code": "RPA"
+        }
+      ],
+      "soft": [
+        {
+          "name": "Analytical Thinking",
+          "code": "ANLY"
+        },
+        {
+          "name": "Creative Thinking",
+          "code": "CREA"
+        },
+        {
+          "name": "Problem Solving & Decision Making",
+          "code": "PROB"
+        },
+        {
+          "name": "Communication",
+          "code": "COMM"
+        },
+        {
+          "name": "Leadership & Social Influence",
+          "code": "LEAD"
+        },
+        {
+          "name": "Negotiation",
+          "code": "NEGO"
+        },
+        {
+          "name": "Change Management",
+          "code": "CHG"
+        },
+        {
+          "name": "Resilience & Adaptability",
+          "code": "RESI"
+        }
+      ]
+    },
+    "codeExamples": [
+      {
+        "code": "BANK · H-AI · G1L1",
+        "meaning": "AI dasar untuk Staf di Perbankan (\"Basic Staff\")"
+      },
+      {
+        "code": "EDU · S-CREA · G1L1",
+        "meaning": "Creative Thinking dasar untuk Staf Pendidikan"
+      },
+      {
+        "code": "MFG · H-IOT · G2L3",
+        "meaning": "IoT tingkat Advanced untuk Manajer Manufaktur"
+      }
+    ],
+    "gradeLevelReading": [
+      {
+        "combo": "G1L1",
+        "label": "Staff · Basic → \"Fondasi\""
+      },
+      {
+        "combo": "G2L2",
+        "label": "\"Pengelola\""
+      },
+      {
+        "combo": "G3L3",
+        "label": "\"Visioner\""
+      }
+    ],
+    "industryColumns": [
+      "Banking/Finance",
+      "Healthcare",
+      "Education",
+      "Manufaktur",
+      "Mining/Energy",
+      "Technology",
+      "Retail/FMCG"
+    ],
+    "hardSkillIndustryMatrix": [
+      {
+        "skill": "AI & Machine Learning",
+        "values": [
+          "high",
+          "high",
+          "medium",
+          "high",
+          "medium",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Big Data & Analytics",
+        "values": [
+          "high",
+          "high",
+          "medium",
+          "high",
+          "high",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Cloud Computing",
+        "values": [
+          "high",
+          "medium",
+          "medium",
+          "medium",
+          "medium",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Cyber Security",
+        "values": [
+          "high",
+          "high",
+          "medium",
+          "medium",
+          "medium",
+          "high",
+          "medium"
+        ]
+      },
+      {
+        "skill": "Internet of Things (IoT)",
+        "values": [
+          "emerging",
+          "medium",
+          "emerging",
+          "high",
+          "high",
+          "medium",
+          "medium"
+        ]
+      },
+      {
+        "skill": "Blockchain",
+        "values": [
+          "high",
+          "emerging",
+          "emerging",
+          "emerging",
+          "medium",
+          "medium",
+          "medium"
+        ]
+      },
+      {
+        "skill": "Immersive Tech (AR/VR)",
+        "values": [
+          "emerging",
+          "medium",
+          "high",
+          "medium",
+          "medium",
+          "medium",
+          "medium"
+        ]
+      },
+      {
+        "skill": "Robotics / RPA",
+        "values": [
+          "high",
+          "medium",
+          "emerging",
+          "high",
+          "medium",
+          "medium",
+          "medium"
+        ]
+      }
+    ],
+    "jobGradeColumns": [
+      "Staff (G1)",
+      "Manager (G2)",
+      "Executive (G3)"
+    ],
+    "softSkillGradeMatrix": [
+      {
+        "skill": "Analytical Thinking",
+        "values": [
+          "high",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Creative Thinking",
+        "values": [
+          "high",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Problem Solving & Decision Making",
+        "values": [
+          "medium",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Communication",
+        "values": [
+          "high",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Leadership & Social Influence",
+        "values": [
+          "medium",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Negotiation",
+        "values": [
+          "emerging",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Change Management",
+        "values": [
+          "medium",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Resilience & Adaptability",
+        "values": [
+          "high",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Public Speaking",
+        "values": [
+          "medium",
+          "medium",
+          "high"
+        ]
+      },
+      {
+        "skill": "Lifelong Learning & Curiosity",
+        "values": [
+          "high",
+          "high",
+          "medium"
+        ]
+      }
+    ],
+    "topHardSkills": [
+      {
+        "rank": 1,
+        "name": "AI & Machine Learning",
+        "desc": "Skill teknologi No.1 dunia (WEF). Permintaan talenta AI Indonesia +148% (2023–2025). Generative & Agentic AI mendorong produktivitas lintas sektor."
+      },
+      {
+        "rank": 2,
+        "name": "Big Data & Analytics",
+        "desc": "Fondasi semua inisiatif digital & AI. Indonesia butuh 9 juta talenta digital hingga 2030."
+      },
+      {
+        "rank": 3,
+        "name": "Cyber Security",
+        "desc": "~3.300 serangan siber/minggu (tertinggi ASEAN); kekurangan ~100.000 ahli; pasar tumbuh ~24% CAGR."
+      },
+      {
+        "rank": 4,
+        "name": "Cloud Computing",
+        "desc": "Investasi cloud region & pusat data besar; fondasi skala digital dan penerapan AI."
+      },
+      {
+        "rank": 5,
+        "name": "IoT & Automation / RPA",
+        "desc": "Kunci Industri 4.0: predictive maintenance, digital twin, otomasi proses (manufaktur & energi)."
+      }
+    ],
+    "topSoftSkills": [
+      {
+        "rank": 1,
+        "name": "Analytical Thinking",
+        "desc": "Soft skill inti No.1 versi WEF Future of Jobs 2025 — dinilai paling esensial oleh mayoritas pemberi kerja."
+      },
+      {
+        "rank": 2,
+        "name": "Creative Thinking",
+        "desc": "Skill yang paling cepat naik nilainya; kunci inovasi di era otomasi & AI."
+      },
+      {
+        "rank": 3,
+        "name": "Resilience & Adaptability",
+        "desc": "Ketangguhan menghadapi perubahan cepat; salah satu skill inti paling dicari menuju 2030."
+      },
+      {
+        "rank": 4,
+        "name": "Leadership & Social Influence",
+        "desc": "Krusial bagi Manager & Executive untuk memimpin transformasi dan tim."
+      },
+      {
+        "rank": 5,
+        "name": "Curiosity & Lifelong Learning",
+        "desc": "39% skill berubah pada 2030 — kemampuan belajar berkelanjutan jadi meta-skill wajib."
+      }
+    ],
+    "industryComboRecommendations": [
+      {
+        "cluster": "Banking & Finance",
+        "hardSkill": "AI/ML, Big Data, Cyber Security",
+        "softSkill": "Analytical Thinking, Decision Making",
+        "useCase": "Fraud detection, credit scoring, kepatuhan"
+      },
+      {
+        "cluster": "Healthcare & Education",
+        "hardSkill": "AI, Big Data, Immersive Tech",
+        "softSkill": "Communication, Creative Thinking",
+        "useCase": "Telemedicine, adaptive & VR learning"
+      },
+      {
+        "cluster": "Manufacturing, Mining & Energy",
+        "hardSkill": "IoT, Automation/RPA, Big Data",
+        "softSkill": "Problem Solving, Adaptability",
+        "useCase": "Industri 4.0, predictive maintenance, HSE"
+      },
+      {
+        "cluster": "Technology, Retail & FMCG",
+        "hardSkill": "AI, Cloud, Data Analytics",
+        "softSkill": "Creative Thinking, Agility",
+        "useCase": "Personalisasi, forecasting, supply chain"
+      }
+    ],
+    "applicationSteps": [
+      {
+        "no": 1,
+        "stage": "Skill Mapping",
+        "activity": "Petakan posisi di 4 dimensi"
+      },
+      {
+        "no": 2,
+        "stage": "Gap Analysis",
+        "activity": "Bandingkan level kini vs target"
+      },
+      {
+        "no": 3,
+        "stage": "Curriculum Design",
+        "activity": "Pilih sel cube prioritas"
+      },
+      {
+        "no": 4,
+        "stage": "Delivery",
+        "activity": "Blended: e-learning, workshop, proyek"
+      },
+      {
+        "no": 5,
+        "stage": "Assessment",
+        "activity": "Ukur kenaikan proficiency & sertifikasi"
+      },
+      {
+        "no": 6,
+        "stage": "Impact",
+        "activity": "Evaluasi produktivitas & employability"
+      }
+    ],
+    "successMetrics": [
+      {
+        "dimension": "Produktivitas",
+        "indicators": "Waktu tugas ↓, error ↓, output/pekerja ↑, adopsi tools"
+      },
+      {
+        "dimension": "Employability",
+        "indicators": "Kenaikan level, sertifikasi, promosi & mobilitas karier"
+      },
+      {
+        "dimension": "Organisasi",
+        "indicators": "Efisiensi biaya, kecepatan transformasi, retensi talenta"
+      }
+    ]
   }
 }

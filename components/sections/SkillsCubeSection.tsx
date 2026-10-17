@@ -1,31 +1,33 @@
-import {
-  SUPPORTING_STATS,
-  DIMENSIONS,
-  PROFICIENCY_LEVELS,
-  JOB_GRADES,
-  LAYERS,
-  SKILL_CODES,
-  CODE_EXAMPLES,
-  GRADE_LEVEL_READING,
-  INDUSTRY_COLUMNS,
-  HARD_SKILL_INDUSTRY_MATRIX,
-  JOB_GRADE_COLUMNS,
-  SOFT_SKILL_GRADE_MATRIX,
-  TOP_HARD_SKILLS,
-  TOP_SOFT_SKILLS,
-  INDUSTRY_COMBO_RECOMMENDATIONS,
-  APPLICATION_STEPS,
-  SUCCESS_METRICS,
-} from '@/lib/constants/skillsCube'
+import { useTranslations } from 'next-intl'
 import { IconCube3dSphere } from '@tabler/icons-react'
 
-function matrixCellStyle(value: string) {
-  if (value === 'Tinggi') return { background: 'var(--inopi-espresso)', color: 'var(--inopi-ivory)' }
-  if (value === 'Sedang') return { background: 'var(--inopi-sand)', color: 'var(--inopi-teal)' }
+type Level = 'high' | 'medium' | 'emerging'
+
+function matrixCellStyle(value: Level) {
+  if (value === 'high') return { background: 'var(--inopi-espresso)', color: 'var(--inopi-ivory)' }
+  if (value === 'medium') return { background: 'var(--inopi-sand)', color: 'var(--inopi-teal)' }
   return { background: 'var(--inopi-ivory)', color: 'var(--inopi-sage-strong)', border: '1px solid var(--inopi-sand)' }
 }
 
 export default function SkillsCubeSection() {
+  const t = useTranslations('SkillsCube')
+  const SUPPORTING_STATS = t.raw('supportingStats') as { value: string; label: string }[]
+  const DIMENSIONS = t.raw('dimensions') as { no: number; name: string; detail: string }[]
+  const PROFICIENCY_LEVELS = t.raw('proficiencyLevels') as { level: string; code: string; desc: string }[]
+  const JOB_GRADES = t.raw('jobGrades') as { grade: string; code: string; desc: string }[]
+  const LAYERS = t.raw('layers') as { code: string; name: string; func: string; components: string[] }[]
+  const SKILL_CODES = t.raw('skillCodes') as { hard: { code: string; name: string }[]; soft: { code: string; name: string }[] }
+  const CODE_EXAMPLES = t.raw('codeExamples') as { code: string; meaning: string }[]
+  const GRADE_LEVEL_READING = t.raw('gradeLevelReading') as { combo: string; label: string }[]
+  const INDUSTRY_COLUMNS = t.raw('industryColumns') as string[]
+  const HARD_SKILL_INDUSTRY_MATRIX = t.raw('hardSkillIndustryMatrix') as { skill: string; values: Level[] }[]
+  const JOB_GRADE_COLUMNS = t.raw('jobGradeColumns') as string[]
+  const SOFT_SKILL_GRADE_MATRIX = t.raw('softSkillGradeMatrix') as { skill: string; values: Level[] }[]
+  const TOP_HARD_SKILLS = t.raw('topHardSkills') as { rank: number; name: string; desc: string }[]
+  const TOP_SOFT_SKILLS = t.raw('topSoftSkills') as { rank: number; name: string; desc: string }[]
+  const INDUSTRY_COMBO_RECOMMENDATIONS = t.raw('industryComboRecommendations') as { cluster: string; hardSkill: string; softSkill: string; useCase: string }[]
+  const APPLICATION_STEPS = t.raw('applicationSteps') as { no: number; stage: string; activity: string }[]
+  const SUCCESS_METRICS = t.raw('successMetrics') as { dimension: string; indicators: string }[]
   return (
     <>
       {/* Intro + stats */}
@@ -35,15 +37,13 @@ export default function SkillsCubeSection() {
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
             style={{ background: 'color-mix(in srgb, var(--inopi-teal-strong) 15%, transparent)', color: 'var(--inopi-teal)' }}
           >
-            <IconCube3dSphere size={13} /> Metodologi INOPI
+            <IconCube3dSphere size={13} /> {t('ui.badge')}
           </div>
           <h2 className="font-display font-bold mb-3 text-white" style={{ fontSize: 'clamp(20px,3vw,28px)' }}>
-            INOPI Skills Cube
+            {t('ui.title')}
           </h2>
           <p className="font-body text-[14px] leading-relaxed max-w-2xl mb-10" style={{ color: 'var(--inopi-sage-strong)' }}>
-            Kerangka analisis 4 dimensi kebutuhan pelatihan — Proficiency × Job Grade × Skill (Hard/Soft) × Industri.
-            Pelatihan seragam tidak lagi cukup: kebutuhan skill berbeda menurut level, jabatan, jenis keterampilan,
-            dan industri. INOPI Skills Cube memetakan semuanya agar pelatihan tepat sasaran.
+            {t('ui.intro')}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {SUPPORTING_STATS.map((s) => (
@@ -64,7 +64,7 @@ export default function SkillsCubeSection() {
       <section className="py-14 bg-white">
         <div className="container max-w-4xl">
           <h3 className="font-display font-bold text-[18px] mb-6" style={{ color: 'var(--inopi-espresso)' }}>
-            Satu Cube, Empat Dimensi
+            {t('ui.dimensionsTitle')}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
             {DIMENSIONS.map((d) => (
@@ -86,7 +86,7 @@ export default function SkillsCubeSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
             <div>
               <h4 className="font-display font-semibold text-[14px] mb-3" style={{ color: 'var(--inopi-espresso)' }}>
-                Proficiency Level
+                {t('ui.proficiency')}
               </h4>
               <div className="space-y-2">
                 {PROFICIENCY_LEVELS.map((l) => (
@@ -104,7 +104,7 @@ export default function SkillsCubeSection() {
             </div>
             <div>
               <h4 className="font-display font-semibold text-[14px] mb-3" style={{ color: 'var(--inopi-espresso)' }}>
-                Job Grade
+                {t('ui.jobGrade')}
               </h4>
               <div className="space-y-2">
                 {JOB_GRADES.map((g) => (
@@ -124,10 +124,10 @@ export default function SkillsCubeSection() {
 
           {/* Layers */}
           <h4 className="font-display font-semibold text-[14px] mb-3" style={{ color: 'var(--inopi-espresso)' }}>
-            Lapisan Assessment · Coaching · Delivery
+            {t('ui.layersTitle')}
           </h4>
           <p className="font-body text-[12px] mb-4" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            Dua lapisan tipis membungkus setiap sel cube — menentukan bagaimana skill diukur, dilatih, dan disampaikan.
+            {t('ui.layersIntro')}
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {LAYERS.map((l) => (
@@ -157,18 +157,18 @@ export default function SkillsCubeSection() {
       <section className="py-14" style={{ background: 'var(--inopi-ivory)' }}>
         <div className="container max-w-4xl">
           <h3 className="font-display font-bold text-[18px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>
-            Sistem Kode
+            {t('ui.codesTitle')}
           </h3>
           <p className="font-body text-[13px] mb-2" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            Format: <code className="font-mono text-[12px] px-1.5 py-0.5 rounded" style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-espresso)' }}>[INDUSTRI] · [H/S + DOMAIN] · [G#L#]</code>
+            {t('ui.formatLabel')}<code className="font-mono text-[12px] px-1.5 py-0.5 rounded" style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-espresso)' }}>[INDUSTRI] · [H/S + DOMAIN] · [G#L#]</code>
           </p>
           <p className="font-body text-[12px] mb-6" style={{ color: 'var(--inopi-sage-strong)' }}>
-            Industri · Jenis + Domain Skill · Grade + Level
+            {t('ui.codesLegend')}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <span className="font-body text-[11px] font-semibold uppercase tracking-wide block mb-2" style={{ color: 'var(--inopi-sage-strong)' }}>Kode Hard Skill (H)</span>
+              <span className="font-body text-[11px] font-semibold uppercase tracking-wide block mb-2" style={{ color: 'var(--inopi-sage-strong)' }}>{t('ui.hardCodes')}</span>
               <div className="flex flex-wrap gap-1.5">
                 {SKILL_CODES.hard.map((s) => (
                   <span key={s.code} className="text-[11px] px-2.5 py-1 rounded-full font-medium bg-white border" style={{ borderColor: 'var(--inopi-sand)', color: 'var(--inopi-espresso)' }}>
@@ -178,7 +178,7 @@ export default function SkillsCubeSection() {
               </div>
             </div>
             <div>
-              <span className="font-body text-[11px] font-semibold uppercase tracking-wide block mb-2" style={{ color: 'var(--inopi-sage-strong)' }}>Kode Soft Skill (S)</span>
+              <span className="font-body text-[11px] font-semibold uppercase tracking-wide block mb-2" style={{ color: 'var(--inopi-sage-strong)' }}>{t('ui.softCodes')}</span>
               <div className="flex flex-wrap gap-1.5">
                 {SKILL_CODES.soft.map((s) => (
                   <span key={s.code} className="text-[11px] px-2.5 py-1 rounded-full font-medium bg-white border" style={{ borderColor: 'var(--inopi-sand)', color: 'var(--inopi-espresso)' }}>
@@ -191,7 +191,7 @@ export default function SkillsCubeSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="rounded-[12px] p-5 bg-white border" style={{ borderColor: 'var(--inopi-sand)' }}>
-              <span className="font-body text-[11px] font-semibold uppercase tracking-wide block mb-3" style={{ color: 'var(--inopi-sage-strong)' }}>Contoh Penerapan</span>
+              <span className="font-body text-[11px] font-semibold uppercase tracking-wide block mb-3" style={{ color: 'var(--inopi-sage-strong)' }}>{t('ui.examples')}</span>
               <div className="space-y-2">
                 {CODE_EXAMPLES.map((e) => (
                   <div key={e.code} className="flex flex-col">
@@ -202,7 +202,7 @@ export default function SkillsCubeSection() {
               </div>
             </div>
             <div className="rounded-[12px] p-5 bg-white border" style={{ borderColor: 'var(--inopi-sand)' }}>
-              <span className="font-body text-[11px] font-semibold uppercase tracking-wide block mb-3" style={{ color: 'var(--inopi-sage-strong)' }}>Cara Membaca Grade × Level</span>
+              <span className="font-body text-[11px] font-semibold uppercase tracking-wide block mb-3" style={{ color: 'var(--inopi-sage-strong)' }}>{t('ui.reading')}</span>
               <div className="space-y-2">
                 {GRADE_LEVEL_READING.map((g) => (
                   <div key={g.combo} className="flex items-center gap-3">
@@ -212,7 +212,7 @@ export default function SkillsCubeSection() {
                 ))}
               </div>
               <p className="font-body text-[11px] mt-3" style={{ color: 'var(--inopi-sage-strong)' }}>
-                Angka makin besar = makin senior & makin dalam.
+                {t('ui.readingNote')}
               </p>
             </div>
           </div>
@@ -223,17 +223,17 @@ export default function SkillsCubeSection() {
       <section className="py-14 bg-white">
         <div className="container max-w-4xl">
           <h3 className="font-display font-bold text-[18px] mb-1" style={{ color: 'var(--inopi-espresso)' }}>
-            Matriks Prioritas Hard Skill per Industri
+            {t('ui.hardMatrixTitle')}
           </h3>
           <p className="font-body text-[12px] mb-4" style={{ color: 'var(--inopi-sage-strong)' }}>
-            Tinggi = mendesak & meluas · Sedang = penting/berkembang · Emerging = mulai relevan
+            {t('ui.hardMatrixLegend')}
           </p>
           <div className="overflow-x-auto rounded-[12px] border mb-12" style={{ borderColor: 'var(--inopi-sand)' }}>
             <table className="w-full border-collapse min-w-[820px]">
               <thead>
                 <tr>
                   <th className="text-left font-body text-[11px] font-semibold p-3 border-b sticky left-0 bg-white" style={{ color: 'var(--inopi-espresso)', borderColor: 'var(--inopi-sand)' }}>
-                    Emerging Tech \ Industri
+                    {t('ui.hardMatrixCorner')}
                   </th>
                   {INDUSTRY_COLUMNS.map((c) => (
                     <th key={c} className="text-left font-body text-[11px] font-semibold p-3 border-b" style={{ color: 'var(--inopi-sage-strong)', borderColor: 'var(--inopi-sand)' }}>
@@ -251,7 +251,7 @@ export default function SkillsCubeSection() {
                     {row.values.map((v, i) => (
                       <td key={i} className="p-2 border-b" style={{ borderColor: 'var(--inopi-sand)' }}>
                         <span className="inline-flex items-center justify-center w-full px-2 py-1 rounded-[6px] text-[11px] font-medium" style={matrixCellStyle(v)}>
-                          {v}
+                          {t(`levels.${v}`)}
                         </span>
                       </td>
                     ))}
@@ -262,17 +262,17 @@ export default function SkillsCubeSection() {
           </div>
 
           <h3 className="font-display font-bold text-[18px] mb-1" style={{ color: 'var(--inopi-espresso)' }}>
-            Matriks Prioritas Soft Skill per Jenjang
+            {t('ui.softMatrixTitle')}
           </h3>
           <p className="font-body text-[12px] mb-4" style={{ color: 'var(--inopi-sage-strong)' }}>
-            Analytical thinking, creative thinking & resilience = prioritas tinggi di semua jenjang (WEF 2025).
+            {t('ui.softMatrixLegend')}
           </p>
           <div className="overflow-x-auto rounded-[12px] border" style={{ borderColor: 'var(--inopi-sand)' }}>
             <table className="w-full border-collapse min-w-[480px]">
               <thead>
                 <tr>
                   <th className="text-left font-body text-[11px] font-semibold p-3 border-b" style={{ color: 'var(--inopi-espresso)', borderColor: 'var(--inopi-sand)' }}>
-                    Soft Skill \ Job Grade
+                    {t('ui.softMatrixCorner')}
                   </th>
                   {JOB_GRADE_COLUMNS.map((c) => (
                     <th key={c} className="text-left font-body text-[11px] font-semibold p-3 border-b" style={{ color: 'var(--inopi-sage-strong)', borderColor: 'var(--inopi-sand)' }}>
@@ -290,7 +290,7 @@ export default function SkillsCubeSection() {
                     {row.values.map((v, i) => (
                       <td key={i} className="p-2 border-b" style={{ borderColor: 'var(--inopi-sand)' }}>
                         <span className="inline-flex items-center justify-center w-full px-2 py-1 rounded-[6px] text-[11px] font-medium" style={matrixCellStyle(v)}>
-                          {v}
+                          {t(`levels.${v}`)}
                         </span>
                       </td>
                     ))}
@@ -306,12 +306,12 @@ export default function SkillsCubeSection() {
       <section className="py-14" style={{ background: 'var(--inopi-ivory)' }}>
         <div className="container max-w-4xl">
           <h3 className="font-display font-bold text-[18px] mb-6" style={{ color: 'var(--inopi-espresso)' }}>
-            Rekomendasi Berbasis Data
+            {t('ui.recoTitle')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
             <div>
               <h4 className="font-display font-semibold text-[13px] mb-3" style={{ color: 'var(--inopi-espresso)' }}>
-                Top 5 Hard Skill Paling Dibutuhkan
+                {t('ui.topHard')}
               </h4>
               <div className="space-y-3">
                 {TOP_HARD_SKILLS.map((s) => (
@@ -327,7 +327,7 @@ export default function SkillsCubeSection() {
             </div>
             <div>
               <h4 className="font-display font-semibold text-[13px] mb-3" style={{ color: 'var(--inopi-espresso)' }}>
-                Top 5 Soft Skill Paling Dibutuhkan
+                {t('ui.topSoft')}
               </h4>
               <div className="space-y-3">
                 {TOP_SOFT_SKILLS.map((s) => (
@@ -344,15 +344,15 @@ export default function SkillsCubeSection() {
           </div>
 
           <h4 className="font-display font-semibold text-[13px] mb-4" style={{ color: 'var(--inopi-espresso)' }}>
-            Kombinasi Prioritas per Kelompok Industri
+            {t('ui.comboTitle')}
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {INDUSTRY_COMBO_RECOMMENDATIONS.map((c) => (
               <div key={c.cluster} className="bg-white rounded-[12px] p-5 border" style={{ borderColor: 'var(--inopi-sand)' }}>
                 <h5 className="font-display font-semibold text-[13px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>{c.cluster}</h5>
-                <p className="font-body text-[12px] mb-1"><span style={{ color: 'var(--inopi-sage-strong)' }}>Hard Skill: </span><span style={{ color: 'var(--inopi-taupe-strong)' }}>{c.hardSkill}</span></p>
-                <p className="font-body text-[12px] mb-1"><span style={{ color: 'var(--inopi-sage-strong)' }}>Soft Skill: </span><span style={{ color: 'var(--inopi-taupe-strong)' }}>{c.softSkill}</span></p>
-                <p className="font-body text-[12px]"><span style={{ color: 'var(--inopi-sage-strong)' }}>Use Case: </span><span style={{ color: 'var(--inopi-taupe-strong)' }}>{c.useCase}</span></p>
+                <p className="font-body text-[12px] mb-1"><span style={{ color: 'var(--inopi-sage-strong)' }}>{t('ui.hardSkill')}</span><span style={{ color: 'var(--inopi-taupe-strong)' }}>{c.hardSkill}</span></p>
+                <p className="font-body text-[12px] mb-1"><span style={{ color: 'var(--inopi-sage-strong)' }}>{t('ui.softSkill')}</span><span style={{ color: 'var(--inopi-taupe-strong)' }}>{c.softSkill}</span></p>
+                <p className="font-body text-[12px]"><span style={{ color: 'var(--inopi-sage-strong)' }}>{t('ui.useCase')}</span><span style={{ color: 'var(--inopi-taupe-strong)' }}>{c.useCase}</span></p>
               </div>
             ))}
           </div>
@@ -363,7 +363,7 @@ export default function SkillsCubeSection() {
       <section className="py-14 bg-white">
         <div className="container max-w-4xl">
           <h3 className="font-display font-bold text-[18px] mb-6" style={{ color: 'var(--inopi-espresso)' }}>
-            Alur Penerapan — 6 Tahap
+            {t('ui.flowTitle')}
           </h3>
           <div className="flex flex-wrap gap-2 mb-12">
             {APPLICATION_STEPS.map((s, i) => (
@@ -382,7 +382,7 @@ export default function SkillsCubeSection() {
           </div>
 
           <h3 className="font-display font-bold text-[18px] mb-6" style={{ color: 'var(--inopi-espresso)' }}>
-            Metrik Keberhasilan
+            {t('ui.metricsTitle')}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {SUCCESS_METRICS.map((m) => (
