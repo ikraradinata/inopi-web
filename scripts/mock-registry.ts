@@ -7,6 +7,8 @@
 // Data hilang saat server dimatikan. Endpoint tambahan untuk pemeriksaan:
 //   GET /__dump    isi semua tab, daftar surel terkirim, dan berkas Drive
 //   POST /__reset  mengosongkan semuanya
+//   POST /__status {"reg":"INP-26-C-0001","status":"Aktif","reason":""}
+//                  meniru Bendahara mengubah kolom Status di Sheet, lalu menjalankan pemicu onEdit
 
 import http from 'node:http'
 import { createRegistryEnv, type RegistryEnv } from '../tests/registry/fakes'
@@ -42,6 +44,17 @@ http
       if (req.method === 'POST' && req.url === '/__reset') {
         env = createRegistryEnv({ secret, starterSheet: true })
         return send(200, { ok: true })
+      }
+      if (req.method === 'POST' && req.url === '/__status') {
+        const { reg, status, reason } = JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}')
+        const sh = env.ss.getSheetByName('Pendaftaran')
+        const head = (sh?.rows[0] ?? []) as string[]
+        const row = sh?.rows.find((r, i) => i > 0 && r[head.indexOf('No. Pendaftaran')] === reg)
+        if (!sh || !row) return send(404, { ok: false, error: 'not_found' })
+        row[head.indexOf('Status')] = status
+        if (reason !== undefined) row[head.indexOf('Alasan Penolakan')] = reason
+        const changed = (env.ctx as unknown as { processStatusChanges: () => number }).processStatusChanges()
+        return send(200, { ok: true, changed, status: row[head.indexOf('Status')] })
       }
       if (req.method === 'GET') return send(200, { ok: true, service: 'inopi-registry-mock' })
       try {

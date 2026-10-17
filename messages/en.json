@@ -2647,7 +2647,8 @@
     "proofRequired": "Upload your proof of transfer",
     "positionRequired": "Position is required",
     "billingRequired": "Billing address must be at least 10 characters",
-    "max400": "Maximum 400 characters"
+    "max400": "Maximum 400 characters",
+    "codeFormat": "Code format: CORP-0000-1-XXXX"
   },
   "MembershipForm": {
     "steps": [
@@ -2754,7 +2755,8 @@
     "status": {
       "pending": "Pending verification",
       "active": "Active",
-      "rejected": "Rejected"
+      "rejected": "Rejected",
+      "inactive": "Inactive"
     },
     "whatNext": "Our Treasurer will match your payment. Verification takes at most {hours} working hours, after which your active member card is sent to your email.",
     "downloadCard": "Download member card",
@@ -2770,7 +2772,11 @@
       "Once verified, the PIC receives 3 seat codes by email.",
       "Your colleagues register on their own with those codes, with no further payment."
     ],
-    "corporateNote": "Seat codes are not available yet. They are emailed to the PIC after payment is verified."
+    "corporateNote": "Seat codes are not available yet. They are emailed to the PIC after payment is verified.",
+    "memberIntro": "You are registered as a Corporate member. Your member card is active immediately.",
+    "institutionLabel": "Organization",
+    "validUntilLabel": "Valid until",
+    "memberCardNote": "This card is active until {date}."
   },
   "MembershipApply": {
     "title": "Membership Application",
@@ -3288,6 +3294,10 @@
     "membershipCorporate": {
       "title": "Corporate Registration — INOPI",
       "description": "Register your organization as an INOPI Corporate member: 3 seats in one membership."
+    },
+    "membershipCode": {
+      "title": "Register with a Corporate Code — INOPI",
+      "description": "Colleagues of an INOPI Corporate member organization: register with a seat code, no payment."
     }
   },
   "CopyButton": {
@@ -3374,6 +3384,41 @@
       "invalid_position": "The PIC position is required.",
       "invalid_billing": "A complete billing address is required if you need an invoice.",
       "invalid_data": "Some details are missing. Please check your entries."
+    }
+  },
+  "MembershipCode": {
+    "title": "Register with a Corporate code",
+    "intro": "Your organization is already an INOPI Corporate member. Enter the seat code from your PIC's email, then complete your details. No payment needed: your organization has already paid.",
+    "code": {
+      "label": "Seat code",
+      "placeholder": "CORP-0007-2-K7QF",
+      "hint": "The code is emailed to your organization's PIC once payment is verified.",
+      "checking": "Checking code…",
+      "valid": "{organization} · seat {seat} of {seats} · active"
+    },
+    "locked": {
+      "institution": "Organization",
+      "country": "Country",
+      "hint": "Filled in from the code and cannot be changed."
+    },
+    "personal": {
+      "title": "Your details"
+    },
+    "submit": {
+      "button": "Register and activate card",
+      "sending": "Submitting…"
+    },
+    "noCode": "Don't have a code?",
+    "noCodeLink": "Register for regular membership",
+    "errors": {
+      "code_not_found": "Code not found. Please check how it is written.",
+      "seat_used": "This code has already been used. Ask your organization's PIC for a replacement code.",
+      "seat_disabled": "This code has been deactivated. Ask your organization's PIC for a replacement code.",
+      "org_not_verified": "This organization's membership is not verified yet. Please try again after the PIC receives confirmation from INOPI.",
+      "already_member": "This email is already registered on another seat of the same organization.",
+      "rate_limited": "Too many attempts. Please try again in a few minutes.",
+      "invalid_data": "Some details are missing. Please check your entries.",
+      "generic": "Your registration was not sent. Please try again, or contact asosiasi.inopi@gmail.com."
     }
   }
 }

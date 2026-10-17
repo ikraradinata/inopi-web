@@ -709,3 +709,164 @@ function setInContext(env: RegistryEnv, code: string, globals: Record<string, un
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   require('node:vm').runInContext(code, env.ctx)
 }
+
+/* ---------- Daftar dengan kode kursi (R5) ---------- */
+
+const member = { name: 'Rina Rekan', email: 'rina@ptuji.co.id', whatsapp: '081355556666', occupation: 'Analis', position: 'Staf', locale: 'id', consent: true }
+
+/** Perusahaan terverifikasi; mengembalikan kode kursi 1..3 (kursi 1 dipakai PIC kecuali dimatikan). */
+function verifiedCompany(env: RegistryEnv, over: Record<string, unknown> = {}, row = 1) {
+  fullRegister(env, { ...corp, ...over }, 'corporate')
+  setRegCell(env, row, 'Status', 'Aktif')
+  processAll(env)
+  return sheetRows(env, 'Kursi').filter((r) => r[1] === regCell(env, row, 'No. Pendaftaran')).map((r) => r[3] as string)
+}
+const validate = (env: RegistryEnv, code: string, ip = '9.9.9.9') => env.call({ action: 'validateCode', code, ip })
+const claim = (env: RegistryEnv, code: string, over: Record<string, unknown> = {}, ip = '9.9.9.9') =>
+  env.call({ action: 'registerCode', code, ip, ...member, ...over })
+
+describe('kode kursi: validasi', () => {
+  it('kode sah menampilkan institusi, nomor kursi, dan jumlah kursi', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    expect(validate(env, codes[1])).toMatchObject({ ok: true, organization: 'PT Inovasi Uji', seat: 2, seats: 3, country: 'ID' })
+  })
+
+  it('tidak peka huruf besar/kecil dan spasi', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    expect(validate(env, ` ${codes[1].toLowerCase().replace(/-/g, ' - ')} `.replace(/ - /g, '-')).ok).toBe(true)
+  })
+
+  it('galat jelas: tidak ditemukan, sudah dipakai, dinonaktifkan', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    expect(validate(env, 'CORP-0001-2-ZZZZ').error).toBe('code_not_found')
+    expect(validate(env, 'ngawur').error).toBe('code_not_found')
+    expect(validate(env, '').error).toBe('code_not_found')
+    expect(validate(env, codes[0]).error).toBe('seat_used') // kursi 1 dipakai PIC
+    run(env, 'replaceSeat', 3) // kursi 2 dinonaktifkan
+    expect(validate(env, codes[1]).error).toBe('seat_disabled')
+  })
+
+  it('perusahaan yang belum terverifikasi tidak bisa dipakai kodenya', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    // paksa perusahaan kembali menunggu (data tidak konsisten) untuk memeriksa pengaman
+    setRegCell(env, 1, 'Status', 'Menunggu Verifikasi')
+    env.ss.getSheetByName('Pendaftaran')!.rows[1][H(env, 'Diverifikasi Pada')] = ''
+    expect(validate(env, codes[1]).error).toBe('org_not_verified')
+  })
+
+  it('dibatasi 10 percobaan per 10 menit per IP', () => {
+    const env = createRegistryEnv()
+    verifiedCompany(env)
+    for (let i = 0; i < 10; i++) expect(validate(env, 'CORP-0001-2-AAAA', '5.5.5.5').error).toBe('code_not_found')
+    expect(validate(env, 'CORP-0001-2-AAAA', '5.5.5.5').error).toBe('rate_limited')
+    expect(validate(env, 'CORP-0001-2-AAAA', '6.6.6.6').error).toBe('code_not_found') // IP lain tidak terdampak
+  })
+})
+
+describe('kode kursi: pendaftaran anggota', () => {
+  it('membuat anggota dengan kartu aktif, institusi dari perusahaan, masa berlaku mengikuti perusahaan', () => {
+    const env = createRegistryEnv()
+    env.setNow(new Date('2026-10-30T03:00:00Z'))
+    const codes = verifiedCompany(env)
+    env.setNow(new Date('2026-11-15T03:00:00Z'))
+    const res = claim(env, codes[1])
+    expect(res).toMatchObject({ ok: true, kind: 'member', status: 'Aktif', institution: 'PT Inovasi Uji', category: 'corporate' })
+    expect(res.regNumber).toMatch(/-C-0001-2$/)
+    expect(res.receiptToken).toMatch(/^[0-9a-f]{64}$/)
+    expect(res.verifyToken).toMatch(/^[0-9a-f]{64}$/)
+    expect(res.receiptToken).not.toBe(res.verifyToken)
+    expect(new Date(res.validUntil).toISOString()).toBe('2027-10-30T03:00:00.000Z') // sama dengan perusahaan, bukan 15 Nov
+    expect(JSON.stringify(res)).not.toContain('rina@ptuji.co.id')
+
+    const seat = sheetRows(env, 'Kursi')[1]
+    expect(seat.slice(3, 7)).toEqual([codes[1], 'Terpakai', 'Rina Rekan', 'rina@ptuji.co.id'])
+    const mem = sheetRows(env, 'Anggota')
+    expect(mem).toHaveLength(2) // PIC + Rina
+    expect(mem[1][6]).toBe('PT Inovasi Uji')
+    expect(mem[1][7]).toBe('ID')
+    expect(logActions(env)).toContain('seat_claimed')
+  })
+
+  it('tanpa pembayaran: tidak menyentuh Pendaftaran, Reservasi, atau Unggahan', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    const before = [regRows(env).length, sheetRows(env, 'Reservasi').length, sheetRows(env, 'Unggahan').length]
+    expect(claim(env, codes[1]).ok).toBe(true)
+    expect([regRows(env).length, sheetRows(env, 'Reservasi').length, sheetRows(env, 'Unggahan').length]).toEqual(before)
+  })
+
+  it('kode hanya bisa dipakai sekali; kirim ganda dari orang yang sama aman', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    const a = claim(env, codes[1])
+    const again = claim(env, codes[1]) // klik ganda: email sama
+    expect(again.regNumber).toBe(a.regNumber)
+    expect(again.receiptToken).toBe(a.receiptToken)
+    expect(sheetRows(env, 'Anggota')).toHaveLength(2)
+    expect(claim(env, codes[1], { email: 'orang.lain@ptuji.co.id' }).error).toBe('seat_used')
+    expect(sheetRows(env, 'Anggota')).toHaveLength(2)
+  })
+
+  it('dua orang berebut kode yang sama: hanya satu berhasil', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    const a = claim(env, codes[2], { email: 'a@pt.co.id' })
+    const b = claim(env, codes[2], { email: 'b@pt.co.id' })
+    expect([a.ok, b.ok].filter(Boolean)).toHaveLength(1)
+    expect(sheetRows(env, 'Anggota').filter((r) => r[10] === codes[2])).toHaveLength(1)
+  })
+
+  it('satu email tidak boleh memegang dua kursi perusahaan yang sama', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    expect(claim(env, codes[1]).ok).toBe(true)
+    expect(claim(env, codes[2]).error).toBe('already_member')
+    expect(sheetRows(env, 'Kursi')[2][4]).toBe('Tersedia')
+  })
+
+  it('kode pengganti berfungsi setelah kursi diganti; kode lama ditolak', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    claim(env, codes[1])
+    const fresh = run(env, 'replaceSeat', 3) as string
+    expect(claim(env, codes[1], { email: 'baru@pt.co.id' }).error).toBe('seat_disabled')
+    expect(claim(env, fresh, { email: 'baru@pt.co.id' })).toMatchObject({ ok: true, institution: 'PT Inovasi Uji' })
+    expect(sheetRows(env, 'Anggota').filter((r) => r[11] === 'Nonaktif')).toHaveLength(1)
+  })
+
+  it('memvalidasi data diri dan persetujuan; tidak ada perubahan bila gagal', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    expect(claim(env, codes[1], { consent: false }).error).toBe('consent_required')
+    expect(claim(env, codes[1], { name: 'A' }).error).toBe('invalid_name')
+    expect(claim(env, codes[1], { email: 'x' }).error).toBe('invalid_email')
+    expect(claim(env, codes[1], { whatsapp: '1' }).error).toBe('invalid_whatsapp')
+    expect(claim(env, codes[1], { occupation: '' }).error).toBe('invalid_occupation')
+    expect(sheetRows(env, 'Kursi')[1][4]).toBe('Tersedia')
+    expect(sheetRows(env, 'Anggota')).toHaveLength(1)
+  })
+
+  it('mencegah injeksi rumus pada data anggota', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    claim(env, codes[1], { name: '=IMPORTXML("http://x")', occupation: '@SUM(1)' })
+    const m = sheetRows(env, 'Anggota')[1]
+    expect(String(m[1]).startsWith("'=")).toBe(true)
+    expect(String(m[4]).startsWith("'@")).toBe(true)
+    expect(String(sheetRows(env, 'Kursi')[1][5]).startsWith("'=")).toBe(true)
+  })
+
+  it('tanda terima anggota ditemukan lewat token acak dan memuat status serta institusi saja', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    const a = claim(env, codes[1])
+    const got = env.call({ action: 'receipt', receiptToken: a.receiptToken })
+    expect(got).toMatchObject({ ok: true, kind: 'member', regNumber: a.regNumber, status: 'Aktif', institution: 'PT Inovasi Uji' })
+    expect(JSON.stringify(got)).not.toMatch(/rina|081355556666/i)
+    expect(env.call({ action: 'receipt', receiptToken: a.verifyToken }).error).toBe('not_found')
+  })
+})

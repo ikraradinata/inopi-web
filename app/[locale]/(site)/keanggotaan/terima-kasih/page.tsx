@@ -14,17 +14,22 @@ export const metadata: Metadata = {
 }
 
 interface Receipt {
+  /** 'member' = pemegang kursi Corporate yang mendaftar dengan kode (C6). */
+  kind: 'registration' | 'member'
   regNumber: string
   category: 'student' | 'professional' | 'corporate'
   status: string
-  transferAmount: number
+  transferAmount?: number
+  institution?: string
+  validUntil?: string
   verifyToken: string
 }
 
-const STATUS_KEY: Record<string, 'pending' | 'active' | 'rejected'> = {
+const STATUS_KEY: Record<string, 'pending' | 'active' | 'rejected' | 'inactive'> = {
   'Menunggu Verifikasi': 'pending',
   Aktif: 'active',
   Ditolak: 'rejected',
+  Nonaktif: 'inactive',
 }
 
 async function loadReceipt(token: string | undefined): Promise<Receipt | null> {
@@ -72,14 +77,26 @@ export default async function KeanggotaanTerimaKasihPage({
     )
   }
 
-  const corporate = receipt.category === 'corporate'
+  const isMember = receipt.kind === 'member'
+  const corporate = receipt.category === 'corporate' && !isMember
   const statusKey = STATUS_KEY[receipt.status] ?? 'pending'
-  const rows: [string, string][] = [
-    [t('numberLabel'), receipt.regNumber],
-    [t('categoryLabel'), tm(`plans.${receipt.category}.name`)],
-    [t('statusLabel'), t(`status.${statusKey}`)],
-    [t('amountLabel'), formatRupiah(receipt.transferAmount, locale)],
-  ]
+  const validUntil = receipt.validUntil
+    ? new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : 'id-ID', { dateStyle: 'long', timeZone: 'Asia/Jakarta' }).format(new Date(receipt.validUntil))
+    : ''
+  const rows: [string, string][] = isMember
+    ? [
+        [t('numberLabel'), receipt.regNumber],
+        [t('categoryLabel'), tm(`plans.${receipt.category}.name`)],
+        [t('institutionLabel'), receipt.institution ?? ''],
+        [t('statusLabel'), t(`status.${statusKey}`)],
+        [t('validUntilLabel'), validUntil],
+      ]
+    : [
+        [t('numberLabel'), receipt.regNumber],
+        [t('categoryLabel'), tm(`plans.${receipt.category}.name`)],
+        [t('statusLabel'), t(`status.${statusKey}`)],
+        [t('amountLabel'), formatRupiah(receipt.transferAmount ?? 0, locale)],
+      ]
 
   return (
     <div className="py-10 sm:py-16">
@@ -92,7 +109,7 @@ export default async function KeanggotaanTerimaKasihPage({
             {t('title')}
           </h1>
           <p className="font-body text-[14px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            {corporate ? t('corporateIntro') : t('intro')}
+            {isMember ? t('memberIntro') : corporate ? t('corporateIntro') : t('intro')}
           </p>
         </div>
 
@@ -102,7 +119,7 @@ export default async function KeanggotaanTerimaKasihPage({
               <dt className="font-body text-[13px]" style={{ color: 'var(--inopi-taupe-strong)' }}>{label}</dt>
               <dd className="font-display font-semibold text-[15px] text-right tabular-nums" style={{ color: 'var(--inopi-espresso)' }}>
                 {label === t('statusLabel') ? (
-                  <span className="inline-block px-2.5 py-1 rounded-full text-[12px] font-semibold" style={{ background: 'var(--inopi-gold)', color: 'var(--inopi-espresso)' }}>
+                  <span className="inline-block px-2.5 py-1 rounded-full text-[12px] font-semibold" style={{ background: statusKey === 'active' ? 'var(--inopi-teal-strong)' : 'var(--inopi-gold)', color: statusKey === 'active' ? 'white' : 'var(--inopi-espresso)' }}>
                     {value}
                   </span>
                 ) : (
@@ -113,7 +130,17 @@ export default async function KeanggotaanTerimaKasihPage({
           ))}
         </dl>
 
-        {corporate ? (
+        {isMember ? (
+          // C6: kartu langsung aktif, tanpa menunggu verifikasi.
+          <div className="rounded-[16px] p-5 mb-6 text-center" style={{ background: 'var(--inopi-sand)' }}>
+            <a href={`/api/membership/card/${receipt.verifyToken}`} className={`${linkPrimary} w-full`} style={{ background: 'var(--inopi-orange-strong)' }}>
+              {t('downloadCard')}
+            </a>
+            <p className="font-body text-[12px] mt-3" style={{ color: 'var(--inopi-espresso)' }}>
+              {t('memberCardNote', { date: validUntil })}
+            </p>
+          </div>
+        ) : corporate ? (
           // C3: PIC belum menerima kode kursi; kode dikirim setelah Bendahara memverifikasi.
           <div className="rounded-[16px] p-5 mb-6" style={{ background: 'var(--inopi-sand)' }}>
             <h2 className="font-display font-bold text-[16px] mb-3" style={{ color: 'var(--inopi-espresso)' }}>

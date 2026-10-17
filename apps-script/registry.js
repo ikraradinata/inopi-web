@@ -48,6 +48,8 @@ var CFG = {
     reserve: { limit: 10, windowSec: 600 },
     upload: { limit: 10, windowSec: 600 },
     register: { limit: 8, windowSec: 600 },
+    validateCode: { limit: 10, windowSec: 600 },
+    registerCode: { limit: 10, windowSec: 600 },
   },
 };
 
@@ -107,6 +109,8 @@ var ACTIONS = {
   upload: actionUpload,
   register: actionRegister,
   receipt: actionReceipt,
+  validateCode: actionValidateCode,
+  registerCode: actionRegisterCode,
 };
 
 function handleRequest(body) {
@@ -271,9 +275,113 @@ function actionRegister(req) {
 
 /** Ringkasan untuk halaman terima kasih; dicari lewat token acak, bukan nomor pendaftaran. */
 function actionReceipt(req) {
-  var row = findRow(sheet(CFG.SHEET_REG), col('Token Terima Kasih'), String(req.receiptToken || ''));
-  if (!row) throw regErr('not_found');
-  return ok(receiptOf(row.values));
+  var token = String(req.receiptToken || '');
+  var row = findRow(sheet(CFG.SHEET_REG), col('Token Terima Kasih'), token);
+  if (row) return ok(receiptOf(row.values));
+  var mem = findRow(sheet(CFG.SHEET_MEM), 16, token);
+  if (mem) return ok(memberReceiptOf(mem.values));
+  throw regErr('not_found');
+}
+
+// ---------------------------------------------------------------------------
+// Daftar dengan kode kursi Corporate (tanpa pembayaran)
+// ---------------------------------------------------------------------------
+
+function normalizeSeatCode(v) {
+  return String(v == null ? '' : v).replace(/\s+/g, '').toUpperCase().slice(0, 40);
+}
+
+/**
+ * Memeriksa kode kursi. Melempar galat yang jelas: code_not_found, seat_disabled, seat_used,
+ * org_not_verified. Mengembalikan baris kursi, pendaftaran perusahaan, dan data perusahaan.
+ */
+function lookupSeat(code) {
+  if (!/^CORP-\d{4,}-[1-9]-[A-Z2-9]{4}$/.test(code)) throw regErr('code_not_found');
+  var seat = findRow(sheet(CFG.SHEET_SEAT), 3, code);
+  if (!seat) throw regErr('code_not_found');
+  var st = seat.values[4];
+  if (st === CFG.SEAT_DISABLED) throw regErr('seat_disabled');
+  var reg = findRow(sheet(CFG.SHEET_REG), col('No. Pendaftaran'), String(seat.values[1]));
+  var org = findRow(sheet(CFG.SHEET_ORG), 1, String(seat.values[1]));
+  if (!reg || !org) throw regErr('code_not_found');
+  if (st === CFG.SEAT_USED) throw regErr('seat_used');
+  if (reg.values[col('Status')] !== CFG.STATUS_ACTIVE) throw regErr('org_not_verified');
+  return { seat: seat, reg: reg, org: org };
+}
+
+function actionValidateCode(req) {
+  var found = lookupSeat(normalizeSeatCode(req.code));
+  return ok({
+    organization: found.org.values[2],
+    country: found.org.values[3],
+    seat: Number(found.seat.values[2]),
+    seats: CFG.CORPORATE_SEATS,
+  });
+}
+
+/** Seorang rekan memakai kode kursi: kursi ditandai Terpakai dan kartu aktif langsung dibuat. */
+function actionRegisterCode(req) {
+  var code = normalizeSeatCode(req.code);
+  var data = validateRegistrant({
+    name: req.name, email: req.email, whatsapp: req.whatsapp, occupation: req.occupation,
+    position: req.position, institution: 'xx', country: 'ID', locale: req.locale,
+  });
+  if (req.consent !== true) throw regErr('consent_required');
+
+  // Kirim ganda dengan kode dan email yang sama: kembalikan anggota yang sudah ada.
+  var prior = findRow(sheet(CFG.SHEET_MEM), 10, code);
+  if (prior) {
+    if (prior.values[11] !== CFG.MEMBER_ACTIVE) throw regErr('seat_disabled');
+    if (String(prior.values[2]).toLowerCase() === data.email.toLowerCase()) return ok(memberReceiptOf(prior.values));
+    throw regErr('seat_used');
+  }
+
+  var found = lookupSeat(code);
+  var reg = String(found.seat.values[1]);
+  var seatNo = Number(found.seat.values[2]);
+
+  // Satu email tidak boleh memegang dua kursi di perusahaan yang sama.
+  var members = readRows(sheet(CFG.SHEET_MEM));
+  for (var i = 0; i < members.length; i++) {
+    var m = members[i];
+    if (String(m[8]) === reg && m[11] === CFG.MEMBER_ACTIVE && String(m[2]).toLowerCase() === data.email.toLowerCase()) throw regErr('already_member');
+  }
+
+  var now = new Date();
+  var validUntil = toDate(found.reg.values[col('Berlaku s.d.')]);
+  var p = [];
+  p[col('Nama Lengkap')] = data.name;
+  p[col('Email')] = data.email;
+  p[col('WhatsApp')] = data.whatsapp;
+  p[col('Pekerjaan')] = data.occupation;
+  p[col('Jabatan')] = data.position;
+  p[col('Institusi')] = found.org.values[2];
+  p[col('Negara')] = found.org.values[3];
+  p[col('Bahasa')] = data.locale;
+  p[col('Persetujuan PDP')] = now;
+  var number = addMember(reg, seatNo, code, p, validUntil, now);
+
+  sheet(CFG.SHEET_SEAT).getRange(found.seat.row, 5, 1, 4).setValues([[CFG.SEAT_USED, safeCell(data.name), safeCell(data.email), now]]);
+  emitEvent('seat_claimed', number, code, {
+    regNumber: reg, memberNumber: number, seat: seatNo, locale: data.locale,
+    picEmail: found.org.values[6], organization: found.org.values[2],
+  });
+  var mem = findRow(sheet(CFG.SHEET_MEM), 0, number);
+  return ok(memberReceiptOf(mem.values));
+}
+
+function memberReceiptOf(v) {
+  return {
+    kind: 'member',
+    receiptToken: v[16],
+    regNumber: v[0],
+    category: 'corporate',
+    status: v[11],
+    institution: v[6],
+    validUntil: toDate(v[12]).toISOString(),
+    locale: v[13],
+    verifyToken: v[15],
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -282,6 +390,7 @@ function actionReceipt(req) {
 
 function receiptOf(v) {
   return {
+    kind: 'registration',
     receiptToken: v[col('Token Terima Kasih')],
     regNumber: v[col('No. Pendaftaran')],
     category: v[col('Kategori')],

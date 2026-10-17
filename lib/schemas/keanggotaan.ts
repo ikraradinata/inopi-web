@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { isCountryCode } from '@/lib/membership/countries'
+import { isSeatCode } from '@/lib/membership/seatCode'
 
 // Skema bersama formulir (browser) dan route (server). Pesan galat berupa kunci di
 // messages, namespace "Validation".
@@ -64,3 +65,25 @@ export const corporateSubmitSchema = corporateFields
     locale: z.enum(['id', 'en']).default('id'),
   })
   .refine(needsBillingAddress, billingIssue)
+
+/* ---------- Daftar dengan kode kursi Corporate (layar C5) ---------- */
+
+export const memberSchema = z.object({
+  kode: z.string().refine(isSeatCode, 'codeFormat'),
+  nama: z.string().trim().min(2, 'nameMin').max(120),
+  email: z.string().trim().email('emailInvalid').max(160),
+  hp: z
+    .string()
+    .trim()
+    .max(32, 'phoneTooLong')
+    .refine((v) => v.replace(/\D/g, '').length >= 8, 'phoneInvalid'),
+  pekerjaan: z.string().trim().min(2, 'occupationRequired').max(120),
+  jabatan: z.string().trim().max(120).optional(),
+})
+
+export type MemberInput = z.infer<typeof memberSchema>
+
+export const memberSubmitSchema = memberSchema.extend({
+  persetujuan: z.literal(true, { error: 'privacyRequired' }),
+  locale: z.enum(['id', 'en']).default('id'),
+})

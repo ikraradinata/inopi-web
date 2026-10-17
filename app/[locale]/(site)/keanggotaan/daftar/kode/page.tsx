@@ -1,31 +1,43 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { Link } from '@/i18n/navigation'
+import { pageAlternates } from '@/lib/i18n/seo'
+import { countryOptions } from '@/lib/membership/countries'
+import CodeForm from './CodeForm'
 
-export const metadata: Metadata = { robots: { index: false, follow: false } }
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.membershipCode' })
+  return {
+    alternates: pageAlternates(locale, '/keanggotaan/daftar/kode'),
+    title: { absolute: t('title') },
+    description: t('description'),
+    // Halaman berisi isian pribadi dan kode rahasia: tidak untuk diindeks.
+    robots: { index: false, follow: false },
+  }
+}
 
-// Halaman sementara: diganti oleh prompt R5.
-export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
+export default async function KodePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>
+  searchParams: Promise<{ kode?: string }>
+}) {
   const { locale } = await params
   setRequestLocale(locale)
-  const t = await getTranslations({ locale, namespace: 'MembershipSoon' })
+  const t = await getTranslations({ locale, namespace: 'MembershipCode' })
+  const { kode } = await searchParams
+
   return (
-    <div className="py-16">
-      <div className="container max-w-xl text-center">
-        <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(22px,4vw,30px)', color: 'var(--inopi-espresso)' }}>
-          {t('codeTitle')}
+    <div className="py-8 sm:py-14">
+      <div className="container max-w-xl">
+        <h1 className="font-display font-bold mb-2" style={{ fontSize: 'clamp(24px,5vw,32px)', color: 'var(--inopi-espresso)' }}>
+          {t('title')}
         </h1>
-        <p className="font-body text-[14px] mb-8" style={{ color: 'var(--inopi-taupe-strong)' }}>
-          {t('text')}
+        <p className="font-body text-[14px] mb-6" style={{ color: 'var(--inopi-taupe-strong)' }}>
+          {t('intro')}
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link href="/kontak" className="inline-flex items-center justify-center h-12 px-5 text-[14px] font-semibold text-white rounded-[10px]" style={{ background: 'var(--inopi-espresso)' }}>
-            {t('contact')}
-          </Link>
-          <Link href="/keanggotaan/daftar" className="inline-flex items-center justify-center h-12 px-5 text-[14px] font-medium rounded-[10px] border" style={{ color: 'var(--inopi-espresso)', borderColor: 'var(--inopi-taupe-strong)' }}>
-            {t('back')}
-          </Link>
-        </div>
+        <CodeForm countries={countryOptions(locale)} initialCode={typeof kode === 'string' ? kode.slice(0, 40) : ''} />
       </div>
     </div>
   )

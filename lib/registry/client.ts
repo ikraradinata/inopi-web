@@ -36,6 +36,11 @@ const STATUS_BY_CODE: Record<string, number> = {
   codes_exhausted: 503,
   busy: 503,
   not_found: 404,
+  code_not_found: 404,
+  seat_used: 409,
+  seat_disabled: 409,
+  org_not_verified: 409,
+  already_member: 409,
 }
 
 export async function registryCall<T extends object>(action: string, payload: Record<string, unknown> = {}, ip = 'unknown'): Promise<T> {
