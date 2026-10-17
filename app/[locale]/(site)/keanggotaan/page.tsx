@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { IconCheck, IconMinus, IconCalendarEvent } from '@tabler/icons-react'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { PLANS, BENEFITS, TOTAL_BENEFIT_VALUE, type Tier } from '@/lib/constants/membership'
-import { LAUNCH } from '@/lib/constants/launch'
+import { PLAN_META, BENEFIT_TIERS, type Tier } from '@/lib/constants/membership'
 
 export const metadata: Metadata = {
   title: 'Keanggotaan',
@@ -11,69 +11,49 @@ export const metadata: Metadata = {
     'Kategori dan manfaat keanggotaan INOPI: Student Rp 250.000, Profesional Rp 500.000, dan Corporate Rp 5.000.000 per tahun.',
 }
 
-const faqs = [
-  {
-    q: 'Apa saja kategori keanggotaan INOPI?',
-    a: 'Tersedia tiga kategori: Student untuk mahasiswa dan pelajar, Profesional untuk dosen dan praktisi, serta Corporate untuk perusahaan dan institusi dengan kuota tiga orang.',
-  },
-  {
-    q: 'Apa itu Molen dan NEXT EDU?',
-    a: 'Molen adalah monthly online learning event berskala nasional yang diadakan setiap bulan. NEXT EDU adalah annual gathering atau summit tahunan INOPI. Keduanya dapat diikuti seluruh kategori anggota.',
-  },
-  {
-    q: 'Bagaimana cara mendaftar?',
-    a: `Pendaftaran dapat dilakukan melalui formulir di situs ini, atau langsung di lokasi pada acara ${LAUNCH.eyebrow}, ${LAUNCH.dateLabel} di ${LAUNCH.venue}.`,
-  },
-  {
-    q: 'Apa yang membedakan kategori Corporate?',
-    a: 'Selain seluruh manfaat dasar, anggota Corporate memperoleh harga khusus layanan EdTech dari sesama anggota, konsultasi EdTech lab oleh PPOTD, serta annual industry outlook.',
-  },
-  {
-    q: 'Bagaimana cara pembayaran iuran?',
-    a: 'Informasi pembayaran dikirim melalui email setelah data pendaftaran diverifikasi.',
-  },
-]
-
-const steps = [
-  { title: 'Pilih kategori', desc: 'Student, Profesional, atau Corporate.' },
-  { title: 'Lengkapi data', desc: 'Identitas, institusi, dan bidang minat.' },
-  {
-    title: 'Kirim & verifikasi',
-    desc: 'Tim INOPI memeriksa data dan mengirimkan informasi selanjutnya melalui email.',
-  },
-]
-
-const rights =
-  'menghadiri dan menyampaikan pendapat dalam Rapat Umum Anggota; memilih dan dipilih sesuai ketentuan AD/ART; memperoleh layanan, pembinaan, dan informasi INOPI; mengusulkan program; serta menerima laporan pertanggungjawaban pengurus.'
-const duties =
-  'mematuhi AD/ART dan kode etik INOPI; aktif berpartisipasi dalam kegiatan; menjaga nama baik INOPI; membayar iuran pendaftaran dan iuran tahunan; serta memberikan informasi yang benar dan melaporkan perubahan data.'
-
-function TierMark({ included }: { included: boolean }) {
+function TierMark({ included, labels }: { included: boolean; labels: { yes: string; no: string } }) {
   return included ? (
-    <IconCheck size={17} style={{ color: 'var(--inopi-teal-strong)' }} aria-label="Termasuk" />
+    <IconCheck size={17} style={{ color: 'var(--inopi-teal-strong)' }} aria-label={labels.yes} />
   ) : (
-    <IconMinus size={15} style={{ color: 'var(--inopi-sand)' }} aria-label="Tidak termasuk" />
+    <IconMinus size={15} style={{ color: 'var(--inopi-sand)' }} aria-label={labels.no} />
   )
 }
 
 const tierOrder: Tier[] = ['student', 'professional', 'corporate']
 
-export default function KeanggotaanPage() {
+export default async function KeanggotaanPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'Membership' })
+  const tl = await getTranslations({ locale, namespace: 'Launch' })
+  const launch = { eyebrow: tl('eyebrow'), dateLabel: tl('dateLabel'), venue: tl('venue') }
+  const benefits = t.raw('benefits') as string[]
+  const steps = t.raw('steps') as { title: string; desc: string }[]
+  const faqs = t.raw('faqs') as { q: string; a: string }[]
+  const totalValue = t('totalValue')
+  const plans = PLAN_META.map((m) => ({
+    ...m,
+    name: t(`plans.${m.id}.name`),
+    desc: t(`plans.${m.id}.desc`),
+    price: t(`plans.${m.id}.price`),
+    note: m.id === 'corporate' ? t('plans.corporate.note') : undefined,
+  }))
+  const BENEFITS = benefits.map((label, i) => ({ label, tiers: BENEFIT_TIERS[i] }))
+  const markLabels = { yes: t('included'), no: t('notIncluded') }
   return (
     <>
       {/* Hero */}
       <section className="py-14 bg-white">
         <div className="container text-center max-w-2xl">
-          <p className="inopi-eyebrow mb-4">Keanggotaan INOPI</p>
+          <p className="inopi-eyebrow mb-4">{t('eyebrow')}</p>
           <h1
             className="font-display font-bold mb-3"
             style={{ fontSize: 'clamp(24px,4vw,36px)', color: 'var(--inopi-espresso)' }}
           >
-            Bergabung dengan Ekosistem Inovasi
+            {t('title')}
           </h1>
           <p className="font-body text-[14px] leading-relaxed mb-7" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            Jadilah bagian dari komunitas pendidik, praktisi, dan inovator pembelajaran Indonesia. Total nilai manfaat
-            keanggotaan mencapai <strong style={{ color: 'var(--inopi-espresso)' }}>{TOTAL_BENEFIT_VALUE}</strong> per tahun.
+            {t.rich('intro', { value: totalValue, b: (chunks) => <strong style={{ color: 'var(--inopi-espresso)' }}>{chunks}</strong> })}
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link
@@ -81,14 +61,14 @@ export default function KeanggotaanPage() {
               className="inline-flex items-center px-5 py-2.5 text-[14px] font-semibold text-white rounded-[8px] transition-all hover:-translate-y-px"
               style={{ background: 'var(--inopi-espresso)' }}
             >
-              Daftar Sekarang
+              {t('register')}
             </Link>
             <Link
               href="/kontak"
               className="inline-flex items-center px-5 py-2.5 text-[14px] font-medium rounded-[8px] border transition-all hover:border-[var(--inopi-teal-strong)] hover:text-[var(--inopi-teal-strong)]"
               style={{ color: 'var(--inopi-espresso)', borderColor: 'var(--inopi-sand)' }}
             >
-              Hubungi Kami
+              {t('contact')}
             </Link>
           </div>
         </div>
@@ -101,10 +81,10 @@ export default function KeanggotaanPage() {
             className="font-display font-bold text-center mb-8"
             style={{ fontSize: 'clamp(20px,3vw,26px)', color: 'var(--inopi-espresso)' }}
           >
-            Kategori Keanggotaan
+            {t('categoriesTitle')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-            {PLANS.map((p) => (
+            {plans.map((p) => (
               <div
                 key={p.id}
                 className="rounded-[12px] p-6 border relative flex flex-col"
@@ -136,7 +116,7 @@ export default function KeanggotaanPage() {
                     className="font-body text-[12px] mt-1.5"
                     style={{ color: p.featured ? 'var(--inopi-sand)' : 'var(--inopi-taupe-strong)' }}
                   >
-                    per tahun{p.note ? ` · ${p.note}` : ''}
+                    {p.note ? t('perYearNote', { note: p.note }) : t('perYear')}
                   </p>
                 </div>
                 <ul className="space-y-2 mb-6 flex-1">
@@ -164,7 +144,7 @@ export default function KeanggotaanPage() {
                       : { background: 'transparent', color: 'var(--inopi-espresso)', borderColor: 'var(--inopi-espresso)' }
                   }
                 >
-                  Pilih {p.name}
+                  {t('choose', { name: p.name })}
                 </Link>
               </div>
             ))}
@@ -179,7 +159,7 @@ export default function KeanggotaanPage() {
             className="font-display font-bold text-center mb-8"
             style={{ fontSize: 'clamp(20px,3vw,26px)', color: 'var(--inopi-espresso)' }}
           >
-            Alur Pendaftaran
+            {t('stepsTitle')}
           </h2>
           <ol className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {steps.map((st, i) => (
@@ -210,10 +190,10 @@ export default function KeanggotaanPage() {
             className="font-display font-bold text-center mb-2"
             style={{ fontSize: 'clamp(20px,3vw,26px)', color: 'var(--inopi-espresso)' }}
           >
-            Perbandingan Manfaat
+            {t('comparisonTitle')}
           </h2>
           <p className="font-body text-[13px] text-center mb-8" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            Total nilai manfaat keanggotaan {TOTAL_BENEFIT_VALUE} per tahun.
+            {t('comparisonIntro', { value: totalValue })}
           </p>
 
           <div className="overflow-x-auto rounded-[16px] border" style={{ borderColor: 'var(--inopi-sand)' }}>
@@ -224,9 +204,9 @@ export default function KeanggotaanPage() {
                     className="text-left font-body text-[12px] font-semibold uppercase tracking-wider px-5 py-3"
                     style={{ color: 'var(--inopi-taupe-strong)' }}
                   >
-                    Manfaat
+                    {t('benefitColumn')}
                   </th>
-                  {PLANS.map((p) => (
+                  {plans.map((p) => (
                     <th
                       key={p.id}
                       className="font-display text-[13px] font-bold px-4 py-3 w-[110px]"
@@ -246,10 +226,10 @@ export default function KeanggotaanPage() {
                     >
                       {b.label}
                     </td>
-                    {tierOrder.map((t) => (
-                      <td key={t} className="px-4 py-3">
+                    {tierOrder.map((tier) => (
+                      <td key={tier} className="px-4 py-3">
                         <span className="flex justify-center">
-                          <TierMark included={b.tiers.includes(t)} />
+                          <TierMark included={b.tiers.includes(tier)} labels={markLabels} />
                         </span>
                       </td>
                     ))}
@@ -274,22 +254,22 @@ export default function KeanggotaanPage() {
                 className="font-body text-[11px] font-semibold uppercase tracking-widest mb-2"
                 style={{ color: 'var(--inopi-gold)' }}
               >
-                Pendaftaran di Lokasi
+                {t('onsiteEyebrow')}
               </p>
               <h3 className="font-display font-bold text-[20px] mb-2" style={{ color: 'var(--inopi-ivory)' }}>
-                Daftar langsung saat peluncuran
+                {t('onsiteTitle')}
               </h3>
               <p className="font-body text-[14px] leading-relaxed" style={{ color: 'var(--inopi-sand)' }}>
-                Meja pendaftaran keanggotaan tersedia di {LAUNCH.eyebrow}, {LAUNCH.dateLabel} di {LAUNCH.venue}.
+                {t('onsiteBody', launch)}
               </p>
             </div>
             <Link
-              href={LAUNCH.href}
+              href="/event/launching-2026"
               className="relative flex-shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 text-[14px] font-semibold rounded-[8px] transition-all hover:-translate-y-px"
               style={{ background: 'var(--inopi-ivory)', color: 'var(--inopi-espresso)' }}
             >
               <IconCalendarEvent size={16} />
-              Detail Acara
+              {t('eventDetails')}
             </Link>
           </div>
         </div>
@@ -302,12 +282,12 @@ export default function KeanggotaanPage() {
             className="font-display font-bold text-center mb-8"
             style={{ fontSize: 'clamp(20px,3vw,26px)', color: 'var(--inopi-espresso)' }}
           >
-            Hak &amp; Kewajiban Anggota
+            {t('rightsTitle')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {[
-              { title: 'Hak anggota', body: rights },
-              { title: 'Kewajiban anggota', body: duties },
+              { title: t('rights.title'), body: t('rights.body') },
+              { title: t('duties.title'), body: t('duties.body') },
             ].map((b) => (
               <div key={b.title} className="rounded-[12px] p-5 bg-white border" style={{ borderColor: 'var(--inopi-sand)' }}>
                 <h3 className="font-display font-semibold text-[15px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>
@@ -329,7 +309,7 @@ export default function KeanggotaanPage() {
             className="font-display font-bold text-center mb-8"
             style={{ fontSize: 'clamp(20px,3vw,26px)', color: 'var(--inopi-espresso)' }}
           >
-            Pertanyaan Umum
+            {t('faqTitle')}
           </h2>
           <Accordion className="space-y-2">
             {faqs.map((f, i) => (
@@ -349,7 +329,7 @@ export default function KeanggotaanPage() {
                   className="font-body text-[13px] leading-relaxed pb-4"
                   style={{ color: 'var(--inopi-taupe-strong)' }}
                 >
-                  {f.a}
+                  {t(`faqs.${i}.a`, launch)}
                 </AccordionContent>
               </AccordionItem>
             ))}

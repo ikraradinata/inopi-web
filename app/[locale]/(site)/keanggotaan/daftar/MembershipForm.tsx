@@ -7,9 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import { IconCheck, IconLoader2 } from '@tabler/icons-react'
-import { PLANS, getPlan } from '@/lib/constants/membership'
+import { useTranslations } from 'next-intl'
+import { PLAN_META, getPlanMeta } from '@/lib/constants/membership'
 import { formatRupiah } from '@/lib/constants/registration'
-import { FAILURE_MESSAGE } from '@/lib/constants/kemitraan'
 import { Honeypot, PrivacyConsent, readHoneypot } from '@/components/ui/FormField'
 import { INTEREST_AREAS, keanggotaanDetailsSchema, type KeanggotaanDetails } from '@/lib/schemas/keanggotaan'
 
@@ -18,6 +18,10 @@ import { INTEREST_AREAS, keanggotaanDetailsSchema, type KeanggotaanDetails } fro
 type FormData = KeanggotaanDetails
 
 export default function MembershipForm() {
+  const t = useTranslations('MembershipForm')
+  const tm = useTranslations('Membership')
+  const tf = useTranslations('Forms')
+  const tv = useTranslations('Validation')
   const [step, setStep] = useState(1)
   const [category, setCategory] = useState('')
   const [sending, setSending] = useState(false)
@@ -35,7 +39,8 @@ export default function MembershipForm() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(keanggotaanDetailsSchema), defaultValues: { bidang: [] } })
 
-  const selectedPlan = getPlan(category)
+  const selectedPlan = getPlanMeta(category)
+  const planName = (id: string) => tm(`plans.${id}.name`)
 
   const onSubmit = async (data: FormData, event?: React.BaseSyntheticEvent) => {
     if (step === 2) {
@@ -66,14 +71,14 @@ export default function MembershipForm() {
       const json = await res.json().catch(() => null)
 
       if (!res.ok || !json?.success) {
-        toast.error(json?.message ?? FAILURE_MESSAGE)
+        toast.error(json?.message ?? tf('failure'))
         return
       }
 
       const params = new URLSearchParams({ reg: json.registrationId, k: json.category })
       router.push(`/keanggotaan/terima-kasih?${params.toString()}`)
     } catch {
-      toast.error(FAILURE_MESSAGE)
+      toast.error(tf('failure'))
     } finally {
       setSending(false)
     }
@@ -109,10 +114,10 @@ export default function MembershipForm() {
         {step === 1 && (
           <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
             <h2 className="font-display font-bold text-[18px] mb-5" style={{ color: 'var(--inopi-espresso)' }}>
-              Pilih Kategori
+              {t('chooseCategory')}
             </h2>
             <div className="flex flex-col gap-3 mb-6">
-              {PLANS.map((p) => (
+              {PLAN_META.map((p) => (
                 <button
                   key={p.id}
                   type="button"
@@ -125,20 +130,20 @@ export default function MembershipForm() {
                 >
                   <span className="min-w-0">
                     <span className="font-display font-semibold text-[14px] block" style={{ color: 'var(--inopi-espresso)' }}>
-                      {p.name}
+                      {planName(p.id)}
                     </span>
                     <span className="font-body text-[12px] block" style={{ color: 'var(--inopi-taupe-strong)' }}>
-                      {p.desc}
-                      {p.note ? ` ${p.note}.` : ''}
+                      {tm(`plans.${p.id}.desc`)}
+                      {p.id === 'corporate' ? ` ${tm('plans.corporate.note')}.` : ''}
                     </span>
                   </span>
                   <span
                     className="font-display font-bold text-[15px] flex-shrink-0 whitespace-nowrap"
                     style={{ color: 'var(--inopi-orange)' }}
                   >
-                    {p.price}
+                    {tm(`plans.${p.id}.price`)}
                     <span className="font-body text-[11px] font-normal block text-right" style={{ color: 'var(--inopi-sage-strong)' }}>
-                      per tahun
+                      {t('perYear')}
                     </span>
                   </span>
                 </button>
@@ -151,7 +156,7 @@ export default function MembershipForm() {
               className="w-full py-2.5 text-[14px] font-semibold text-white rounded-[8px] disabled:opacity-50 transition-all hover:-translate-y-px"
               style={{ background: 'var(--inopi-espresso)' }}
             >
-              Lanjut →
+              {t('next')}
             </button>
           </motion.div>
         )}
@@ -159,30 +164,30 @@ export default function MembershipForm() {
         {step === 2 && (
           <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
             <h2 className="font-display font-bold text-[18px] mb-5" style={{ color: 'var(--inopi-espresso)' }}>
-              Data Diri
+              {t('detailsTitle')}
             </h2>
             <div className="flex flex-col gap-4 mb-6">
               {[
-                { name: 'nama', label: 'Nama Lengkap', type: 'text', placeholder: 'Nama lengkap Anda' },
-                { name: 'email', label: 'Email', type: 'email', placeholder: 'email@institusi.ac.id' },
-                { name: 'hp', label: 'Nomor WhatsApp', type: 'tel', placeholder: '+62 812 3456 7890' },
-                { name: 'institusi', label: 'Institusi/Organisasi', type: 'text', placeholder: 'Universitas / perusahaan Anda' },
-                { name: 'jabatan', label: 'Jabatan/Peran (opsional)', type: 'text', placeholder: 'mis. Dosen, Manajer L&D' },
+                { name: 'nama', type: 'text' },
+                { name: 'email', type: 'email' },
+                { name: 'hp', type: 'tel' },
+                { name: 'institusi', type: 'text' },
+                { name: 'jabatan', type: 'text' },
               ].map((f) => (
                 <div key={f.name}>
                   <label className="font-body text-[13px] font-medium mb-1 block" style={{ color: 'var(--inopi-espresso)' }}>
-                    {f.label}
+                    {t(`fields.${f.name}.label`)}
                   </label>
                   <input
                     {...register(f.name as keyof FormData)}
                     type={f.type}
-                    placeholder={f.placeholder}
+                    placeholder={t(`fields.${f.name}.placeholder`)}
                     className="w-full px-3 py-2.5 text-[13px] rounded-[8px] border outline-none transition-colors focus:border-[var(--inopi-teal-strong)]"
                     style={{ borderColor: 'var(--inopi-sand)', background: 'var(--inopi-ivory)', color: 'var(--inopi-espresso)' }}
                   />
                   {errors[f.name as keyof FormData] && (
                     <p className="text-[11px] mt-1" style={{ color: 'var(--destructive)' }}>
-                      {errors[f.name as keyof FormData]?.message as string}
+                      {tv(errors[f.name as keyof FormData]?.message as string)}
                     </p>
                   )}
                 </div>
@@ -190,7 +195,7 @@ export default function MembershipForm() {
 
               <fieldset>
                 <legend className="font-body text-[13px] font-medium mb-2" style={{ color: 'var(--inopi-espresso)' }}>
-                  Bidang Minat (opsional)
+                  {t('interestsLabel')}
                 </legend>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {INTEREST_AREAS.map((b) => (
@@ -201,7 +206,7 @@ export default function MembershipForm() {
                     >
                       <input type="checkbox" value={b} {...register('bidang')} className="mt-0.5" />
                       <span className="font-body text-[13px]" style={{ color: 'var(--inopi-espresso)' }}>
-                        {b}
+                        {t(`interests.${b}`)}
                       </span>
                     </label>
                   ))}
@@ -210,7 +215,7 @@ export default function MembershipForm() {
 
               <div>
                 <label className="font-body text-[13px] font-medium mb-1 block" style={{ color: 'var(--inopi-espresso)' }}>
-                  Alasan Bergabung (opsional)
+                  {t('reasonLabel')}
                 </label>
                 <textarea
                   {...register('alasan')}
@@ -221,7 +226,7 @@ export default function MembershipForm() {
                 />
                 {errors.alasan && (
                   <p className="text-[11px] mt-1" style={{ color: 'var(--destructive)' }}>
-                    {errors.alasan.message}
+                    {tv(errors.alasan.message as string)}
                   </p>
                 )}
               </div>
@@ -233,14 +238,14 @@ export default function MembershipForm() {
                 className="flex-1 py-2.5 text-[14px] font-medium rounded-[8px] border transition-colors hover:border-[var(--inopi-teal-strong)]"
                 style={{ color: 'var(--inopi-espresso)', borderColor: 'var(--inopi-sand)' }}
               >
-                ← Kembali
+                {t('back')}
               </button>
               <button
                 type="submit"
                 className="flex-1 py-2.5 text-[14px] font-semibold text-white rounded-[8px] transition-all hover:-translate-y-px"
                 style={{ background: 'var(--inopi-espresso)' }}
               >
-                Lanjut →
+                {t('next')}
               </button>
             </div>
           </motion.div>
@@ -249,7 +254,7 @@ export default function MembershipForm() {
         {step === 3 && (
           <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
             <h2 className="font-display font-bold text-[18px] mb-5" style={{ color: 'var(--inopi-espresso)' }}>
-              Konfirmasi
+              {t('confirmTitle')}
             </h2>
             <div
               className="rounded-[12px] p-4 border mb-5"
@@ -257,13 +262,13 @@ export default function MembershipForm() {
             >
               <div className="space-y-2">
                 {[
-                  ['Kategori', selectedPlan?.name ?? '-'],
-                  ['Nama', getValues('nama')],
-                  ['Email', getValues('email')],
-                  ['WhatsApp', getValues('hp')],
-                  ['Institusi', getValues('institusi')],
-                  ['Jabatan/Peran', getValues('jabatan') || '-'],
-                  ['Bidang Minat', getValues('bidang')?.join(', ') || '-'],
+                  [t('summary.category'), selectedPlan ? planName(selectedPlan.id) : '-'],
+                  [t('summary.name'), getValues('nama')],
+                  [t('summary.email'), getValues('email')],
+                  [t('summary.whatsapp'), getValues('hp')],
+                  [t('summary.institution'), getValues('institusi')],
+                  [t('summary.role'), getValues('jabatan') || '-'],
+                  [t('summary.interests'), getValues('bidang')?.map((b) => t(`interests.${b}`)).join(', ') || '-'],
                 ].map(([label, value]) => (
                   <div key={label} className="flex justify-between gap-4 text-[13px]">
                     <span style={{ color: 'var(--inopi-taupe-strong)' }}>{label}</span>
@@ -277,7 +282,7 @@ export default function MembershipForm() {
                     className="flex justify-between gap-4 text-[13px] pt-2 mt-2"
                     style={{ borderTop: '1px solid var(--inopi-sand)' }}
                   >
-                    <span style={{ color: 'var(--inopi-taupe-strong)' }}>Iuran per tahun</span>
+                    <span style={{ color: 'var(--inopi-taupe-strong)' }}>{t('summary.fee')}</span>
                     <span className="font-display font-bold text-[16px]" style={{ color: 'var(--inopi-orange)' }}>
                       {formatRupiah(selectedPlan.amount)}
                     </span>
@@ -287,7 +292,7 @@ export default function MembershipForm() {
             </div>
 
             <p className="font-body text-[12px] leading-relaxed mb-5" style={{ color: 'var(--inopi-sage-strong)' }}>
-              Setelah dikirim, Anda akan menerima nomor registrasi dan instruksi pembayaran.
+              {t('afterSubmit')}
             </p>
 
             <Honeypot />
@@ -301,7 +306,7 @@ export default function MembershipForm() {
                     if (e.target.checked) setAgreeError(false)
                   },
                 }}
-                error={agreeError ? 'Anda harus menyetujui kebijakan privasi' : undefined}
+                error={agreeError ? tv('privacyRequired') : undefined}
               />
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
@@ -311,7 +316,7 @@ export default function MembershipForm() {
                   className="mt-0.5"
                 />
                 <span className="font-body text-[13px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
-                  Saya bersedia menerima informasi kegiatan dan program INOPI melalui email atau WhatsApp.
+                  {t('infoConsent')}
                 </span>
               </label>
             </div>
@@ -324,7 +329,7 @@ export default function MembershipForm() {
                 className="flex-1 py-2.5 text-[14px] font-medium rounded-[8px] border transition-colors hover:border-[var(--inopi-teal-strong)] disabled:opacity-50"
                 style={{ color: 'var(--inopi-espresso)', borderColor: 'var(--inopi-sand)' }}
               >
-                ← Kembali
+                {t('back')}
               </button>
               <button
                 type="submit"
@@ -333,7 +338,7 @@ export default function MembershipForm() {
                 style={{ background: 'var(--inopi-espresso)' }}
               >
                 {sending && <IconLoader2 size={15} className="animate-spin" />}
-                {sending ? 'Mengirim…' : 'Kirim Pendaftaran'}
+                {sending ? t('sending') : t('submit')}
               </button>
             </div>
           </motion.div>

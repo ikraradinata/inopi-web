@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { keanggotaanSchema } from '@/lib/schemas/keanggotaan'
-import { getPlan } from '@/lib/constants/membership'
+import { getPlan } from '@/lib/constants/membershipText'
 import {
   ASSOCIATION_EMAIL,
   BANK_ACCOUNT,

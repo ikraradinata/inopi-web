@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 export const inputClass =
   'w-full px-3 py-2.5 text-[13px] rounded-[8px] border outline-none bg-white focus:border-[var(--inopi-teal-strong)] transition-colors'
@@ -49,9 +50,6 @@ export function readHoneypot(event?: React.BaseSyntheticEvent): string {
   return el instanceof HTMLInputElement ? el.value : ''
 }
 
-export const PRIVACY_CONSENT_TEXT =
-  'Saya menyetujui pengumpulan dan penggunaan data pribadi saya oleh INOPI untuk keperluan memproses permintaan ini, sesuai dengan'
-
 /** Kotak centang persetujuan privasi (teks dari docs/02_KONTEN_BARU_P0.md, bagian K). */
 export function PrivacyConsent({
   inputProps,
@@ -60,14 +58,15 @@ export function PrivacyConsent({
   inputProps: React.InputHTMLAttributes<HTMLInputElement>
   error?: string
 }) {
+  const t = useTranslations('Forms')
   return (
     <div>
       <label className="flex items-start gap-3 cursor-pointer">
         <input type="checkbox" {...inputProps} className="mt-0.5" />
         <span className="font-body text-[13px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
-          {PRIVACY_CONSENT_TEXT}{' '}
+          {t('privacyConsent')}{' '}
           <Link href="/privacy" className="underline" style={{ color: 'var(--inopi-teal-strong)' }}>
-            Kebijakan Privasi
+            {t('privacyPolicy')}
           </Link>
           .
         </span>

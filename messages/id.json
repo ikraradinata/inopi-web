@@ -2515,5 +2515,187 @@
         "indicators": "Efisiensi biaya, kecepatan transformasi, retensi talenta"
       }
     ]
+  },
+  "Membership": {
+    "eyebrow": "Keanggotaan INOPI",
+    "title": "Bergabung dengan Ekosistem Inovasi",
+    "intro": "Jadilah bagian dari komunitas pendidik, praktisi, dan inovator pembelajaran Indonesia. Total nilai manfaat keanggotaan mencapai <b>{value}</b> per tahun.",
+    "totalValue": "Rp 11.600.000",
+    "register": "Daftar Sekarang",
+    "contact": "Hubungi Kami",
+    "categoriesTitle": "Kategori Keanggotaan",
+    "perYear": "per tahun",
+    "perYearNote": "per tahun · {note}",
+    "choose": "Pilih {name}",
+    "plans": {
+      "student": {
+        "name": "Student",
+        "desc": "Untuk mahasiswa dan pelajar.",
+        "price": "Rp 250.000"
+      },
+      "professional": {
+        "name": "Profesional",
+        "desc": "Untuk dosen, praktisi, dan profesional.",
+        "price": "Rp 500.000"
+      },
+      "corporate": {
+        "name": "Corporate",
+        "desc": "Untuk perusahaan dan institusi.",
+        "price": "Rp 5.000.000",
+        "note": "Kuota 3 orang"
+      }
+    },
+    "benefits": [
+      "Quarterly event onsite Jakarta",
+      "Monthly online learning event nasional (Molen)",
+      "Annual gathering / summit (NEXT EDU)",
+      "Special price for training",
+      "Special price for assessment",
+      "Network opportunity",
+      "Special price for EdTech services dari sesama anggota",
+      "EdTech lab consultation (by PPOTD)",
+      "Annual industry outlook",
+      "Career opportunity",
+      "Study experience"
+    ],
+    "stepsTitle": "Alur Pendaftaran",
+    "steps": [
+      {
+        "title": "Pilih kategori",
+        "desc": "Student, Profesional, atau Corporate."
+      },
+      {
+        "title": "Lengkapi data",
+        "desc": "Identitas, institusi, dan bidang minat."
+      },
+      {
+        "title": "Kirim & verifikasi",
+        "desc": "Tim INOPI memeriksa data dan mengirimkan informasi selanjutnya melalui email."
+      }
+    ],
+    "comparisonTitle": "Perbandingan Manfaat",
+    "comparisonIntro": "Total nilai manfaat keanggotaan {value} per tahun.",
+    "benefitColumn": "Manfaat",
+    "included": "Termasuk",
+    "notIncluded": "Tidak termasuk",
+    "onsiteEyebrow": "Pendaftaran di Lokasi",
+    "onsiteTitle": "Daftar langsung saat peluncuran",
+    "onsiteBody": "Meja pendaftaran keanggotaan tersedia di {eyebrow}, {dateLabel} di {venue}.",
+    "eventDetails": "Detail Acara",
+    "rightsTitle": "Hak & Kewajiban Anggota",
+    "rights": {
+      "title": "Hak anggota",
+      "body": "menghadiri dan menyampaikan pendapat dalam Rapat Umum Anggota; memilih dan dipilih sesuai ketentuan AD/ART; memperoleh layanan, pembinaan, dan informasi INOPI; mengusulkan program; serta menerima laporan pertanggungjawaban pengurus."
+    },
+    "duties": {
+      "title": "Kewajiban anggota",
+      "body": "mematuhi AD/ART dan kode etik INOPI; aktif berpartisipasi dalam kegiatan; menjaga nama baik INOPI; membayar iuran pendaftaran dan iuran tahunan; serta memberikan informasi yang benar dan melaporkan perubahan data."
+    },
+    "faqTitle": "Pertanyaan Umum",
+    "faqs": [
+      {
+        "q": "Apa saja kategori keanggotaan INOPI?",
+        "a": "Tersedia tiga kategori: Student untuk mahasiswa dan pelajar, Profesional untuk dosen dan praktisi, serta Corporate untuk perusahaan dan institusi dengan kuota tiga orang."
+      },
+      {
+        "q": "Apa itu Molen dan NEXT EDU?",
+        "a": "Molen adalah monthly online learning event berskala nasional yang diadakan setiap bulan. NEXT EDU adalah annual gathering atau summit tahunan INOPI. Keduanya dapat diikuti seluruh kategori anggota."
+      },
+      {
+        "q": "Bagaimana cara mendaftar?",
+        "a": "Pendaftaran dapat dilakukan melalui formulir di situs ini, atau langsung di lokasi pada acara {eyebrow}, {dateLabel} di {venue}."
+      },
+      {
+        "q": "Apa yang membedakan kategori Corporate?",
+        "a": "Selain seluruh manfaat dasar, anggota Corporate memperoleh harga khusus layanan EdTech dari sesama anggota, konsultasi EdTech lab oleh PPOTD, serta annual industry outlook."
+      },
+      {
+        "q": "Bagaimana cara pembayaran iuran?",
+        "a": "Informasi pembayaran dikirim melalui email setelah data pendaftaran diverifikasi."
+      }
+    ]
+  },
+  "Forms": {
+    "failure": "Maaf, pesan Anda belum terkirim. Silakan coba lagi, atau hubungi kami langsung di asosiasi.inopi@gmail.com.",
+    "privacyConsent": "Saya menyetujui pengumpulan dan penggunaan data pribadi saya oleh INOPI untuk keperluan memproses permintaan ini, sesuai dengan",
+    "privacyPolicy": "Kebijakan Privasi"
+  },
+  "Validation": {
+    "nameMin": "Nama minimal 2 karakter",
+    "emailInvalid": "Email tidak valid",
+    "phoneInvalid": "Nomor WhatsApp tidak valid",
+    "phoneTooLong": "Nomor terlalu panjang",
+    "institutionRequired": "Institusi wajib diisi",
+    "max1000": "Maksimal 1.000 karakter",
+    "privacyRequired": "Anda harus menyetujui kebijakan privasi"
+  },
+  "MembershipForm": {
+    "chooseCategory": "Pilih Kategori",
+    "perYear": "per tahun",
+    "next": "Lanjut →",
+    "back": "← Kembali",
+    "detailsTitle": "Data Diri",
+    "fields": {
+      "nama": {
+        "label": "Nama Lengkap",
+        "placeholder": "Nama lengkap Anda"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "email@institusi.ac.id"
+      },
+      "hp": {
+        "label": "Nomor WhatsApp",
+        "placeholder": "+62 812 3456 7890"
+      },
+      "institusi": {
+        "label": "Institusi/Organisasi",
+        "placeholder": "Universitas / perusahaan Anda"
+      },
+      "jabatan": {
+        "label": "Jabatan/Peran (opsional)",
+        "placeholder": "mis. Dosen, Manajer L&D"
+      }
+    },
+    "interestsLabel": "Bidang Minat (opsional)",
+    "interests": {
+      "Riset & Inovasi": "Riset & Inovasi",
+      "Implementasi & Pilot Project": "Implementasi & Pilot Project",
+      "Kemitraan": "Kemitraan",
+      "Pelatihan & Sertifikasi": "Pelatihan & Sertifikasi",
+      "Kebijakan Pendidikan": "Kebijakan Pendidikan"
+    },
+    "reasonLabel": "Alasan Bergabung (opsional)",
+    "confirmTitle": "Konfirmasi",
+    "summary": {
+      "category": "Kategori",
+      "name": "Nama",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "institution": "Institusi",
+      "role": "Jabatan/Peran",
+      "interests": "Bidang Minat",
+      "fee": "Iuran per tahun"
+    },
+    "afterSubmit": "Setelah dikirim, Anda akan menerima nomor registrasi dan instruksi pembayaran.",
+    "infoConsent": "Saya bersedia menerima informasi kegiatan dan program INOPI melalui email atau WhatsApp.",
+    "sending": "Mengirim…",
+    "submit": "Kirim Pendaftaran"
+  },
+  "MembershipThanks": {
+    "title": "Terima kasih, pendaftaran Anda sudah kami terima.",
+    "text": "Tim INOPI akan memeriksa data Anda dan mengirimkan informasi selanjutnya ke email yang Anda daftarkan.",
+    "home": "Kembali ke Beranda",
+    "events": "Lihat Acara INOPI",
+    "registrationNumber": "Nomor Registrasi",
+    "category": "Kategori",
+    "paymentTitle": "Pembayaran iuran",
+    "bankLine": "{bank} · a.n. {accountName}",
+    "transferNote": "Cantumkan nomor registrasi pada berita transfer, lalu kirim bukti transfer ke {email}.",
+    "paymentByEmail": "Informasi pembayaran dikirim melalui email setelah data pendaftaran diverifikasi. Simpan nomor registrasi di atas sebagai rujukan."
+  },
+  "MembershipApply": {
+    "title": "Pendaftaran Keanggotaan",
+    "intro": "Lengkapi formulir berikut untuk memulai proses pendaftaran keanggotaan INOPI."
   }
 }

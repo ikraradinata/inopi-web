@@ -1,67 +1,43 @@
 // Harga & manfaat keanggotaan INOPI.
 // Sumber: Minutes of Meeting tim inti — usulan harga 2 Oktober 2026
 // dan matriks manfaat membership pada materi Update Founder.
+//
+// Teks (nama, deskripsi, harga tertulis, label manfaat) ada di messages,
+// namespace "Membership". Di sini hanya angka dan pemetaan yang tidak
+// diterjemahkan. Untuk teks Indonesia di sisi server (email), lihat
+// lib/constants/membershipText.ts.
 
 export type Tier = 'student' | 'professional' | 'corporate'
 
-export interface Plan {
+export interface PlanMeta {
   id: Tier
-  name: string
-  desc: string
   /** Iuran per tahun dalam rupiah. */
   amount: number
-  price: string
-  note?: string
   featured?: boolean
 }
 
-export const PLANS: Plan[] = [
-  {
-    id: 'student',
-    name: 'Student',
-    desc: 'Untuk mahasiswa dan pelajar.',
-    amount: 250_000,
-    price: 'Rp 250.000',
-  },
-  {
-    id: 'professional',
-    name: 'Profesional',
-    desc: 'Untuk dosen, praktisi, dan profesional.',
-    amount: 500_000,
-    price: 'Rp 500.000',
-    featured: true,
-  },
-  {
-    id: 'corporate',
-    name: 'Corporate',
-    desc: 'Untuk perusahaan dan institusi.',
-    amount: 5_000_000,
-    price: 'Rp 5.000.000',
-    note: 'Kuota 3 orang',
-  },
+export const PLAN_META: PlanMeta[] = [
+  { id: 'student', amount: 250_000 },
+  { id: 'professional', amount: 500_000, featured: true },
+  { id: 'corporate', amount: 5_000_000 },
 ]
 
-export const getPlan = (id: string) => PLANS.find((p) => p.id === id)
+export const getPlanMeta = (id: string) => PLAN_META.find((p) => p.id === id)
 
-export interface Benefit {
-  label: string
-  /** Kategori yang memperoleh manfaat ini. */
-  tiers: Tier[]
-}
-
-export const BENEFITS: Benefit[] = [
-  { label: 'Quarterly event onsite Jakarta', tiers: ['student', 'professional', 'corporate'] },
-  { label: 'Monthly online learning event nasional (Molen)', tiers: ['student', 'professional', 'corporate'] },
-  { label: 'Annual gathering / summit (NEXT EDU)', tiers: ['student', 'professional', 'corporate'] },
-  { label: 'Special price for training', tiers: ['student', 'professional', 'corporate'] },
-  { label: 'Special price for assessment', tiers: ['student', 'professional', 'corporate'] },
-  { label: 'Network opportunity', tiers: ['professional', 'corporate'] },
-  { label: 'Special price for EdTech services dari sesama anggota', tiers: ['corporate'] },
-  { label: 'EdTech lab consultation (by PPOTD)', tiers: ['corporate'] },
-  { label: 'Annual industry outlook', tiers: ['corporate'] },
-  { label: 'Career opportunity', tiers: ['student'] },
-  { label: 'Study experience', tiers: ['student', 'corporate'] },
+/**
+ * Kategori yang memperoleh tiap manfaat. Urutannya sama dengan daftar
+ * "Membership.benefits" di messages.
+ */
+export const BENEFIT_TIERS: Tier[][] = [
+  ['student', 'professional', 'corporate'], // Quarterly event onsite Jakarta
+  ['student', 'professional', 'corporate'], // Molen
+  ['student', 'professional', 'corporate'], // NEXT EDU
+  ['student', 'professional', 'corporate'], // Special price for training
+  ['student', 'professional', 'corporate'], // Special price for assessment
+  ['professional', 'corporate'], // Network opportunity
+  ['corporate'], // Special price for EdTech services
+  ['corporate'], // EdTech lab consultation
+  ['corporate'], // Annual industry outlook
+  ['student'], // Career opportunity
+  ['student', 'corporate'], // Study experience
 ]
-
-/** Total nilai manfaat menurut perhitungan tim inti. */
-export const TOTAL_BENEFIT_VALUE = 'Rp 11.600.000'
