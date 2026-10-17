@@ -19,11 +19,22 @@ var CFG = {
   SHEET_UP: 'Unggahan',
   SHEET_ORG: 'Perusahaan',
   SHEET_SEAT: 'Kursi',
+  SHEET_MEM: 'Anggota',
+  SHEET_LOG: 'Log',
   FOLDER_NAME: 'INOPI - Bukti Transfer',
   PRICES: { student: 250000, professional: 500000, corporate: 5000000 },
   LETTER: { student: 'S', professional: 'P', corporate: 'C' },
   CORPORATE_SEATS: 3,
   SEAT_AVAILABLE: 'Tersedia',
+  SEAT_USED: 'Terpakai',
+  SEAT_DISABLED: 'Dinonaktifkan',
+  MEMBER_ACTIVE: 'Aktif',
+  MEMBER_INACTIVE: 'Nonaktif',
+  // Masa berlaku: 'one_year_from_verification' atau 'fixed_date' (sama dengan lib/membership/config.ts).
+  VALIDITY_MODE: 'one_year_from_verification',
+  FIXED_VALID_UNTIL: '2027-12-31T23:59:59+07:00',
+  // Tanpa huruf/angka yang mudah tertukar (0/O, 1/I/L).
+  CODE_ALPHABET: 'ABCDEFGHJKMNPQRSTUVWXYZ23456789',
   CODE_MIN: 1,
   CODE_MAX: 999,
   RESERVE_HOURS: 24,
@@ -54,6 +65,13 @@ var ORG_HEADERS = [
   'Nama PIC', 'Jabatan PIC', 'Email PIC', 'WhatsApp PIC',
   'PIC Memakai Kursi 1', 'Butuh Invoice', 'Alamat Penagihan', 'Dibuat',
 ];
+// Anggota kursi Corporate (termasuk PIC bila memakai kursi 1). Anggota Mahasiswa/Profesional = baris di tab Pendaftaran.
+var MEM_HEADERS = [
+  'No. Anggota', 'Nama Lengkap', 'Email', 'WhatsApp', 'Pekerjaan', 'Jabatan', 'Institusi', 'Negara',
+  'No. Pendaftaran Corporate', 'Kursi Ke', 'Kode Kursi', 'Status', 'Berlaku s.d.', 'Bahasa',
+  'Persetujuan PDP', 'Token Verifikasi', 'Token Terima Kasih', 'Dibuat',
+];
+var LOG_HEADERS = ['Waktu', 'Aksi', 'Rujukan', 'Pelaku', 'Detail'];
 // Kode Kursi sengaja kosong sampai Bendahara mengaktifkan pendaftaran; kursi tanpa kode tidak bisa dipakai.
 var SEAT_HEADERS = [
   'ID Perusahaan', 'No. Pendaftaran', 'Kursi Ke', 'Kode Kursi', 'Status Kursi',
@@ -247,6 +265,7 @@ function actionRegister(req) {
   upSheet.getRange(upRow.row, 6, 1, 1).setValues([[now]]);
 
   notifyTreasurer(regNumber, category, data, base + code);
+  emitEvent('registered', regNumber, category + ' Rp ' + (base + code), { regNumber: regNumber, category: category, locale: data.locale });
   return ok({ receiptToken: receiptToken, regNumber: regNumber, category: category, status: CFG.STATUS_PENDING, transferAmount: base + code });
 }
 
@@ -380,6 +399,8 @@ function ensureSheets() {
   ensureSheet(CFG.SHEET_UP, UP_HEADERS, true);
   ensureSheet(CFG.SHEET_ORG, ORG_HEADERS, false);
   ensureSheet(CFG.SHEET_SEAT, SEAT_HEADERS, false);
+  ensureSheet(CFG.SHEET_MEM, MEM_HEADERS, false);
+  ensureSheet(CFG.SHEET_LOG, LOG_HEADERS, false);
 }
 
 function ensureSheet(name, headers, hidden) {
@@ -405,6 +426,7 @@ function ensureSheet(name, headers, hidden) {
     sh.getRange(2, col('Status') + 1, 1000, 1).setDataValidation(rule);
   }
   if (hidden && typeof sh.hideSheet === 'function') sh.hideSheet();
+  formatSheet(sh, name);
   return sh;
 }
 
@@ -422,6 +444,8 @@ function headerWidth(sh) {
   all[CFG.SHEET_UP] = UP_HEADERS;
   all[CFG.SHEET_ORG] = ORG_HEADERS;
   all[CFG.SHEET_SEAT] = SEAT_HEADERS;
+  all[CFG.SHEET_MEM] = MEM_HEADERS;
+  all[CFG.SHEET_LOG] = LOG_HEADERS;
   return all[sh.getName()].length;
 }
 
@@ -530,4 +554,307 @@ function withinRateLimit(action, ip, limit) {
   var n = Number(cache.get(key) || 0) + 1;
   cache.put(key, String(n), limit.windowSec);
   return n <= limit.limit;
+}
+
+// ---------------------------------------------------------------------------
+// Verifikasi oleh Bendahara (langsung di Google Sheet)
+// ---------------------------------------------------------------------------
+//
+// Bendahara mengubah kolom Status di tab Pendaftaran lewat dropdown. Pemicu onEdit
+// (dipasang sekali dengan installTriggers) memanggil processStatusChanges, yang
+// merekonsiliasi SELURUH tab: setiap baris diproses paling banyak sekali (ditandai
+// kolom "Diverifikasi Pada"), sehingga aman dijalankan ulang kapan saja dari menu.
+
+function onOpen() {
+  try {
+    var ui = SpreadsheetApp.getUi();
+    ui.createMenu('INOPI')
+      .addItem('Proses status sekarang', 'menuProcessStatuses')
+      .addItem('Nonaktifkan kursi terpilih & terbitkan kode pengganti', 'menuReplaceSeats')
+      .addSeparator()
+      .addItem('Pasang pemicu otomatis (sekali saja)', 'installTriggers')
+      .addToUi();
+  } catch (err) {
+    // Menu hanya tersedia saat Sheet dibuka di browser.
+  }
+}
+
+/** Dijalankan Bendahara/Admin sekali setelah memasang skrip: membuat pemicu onEdit yang berhak mengirim email. */
+function installTriggers() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var existing = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < existing.length; i++) {
+    if (existing[i].getHandlerFunction() === 'onEditInstalled') ScriptApp.deleteTrigger(existing[i]);
+  }
+  ScriptApp.newTrigger('onEditInstalled').forSpreadsheet(ss).onEdit().create();
+  notify('Pemicu otomatis terpasang. Mengubah kolom Status kini langsung diproses.');
+}
+
+function onEditInstalled(e) {
+  try {
+    if (e && e.range && e.range.getSheet().getName() !== CFG.SHEET_REG) return;
+  } catch (err) {
+    // lanjut: rekonsiliasi aman dijalankan kapan pun
+  }
+  processStatusChanges();
+}
+
+function menuProcessStatuses() {
+  var n = processStatusChanges();
+  notify(n + ' pendaftaran diproses.');
+}
+
+/** Memproses perubahan Status. Mengembalikan jumlah baris yang berubah. */
+function processStatusChanges() {
+  var lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(CFG.LOCK_MS);
+  } catch (err) {
+    notify('Sistem sedang sibuk. Ubah Status sekali lagi atau pilih menu INOPI > Proses status sekarang.');
+    return 0;
+  }
+  try {
+    ensureSheets();
+    var sh = sheet(CFG.SHEET_REG);
+    var rows = readRows(sh);
+    var changed = 0;
+    for (var i = 0; i < rows.length; i++) {
+      var v = rows[i];
+      if (!v[col('No. Pendaftaran')]) continue;
+      var rowNo = i + 2;
+      var status = String(v[col('Status')]);
+      var verified = v[col('Diverifikasi Pada')];
+      var reason = String(v[col('Alasan Penolakan')] || '').trim();
+      var reg = String(v[col('No. Pendaftaran')]);
+
+      if (status === CFG.STATUS_ACTIVE && !verified) {
+        activateRegistration(sh, rowNo, v);
+        changed++;
+      } else if (status === CFG.STATUS_ACTIVE) {
+        // sudah aktif dan sudah diproses: tidak ada yang dilakukan
+      } else if (verified) {
+        // Pendaftaran yang sudah diverifikasi tidak boleh dikembalikan atau ditolak lewat Status.
+        setStatusCell(sh, rowNo, CFG.STATUS_ACTIVE);
+        notify('Pendaftaran ' + reg + ' sudah aktif dan tidak bisa diubah statusnya. Nonaktifkan lewat tab Kursi bila perlu.');
+      } else if (status === CFG.STATUS_REJECTED) {
+        if (!reason) {
+          setStatusCell(sh, rowNo, CFG.STATUS_PENDING);
+          notify('Isi kolom "Alasan Penolakan" untuk ' + reg + ' lebih dulu, lalu pilih Ditolak lagi.');
+        } else if (!isLogged('rejected', reg, reason)) {
+          emitEvent('rejected', reg, reason, { regNumber: reg, reason: reason, locale: v[col('Bahasa')] });
+          changed++;
+        }
+      }
+    }
+    return changed;
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function setStatusCell(sh, rowNo, status) {
+  sh.getRange(rowNo, col('Status') + 1, 1, 1).setValues([[status]]);
+}
+
+function activateRegistration(sh, rowNo, v) {
+  var now = new Date();
+  var validUntil = computeValidUntil(now);
+  var reg = String(v[col('No. Pendaftaran')]);
+  sh.getRange(rowNo, col('Alasan Penolakan') + 1, 1, 1).setValues([['']]);
+  sh.getRange(rowNo, col('Berlaku s.d.') + 1, 1, 2).setValues([[validUntil, now]]);
+
+  var detail = '';
+  if (v[col('Kategori')] === 'corporate') {
+    var codes = issueSeatCodes(reg, now, validUntil, v);
+    detail = codes.length + ' kode kursi diterbitkan';
+  }
+  emitEvent('verified', reg, detail, {
+    regNumber: reg, category: v[col('Kategori')], locale: v[col('Bahasa')], validUntil: validUntil,
+  });
+}
+
+function computeValidUntil(verifiedAt) {
+  if (CFG.VALIDITY_MODE === 'fixed_date') return new Date(CFG.FIXED_VALID_UNTIL);
+  var d = new Date(verifiedAt.getTime());
+  d.setUTCFullYear(d.getUTCFullYear() + 1);
+  return d;
+}
+
+/**
+ * Menerbitkan kode untuk kursi Corporate yang belum berkode dan, bila PIC memakai kursi 1,
+ * menjadikan PIC pemegang kursi 1 dengan kartu aktif.
+ */
+function issueSeatCodes(reg, now, validUntil, regValues) {
+  var seatSheet = sheet(CFG.SHEET_SEAT);
+  var seatRows = readRows(seatSheet);
+  var taken = {};
+  for (var k = 0; k < seatRows.length; k++) if (seatRows[k][3]) taken[String(seatRows[k][3])] = true;
+  var orgRow = findRow(sheet(CFG.SHEET_ORG), 1, reg);
+  var usePic = orgRow && orgRow.values[8] === 'Ya';
+  var issued = [];
+
+  for (var i = 0; i < seatRows.length; i++) {
+    var r = seatRows[i];
+    if (String(r[1]) !== reg || r[3] || r[4] !== CFG.SEAT_AVAILABLE) continue;
+    var seatNo = Number(r[2]);
+    var code = newSeatCode(reg, seatNo, taken);
+    taken[code] = true;
+    var rowNo = i + 2;
+    seatSheet.getRange(rowNo, 4, 1, 1).setValues([[code]]);
+    issued.push({ seat: seatNo, code: code });
+    if (seatNo === 1 && usePic) {
+      seatSheet.getRange(rowNo, 5, 1, 4).setValues([[CFG.SEAT_USED, regValues[col('Nama Lengkap')], regValues[col('Email')], now]]);
+      addMember(reg, 1, code, regValues, validUntil, now);
+    }
+  }
+  return issued;
+}
+
+function newSeatCode(reg, seatNo, taken) {
+  var seq = String(reg).split('-').pop();
+  for (var attempt = 0; attempt < 50; attempt++) {
+    var suffix = '';
+    var hex = newToken();
+    for (var i = 0; i < 4; i++) suffix += CFG.CODE_ALPHABET.charAt(parseInt(hex.substr(i * 2, 2), 16) % CFG.CODE_ALPHABET.length);
+    var code = 'CORP-' + seq + '-' + seatNo + '-' + suffix;
+    if (!taken[code]) return code;
+  }
+  throw new Error('gagal membuat kode kursi unik');
+}
+
+/** Menambahkan anggota pemegang kursi Corporate (kartu aktif langsung). `p` memuat nama, email, dst. */
+function addMember(reg, seatNo, code, p, validUntil, now) {
+  var number = reg + '-' + seatNo;
+  var values = [
+    number, safeCell(p[col('Nama Lengkap')]), safeCell(p[col('Email')]), safeCell(p[col('WhatsApp')]),
+    safeCell(p[col('Pekerjaan')]), safeCell(p[col('Jabatan')]), safeCell(p[col('Institusi')]), p[col('Negara')],
+    reg, seatNo, code, CFG.MEMBER_ACTIVE, validUntil, p[col('Bahasa')],
+    p[col('Persetujuan PDP')] || now, newToken(), newToken(), now,
+  ];
+  sheet(CFG.SHEET_MEM).appendRow(values);
+  return number;
+}
+
+/** Menonaktifkan kursi dan menerbitkan kode pengganti untuk kursi yang sama. */
+function replaceSeat(seatRowNo) {
+  var seatSheet = sheet(CFG.SHEET_SEAT);
+  var r = seatSheet.getRange(seatRowNo, 1, 1, SEAT_HEADERS.length).getValues()[0];
+  var code = String(r[3] || '');
+  if (!code) throw regErr('seat_has_no_code');
+  if (r[4] === CFG.SEAT_DISABLED) throw regErr('seat_already_disabled');
+  var now = new Date();
+  var reg = String(r[1]);
+
+  seatSheet.getRange(seatRowNo, 5, 1, 1).setValues([[CFG.SEAT_DISABLED]]);
+  var memSheet = sheet(CFG.SHEET_MEM);
+  var mem = findRow(memSheet, 10, code);
+  if (mem) memSheet.getRange(mem.row, 12, 1, 1).setValues([[CFG.MEMBER_INACTIVE]]);
+
+  var taken = {};
+  var all = readRows(seatSheet);
+  for (var i = 0; i < all.length; i++) if (all[i][3]) taken[String(all[i][3])] = true;
+  var fresh = newSeatCode(reg, Number(r[2]), taken);
+  seatSheet.appendRow([r[0], reg, r[2], fresh, CFG.SEAT_AVAILABLE, '', '', '']);
+  emitEvent('seat_replaced', reg, 'kursi ' + r[2] + ': ' + code + ' diganti ' + fresh, {
+    regNumber: reg, seat: Number(r[2]), oldCode: code, newCode: fresh,
+  });
+  return fresh;
+}
+
+function menuReplaceSeats() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var range = ss.getActiveRange();
+  var sh = range && range.getSheet();
+  if (!sh || sh.getName() !== CFG.SHEET_SEAT) {
+    notify('Pilih baris kursi di tab "' + CFG.SHEET_SEAT + '" lebih dulu.');
+    return;
+  }
+  var ui = SpreadsheetApp.getUi();
+  var answer = ui.alert('Nonaktifkan kursi terpilih?', 'Kode lama dan kartu pemegangnya dinonaktifkan, lalu kode pengganti diterbitkan. Lanjutkan?', ui.ButtonSet.YES_NO);
+  if (answer !== ui.Button.YES) return;
+  var lock = LockService.getScriptLock();
+  lock.waitLock(CFG.LOCK_MS);
+  var done = 0;
+  try {
+    for (var r = range.getRow(); r < range.getRow() + range.getNumRows(); r++) {
+      if (r < 2) continue;
+      try {
+        replaceSeat(r);
+        done++;
+      } catch (err) {
+        if (!(err && err.isRegistryError)) throw err;
+      }
+    }
+  } finally {
+    lock.releaseLock();
+  }
+  notify(done + ' kursi diganti. Kode pengganti ada di baris baru pada tab "' + CFG.SHEET_SEAT + '".');
+}
+
+// ---------------------------------------------------------------------------
+// Log dan kejadian (hook email R7)
+// ---------------------------------------------------------------------------
+
+/**
+ * Setiap kejadian penting dicatat di tab Log. Pengiriman email (R7) menumpang di sini lewat
+ * deliverEmail(type, ctx) bila fungsinya ada; kegagalan kirim tidak boleh membatalkan apa pun.
+ */
+function emitEvent(type, ref, detail, ctx) {
+  logEvent(type, ref, detail);
+  if (typeof deliverEmail === 'function') {
+    try {
+      deliverEmail(type, ctx || {});
+    } catch (err) {
+      logEvent('email_failed', ref, type + ': ' + (err && err.message ? err.message : err));
+    }
+  }
+}
+
+function logEvent(action, ref, detail) {
+  var actor = '';
+  try {
+    actor = Session.getActiveUser().getEmail() || '';
+  } catch (err) {
+    actor = '';
+  }
+  try {
+    sheet(CFG.SHEET_LOG).appendRow([new Date(), action, ref || '', actor || 'sistem', safeCell(detail || '')]);
+  } catch (err) {
+    console.error('log gagal', err);
+  }
+}
+
+function isLogged(action, ref, detail) {
+  var rows = readRows(sheet(CFG.SHEET_LOG));
+  for (var i = rows.length - 1; i >= 0; i--) {
+    if (rows[i][1] === action && String(rows[i][2]) === ref && String(rows[i][4]) === detail) return true;
+  }
+  return false;
+}
+
+/** Pesan singkat di layar Sheet (diabaikan saat berjalan tanpa antarmuka). */
+function notify(message) {
+  try {
+    SpreadsheetApp.getActiveSpreadsheet().toast(message, 'INOPI', 8);
+  } catch (err) {
+    console.log(message);
+  }
+}
+
+/** Tampilan tab agar mudah dipakai Bendahara. Kegagalan format tidak boleh mengganggu pencatatan. */
+function formatSheet(sh, name) {
+  try {
+    var headers = name === CFG.SHEET_REG ? REG_HEADERS : null;
+    sh.getRange(1, 1, 1, headerWidth(sh)).setFontWeight('bold').setBackground('#35292A').setFontColor('#F6F1EC');
+    if (headers) {
+      var nominal = col('Nominal Transfer (Rp)') + 1;
+      sh.getRange(2, nominal, 1000, 1).setFontWeight('bold').setNumberFormat('#,##0').setBackground('#FFF3D6');
+      sh.getRange(2, col('Iuran (Rp)') + 1, 1000, 1).setNumberFormat('#,##0');
+      sh.getRange(2, col('Berlaku s.d.') + 1, 1000, 2).setNumberFormat('dd mmm yyyy hh:mm');
+      sh.getRange(2, 1, 1000, 1).setNumberFormat('dd mmm yyyy hh:mm');
+      sh.getRange(1, 1, 1, headers.length).createFilter();
+    }
+  } catch (err) {
+    // format opsional
+  }
 }

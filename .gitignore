@@ -40,3 +40,4 @@ next-env.d.ts
 # materi sumber internal (data pribadi founder, foto resolusi tinggi)
 docs/
 CLAUDE_old.md
+!.env.example

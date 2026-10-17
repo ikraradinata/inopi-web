@@ -485,3 +485,227 @@ describe('pendaftaran Corporate', () => {
     expect(String(org[10]).startsWith("'=")).toBe(true)
   })
 })
+
+/* ---------- Verifikasi Bendahara di Sheet (R4) ---------- */
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const run = (env: RegistryEnv, fn: string, ...args: unknown[]) => (env.ctx as any)[fn](...args)
+const processAll = (env: RegistryEnv) => run(env, 'processStatusChanges') as number
+const regCell = (env: RegistryEnv, row: number, name: string) => env.ss.getSheetByName('Pendaftaran')!.rows[row][H(env, name)]
+const setRegCell = (env: RegistryEnv, row: number, name: string, value: unknown) => {
+  env.ss.getSheetByName('Pendaftaran')!.rows[row][H(env, name)] = value
+}
+const logActions = (env: RegistryEnv) => sheetRows(env, 'Log').map((r) => r[1])
+
+describe('verifikasi: aktif', () => {
+  it('mengisi Diverifikasi Pada dan Berlaku s.d. (1 tahun) dan mencatat ke Log', () => {
+    const env = createRegistryEnv()
+    env.setNow(new Date('2026-10-30T03:00:00Z'))
+    const { res } = fullRegister(env)
+    expect(logActions(env)).toEqual(['registered'])
+    expect(processAll(env)).toBe(0) // masih menunggu: tidak ada yang berubah
+
+    setRegCell(env, 1, 'Status', 'Aktif')
+    expect(processAll(env)).toBe(1)
+    expect(new Date(regCell(env, 1, 'Diverifikasi Pada') as string).toISOString()).toBe('2026-10-30T03:00:00.000Z')
+    expect(new Date(regCell(env, 1, 'Berlaku s.d.') as string).toISOString()).toBe('2027-10-30T03:00:00.000Z')
+    expect(logActions(env)).toEqual(['registered', 'verified'])
+    expect(sheetRows(env, 'Log')[1][2]).toBe(res.regNumber)
+  })
+
+  it('idempoten: diproses ulang tidak mengubah apa pun', () => {
+    const env = createRegistryEnv()
+    fullRegister(env)
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const first = regCell(env, 1, 'Diverifikasi Pada')
+    env.setNow(new Date(Date.now() + 86_400_000))
+    expect(processAll(env)).toBe(0)
+    expect(regCell(env, 1, 'Diverifikasi Pada')).toEqual(first)
+    expect(logActions(env).filter((a) => a === 'verified')).toHaveLength(1)
+  })
+
+  it('mode tanggal tetap memakai tanggal yang dikonfigurasi', () => {
+    const env = createRegistryEnv()
+    setInContext(env, "CFG.VALIDITY_MODE = 'fixed_date'")
+    fullRegister(env)
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    expect(new Date(regCell(env, 1, 'Berlaku s.d.') as string).toISOString()).toBe('2027-12-31T16:59:59.000Z')
+  })
+
+  it('perhitungan masa berlaku sama dengan lib/membership/config.ts', async () => {
+    const { computeValidUntil } = await import('@/lib/membership/config')
+    const env = createRegistryEnv()
+    const at = new Date('2028-02-29T10:15:00Z')
+    expect(new Date(run(env, 'computeValidUntil', at) as Date).toISOString()).toBe(computeValidUntil(at, 'one_year_from_verification').toISOString())
+  })
+
+  it('pendaftaran yang sudah aktif tidak bisa dikembalikan atau ditolak lewat Status', () => {
+    const env = createRegistryEnv()
+    fullRegister(env)
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    for (const status of ['Menunggu Verifikasi', 'Ditolak']) {
+      setRegCell(env, 1, 'Status', status)
+      setRegCell(env, 1, 'Alasan Penolakan', 'salah ketik')
+      processAll(env)
+      expect(regCell(env, 1, 'Status')).toBe('Aktif')
+    }
+  })
+})
+
+describe('verifikasi: tolak', () => {
+  it('Ditolak tanpa alasan dikembalikan ke Menunggu Verifikasi', () => {
+    const env = createRegistryEnv()
+    fullRegister(env)
+    setRegCell(env, 1, 'Status', 'Ditolak')
+    processAll(env)
+    expect(regCell(env, 1, 'Status')).toBe('Menunggu Verifikasi')
+    expect(logActions(env)).not.toContain('rejected')
+  })
+
+  it('Ditolak dengan alasan dipertahankan dan dicatat sekali', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env)
+    setRegCell(env, 1, 'Status', 'Ditolak')
+    setRegCell(env, 1, 'Alasan Penolakan', 'Nominal tidak sesuai')
+    expect(processAll(env)).toBe(1)
+    processAll(env)
+    expect(regCell(env, 1, 'Status')).toBe('Ditolak')
+    expect(regCell(env, 1, 'Diverifikasi Pada')).toBe('')
+    const rejected = sheetRows(env, 'Log').filter((r) => r[1] === 'rejected')
+    expect(rejected).toHaveLength(1)
+    expect(rejected[0][2]).toBe(res.regNumber)
+    expect(rejected[0][4]).toBe('Nominal tidak sesuai')
+  })
+
+  it('pendaftaran Corporate yang ditolak tidak mendapat kode kursi', () => {
+    const env = createRegistryEnv()
+    fullRegister(env, corp, 'corporate')
+    setRegCell(env, 1, 'Status', 'Ditolak')
+    setRegCell(env, 1, 'Alasan Penolakan', 'Bukti tidak terbaca')
+    processAll(env)
+    expect(sheetRows(env, 'Kursi').map((r) => r[3])).toEqual(['', '', ''])
+    expect(sheetRows(env, 'Anggota')).toHaveLength(0)
+  })
+})
+
+describe('verifikasi: Corporate', () => {
+  const seatCodes = (env: RegistryEnv) => sheetRows(env, 'Kursi').map((r) => r[3] as string)
+
+  it('menerbitkan 3 kode unik berformat CORP-nomor-kursi-acak', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env, corp, 'corporate')
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const codes = seatCodes(env)
+    expect(codes).toHaveLength(3)
+    codes.forEach((c, i) => expect(c).toMatch(new RegExp(`^CORP-0001-${i + 1}-[A-HJKMNP-Z2-9]{4}$`)))
+    expect(new Set(codes).size).toBe(3)
+    expect(res.regNumber).toMatch(/-C-0001$/)
+    expect(logActions(env)).toContain('verified')
+  })
+
+  it('kursi 1 otomatis atas nama PIC dengan kartu aktif bila toggle ON', () => {
+    const env = createRegistryEnv()
+    env.setNow(new Date('2026-10-30T03:00:00Z'))
+    const { res } = fullRegister(env, corp, 'corporate')
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const seats = sheetRows(env, 'Kursi')
+    expect(seats[0][4]).toBe('Terpakai')
+    expect(seats[0][5]).toBe('Budi PIC')
+    expect(seats[0][6]).toBe('budi@ptuji.co.id')
+    expect(seats[1][4]).toBe('Tersedia')
+    expect(seats[2][4]).toBe('Tersedia')
+
+    const members = sheetRows(env, 'Anggota')
+    expect(members).toHaveLength(1)
+    expect(members[0][0]).toBe(`${res.regNumber}-1`)
+    expect(members[0][1]).toBe('Budi PIC')
+    expect(members[0][10]).toBe(seats[0][3])
+    expect(members[0][11]).toBe('Aktif')
+    expect(new Date(members[0][12] as string).toISOString()).toBe('2027-10-30T03:00:00.000Z')
+    expect(members[0][15]).toMatch(/^[0-9a-f]{64}$/)
+  })
+
+  it('toggle kursi 1 OFF: ketiga kursi tersedia dan tidak ada anggota', () => {
+    const env = createRegistryEnv()
+    fullRegister(env, { ...corp, useSeat1: false }, 'corporate')
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    expect(sheetRows(env, 'Kursi').map((r) => r[4])).toEqual(['Tersedia', 'Tersedia', 'Tersedia'])
+    expect(seatCodes(env).every(Boolean)).toBe(true)
+    expect(sheetRows(env, 'Anggota')).toHaveLength(0)
+  })
+
+  it('memproses ulang tidak menerbitkan kode atau anggota ganda', () => {
+    const env = createRegistryEnv()
+    fullRegister(env, corp, 'corporate')
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const before = seatCodes(env)
+    processAll(env)
+    processAll(env)
+    expect(seatCodes(env)).toEqual(before)
+    expect(sheetRows(env, 'Anggota')).toHaveLength(1)
+    expect(sheetRows(env, 'Kursi')).toHaveLength(3)
+  })
+
+  it('beberapa perusahaan diverifikasi sekaligus mendapat kode berbeda', () => {
+    const env = createRegistryEnv()
+    fullRegister(env, corp, 'corporate')
+    fullRegister(env, { ...corp, email: 'lain@pt.co.id' }, 'corporate')
+    setRegCell(env, 1, 'Status', 'Aktif')
+    setRegCell(env, 2, 'Status', 'Aktif')
+    expect(processAll(env)).toBe(2)
+    const codes = seatCodes(env)
+    expect(new Set(codes).size).toBe(6)
+    expect(codes[3]).toMatch(/^CORP-0002-1-/)
+  })
+
+  it('mengganti kursi: kode lama dan kartu pemegang nonaktif, kode baru untuk kursi yang sama', () => {
+    const env = createRegistryEnv()
+    fullRegister(env, corp, 'corporate')
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const oldCode = seatCodes(env)[0]
+    const fresh = run(env, 'replaceSeat', 2) as string // baris 2 = kursi 1 (setelah judul)
+    const seats = sheetRows(env, 'Kursi')
+    expect(seats).toHaveLength(4)
+    expect(seats[0][4]).toBe('Dinonaktifkan')
+    expect(seats[0][3]).toBe(oldCode) // riwayat kode lama tetap ada
+    expect(seats[3][2]).toBe(1)
+    expect(seats[3][3]).toBe(fresh)
+    expect(fresh).not.toBe(oldCode)
+    expect(seats[3][4]).toBe('Tersedia')
+    expect(sheetRows(env, 'Anggota')[0][11]).toBe('Nonaktif')
+    expect(logActions(env)).toContain('seat_replaced')
+    expect(() => run(env, 'replaceSeat', 2)).toThrow() // sudah dinonaktifkan
+  })
+})
+
+describe('hook kejadian untuk email', () => {
+  it('memanggil deliverEmail untuk setiap kejadian; kegagalan kirim tidak membatalkan pendaftaran', () => {
+    const env = createRegistryEnv()
+    const seen: string[] = []
+    setInContext(env, 'var deliverEmail = function (type) { __seen.push(type); if (type === "registered") throw new Error("SMTP mati"); }', { __seen: seen })
+    const { res } = fullRegister(env)
+    expect(res.ok).toBe(true)
+    expect(regRows(env)).toHaveLength(1)
+    expect(seen).toEqual(['registered'])
+    expect(logActions(env)).toEqual(['registered', 'email_failed'])
+
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    expect(seen).toEqual(['registered', 'verified'])
+  })
+})
+
+function setInContext(env: RegistryEnv, code: string, globals: Record<string, unknown> = {}) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Object.assign(env.ctx as any, globals)
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  require('node:vm').runInContext(code, env.ctx)
+}
