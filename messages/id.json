@@ -465,5 +465,51 @@
     ],
     "pic": "PIC: {names}",
     "viewProgram": "Lihat Program Kerja →"
+  },
+  "TataKelola": {
+    "title": "Tata Kelola & Informasi Legal",
+    "intro": "INOPI dikelola secara terbuka dan akuntabel sesuai Anggaran Dasar, Anggaran Rumah Tangga, dan peraturan perundang-undangan yang berlaku.",
+    "identityTitle": "Identitas Badan Hukum",
+    "identity": [
+      {
+        "label": "Nama resmi",
+        "value": "Perkumpulan Asosiasi Inovasi Pembelajaran Indonesia (INOPI)"
+      },
+      {
+        "label": "Bentuk",
+        "value": "Perkumpulan berbadan hukum, tidak berorientasi pada keuntungan"
+      },
+      {
+        "label": "Akta pendirian",
+        "value": "Nomor 122, tanggal 30 Maret 2026, Notaris Ahmad Fadillah, S.H., M.Kn., Kota Cirebon"
+      },
+      {
+        "label": "Asas",
+        "value": "Pancasila dan Undang-Undang Dasar 1945"
+      }
+    ],
+    "governanceTitle": "Struktur Tata Kelola",
+    "governance": [
+      {
+        "title": "Dewan Pembina",
+        "desc": "Menjaga visi jangka panjang dan membuka akses ke ekosistem kebijakan pendidikan nasional."
+      },
+      {
+        "title": "Dewan Pengawas",
+        "desc": "Memastikan program dan keuangan berjalan sesuai AD/ART dan regulasi."
+      },
+      {
+        "title": "Dewan Pakar",
+        "desc": "Memberikan legitimasi akademik dan arah inovasi berbasis bukti."
+      },
+      {
+        "title": "Dewan Pengurus Inti",
+        "desc": "Ketua, Wakil Ketua, Sekretaris, dan Bendahara, yang menjalankan organisasi sehari-hari bersama empat divisi."
+      }
+    ],
+    "names": "Nama-nama pengurus dapat dilihat di <link>halaman Struktur Organisasi</link>.",
+    "accountabilityTitle": "Akuntabilitas",
+    "reports": "Laporan kegiatan dan dampak program akan dipublikasikan setiap akhir tahun di website.",
+    "questions": "Pertanyaan terkait tata kelola dapat diajukan melalui halaman <link>Kontak</link> dengan topik “Umum”."
   }
 }
