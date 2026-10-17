@@ -131,18 +131,29 @@ function handleRequest(body) {
   } catch (err) {
     return fail('busy');
   }
+  var result;
   try {
     var limit = CFG.RATE[body.action];
-    if (limit && !withinRateLimit(body.action, String(body.ip || 'unknown'), limit)) return fail('rate_limited');
-    ensureSheets();
-    return action(body);
+    if (limit && !withinRateLimit(body.action, String(body.ip || 'unknown'), limit)) {
+      result = fail('rate_limited');
+    } else {
+      ensureSheets();
+      result = action(body);
+    }
   } catch (err) {
-    if (err && err.isRegistryError) return fail(err.code);
-    console.error('registry error', err && err.stack ? err.stack : err);
-    return fail('server_error');
+    if (err && err.isRegistryError) {
+      result = fail(err.code);
+    } else {
+      console.error('registry error', err && err.stack ? err.stack : err);
+      result = fail('server_error');
+    }
   } finally {
     lock.releaseLock();
   }
+  // Email dikirim SETELAH kunci dilepas: pengiriman lambat dan pengambilan PDF kartu
+  // (yang memanggil registry ini lagi) tidak boleh menahan atau mengunci pendaftar lain.
+  flushEvents();
+  return result;
 }
 
 // ---------------------------------------------------------------------------
@@ -530,7 +541,7 @@ function notifyTreasurer(regNumber, category, data, amount) {
           ? 'Butuh invoice   : ' + (data.needInvoice ? 'Ya (alamat di tab "' + CFG.SHEET_ORG + '")' : 'Tidak') + '\n'
           : '') +
         '\n' +
-        'Cocokkan nominal dengan mutasi rekening, lalu ubah kolom Status di tab "' + CFG.SHEET_REG + '".',
+        'Cocokkan nominal dengan mutasi rekening, lalu ubah kolom Status di tab "' + CFG.SHEET_REG + '".' + sheetLinkLine(),
     });
   } catch (err) {
     console.error('notifikasi gagal', err);
@@ -729,6 +740,7 @@ function onOpen() {
     ui.createMenu('INOPI')
       .addItem('Proses status sekarang', 'menuProcessStatuses')
       .addItem('Nonaktifkan kursi terpilih & terbitkan kode pengganti', 'menuReplaceSeats')
+      .addItem('Kirim ulang email untuk baris terpilih', 'menuResendEmails')
       .addSeparator()
       .addItem('Pasang pemicu otomatis (sekali saja)', 'installTriggers')
       .addToUi();
@@ -807,6 +819,7 @@ function processStatusChanges() {
     return changed;
   } finally {
     lock.releaseLock();
+    flushEvents();
   }
 }
 
@@ -945,6 +958,7 @@ function menuReplaceSeats() {
     }
   } finally {
     lock.releaseLock();
+    flushEvents();
   }
   notify(done + ' kursi diganti. Kode pengganti ada di baris baru pada tab "' + CFG.SHEET_SEAT + '".');
 }
@@ -954,16 +968,28 @@ function menuReplaceSeats() {
 // ---------------------------------------------------------------------------
 
 /**
- * Setiap kejadian penting dicatat di tab Log. Pengiriman email (R7) menumpang di sini lewat
- * deliverEmail(type, ctx) bila fungsinya ada; kegagalan kirim tidak boleh membatalkan apa pun.
+ * Setiap kejadian penting dicatat di tab Log dan diantrekan untuk email. Antrean dikirim oleh
+ * flushEvents() setelah kunci dilepas; kegagalan kirim hanya tercatat dan tidak membatalkan apa pun.
  */
+var PENDING_EVENTS = [];
+
 function emitEvent(type, ref, detail, ctx) {
   logEvent(type, ref, detail);
-  if (typeof deliverEmail === 'function') {
+  queueEvent(type, ref, ctx);
+}
+
+function queueEvent(type, ref, ctx) {
+  PENDING_EVENTS.push({ type: type, ref: ref, ctx: ctx || {} });
+}
+
+function flushEvents() {
+  var queue = PENDING_EVENTS;
+  PENDING_EVENTS = [];
+  for (var i = 0; i < queue.length; i++) {
     try {
-      deliverEmail(type, ctx || {});
+      deliverEmail(queue[i].type, queue[i].ctx);
     } catch (err) {
-      logEvent('email_failed', ref, type + ': ' + (err && err.message ? err.message : err));
+      logEvent('email_failed', queue[i].ref, queue[i].type + ': ' + (err && err.message ? err.message : err));
     }
   }
 }
@@ -1015,4 +1041,396 @@ function formatSheet(sh, name) {
   } catch (err) {
     // format opsional
   }
+}
+
+// ---------------------------------------------------------------------------
+// Email transaksional (dikirim lewat Gmail asosiasi, dua bahasa sesuai locale penerima)
+// ---------------------------------------------------------------------------
+
+var EMAIL_COLORS = {
+  page: '#F6F1EC', card: '#FFFFFF', ink: '#35292A', muted: '#7E685C', line: '#E4D6CC',
+  button: '#B24F27', teal: '#377673', gold: '#C69A55',
+};
+var CONTACT_EMAIL = 'asosiasi.inopi@gmail.com';
+
+function siteUrl() {
+  return String(prop('SITE_URL') || 'https://www.inopi.id').replace(/\/+$/, '');
+}
+
+function sheetLinkLine() {
+  try {
+    return '\n\nBuka Sheet: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl();
+  } catch (err) {
+    return '';
+  }
+}
+
+function pick(locale, id, en) {
+  return locale === 'en' ? en : id;
+}
+
+function esc(v) {
+  return String(v == null ? '' : v)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function money(n, locale) {
+  var s = String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, locale === 'en' ? ',' : '.');
+  return (locale === 'en' ? 'IDR ' : 'Rp ') + s;
+}
+
+var MONTHS = {
+  id: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+  en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+};
+
+/** Tanggal di zona waktu Jakarta (UTC+7 tetap, tanpa DST). */
+function fmtDate(v, locale) {
+  if (!v) return '';
+  var d = new Date(toDate(v).getTime() + 7 * 3600 * 1000);
+  return d.getUTCDate() + ' ' + MONTHS[locale === 'en' ? 'en' : 'id'][d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+}
+
+function maskEmail(e) {
+  var s = String(e);
+  var at = s.indexOf('@');
+  return at < 2 ? '***' + s.slice(at) : s.charAt(0) + '***' + s.slice(at);
+}
+
+function categoryName(category, locale) {
+  var names = {
+    student: pick(locale, 'Mahasiswa', 'Student'),
+    professional: pick(locale, 'Profesional', 'Professional'),
+    corporate: 'Corporate',
+  };
+  return names[category] || category;
+}
+
+function emailButton(label, url) {
+  return '<p style="margin:24px 0"><a href="' + esc(url) + '" style="background:' + EMAIL_COLORS.button +
+    ';color:#FFFFFF;text-decoration:none;font-weight:600;font-size:15px;padding:13px 22px;border-radius:10px;display:inline-block">' +
+    esc(label) + '</a></p>';
+}
+
+function emailTable(rows) {
+  var html = '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:16px 0;border:1px solid ' + EMAIL_COLORS.line + ';border-radius:10px">';
+  for (var i = 0; i < rows.length; i++) {
+    html += '<tr><td style="padding:10px 14px;border-bottom:1px solid ' + EMAIL_COLORS.line + ';color:' + EMAIL_COLORS.muted + ';font-size:13px;width:42%">' + esc(rows[i][0]) +
+      '</td><td style="padding:10px 14px;border-bottom:1px solid ' + EMAIL_COLORS.line + ';color:' + EMAIL_COLORS.ink + ';font-size:14px;font-weight:600">' + esc(rows[i][1]) + '</td></tr>';
+  }
+  return html + '</table>';
+}
+
+function emailParagraph(text) {
+  return '<p style="margin:0 0 14px;font-size:15px;line-height:1.55;color:' + EMAIL_COLORS.ink + '">' + esc(text) + '</p>';
+}
+
+/** Rangka email: terang, satu kolom 560 px, nyaman di ponsel. */
+function emailShell(locale, heading, inner) {
+  var base = siteUrl();
+  return '<!doctype html><html lang="' + (locale === 'en' ? 'en' : 'id') + '"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>' +
+    '<body style="margin:0;padding:0;background:' + EMAIL_COLORS.page + ';font-family:Arial,Helvetica,sans-serif">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:' + EMAIL_COLORS.page + '"><tr><td align="center" style="padding:24px 12px">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:' + EMAIL_COLORS.card + ';border-radius:14px;border:1px solid ' + EMAIL_COLORS.line + '">' +
+    '<tr><td style="padding:24px 28px 8px"><img src="' + esc(base) + '/logo/inopi-logo.png" alt="INOPI" height="40" style="height:40px;width:auto;border:0;display:block"></td></tr>' +
+    '<tr><td style="padding:8px 28px 28px">' +
+    '<h1 style="margin:8px 0 16px;font-size:22px;line-height:1.25;color:' + EMAIL_COLORS.ink + '">' + esc(heading) + '</h1>' + inner +
+    '<p style="margin:24px 0 0;padding-top:16px;border-top:1px solid ' + EMAIL_COLORS.line + ';font-size:12px;line-height:1.5;color:' + EMAIL_COLORS.muted + '">' +
+    esc(pick(locale, 'Asosiasi Inovasi Pembelajaran Indonesia (INOPI). Pertanyaan? Balas email ini atau hubungi ', 'Indonesian Learning Innovation Association (INOPI). Questions? Reply to this email or contact ')) +
+    esc(CONTACT_EMAIL) + '.</p>' +
+    '</td></tr></table></td></tr></table></body></html>';
+}
+
+function plainText(html) {
+  return html
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<a [^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi, '$2 ($1)')
+    .replace(/<\/td>\s*<td[^>]*>/gi, ': ')
+    .replace(/<\/(p|h1|tr|table)>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+    .replace(/[ \t]+\n/g, '\n').replace(/\n\s*\n(\s*\n)+/g, '\n\n').trim();
+}
+
+function cardDownloadUrl(receiptToken) {
+  return siteUrl() + '/api/membership/card/' + receiptToken;
+}
+
+function seatSignupUrl(code, locale) {
+  return siteUrl() + (locale === 'en' ? '/en/membership/apply/code' : '/keanggotaan/daftar/kode') + '?kode=' + encodeURIComponent(code);
+}
+
+/** Mengambil PDF kartu dari website. null bila gagal (email tetap dikirim dengan tautan unduh). */
+function fetchCardPdf(receiptToken, number) {
+  try {
+    var res = UrlFetchApp.fetch(cardDownloadUrl(receiptToken), { muteHttpExceptions: true, followRedirects: true });
+    if (res.getResponseCode() !== 200) throw new Error('HTTP ' + res.getResponseCode());
+    var blob = res.getBlob();
+    var type = String(blob.getContentType() || '');
+    if (type.indexOf('application/pdf') !== 0) throw new Error('bukan PDF: ' + type);
+    return blob.setName('kartu-inopi-' + String(number).replace(/[^A-Za-z0-9-]/g, '') + '.pdf');
+  } catch (err) {
+    logEvent('email_attach_failed', number, err && err.message ? err.message : String(err));
+    return null;
+  }
+}
+
+// -- Pembaca data ---------------------------------------------------------
+
+function regByNumber(regNumber) {
+  var row = findRow(sheet(CFG.SHEET_REG), col('No. Pendaftaran'), String(regNumber));
+  if (!row) throw regErr('not_found');
+  return row.values;
+}
+
+function seatsOf(regNumber) {
+  var rows = readRows(sheet(CFG.SHEET_SEAT));
+  var latest = {};
+  for (var i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    if (String(r[1]) !== regNumber || r[4] === CFG.SEAT_DISABLED) continue;
+    latest[Number(r[2])] = { seat: Number(r[2]), code: String(r[3] || ''), status: r[4], holder: r[5], email: r[6] };
+  }
+  var out = [];
+  for (var n = 1; n <= CFG.CORPORATE_SEATS; n++) if (latest[n]) out.push(latest[n]);
+  return out;
+}
+
+function memberByNumber(number) {
+  var row = findRow(sheet(CFG.SHEET_MEM), 0, String(number));
+  return row ? row.values : null;
+}
+
+// -- Penyusun email per kejadian -------------------------------------------------
+
+/** Mengembalikan daftar { to, subject, html, card: {token, number} | null }. */
+function buildEmails(type, ctx) {
+  if (type === 'registered') return buildRegistered(ctx);
+  if (type === 'verified') return buildVerified(ctx);
+  if (type === 'rejected') return buildRejected(ctx);
+  if (type === 'seat_claimed') return buildSeatClaimed(ctx);
+  if (type === 'seat_replaced') return buildSeatReplaced(ctx);
+  return [];
+}
+
+function buildRegistered(ctx) {
+  var v = regByNumber(ctx.regNumber);
+  var L = v[col('Bahasa')];
+  var corporate = v[col('Kategori')] === 'corporate';
+  var inner =
+    emailParagraph(pick(L, 'Halo ' + v[col('Nama Lengkap')] + ', terima kasih. Pendaftaran Anda sudah kami terima.', 'Hello ' + v[col('Nama Lengkap')] + ', thank you. We have received your application.')) +
+    emailTable([
+      [pick(L, 'No. pendaftaran', 'Application no.'), v[col('No. Pendaftaran')]],
+      [pick(L, 'Kategori', 'Category'), categoryName(v[col('Kategori')], L)],
+      [pick(L, 'Jumlah transfer', 'Transfer amount'), money(v[col('Nominal Transfer (Rp)')], L)],
+      ['Status', pick(L, 'Menunggu verifikasi', 'Pending verification')],
+    ]) +
+    emailParagraph(pick(L, 'Bendahara akan mencocokkan pembayaran Anda. Verifikasi memerlukan maksimal 1×24 jam kerja.', 'Our Treasurer will match your payment. Verification takes at most 1×24 working hours.')) +
+    emailParagraph(corporate
+      ? pick(L, 'Setelah terverifikasi, 3 kode kursi akan dikirim ke email ini.', 'Once verified, the 3 seat codes will be sent to this email.')
+      : pick(L, 'Setelah terverifikasi, kartu anggota aktif akan dikirim ke email ini.', 'Once verified, your active member card will be sent to this email.'));
+  return [{
+    to: v[col('Email')],
+    subject: pick(L, 'Pendaftaran INOPI diterima — ', 'INOPI application received — ') + v[col('No. Pendaftaran')],
+    html: emailShell(L, pick(L, 'Pendaftaran Anda sudah kami terima', 'We have received your application'), inner),
+    card: null,
+  }];
+}
+
+function buildVerified(ctx) {
+  var v = regByNumber(ctx.regNumber);
+  var L = v[col('Bahasa')];
+  var reg = String(v[col('No. Pendaftaran')]);
+  var validUntil = fmtDate(v[col('Berlaku s.d.')], L);
+
+  if (v[col('Kategori')] !== 'corporate') {
+    var receipt = v[col('Token Terima Kasih')];
+    var inner =
+      emailParagraph(pick(L, 'Halo ' + v[col('Nama Lengkap')] + ', pembayaran Anda sudah terverifikasi. Kartu anggota INOPI Anda aktif.', 'Hello ' + v[col('Nama Lengkap')] + ', your payment has been verified. Your INOPI member card is now active.')) +
+      emailTable([
+        [pick(L, 'No. anggota', 'Member no.'), reg],
+        [pick(L, 'Kategori', 'Category'), categoryName(v[col('Kategori')], L)],
+        [pick(L, 'Berlaku s.d.', 'Valid until'), validUntil],
+      ]) +
+      emailParagraph(pick(L, 'Kartu PDF terlampir. Anda juga dapat mengunduhnya kapan saja lewat tombol di bawah.', 'Your card is attached as a PDF. You can also download it any time with the button below.')) +
+      emailButton(pick(L, 'Unduh kartu anggota', 'Download member card'), cardDownloadUrl(receipt));
+    return [{
+      to: v[col('Email')],
+      subject: pick(L, 'Kartu anggota INOPI Anda aktif — ', 'Your INOPI member card is active — ') + reg,
+      html: emailShell(L, pick(L, 'Selamat, keanggotaan Anda aktif', 'Welcome, your membership is active'), inner),
+      card: { token: receipt, number: reg },
+    }];
+  }
+
+  // Corporate: PIC menerima kode kursi (dan kartu PIC bila memakai kursi 1).
+  var seats = seatsOf(reg);
+  var picMember = memberByNumber(reg + '-1');
+  var rows = '';
+  for (var i = 0; i < seats.length; i++) {
+    var st = seats[i];
+    var state = st.status === CFG.SEAT_USED
+      ? pick(L, 'Terpakai oleh ', 'Used by ') + st.holder
+      : pick(L, 'Belum dipakai', 'Not used yet');
+    rows += '<tr><td style="padding:10px 14px;border-bottom:1px solid ' + EMAIL_COLORS.line + ';font-size:13px;color:' + EMAIL_COLORS.muted + '">' + pick(L, 'Kursi ', 'Seat ') + st.seat +
+      '</td><td style="padding:10px 14px;border-bottom:1px solid ' + EMAIL_COLORS.line + ';font-size:15px;font-weight:700;letter-spacing:1px;color:' + EMAIL_COLORS.ink + ';font-family:Consolas,Menlo,monospace">' + esc(st.code) +
+      '</td><td style="padding:10px 14px;border-bottom:1px solid ' + EMAIL_COLORS.line + ';font-size:12px;color:' + EMAIL_COLORS.muted + '">' + esc(state) + '</td></tr>';
+  }
+  var first = seats.filter(function (x) { return x.status === CFG.SEAT_AVAILABLE; })[0];
+  var inner2 =
+    emailParagraph(pick(L, 'Halo ' + v[col('Nama Lengkap')] + ', pembayaran ' + v[col('Institusi')] + ' sudah terverifikasi. Berikut 3 kode kursi Corporate yang berlaku sampai ' + validUntil + '.',
+      'Hello ' + v[col('Nama Lengkap')] + ', the payment for ' + v[col('Institusi')] + ' has been verified. Here are your 3 Corporate seat codes, valid until ' + validUntil + '.')) +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:16px 0;border:1px solid ' + EMAIL_COLORS.line + '">' + rows + '</table>' +
+    emailParagraph(pick(L, 'Cara memakai kode: bagikan satu kode kepada satu rekan. Rekan Anda membuka halaman pendaftaran, memilih "Punya kode Corporate?", memasukkan kode, lalu mengisi data dirinya. Tanpa pembayaran, dan kartunya langsung aktif.',
+      'How to use a code: give one code to each colleague. They open the registration page, choose "Have a Corporate code?", enter the code and fill in their details. No payment needed, and their card is active immediately.')) +
+    (first ? emailButton(pick(L, 'Buka halaman pendaftaran dengan kode', 'Open the registration page with a code'), seatSignupUrl(first.code, L)) : '') +
+    emailParagraph(pick(L, 'Perlu mengganti pemegang kursi (misalnya karena rekan Anda berhenti)? Balas email ini dengan menyebut kode kursinya. Kode lama dinonaktifkan beserta kartunya, lalu kami kirim kode pengganti.',
+      'Need to change a seat holder (for example, a colleague has left)? Reply to this email with the seat code. The old code and its card are deactivated and we send you a replacement code.')) +
+    (picMember ? emailParagraph(pick(L, 'Kursi 1 atas nama Anda; kartu anggota Anda terlampir.', 'Seat 1 is in your name; your member card is attached.')) +
+      emailButton(pick(L, 'Unduh kartu anggota', 'Download member card'), cardDownloadUrl(picMember[16])) : '');
+  return [{
+    to: v[col('Email')],
+    subject: pick(L, 'Kode kursi Corporate INOPI — ', 'INOPI Corporate seat codes — ') + reg,
+    html: emailShell(L, pick(L, 'Kode kursi Corporate Anda', 'Your Corporate seat codes'), inner2),
+    card: picMember ? { token: picMember[16], number: String(picMember[0]) } : null,
+  }];
+}
+
+function buildRejected(ctx) {
+  var v = regByNumber(ctx.regNumber);
+  var L = v[col('Bahasa')];
+  var reason = String(v[col('Alasan Penolakan')] || '');
+  var inner =
+    emailParagraph(pick(L, 'Halo ' + v[col('Nama Lengkap')] + ', mohon maaf, pendaftaran ' + v[col('No. Pendaftaran')] + ' belum dapat kami setujui.', 'Hello ' + v[col('Nama Lengkap')] + ', we are sorry, we could not approve application ' + v[col('No. Pendaftaran')] + '.')) +
+    emailTable([[pick(L, 'Alasan', 'Reason'), reason]]) +
+    emailParagraph(pick(L, 'Silakan hubungi sekretariat di ' + CONTACT_EMAIL + ' agar kami dapat membantu. Anda juga dapat mendaftar kembali kapan saja.', 'Please contact the secretariat at ' + CONTACT_EMAIL + ' so we can help. You are also welcome to apply again at any time.')) +
+    emailButton(pick(L, 'Daftar kembali', 'Apply again'), siteUrl() + (L === 'en' ? '/en/membership/apply' : '/keanggotaan/daftar'));
+  return [{
+    to: v[col('Email')],
+    subject: pick(L, 'Pendaftaran INOPI belum dapat disetujui — ', 'INOPI application could not be approved — ') + v[col('No. Pendaftaran')],
+    html: emailShell(L, pick(L, 'Pendaftaran belum dapat disetujui', 'Application could not be approved'), inner),
+    card: null,
+  }];
+}
+
+function buildSeatClaimed(ctx) {
+  var m = memberByNumber(ctx.memberNumber);
+  if (!m) throw regErr('not_found');
+  var L = m[13];
+  var reg = String(m[8]);
+  var out = [];
+  var inner =
+    emailParagraph(pick(L, 'Halo ' + m[1] + ', selamat bergabung. Kartu anggota Corporate INOPI Anda langsung aktif.', 'Hello ' + m[1] + ', welcome. Your INOPI Corporate member card is active immediately.')) +
+    emailTable([
+      [pick(L, 'No. anggota', 'Member no.'), m[0]],
+      [pick(L, 'Institusi', 'Organization'), m[6]],
+      [pick(L, 'Berlaku s.d.', 'Valid until'), fmtDate(m[12], L)],
+    ]) +
+    emailParagraph(pick(L, 'Kartu PDF terlampir. Anda juga dapat mengunduhnya kapan saja lewat tombol di bawah.', 'Your card is attached as a PDF. You can also download it any time with the button below.')) +
+    emailButton(pick(L, 'Unduh kartu anggota', 'Download member card'), cardDownloadUrl(m[16]));
+  out.push({
+    to: m[2],
+    subject: pick(L, 'Kartu anggota INOPI Anda aktif — ', 'Your INOPI member card is active — ') + m[0],
+    html: emailShell(L, pick(L, 'Keanggotaan Anda aktif', 'Your membership is active'), inner),
+    card: { token: m[16], number: String(m[0]) },
+  });
+
+  // Pemberitahuan ke PIC bahwa kursi terpakai.
+  var org = findRow(sheet(CFG.SHEET_ORG), 1, reg);
+  if (org && String(org.values[6]).toLowerCase() !== String(m[2]).toLowerCase()) {
+    var P = regByNumber(reg)[col('Bahasa')];
+    var seats = seatsOf(reg);
+    var used = seats.filter(function (x) { return x.status === CFG.SEAT_USED; }).length;
+    out.push({
+      to: org.values[6],
+      subject: pick(P, 'Kursi Corporate INOPI dipakai — ', 'INOPI Corporate seat used — ') + m[0],
+      html: emailShell(P, pick(P, 'Satu kursi sudah dipakai', 'A seat has been used'),
+        emailParagraph(pick(P, m[1] + ' mendaftar memakai kursi ' + m[9] + ' (' + m[10] + '). Kartu anggotanya sudah aktif.', m[1] + ' registered using seat ' + m[9] + ' (' + m[10] + '). Their card is now active.')) +
+        emailParagraph(pick(P, used + ' dari ' + CFG.CORPORATE_SEATS + ' kursi sudah terpakai.', used + ' of ' + CFG.CORPORATE_SEATS + ' seats are now used.'))),
+      card: null,
+    });
+  }
+  return out;
+}
+
+function buildSeatReplaced(ctx) {
+  var v = regByNumber(ctx.regNumber);
+  var L = v[col('Bahasa')];
+  var inner =
+    emailParagraph(pick(L, 'Halo ' + v[col('Nama Lengkap')] + ', kursi ' + ctx.seat + ' telah dinonaktifkan sesuai permintaan. Kode lama dan kartu pemegangnya tidak berlaku lagi.', 'Hello ' + v[col('Nama Lengkap')] + ', seat ' + ctx.seat + ' has been deactivated as requested. The old code and its holder\'s card are no longer valid.')) +
+    emailTable([[pick(L, 'Kode pengganti kursi ' + ctx.seat, 'Replacement code for seat ' + ctx.seat), ctx.newCode]]) +
+    emailButton(pick(L, 'Buka halaman pendaftaran dengan kode', 'Open the registration page with a code'), seatSignupUrl(ctx.newCode, L));
+  return [{
+    to: v[col('Email')],
+    subject: pick(L, 'Kode pengganti kursi INOPI — ', 'INOPI replacement seat code — ') + ctx.regNumber,
+    html: emailShell(L, pick(L, 'Kode pengganti kursi', 'Replacement seat code'), inner),
+    card: null,
+  }];
+}
+
+// -- Pengiriman ----------------------------------------------------------------
+
+/** Dipanggil flushEvents(). Setiap email dikirim terpisah; satu kegagalan tidak menghentikan yang lain. */
+function deliverEmail(type, ctx) {
+  var messages = buildEmails(type, ctx);
+  for (var i = 0; i < messages.length; i++) {
+    var m = messages[i];
+    try {
+      var options = {
+        to: m.to,
+        subject: m.subject,
+        htmlBody: m.html,
+        body: plainText(m.html),
+        name: 'INOPI',
+        replyTo: CONTACT_EMAIL,
+      };
+      if (m.card) {
+        var pdf = fetchCardPdf(m.card.token, m.card.number);
+        if (pdf) options.attachments = [pdf];
+      }
+      MailApp.sendEmail(options);
+      logEvent('email_sent', ctx.regNumber || ctx.memberNumber || '', type + ' -> ' + maskEmail(m.to) + (options.attachments ? ' (+PDF)' : ''));
+    } catch (err) {
+      logEvent('email_failed', ctx.regNumber || ctx.memberNumber || '', type + ' -> ' + maskEmail(m.to) + ': ' + (err && err.message ? err.message : err));
+    }
+  }
+}
+
+/** Menu: kirim ulang email untuk baris terpilih (Pendaftaran, Kursi, atau Anggota). */
+function menuResendEmails() {
+  var range = SpreadsheetApp.getActiveSpreadsheet().getActiveRange();
+  var sh = range && range.getSheet();
+  if (!sh) return;
+  var count = resendForRows(sh.getName(), range.getRow(), range.getNumRows());
+  notify(count + ' email dijadwalkan ulang. Hasilnya tercatat di tab "' + CFG.SHEET_LOG + '".');
+}
+
+function resendForRows(sheetName, firstRow, numRows) {
+  var count = 0;
+  var sh = sheet(sheetName);
+  for (var r = Math.max(firstRow, 2); r < firstRow + numRows; r++) {
+    var v = sh.getRange(r, 1, 1, headerWidth(sh)).getValues()[0];
+    var type = null;
+    var ref = '';
+    var ctx = {};
+    if (sheetName === CFG.SHEET_REG && v[col('No. Pendaftaran')]) {
+      var status = String(v[col('Status')]);
+      type = status === CFG.STATUS_ACTIVE ? 'verified' : status === CFG.STATUS_REJECTED ? 'rejected' : 'registered';
+      ref = String(v[col('No. Pendaftaran')]);
+      ctx = { regNumber: ref };
+    } else if (sheetName === CFG.SHEET_SEAT && v[1]) {
+      type = 'verified'; // email kode kursi ke PIC
+      ref = String(v[1]);
+      ctx = { regNumber: ref };
+    } else if (sheetName === CFG.SHEET_MEM && v[0]) {
+      type = 'seat_claimed';
+      ref = String(v[0]);
+      ctx = { memberNumber: ref, regNumber: String(v[8]) };
+    }
+    if (!type) continue;
+    logEvent('resend', ref, type);
+    queueEvent(type, ref, ctx);
+    count++;
+  }
+  flushEvents();
+  return count;
 }

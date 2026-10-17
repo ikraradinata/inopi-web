@@ -341,11 +341,11 @@ describe('pendaftaran jalur A', () => {
   it('mengirim notifikasi ke Bendahara tanpa memuat email atau WhatsApp pendaftar', () => {
     const env = createRegistryEnv()
     const { res } = fullRegister(env)
-    expect(env.mails).toHaveLength(1)
-    expect(env.mails[0].to).toBe('asosiasi.inopi@gmail.com')
-    expect(env.mails[0].subject).toContain(res.regNumber)
-    expect(env.mails[0].body).not.toContain('081234567890')
-    expect(env.mails[0].body).not.toContain('siti@example.com')
+    const mail = env.mails.find((m) => m.to === 'asosiasi.inopi@gmail.com')!
+    expect(env.mails.filter((m) => m.to === 'asosiasi.inopi@gmail.com')).toHaveLength(1)
+    expect(mail.subject).toContain(res.regNumber)
+    expect(mail.body).not.toContain('081234567890')
+    expect(mail.body).not.toContain('siti@example.com')
   })
 
   it('token terima kasih dan token verifikasi acak, panjang, dan berbeda', () => {
@@ -502,15 +502,15 @@ describe('verifikasi: aktif', () => {
     const env = createRegistryEnv()
     env.setNow(new Date('2026-10-30T03:00:00Z'))
     const { res } = fullRegister(env)
-    expect(logActions(env)).toEqual(['registered'])
+    expect(logActions(env)).toEqual(['registered', 'email_sent'])
     expect(processAll(env)).toBe(0) // masih menunggu: tidak ada yang berubah
 
     setRegCell(env, 1, 'Status', 'Aktif')
     expect(processAll(env)).toBe(1)
     expect(new Date(regCell(env, 1, 'Diverifikasi Pada') as string).toISOString()).toBe('2026-10-30T03:00:00.000Z')
     expect(new Date(regCell(env, 1, 'Berlaku s.d.') as string).toISOString()).toBe('2027-10-30T03:00:00.000Z')
-    expect(logActions(env)).toEqual(['registered', 'verified'])
-    expect(sheetRows(env, 'Log')[1][2]).toBe(res.regNumber)
+    expect(logActions(env)).toEqual(['registered', 'email_sent', 'verified', 'email_sent'])
+    expect(sheetRows(env, 'Log')[2][2]).toBe(res.regNumber)
   })
 
   it('idempoten: diproses ulang tidak mengubah apa pun', () => {
@@ -965,5 +965,246 @@ describe('verifikasi publik', () => {
     const env = createRegistryEnv()
     for (let i = 0; i < 60; i++) expect(verify(env, '0'.repeat(64), '7.7.7.7').error).toBe('not_found')
     expect(verify(env, '0'.repeat(64), '7.7.7.7').error).toBe('rate_limited')
+  })
+})
+
+/* ---------- Email transaksional (R7) ---------- */
+
+const mailTo = (env: RegistryEnv, to: string) => env.mails.filter((m) => m.to === to)
+const lastMail = (env: RegistryEnv, to: string) => mailTo(env, to).at(-1)!
+
+describe('email: pendaftaran terkirim', () => {
+  it('pendaftar menerima ringkasan dan nominal, bahasa sesuai locale', () => {
+    const env = createRegistryEnv()
+    fullRegister(env, { locale: 'id' })
+    fullRegister(env, { locale: 'en', email: 'john@example.com', name: 'John Tester' })
+    const idMail = lastMail(env, 'siti@example.com')
+    expect(idMail.subject).toMatch(/^Pendaftaran INOPI diterima — INP-26-S-0001$/)
+    expect(idMail.htmlBody).toContain('Menunggu verifikasi')
+    expect(idMail.htmlBody).toMatch(/Rp 250\.\d{3}/)
+    expect(idMail.htmlBody).toContain('lang="id"')
+    const enMail = lastMail(env, 'john@example.com')
+    expect(enMail.subject).toMatch(/^INOPI application received/)
+    expect(enMail.htmlBody).toContain('Pending verification')
+    expect(enMail.htmlBody).toMatch(/IDR 250,\d{3}/)
+    expect(enMail.htmlBody).toContain('lang="en"')
+  })
+
+  it('terang, bermerek, dan ramah ponsel; ada versi teks biasa; pengirim INOPI', () => {
+    const env = createRegistryEnv()
+    fullRegister(env)
+    const m = lastMail(env, 'siti@example.com')
+    expect(m.htmlBody).toContain('name="viewport"')
+    expect(m.htmlBody).toContain('/logo/inopi-logo.png')
+    expect(m.htmlBody).toContain('max-width:560px')
+    expect(m.name).toBe('INOPI')
+    expect(m.replyTo).toBe('asosiasi.inopi@gmail.com')
+    expect(m.body).toContain('INP-26-S-0001')
+    expect(m.body).not.toMatch(/<[a-z]/i)
+  })
+
+  it('mengamankan HTML dari isi data pendaftar', () => {
+    const env = createRegistryEnv()
+    fullRegister(env, { name: '<script>alert(1)</script> Eve' })
+    const html = lastMail(env, 'siti@example.com').htmlBody!
+    expect(html).not.toContain('<script>')
+    expect(html).toContain('&lt;script&gt;')
+  })
+
+  it('Corporate: pendaftar (PIC) diberi tahu kode kursi menyusul', () => {
+    const env = createRegistryEnv()
+    fullRegister(env, corp, 'corporate')
+    const m = lastMail(env, 'budi@ptuji.co.id')
+    expect(m.htmlBody).toContain('3 kode kursi')
+    expect(m.htmlBody).not.toContain('CORP-')
+  })
+})
+
+describe('email: diverifikasi', () => {
+  it('Mahasiswa/Profesional: kartu aktif dengan PDF terlampir dan tautan unduh', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env)
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const m = lastMail(env, 'siti@example.com')
+    expect(m.subject).toMatch(/^Kartu anggota INOPI Anda aktif — /)
+    expect(m.htmlBody).toContain('/api/membership/card/' + regCell(env, 1, 'Token Terima Kasih'))
+    expect(m.attachments).toEqual([{ name: `kartu-inopi-${res.regNumber}.pdf`, contentType: 'application/pdf' }])
+    expect(env.fetches).toEqual([`https://www.inopi.id/api/membership/card/${regCell(env, 1, 'Token Terima Kasih')}`])
+    expect(logActions(env)).toContain('email_sent')
+  })
+
+  it('PDF tidak bisa diambil: email tetap terkirim (tanpa lampiran) dan tercatat', () => {
+    const env = createRegistryEnv()
+    fullRegister(env)
+    env.fetchBehavior.status = 500
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const m = lastMail(env, 'siti@example.com')
+    expect(m.attachments).toBeUndefined()
+    expect(m.htmlBody).toContain('Unduh kartu anggota')
+    expect(logActions(env)).toContain('email_attach_failed')
+    env.fetchBehavior.throws = true
+    fullRegister(env, { email: 'b@example.com' })
+    setRegCell(env, 2, 'Status', 'Aktif')
+    processAll(env)
+    expect(lastMail(env, 'b@example.com').attachments).toBeUndefined()
+  })
+
+  it('Corporate: PIC menerima 3 kode, status kursi, cara pakai, cara minta pengganti, dan kartu PIC', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env, corp, 'corporate')
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const codes = sheetRows(env, 'Kursi').map((r) => r[3] as string)
+    const m = lastMail(env, 'budi@ptuji.co.id')
+    expect(m.subject).toMatch(/^Kode kursi Corporate INOPI — /)
+    for (const c of codes) expect(m.htmlBody).toContain(c)
+    expect(m.htmlBody).toContain('Terpakai oleh Budi PIC')
+    expect(m.htmlBody).toContain('Belum dipakai')
+    expect(m.htmlBody).toContain('Punya kode Corporate?')
+    expect(m.htmlBody).toContain('mengganti pemegang kursi')
+    expect(m.htmlBody).toContain(`/keanggotaan/daftar/kode?kode=${codes[1]}`) // kursi pertama yang masih tersedia
+    expect(m.attachments).toEqual([{ name: `kartu-inopi-${res.regNumber}-1.pdf`, contentType: 'application/pdf' }])
+  })
+
+  it('Corporate tanpa kursi 1: tidak ada lampiran kartu', () => {
+    const env = createRegistryEnv()
+    fullRegister(env, { ...corp, useSeat1: false }, 'corporate')
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const m = lastMail(env, 'budi@ptuji.co.id')
+    expect(m.attachments).toBeUndefined()
+    expect(m.htmlBody).toContain('Belum dipakai')
+    expect(env.fetches).toHaveLength(0)
+  })
+
+  it('English locale: email kode kursi berbahasa Inggris dengan tautan /en', () => {
+    const env = createRegistryEnv()
+    fullRegister(env, { ...corp, locale: 'en' }, 'corporate')
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const m = lastMail(env, 'budi@ptuji.co.id')
+    expect(m.subject).toMatch(/^INOPI Corporate seat codes/)
+    expect(m.htmlBody).toContain('Have a Corporate code?')
+    expect(m.htmlBody).toContain('/en/membership/apply/code?kode=')
+    expect(m.htmlBody).toContain('Used by Budi PIC')
+  })
+})
+
+describe('email: ditolak', () => {
+  it('pendaftar menerima alasan dan kontak sekretariat', () => {
+    const env = createRegistryEnv()
+    fullRegister(env)
+    setRegCell(env, 1, 'Status', 'Ditolak')
+    setRegCell(env, 1, 'Alasan Penolakan', 'Nominal tidak sesuai')
+    processAll(env)
+    const m = lastMail(env, 'siti@example.com')
+    expect(m.subject).toMatch(/belum dapat disetujui/)
+    expect(m.htmlBody).toContain('Nominal tidak sesuai')
+    expect(m.htmlBody).toContain('asosiasi.inopi@gmail.com')
+  })
+
+  it('tanpa alasan tidak ada email penolakan (status dikembalikan)', () => {
+    const env = createRegistryEnv()
+    fullRegister(env)
+    const before = env.mails.length
+    setRegCell(env, 1, 'Status', 'Ditolak')
+    processAll(env)
+    expect(env.mails).toHaveLength(before)
+  })
+})
+
+describe('email: kode kursi dipakai dan diganti', () => {
+  it('anggota menerima kartu aktif (PDF) dan PIC diberi tahu kursi terpakai', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    const picBefore = mailTo(env, 'budi@ptuji.co.id').length
+    const a = claim(env, codes[1])
+    const member = lastMail(env, 'rina@ptuji.co.id')
+    expect(member.subject).toMatch(/^Kartu anggota INOPI Anda aktif — /)
+    expect(member.htmlBody).toContain('PT Inovasi Uji')
+    expect(member.attachments?.[0].name).toBe(`kartu-inopi-${a.regNumber}.pdf`)
+    const pic = mailTo(env, 'budi@ptuji.co.id')
+    expect(pic).toHaveLength(picBefore + 1)
+    expect(pic.at(-1)!.subject).toMatch(/^Kursi Corporate INOPI dipakai/)
+    expect(pic.at(-1)!.htmlBody).toContain('Rina Rekan')
+    expect(pic.at(-1)!.htmlBody).toContain('2 dari 3')
+  })
+
+  it('PIC yang memakai kodenya sendiri tidak mendapat pemberitahuan ganda', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env, { useSeat1: false })
+    const before = mailTo(env, 'budi@ptuji.co.id').length
+    claim(env, codes[0], { email: 'budi@ptuji.co.id', name: 'Budi PIC' })
+    expect(mailTo(env, 'budi@ptuji.co.id')).toHaveLength(before + 1) // hanya kartu miliknya
+  })
+
+  it('kursi diganti: PIC menerima kode pengganti', () => {
+    const env = createRegistryEnv()
+    verifiedCompany(env)
+    const fresh = run(env, 'replaceSeat', 3) as string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(env.ctx as any).flushEvents() // menu menjalankan ini setelah melepas kunci
+    const m = lastMail(env, 'budi@ptuji.co.id')
+    expect(m.subject).toMatch(/^Kode pengganti kursi INOPI/)
+    expect(m.htmlBody).toContain(fresh)
+  })
+})
+
+describe('email: ketahanan', () => {
+  it('pengiriman gagal tidak membatalkan pendaftaran atau verifikasi; tercatat di Log', () => {
+    const env = createRegistryEnv()
+    setInContext(env, 'MailApp = { sendEmail: function () { throw new Error("kuota habis"); } }')
+    const { res } = fullRegister(env)
+    expect(res.ok).toBe(true)
+    expect(regRows(env)).toHaveLength(1)
+    setRegCell(env, 1, 'Status', 'Aktif')
+    expect(processAll(env)).toBe(1)
+    expect(regCell(env, 1, 'Status')).toBe('Aktif')
+    const failed = sheetRows(env, 'Log').filter((r) => r[1] === 'email_failed')
+    expect(failed.length).toBeGreaterThanOrEqual(2)
+    expect(String(failed[0][4])).toContain('kuota habis')
+    expect(String(failed[0][4])).not.toContain('siti@example.com') // alamat disamarkan
+  })
+
+  it('email dikirim setelah kunci dilepas (PDF kartu memanggil registry lagi)', () => {
+    const env = createRegistryEnv()
+    fullRegister(env)
+    let heldDuringFetch = -1
+    setInContext(env, 'var __orig = UrlFetchApp.fetch; UrlFetchApp.fetch = function (u, o) { __probe(); return __orig(u, o); }', {
+      __probe: () => {
+        heldDuringFetch = env.lock.held
+      },
+    })
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    expect(heldDuringFetch).toBe(0)
+  })
+
+  it('kirim ulang: email sesuai status baris, dicatat sebagai resend', () => {
+    const env = createRegistryEnv()
+    fullRegister(env)
+    const base = env.mails.length
+    expect(run(env, 'resendForRows', 'Pendaftaran', 2, 1)).toBe(1)
+    expect(lastMail(env, 'siti@example.com').subject).toMatch(/^Pendaftaran INOPI diterima/)
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    run(env, 'resendForRows', 'Pendaftaran', 2, 1)
+    expect(lastMail(env, 'siti@example.com').subject).toMatch(/^Kartu anggota INOPI Anda aktif/)
+    expect(env.mails.length).toBeGreaterThan(base + 1)
+    expect(logActions(env)).toContain('resend')
+  })
+
+  it('kirim ulang dari tab Kursi dan Anggota', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    claim(env, codes[1])
+    const n = env.mails.length
+    expect(run(env, 'resendForRows', 'Kursi', 2, 1)).toBe(1)
+    expect(lastMail(env, 'budi@ptuji.co.id').subject).toMatch(/^Kode kursi Corporate/)
+    expect(run(env, 'resendForRows', 'Anggota', 3, 1)).toBe(1)
+    expect(lastMail(env, 'rina@ptuji.co.id').subject).toMatch(/^Kartu anggota INOPI Anda aktif/)
+    expect(env.mails.length).toBeGreaterThan(n + 2)
   })
 })

@@ -20,10 +20,11 @@ Masuk Google sebagai **asosiasi.inopi@gmail.com**, buka Sheet PENDAFTARAN.
    |---|---|
    | `API_SECRET` | rangkaian acak panjang (≥ 32 karakter). Buat dengan `openssl rand -hex 32`. **Rahasia, jangan dibagikan atau dimasukkan ke repo.** |
    | `NOTIFY_EMAIL` | (opsional) email Bendahara yang diberi tahu tiap ada pendaftaran. Kosong = asosiasi.inopi@gmail.com |
+   | `SITE_URL` | (opsional) alamat website untuk tautan di email. Kosong = `https://www.inopi.id` |
    | `FOLDER_ID` | (opsional) ID folder Drive untuk bukti transfer. Kosong = skrip membuat folder privat "INOPI - Bukti Transfer" sendiri |
 
 3. Pilih fungsi `doGet` di menu fungsi lalu **Run** sekali. Google meminta otorisasi (Sheets, Drive, Gmail/Mail,
-   Script). Pilih akun asosiasi → *Advanced* → *Go to … (unsafe)* → *Allow*. Peringatan "unsafe" muncul karena
+   layanan eksternal untuk mengambil PDF kartu, Script). Pilih akun asosiasi → *Advanced* → *Go to … (unsafe)* → *Allow*. Peringatan "unsafe" muncul karena
    skrip belum diverifikasi Google; ini skrip milik sendiri.
 4. **Deploy → New deployment → Web app**
    - Execute as: **Me**
@@ -85,8 +86,10 @@ untuk akun yang punya akses ke folder itu.
 5. **Mengganti pemegang kursi Corporate (mis. karyawan resign):** di tab **Kursi**, klik baris kursi tersebut →
    **INOPI → Nonaktifkan kursi terpilih & terbitkan kode pengganti**. Kode lama dan kartu pemegangnya
    nonaktif; baris baru dengan kode pengganti muncul untuk kursi yang sama.
-6. **Ekspor CSV:** pilih tab yang diinginkan → **File → Download → Comma-separated values (.csv)**.
-7. Bila pemicu otomatis tidak jalan (mis. otorisasi kedaluwarsa): **INOPI → Proses status sekarang** memproses
+6. **Email:** pendaftar, PIC, dan anggota menerima email otomatis (lihat `apps-script/DEPLOY_EMAIL.md`). Bila ada yang
+   gagal terkirim, pilih barisnya lalu **INOPI → Kirim ulang email untuk baris terpilih**.
+7. **Ekspor CSV:** pilih tab yang diinginkan → **File → Download → Comma-separated values (.csv)**.
+8. Bila pemicu otomatis tidak jalan (mis. otorisasi kedaluwarsa): **INOPI → Proses status sekarang** memproses
    semua perubahan yang tertunda. Aman dijalankan berulang.
 
 ## 5. Pemecahan masalah

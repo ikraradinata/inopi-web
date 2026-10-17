@@ -110,6 +110,17 @@ export interface SentMail {
   to: string
   subject: string
   body: string
+  htmlBody?: string
+  name?: string
+  replyTo?: string
+  attachments?: { name: string; contentType: string }[]
+}
+
+/** Perilaku UrlFetchApp tiruan (pengambilan PDF kartu dari website). */
+export interface FetchBehavior {
+  status: number
+  contentType: string
+  throws?: boolean
 }
 
 export interface RegistryEnv {
@@ -120,6 +131,9 @@ export interface RegistryEnv {
   props: Map<string, string>
   lock: { held: number; acquired: number; released: number }
   call: (body: Record<string, unknown>) => Record<string, any>
+  /** URL yang diambil UrlFetchApp, dan perilakunya (dapat diubah tes). */
+  fetches: string[]
+  fetchBehavior: FetchBehavior
   /** Mengatur waktu sistem tiruan (untuk kedaluwarsa dan pergantian tahun). */
   setNow: (d: Date | null) => void
 }
@@ -134,6 +148,8 @@ export function createRegistryEnv(options: { secret?: string | null; starterShee
   const props = new Map<string, string>()
   const cache = new Map<string, string>()
   const lock = { held: 0, acquired: 0, released: 0 }
+  const fetches: string[] = []
+  const fetchBehavior: FetchBehavior = { status: 200, contentType: 'application/pdf' }
   let fixedNow: Date | null = null
 
   if (options.secret !== null) props.set('API_SECRET', options.secret ?? TEST_SECRET)
@@ -219,7 +235,31 @@ export function createRegistryEnv(options: { secret?: string | null; starterShee
         return f
       },
     },
-    MailApp: { sendEmail: (m: SentMail) => void mails.push(m) },
+    MailApp: {
+      sendEmail: (m: SentMail) => {
+        // Lampiran tiruan: simpan nama dan tipe saja.
+        const attachments = (m as unknown as { attachments?: { name: string; contentType: string }[] }).attachments
+        mails.push({ ...m, attachments: attachments?.map((a) => ({ name: a.name, contentType: a.contentType })) })
+      },
+    },
+    UrlFetchApp: {
+      fetch: (url: string) => {
+        fetches.push(url)
+        if (fetchBehavior.throws) throw new Error('jaringan putus')
+        const blob = {
+          name: 'file',
+          contentType: fetchBehavior.contentType,
+          getContentType() {
+            return this.contentType
+          },
+          setName(n: string) {
+            this.name = n
+            return this
+          },
+        }
+        return { getResponseCode: () => fetchBehavior.status, getBlob: () => blob }
+      },
+    },
     Session: { getEffectiveUser: () => ({ getEmail: () => 'asosiasi.inopi@gmail.com' }) },
     ContentService: {
       MimeType: { JSON: 'JSON' },
@@ -238,6 +278,8 @@ export function createRegistryEnv(options: { secret?: string | null; starterShee
     mails,
     props,
     lock,
+    fetches,
+    fetchBehavior,
     call: (body) => JSON.parse(JSON.stringify((ctx as any).handleRequest({ secret: options.secret ?? TEST_SECRET, ...body }))),
     setNow: (d) => {
       fixedNow = d
