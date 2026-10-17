@@ -53,5 +53,186 @@
   },
   "AnnouncementBar": {
     "detail": "Detail"
+  },
+  "Hero": {
+    "headlineLead": "Beyond Technology:",
+    "headlineAccent": "Shaping the Future of Learning",
+    "intro": "{tagline}. Peluncuran resmi INOPI — {positioning}.",
+    "posterAlt": "Poster {eyebrow} — {title}",
+    "confirm": "Konfirmasi Kehadiran →",
+    "details": "Detail Acara"
+  },
+  "Countdown": {
+    "label": "Hitung mundur menuju acara",
+    "days": "Hari",
+    "hours": "Jam",
+    "minutes": "Menit",
+    "seconds": "Detik",
+    "live": "Acara sedang berlangsung",
+    "done": "Acara telah selesai — terima kasih atas partisipasinya."
+  },
+  "Stats": {
+    "items": [
+      {
+        "value": "26",
+        "label": "Founders"
+      },
+      {
+        "value": "4",
+        "label": "Divisi Utama"
+      },
+      {
+        "value": "5",
+        "label": "Program Prioritas"
+      },
+      {
+        "value": "1",
+        "label": "Visi Nasional"
+      }
+    ]
+  },
+  "WhyInopi": {
+    "eyebrow": "Mengapa INOPI",
+    "title": "Inovasi pembelajaran Indonesia tumbuh di banyak tempat, tetapi belum terhubung",
+    "body": "Inovasi pembelajaran di Indonesia lahir di kampus, sekolah, industri, dan lembaga pemerintah. Sayangnya, sebagian besar berjalan sendiri-sendiri: riset berhenti di jurnal, teknologi tidak sampai ke ruang kelas, dan kebutuhan industri tidak terdengar oleh dunia pendidikan. INOPI hadir untuk menghubungkan semuanya dalam satu ekosistem, agar gagasan dapat diuji, diterapkan, dan memberi dampak nyata.",
+    "cards": [
+      {
+        "title": "Untuk anggota",
+        "desc": "Jejaring lintas sektor, pengembangan kompetensi, serta ruang untuk menguji dan memperluas gagasan."
+      },
+      {
+        "title": "Untuk mitra",
+        "desc": "Jalur kolaborasi yang jelas untuk riset bersama, proyek percontohan, dan pengembangan SDM."
+      },
+      {
+        "title": "Untuk Indonesia",
+        "desc": "Praktik pembelajaran yang terdokumentasi, terukur, dan dapat direplikasi di berbagai daerah."
+      }
+    ]
+  },
+  "Ekosistem": {
+    "title": "Ekosistem Inovasi Nasional",
+    "body": "INOPI (Asosiasi Inovasi Pembelajaran Indonesia) hadir sebagai katalisator yang menghubungkan akademisi, industri, dan pemerintah. Kami percaya bahwa masa depan pendidikan indonesia terbaik pada integrasi teknologi yang humanis dan berkelanjutan.",
+    "features": [
+      {
+        "title": "Riset Terapan",
+        "desc": "Mendorong riset dan implementasi teknologi pendidikan yang relevan dengan kebutuhan zaman."
+      },
+      {
+        "title": "Kolaborasi Aktif",
+        "desc": "Menjadi jembatan strategis antara akademisi, industri, dan pemerintah dalam ekosistem inovasi."
+      },
+      {
+        "title": "Advokasi Kebijakan",
+        "desc": "Menciptakan standar dan best practices inovasi pembelajaran yang berdampak pada kebijakan nasional."
+      }
+    ]
+  },
+  "ProgramHighlights": {
+    "title": "Program Strategis Kami",
+    "subtitle": "Empat divisi program yang mendorong inovasi pembelajaran nasional",
+    "more": "Selengkapnya →",
+    "items": [
+      {
+        "title": "Riset & Inovasi",
+        "desc": "Think tank asosiasi — mengembangkan agenda riset, framework pembelajaran, dan menerbitkan publikasi ilmiah."
+      },
+      {
+        "title": "Program & Implementasi",
+        "desc": "Executor asosiasi — menjalankan program pilot, monitoring, dan mendokumentasikan dampak inovasi di lapangan."
+      },
+      {
+        "title": "Kemitraan & Kerjasama",
+        "desc": "Network builder — membangun jejaring strategis dengan universitas, industri, dan pemerintah."
+      },
+      {
+        "title": "Pelatihan & Sertifikasi",
+        "desc": "Capacity builder — meningkatkan kompetensi SDM melalui pelatihan terstruktur dan sertifikasi nasional."
+      }
+    ]
+  },
+  "PriorityPrograms": {
+    "eyebrow": "Program Prioritas Tahun Pertama",
+    "title": "Lima langkah awal INOPI",
+    "all": "Lihat semua program",
+    "status": {
+      "live": "Berlangsung 26 Okt 2026",
+      "planned": "Direncanakan",
+      "open": "Terbuka untuk kolaborasi"
+    },
+    "items": [
+      {
+        "title": "Launching & Deklarasi",
+        "desc": "Peluncuran resmi INOPI dan deklarasi nasional sebagai tonggak lahirnya asosiasi inovasi pembelajaran Indonesia.",
+        "status": "live"
+      },
+      {
+        "title": "Roadmap Nasional",
+        "desc": "Penyusunan peta jalan inovasi pembelajaran berbasis teknologi yang komprehensif dan terukur.",
+        "status": "planned"
+      },
+      {
+        "title": "Forum Nasional & EduTech Asia",
+        "desc": "Forum nasional bertema AI dalam pendidikan dan partisipasi di EduTech Asia untuk visibilitas internasional.",
+        "status": "planned"
+      },
+      {
+        "title": "Pilot Project",
+        "desc": "Implementasi pembelajaran cerdas di institusi pendidikan terpilih sebagai model percontohan.",
+        "status": "open"
+      },
+      {
+        "title": "Platform & Kolaborasi",
+        "desc": "Platform berbagi pengetahuan dan kolaborasi internasional dengan negara mitra.",
+        "status": "planned"
+      }
+    ]
+  },
+  "CollabEcosystem": {
+    "eyebrow": "Ekosistem Kolaborasi",
+    "title": "Siapa saja yang kami ajak bekerja sama",
+    "cta": "Ajukan Kemitraan",
+    "groups": [
+      {
+        "title": "Akademisi & Peneliti",
+        "desc": "Dosen, peneliti, dan ilmuwan yang mengembangkan riset pembelajaran."
+      },
+      {
+        "title": "Institusi Pendidikan",
+        "desc": "Sekolah, perguruan tinggi, dan lembaga vokasi di seluruh Indonesia."
+      },
+      {
+        "title": "Industri & Perusahaan Teknologi",
+        "desc": "Pelaku industri yang mendorong adopsi solusi pembelajaran modern."
+      },
+      {
+        "title": "Startup EdTech",
+        "desc": "Perusahaan rintisan yang membangun solusi pendidikan inovatif."
+      },
+      {
+        "title": "Pemerintah & Regulator",
+        "desc": "Kementerian, dinas pendidikan, dan badan yang membentuk kebijakan."
+      },
+      {
+        "title": "Komunitas Profesional",
+        "desc": "Asosiasi dan jaringan praktisi pendidikan dan teknologi."
+      }
+    ]
+  },
+  "EventList": {
+    "eyebrow": "Agenda & Forum Nasional",
+    "day": "26",
+    "month": "Okt",
+    "details": "Lihat Detail"
+  },
+  "Home": {
+    "cta": {
+      "eyebrow": "Bergabung Sekarang",
+      "title": "Menjadi Bagian dari Gerakan Nasional",
+      "description": "Bergabunglah dengan ribuan pendidik dan inovator di seluruh Indonesia. Bersama-sama kita wujudkan ekosistem pembelajaran yang lebih baik.",
+      "register": "Daftar Sekarang",
+      "partnership": "Ajukan Kemitraan",
+      "talk": "Bicara dengan Tim"
+    }
   }
 }

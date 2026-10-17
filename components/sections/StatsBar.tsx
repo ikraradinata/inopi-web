@@ -1,13 +1,10 @@
 'use client'
 
-const stats = [
-  { value: '26', label: 'Founders' },
-  { value: '4', label: 'Divisi Utama' },
-  { value: '5', label: 'Program Prioritas' },
-  { value: '1', label: 'Visi Nasional' },
-]
+import { useTranslations } from 'next-intl'
 
 export default function StatsBar() {
+  const t = useTranslations('Stats')
+  const stats = t.raw('items') as { value: string; label: string }[]
   return (
     <section style={{ background: 'var(--inopi-ivory)' }} className="py-10">
       <div className="container">

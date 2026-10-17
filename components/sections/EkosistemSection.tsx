@@ -1,30 +1,15 @@
+import { useTranslations } from 'next-intl'
 import { IconMicroscope, IconHeartHandshake, IconFileText } from '@tabler/icons-react'
 
 const features = [
-  {
-    icon: IconMicroscope,
-    title: 'Riset Terapan',
-    desc: 'Mendorong riset dan implementasi teknologi pendidikan yang relevan dengan kebutuhan zaman.',
-    accent: 'var(--inopi-sand)',
-    accentBorder: 'var(--inopi-teal-strong)',
-  },
-  {
-    icon: IconHeartHandshake,
-    title: 'Kolaborasi Aktif',
-    desc: 'Menjadi jembatan strategis antara akademisi, industri, dan pemerintah dalam ekosistem inovasi.',
-    accent: 'var(--inopi-sand)',
-    accentBorder: 'var(--inopi-teal)',
-  },
-  {
-    icon: IconFileText,
-    title: 'Advokasi Kebijakan',
-    desc: 'Menciptakan standar dan best practices inovasi pembelajaran yang berdampak pada kebijakan nasional.',
-    accent: 'var(--inopi-sand)',
-    accentBorder: 'var(--inopi-espresso)',
-  },
+  { icon: IconMicroscope, accent: 'var(--inopi-sand)', accentBorder: 'var(--inopi-teal-strong)' },
+  { icon: IconHeartHandshake, accent: 'var(--inopi-sand)', accentBorder: 'var(--inopi-teal)' },
+  { icon: IconFileText, accent: 'var(--inopi-sand)', accentBorder: 'var(--inopi-espresso)' },
 ]
 
 export default function EkosistemSection() {
+  const t = useTranslations('Ekosistem')
+  const texts = t.raw('features') as { title: string; desc: string }[]
   return (
     <section className="py-12 bg-white">
       <div className="container">
@@ -33,18 +18,18 @@ export default function EkosistemSection() {
           style={{ border: '1px solid var(--inopi-sand)' }}
         >
           <h2 className="font-display font-bold text-[20px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>
-            Ekosistem Inovasi Nasional
+            {t('title')}
           </h2>
           <p className="font-body text-[14px] leading-relaxed mb-8" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            INOPI (Asosiasi Inovasi Pembelajaran Indonesia) hadir sebagai katalisator yang menghubungkan akademisi, industri, dan pemerintah. Kami percaya bahwa masa depan pendidikan indonesia terbaik pada integrasi teknologi yang humanis dan berkelanjutan.
+            {t('body')}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {features.map((f) => {
+            {features.map((f, i) => {
               const Icon = f.icon
               return (
                 <div
-                  key={f.title}
+                  key={texts[i].title}
                   className="pt-4"
                   style={{ borderTop: `2px solid ${f.accentBorder}` }}
                 >
@@ -55,10 +40,10 @@ export default function EkosistemSection() {
                     <Icon size={18} style={{ color: f.accentBorder }} />
                   </div>
                   <h3 className="font-display font-semibold text-[14px] mb-1.5" style={{ color: 'var(--inopi-espresso)' }}>
-                    {f.title}
+                    {texts[i].title}
                   </h3>
                   <p className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--inopi-taupe-strong)' }}>
-                    {f.desc}
+                    {texts[i].desc}
                   </p>
                 </div>
               )

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import {
   IconFlask,
   IconRocket,
@@ -7,51 +8,33 @@ import {
 } from '@tabler/icons-react'
 
 const programs = [
-  {
-    icon: IconFlask,
-    title: 'Riset & Inovasi',
-    desc: 'Think tank asosiasi — mengembangkan agenda riset, framework pembelajaran, dan menerbitkan publikasi ilmiah.',
-    href: '/program/riset-inovasi',
-  },
-  {
-    icon: IconRocket,
-    title: 'Program & Implementasi',
-    desc: 'Executor asosiasi — menjalankan program pilot, monitoring, dan mendokumentasikan dampak inovasi di lapangan.',
-    href: '/program/implementasi',
-  },
-  {
-    icon: IconNetwork,
-    title: 'Kemitraan & Kerjasama',
-    desc: 'Network builder — membangun jejaring strategis dengan universitas, industri, dan pemerintah.',
-    href: '/program/kemitraan',
-  },
-  {
-    icon: IconCertificate,
-    title: 'Pelatihan & Sertifikasi',
-    desc: 'Capacity builder — meningkatkan kompetensi SDM melalui pelatihan terstruktur dan sertifikasi nasional.',
-    href: '/program/pelatihan-sertifikasi',
-  },
+  { icon: IconFlask, href: '/program/riset-inovasi' },
+  { icon: IconRocket, href: '/program/implementasi' },
+  { icon: IconNetwork, href: '/program/kemitraan' },
+  { icon: IconCertificate, href: '/program/pelatihan-sertifikasi' },
 ]
 
 export default function ProgramHighlights() {
+  const t = useTranslations('ProgramHighlights')
+  const texts = t.raw('items') as { title: string; desc: string }[]
   return (
     <section style={{ background: 'var(--inopi-ivory)' }} className="py-14">
       <div className="container">
         <div className="text-center mb-10">
           <h2 className="font-display font-bold mb-2" style={{ fontSize: 'clamp(20px,3vw,28px)', color: 'var(--inopi-espresso)' }}>
-            Program Strategis Kami
+            {t('title')}
           </h2>
           <p className="font-body text-[14px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            Empat divisi program yang mendorong inovasi pembelajaran nasional
+            {t('subtitle')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {programs.map((p) => {
+          {programs.map((p, i) => {
             const Icon = p.icon
             return (
               <div
-                key={p.title}
+                key={p.href}
                 className="bg-white rounded-[12px] p-5 border transition-all hover:border-[var(--inopi-teal-strong)] hover:shadow-hover group"
                 style={{ borderColor: 'var(--inopi-sand)' }}
               >
@@ -62,17 +45,17 @@ export default function ProgramHighlights() {
                   <Icon size={18} style={{ color: 'var(--inopi-teal-strong)' }} />
                 </div>
                 <h3 className="font-display font-semibold text-[14px] mb-1.5" style={{ color: 'var(--inopi-espresso)' }}>
-                  {p.title}
+                  {texts[i].title}
                 </h3>
                 <p className="font-body text-[13px] leading-relaxed mb-3" style={{ color: 'var(--inopi-taupe-strong)' }}>
-                  {p.desc}
+                  {texts[i].desc}
                 </p>
                 <Link
                   href={p.href}
                   className="font-body text-[13px] transition-colors hover:underline"
                   style={{ color: 'var(--inopi-teal-strong)' }}
                 >
-                  Selengkapnya →
+                  {t('more')}
                 </Link>
               </div>
             )

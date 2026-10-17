@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { LAUNCH_START, LAUNCH_END } from '@/lib/constants/launch'
 
 type Remaining = { days: number; hours: number; minutes: number; seconds: number }
@@ -22,6 +23,7 @@ interface LaunchCountdownProps {
 }
 
 export default function LaunchCountdown({ tone = 'light' }: LaunchCountdownProps) {
+  const t = useTranslations('Countdown')
   // Dirender kosong di server agar tidak terjadi hydration mismatch.
   const [remaining, setRemaining] = useState<Remaining | null>(null)
   const [phase, setPhase] = useState<'pending' | 'counting' | 'live' | 'done'>('pending')
@@ -53,7 +55,7 @@ export default function LaunchCountdown({ tone = 'light' }: LaunchCountdownProps
   if (phase === 'live') {
     return (
       <p className="font-display font-bold text-[18px]" style={{ color: 'var(--inopi-orange-strong)' }}>
-        Acara sedang berlangsung
+        {t('live')}
       </p>
     )
   }
@@ -61,20 +63,20 @@ export default function LaunchCountdown({ tone = 'light' }: LaunchCountdownProps
   if (phase === 'done') {
     return (
       <p className="font-body text-[14px]" style={{ color: labelColor }}>
-        Acara telah selesai — terima kasih atas partisipasinya.
+        {t('done')}
       </p>
     )
   }
 
   const units: { value: number; label: string }[] = [
-    { value: remaining!.days, label: 'Hari' },
-    { value: remaining!.hours, label: 'Jam' },
-    { value: remaining!.minutes, label: 'Menit' },
-    { value: remaining!.seconds, label: 'Detik' },
+    { value: remaining!.days, label: t('days') },
+    { value: remaining!.hours, label: t('hours') },
+    { value: remaining!.minutes, label: t('minutes') },
+    { value: remaining!.seconds, label: t('seconds') },
   ]
 
   return (
-    <div className="flex gap-2.5" role="timer" aria-label="Hitung mundur menuju acara">
+    <div className="flex gap-2.5" role="timer" aria-label={t('label')}>
       {units.map((u) => (
         <div
           key={u.label}

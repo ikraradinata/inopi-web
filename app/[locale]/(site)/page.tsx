@@ -1,3 +1,4 @@
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import HeroSection from '@/components/sections/HeroSection'
 import StatsBar from '@/components/sections/StatsBar'
 import EkosistemSection from '@/components/sections/EkosistemSection'
@@ -8,7 +9,11 @@ import WhyInopiSection from '@/components/sections/WhyInopiSection'
 import PriorityProgramsSection from '@/components/sections/PriorityProgramsSection'
 import CollabEcosystemSection from '@/components/sections/CollabEcosystemSection'
 
-export default function HomePage() {
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'Home.cta' })
+
   return (
     <>
       <HeroSection />
@@ -22,12 +27,12 @@ export default function HomePage() {
       <section className="py-14 bg-white">
         <div className="container">
           <CtaDark
-            eyebrow="Bergabung Sekarang"
-            title="Menjadi Bagian dari Gerakan Nasional"
-            description="Bergabunglah dengan ribuan pendidik dan inovator di seluruh Indonesia. Bersama-sama kita wujudkan ekosistem pembelajaran yang lebih baik."
-            primaryCta={{ label: 'Daftar Sekarang', href: '/keanggotaan/daftar' }}
-            extraCta={{ label: 'Ajukan Kemitraan', href: '/kemitraan' }}
-            secondaryCta={{ label: 'Bicara dengan Tim', href: '/kontak' }}
+            eyebrow={t('eyebrow')}
+            title={t('title')}
+            description={t('description')}
+            primaryCta={{ label: t('register'), href: '/keanggotaan/daftar' }}
+            extraCta={{ label: t('partnership'), href: '/kemitraan' }}
+            secondaryCta={{ label: t('talk'), href: '/kontak' }}
           />
         </div>
       </section>
