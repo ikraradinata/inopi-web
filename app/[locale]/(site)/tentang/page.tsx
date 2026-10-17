@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 export const metadata: Metadata = {
   title: 'Tentang INOPI',
@@ -7,43 +8,29 @@ export const metadata: Metadata = {
 }
 
 const subPages = [
-  { title: 'Sejarah & Latar Belakang', desc: 'Perjalanan INOPI dari gagasan kolaboratif.', href: '/tentang/sejarah' },
-  { title: 'Visi & Misi', desc: 'Arah strategis dan nilai-nilai organisasi INOPI.', href: '/tentang/visi-misi' },
-  { title: 'Struktur Organisasi', desc: 'Pengurus dan divisi-divisi INOPI.', href: '/tentang/struktur-organisasi' },
-  { title: 'Para Pendiri', desc: '26 tokoh pendiri dari akademik dan industri.', href: '/tentang/founders' },
+  { href: '/tentang/sejarah' },
+  { href: '/tentang/visi-misi' },
+  { href: '/tentang/struktur-organisasi' },
+  { href: '/tentang/founders' },
 ]
 
-const logoMeaning = [
-  {
-    title: 'Belah ketupat',
-    desc: 'Melambangkan keseimbangan, ketelitian, dan integritas. Empat sisinya mewakili empat pilar pembelajaran yang saling menopang secara setara: pendidik, peserta didik, institusi, dan inovasi. Bentuknya juga menyerupai permata, simbol nilai keilmuan yang terus diasah.',
-  },
-  {
-    title: 'Garis diagonal',
-    desc: 'Menggambarkan aliran ide dan transformasi dari praktik konvensional menuju praktik inovatif, sekaligus menjadi jembatan antara teori dan praktik. Garis ini membentuk huruf "I" yang tersirat: Inovasi dan Indonesia.',
-  },
-  {
-    title: 'Lingkaran kecil di puncak',
-    desc: 'Melambangkan gagasan dan percikan ide. Posisinya di luar bentuk utama menandakan keterbukaan pada pemikiran baru. Lingkaran ini juga menyerupai kepala manusia: pembelajar sebagai pusat seluruh kegiatan asosiasi.',
-  },
-  {
-    title: 'Warna netral',
-    desc: 'Taupe dan cokelat hangat menyampaikan kebijaksanaan, kedalaman, stabilitas, dan keberlanjutan.',
-  },
-]
-
-export default function TentangPage() {
+export default async function TentangPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'About' })
+  const pages = t.raw('subPages') as { title: string; desc: string }[]
+  const logo = t.raw('logo.items') as { title: string; desc: string }[]
   return (
     <div className="py-14">
       <div className="container max-w-3xl">
         <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(24px,4vw,36px)', color: 'var(--inopi-espresso)' }}>
-          Tentang INOPI
+          {t('title')}
         </h1>
         <p className="font-body text-[14px] leading-relaxed mb-10" style={{ color: 'var(--inopi-taupe-strong)' }}>
-          INOPI (Asosiasi Inovasi Pembelajaran Indonesia) adalah asosiasi profesional yang menghubungkan akademisi, industri, dan pemerintah dalam ekosistem inovasi pembelajaran nasional.
+          {t('intro')}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {subPages.map((p) => (
+          {subPages.map((p, i) => (
             <Link
               key={p.href}
               href={p.href}
@@ -51,23 +38,23 @@ export default function TentangPage() {
               style={{ borderColor: 'var(--inopi-sand)' }}
             >
               <h2 className="font-display font-semibold text-[15px] mb-1.5" style={{ color: 'var(--inopi-espresso)' }}>
-                {p.title}
+                {pages[i].title}
               </h2>
-              <p className="font-body text-[13px]" style={{ color: 'var(--inopi-taupe-strong)' }}>{p.desc}</p>
-              <span className="font-body text-[13px] mt-3 block" style={{ color: 'var(--inopi-teal-strong)' }}>Selengkapnya →</span>
+              <p className="font-body text-[13px]" style={{ color: 'var(--inopi-taupe-strong)' }}>{pages[i].desc}</p>
+              <span className="font-body text-[13px] mt-3 block" style={{ color: 'var(--inopi-teal-strong)' }}>{t('more')}</span>
             </Link>
           ))}
         </div>
 
         <section className="mt-14">
           <h2 className="font-display font-bold text-[22px] mb-3" style={{ color: 'var(--inopi-espresso)' }}>
-            Makna Logo INOPI
+            {t('logo.title')}
           </h2>
           <p className="font-body text-[14px] leading-relaxed mb-6" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            Logo INOPI dirancang minimalis dengan bentuk geometris sederhana.
+            {t('logo.intro')}
           </p>
           <dl className="space-y-4">
-            {logoMeaning.map((m) => (
+            {logo.map((m) => (
               <div key={m.title} className="rounded-[12px] p-5" style={{ background: 'var(--inopi-sand)' }}>
                 <dt className="font-display font-semibold text-[15px] mb-1.5" style={{ color: 'var(--inopi-espresso)' }}>
                   {m.title}

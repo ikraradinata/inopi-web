@@ -234,5 +234,50 @@
       "partnership": "Ajukan Kemitraan",
       "talk": "Bicara dengan Tim"
     }
+  },
+  "About": {
+    "title": "Tentang INOPI",
+    "intro": "INOPI (Asosiasi Inovasi Pembelajaran Indonesia) adalah asosiasi profesional yang menghubungkan akademisi, industri, dan pemerintah dalam ekosistem inovasi pembelajaran nasional.",
+    "more": "Selengkapnya →",
+    "subPages": [
+      {
+        "title": "Sejarah & Latar Belakang",
+        "desc": "Perjalanan INOPI dari gagasan kolaboratif."
+      },
+      {
+        "title": "Visi & Misi",
+        "desc": "Arah strategis dan nilai-nilai organisasi INOPI."
+      },
+      {
+        "title": "Struktur Organisasi",
+        "desc": "Pengurus dan divisi-divisi INOPI."
+      },
+      {
+        "title": "Para Pendiri",
+        "desc": "26 tokoh pendiri dari akademik dan industri."
+      }
+    ],
+    "logo": {
+      "title": "Makna Logo INOPI",
+      "intro": "Logo INOPI dirancang minimalis dengan bentuk geometris sederhana.",
+      "items": [
+        {
+          "title": "Belah ketupat",
+          "desc": "Melambangkan keseimbangan, ketelitian, dan integritas. Empat sisinya mewakili empat pilar pembelajaran yang saling menopang secara setara: pendidik, peserta didik, institusi, dan inovasi. Bentuknya juga menyerupai permata, simbol nilai keilmuan yang terus diasah."
+        },
+        {
+          "title": "Garis diagonal",
+          "desc": "Menggambarkan aliran ide dan transformasi dari praktik konvensional menuju praktik inovatif, sekaligus menjadi jembatan antara teori dan praktik. Garis ini membentuk huruf \"I\" yang tersirat: Inovasi dan Indonesia."
+        },
+        {
+          "title": "Lingkaran kecil di puncak",
+          "desc": "Melambangkan gagasan dan percikan ide. Posisinya di luar bentuk utama menandakan keterbukaan pada pemikiran baru. Lingkaran ini juga menyerupai kepala manusia: pembelajar sebagai pusat seluruh kegiatan asosiasi."
+        },
+        {
+          "title": "Warna netral",
+          "desc": "Taupe dan cokelat hangat menyampaikan kebijaksanaan, kedalaman, stabilitas, dan keberlanjutan."
+        }
+      ]
+    }
   }
 }
