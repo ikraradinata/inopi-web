@@ -2856,5 +2856,135 @@
     "title": "Pesan Anda sudah terkirim.",
     "text": "Terima kasih telah menghubungi INOPI. Kami akan membalas melalui email.",
     "home": "Kembali ke Beranda"
+  },
+  "LaunchPage": {
+    "details": {
+      "date": "Tanggal",
+      "time": "Waktu",
+      "location": "Lokasi"
+    },
+    "confirm": "Konfirmasi Kehadiran →",
+    "openMap": "Buka Peta Lokasi",
+    "posterAlt": "Poster {eyebrow}",
+    "brandTagline": "Together for a Brighter Learning Future",
+    "pillarsTitle": "Lima Pilar INOPI",
+    "pillars": [
+      {
+        "label": "People",
+        "desc": "Empowering Learners & Educators"
+      },
+      {
+        "label": "Learning",
+        "desc": "Advancing Learning Innovation"
+      },
+      {
+        "label": "Innovation",
+        "desc": "Exploring New Possibilities"
+      },
+      {
+        "label": "Collaboration",
+        "desc": "Connecting Ecosystem Stakeholders"
+      },
+      {
+        "label": "Impact",
+        "desc": "Creating Lasting Value"
+      }
+    ],
+    "rundownTitle": "Rundown Acara",
+    "rundown": [
+      {
+        "time": "10.00 – 10.30",
+        "segment": "Founder call time"
+      },
+      {
+        "time": "11.00 – 12.00",
+        "segment": "Press conference"
+      },
+      {
+        "time": "11.00 – 12.50",
+        "segment": "Registrasi & ISHOMA"
+      },
+      {
+        "time": "12.50 – 13.00",
+        "segment": "Call to seat"
+      },
+      {
+        "time": "13.00 – 13.05",
+        "segment": "Pembukaan & Indonesia Raya"
+      },
+      {
+        "time": "13.05 – 13.10",
+        "segment": "Sambutan Komdigi"
+      },
+      {
+        "time": "13.10 – 13.15",
+        "segment": "Sambutan Kemendikdasmen"
+      },
+      {
+        "time": "13.15 – 13.20",
+        "segment": "Sambutan Ketua Umum"
+      },
+      {
+        "time": "13.20 – 13.25",
+        "segment": "Perkenalan 26 founder"
+      },
+      {
+        "time": "13.25 – 13.40",
+        "segment": "Prosesi launching, ajakan membership & foto bersama",
+        "highlight": true
+      },
+      {
+        "time": "13.40 – 14.00",
+        "segment": "Keynote"
+      },
+      {
+        "time": "14.00 – 14.50",
+        "segment": "Panel 1 — AI & Learning Innovation"
+      },
+      {
+        "time": "14.50 – 15.00",
+        "segment": "Jeda & coffee break"
+      },
+      {
+        "time": "15.00 – 15.50",
+        "segment": "Panel 2 — Building Indonesia's EdTech Ecosystem"
+      },
+      {
+        "time": "15.50 – 16.10",
+        "segment": "Closing remark & networking"
+      }
+    ],
+    "rundownNote": "Registrasi dibuka pukul 11.00 WIB. Susunan acara dapat berubah sewaktu-waktu.",
+    "speakersEyebrow": "Pengisi Acara",
+    "speakersTitle": "Narasumber",
+    "speakers": [
+      {
+        "title": "Keynote",
+        "subtitle": "Beyond Technology"
+      },
+      {
+        "title": "Panel 1",
+        "subtitle": "AI & Learning Innovation"
+      },
+      {
+        "title": "Panel 2",
+        "subtitle": "Building Indonesia's EdTech Ecosystem"
+      },
+      {
+        "title": "Closing Remark"
+      }
+    ],
+    "moderator": "Moderator: {name}",
+    "mcLabel": "Pembawa Acara",
+    "locationEyebrow": "Lokasi Acara",
+    "directions": "Petunjuk arah di Google Maps",
+    "valuesLabel": "Nilai INOPI",
+    "brandValues": [
+      "Modern",
+      "Human-Centered",
+      "Collaborative",
+      "Impactful"
+    ],
+    "about": "{positioning}. Acara ini menandai dimulainya kolaborasi lintas sektor antara akademisi, industri, dan pemerintah dalam satu ekosistem inovasi pembelajaran."
   }
 }

@@ -25,83 +25,17 @@ export const LAUNCH = {
   banner: '/event/launching-2026-banner.jpg',
 } as const
 
-export interface LaunchPillar {
-  label: string
-  desc: string
-}
-
-/** Lima pilar INOPI dari roll-up values. */
-export const LAUNCH_PILLARS: LaunchPillar[] = [
-  { label: 'People', desc: 'Empowering Learners & Educators' },
-  { label: 'Learning', desc: 'Advancing Learning Innovation' },
-  { label: 'Innovation', desc: 'Exploring New Possibilities' },
-  { label: 'Collaboration', desc: 'Connecting Ecosystem Stakeholders' },
-  { label: 'Impact', desc: 'Creating Lasting Value' },
-]
-
-export interface RundownItem {
-  time: string
-  segment: string
-  /** Pengisi acara di panggung. Kosong untuk segmen tanpa pembicara. */
-  speaker?: string
-  highlight?: boolean
-}
-
 /**
- * Rundown publik, sesuai dokumen rapat tim inti 13 Oktober 2026.
- * Kolom PIC sengaja tidak ditampilkan di situs (internal only).
+ * Nama pengisi acara (tidak diterjemahkan). Judul dan subjudul tiap sesi ada di
+ * messages ("LaunchPage.speakers"), urutannya sama dengan daftar ini.
  */
-export const RUNDOWN: RundownItem[] = [
-  { time: '10.00 – 10.30', segment: 'Founder call time' },
-  { time: '11.00 – 12.00', segment: 'Press conference' },
-  { time: '11.00 – 12.50', segment: 'Registrasi & ISHOMA' },
-  { time: '12.50 – 13.00', segment: 'Call to seat' },
-  { time: '13.00 – 13.05', segment: 'Pembukaan & Indonesia Raya' },
-  { time: '13.05 – 13.10', segment: 'Sambutan Komdigi' },
-  { time: '13.10 – 13.15', segment: 'Sambutan Kemendikdasmen' },
-  { time: '13.15 – 13.20', segment: 'Sambutan Ketua Umum' },
-  { time: '13.20 – 13.25', segment: 'Perkenalan 26 founder' },
-  { time: '13.25 – 13.40', segment: 'Prosesi launching, ajakan membership & foto bersama', highlight: true },
-  { time: '13.40 – 14.00', segment: 'Keynote' },
-  { time: '14.00 – 14.50', segment: 'Panel 1 — AI & Learning Innovation' },
-  { time: '14.50 – 15.00', segment: 'Jeda & coffee break' },
-  { time: '15.00 – 15.50', segment: "Panel 2 — Building Indonesia's EdTech Ecosystem" },
-  { time: '15.50 – 16.10', segment: 'Closing remark & networking' },
-]
-
-export interface SpeakerGroup {
-  title: string
-  subtitle?: string
-  people: string[]
-  moderator?: string
-}
-
-export const SPEAKERS: SpeakerGroup[] = [
-  {
-    title: 'Keynote',
-    subtitle: 'Beyond Technology',
-    people: ['Heru Dewanto'],
-  },
-  {
-    title: 'Panel 1',
-    subtitle: 'AI & Learning Innovation',
-    people: ['Tyo Guritno', 'Stephen Ng', 'Kun Wardana'],
-    moderator: 'Andy Febrico Bintoro',
-  },
-  {
-    title: 'Panel 2',
-    subtitle: "Building Indonesia's EdTech Ecosystem",
-    people: ['M. Aditya Warman', 'Paulina Pannen', 'Victor Osman'],
-    moderator: 'Nita Felia Pambudi',
-  },
-  {
-    title: 'Closing Remark',
-    people: ['Subchan Gatot'],
-  },
+export const SPEAKER_NAMES: { people: string[]; moderator?: string }[] = [
+  { people: ['Heru Dewanto'] },
+  { people: ['Tyo Guritno', 'Stephen Ng', 'Kun Wardana'], moderator: 'Andy Febrico Bintoro' },
+  { people: ['M. Aditya Warman', 'Paulina Pannen', 'Victor Osman'], moderator: 'Nita Felia Pambudi' },
+  { people: ['Subchan Gatot'] },
 ]
 
 export const MC = ['Siti Elda Hiererra', 'Yasser Muhammad Syaiful']
 
-export const BRAND_VALUES = ['Modern', 'Human-Centered', 'Collaborative', 'Impactful'] as const
-export const BRAND_MOTTO = 'Learn · Collaborate · Innovate · Impact'
-export const BRAND_TAGLINE = 'Together for a Brighter Learning Future'
+// Lima pilar, rundown, judul sesi, dan nilai INOPI ada di messages, namespace "LaunchPage".
