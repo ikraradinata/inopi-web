@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import type { ProgramItem } from '@/lib/constants/programs'
 
 interface ProgramKerjaSectionProps {
@@ -9,6 +10,7 @@ interface ProgramKerjaSectionProps {
 }
 
 export default function ProgramKerjaSection({ semester1, semester2 }: ProgramKerjaSectionProps) {
+  const t = useTranslations('ProgramKerja')
   const [activeSemester, setActiveSemester] = useState<1 | 2>(1)
   const items = activeSemester === 1 ? semester1 : semester2
 
@@ -17,7 +19,7 @@ export default function ProgramKerjaSection({ semester1, semester2 }: ProgramKer
       <div className="container">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <h2 className="font-display font-bold text-[22px]" style={{ color: 'var(--inopi-espresso)' }}>
-            Program Kerja
+            {t('title')}
           </h2>
           <div
             className="inline-flex rounded-[10px] p-1"
@@ -32,7 +34,7 @@ export default function ProgramKerjaSection({ semester1, semester2 }: ProgramKer
                 boxShadow: activeSemester === 1 ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
               }}
             >
-              Semester 1
+              {t('semester1')}
             </button>
             <button
               onClick={() => setActiveSemester(2)}
@@ -43,7 +45,7 @@ export default function ProgramKerjaSection({ semester1, semester2 }: ProgramKer
                 boxShadow: activeSemester === 2 ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
               }}
             >
-              Semester 2
+              {t('semester2')}
             </button>
           </div>
         </div>

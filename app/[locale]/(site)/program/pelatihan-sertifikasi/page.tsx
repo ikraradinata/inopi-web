@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { DIVISION_PROGRAMS } from '@/lib/constants/programs'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { getDivision } from '@/lib/constants/programs'
 import ProgramKerjaSection from '@/components/sections/ProgramKerjaSection'
 import TrainingCatalogSection from '@/components/sections/TrainingCatalogSection'
 import SkillsCubeSection from '@/components/sections/SkillsCubeSection'
@@ -10,8 +11,11 @@ export const metadata: Metadata = {
   description: 'Capacity builder INOPI — meningkatkan kompetensi SDM melalui pelatihan terstruktur, katalog 10 program training, dan metodologi INOPI Skills Cube.',
 }
 
-export default function PelatihanSertifikasiPage() {
-  const division = DIVISION_PROGRAMS.find((d) => d.slug === 'pelatihan-sertifikasi')!
+export default async function PelatihanSertifikasiPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'Programs' })
+  const division = getDivision('pelatihan-sertifikasi', t)
 
   return (
     <>
@@ -39,7 +43,7 @@ export default function PelatihanSertifikasiPage() {
             {division.title}
           </h1>
           <p className="font-body text-[14px] max-w-xl" style={{ color: 'var(--inopi-sage-strong)' }}>
-            PIC: {division.pic.join(', ')}
+            {t('pic', { names: division.pic.join(', ') })}
           </p>
         </div>
       </section>

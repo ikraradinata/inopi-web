@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { DIVISION_PROGRAMS } from '@/lib/constants/programs'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { getDivision } from '@/lib/constants/programs'
 import ProgramKerjaSection from '@/components/sections/ProgramKerjaSection'
 import { IconNetwork } from '@tabler/icons-react'
 
@@ -8,8 +9,11 @@ export const metadata: Metadata = {
   description: 'Network builder INOPI — membangun jejaring strategis dengan universitas, industri, dan pemerintah.',
 }
 
-export default function KemitraanPage() {
-  const division = DIVISION_PROGRAMS.find((d) => d.slug === 'kemitraan')!
+export default async function KemitraanPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'Programs' })
+  const division = getDivision('kemitraan', t)
 
   return (
     <>
@@ -37,7 +41,7 @@ export default function KemitraanPage() {
             {division.title}
           </h1>
           <p className="font-body text-[14px] max-w-xl" style={{ color: 'var(--inopi-sage-strong)' }}>
-            PIC: {division.pic.join(', ')}
+            {t('pic', { names: division.pic.join(', ') })}
           </p>
         </div>
       </section>
