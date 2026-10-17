@@ -379,5 +379,40 @@
     ],
     "roleTitle": "Peran INOPI",
     "roleBody": "INOPI hadir sebagai katalisator yang menghubungkan akademisi, industri, dan pemerintah dalam ekosistem inovasi pembelajaran yang inklusif dan berkelanjutan — menjawab tantangan transformasi digital pendidikan Indonesia."
+  },
+  "Founders": {
+    "eyebrow": "Tentang INOPI",
+    "title": "Para Pendiri INOPI",
+    "intro": "26 tokoh terkemuka dari akademik, industri, dan komunitas profesional yang bersama-sama mendirikan INOPI pada 11 April 2026.",
+    "peopleCount": "{count} orang",
+    "divisions": "Divisi",
+    "profileSoon": "Profil lengkap akan segera ditambahkan.",
+    "groups": {
+      "pembina": "Dewan Pembina",
+      "pengawas": "Dewan Pengawas",
+      "pakar": "Dewan Pakar",
+      "pengurus": "Pengurus Harian",
+      "riset": "Riset & Inovasi",
+      "program": "Program & Implementasi",
+      "kemitraan": "Kemitraan & Kerjasama",
+      "pelatihan": "Pelatihan & Sertifikasi"
+    },
+    "roles": {
+      "Dewan Pembina": "Dewan Pembina",
+      "Dewan Pakar": "Dewan Pakar",
+      "Dewan Pengawas": "Dewan Pengawas",
+      "Ketua Umum": "Ketua Umum",
+      "Wakil Ketua Umum": "Wakil Ketua Umum",
+      "Sekretaris Jenderal": "Sekretaris Jenderal",
+      "Bendahara Umum": "Bendahara Umum",
+      "Direktur Riset & Inovasi": "Direktur Riset & Inovasi",
+      "Direktur Program & Implementasi": "Direktur Program & Implementasi",
+      "Direktur Pelatihan & Sertifikasi": "Direktur Pelatihan & Sertifikasi",
+      "Direktur Kemitraan & Kerjasama": "Direktur Kemitraan & Kerjasama",
+      "Deputi Direktur Riset & Inovasi": "Deputi Direktur Riset & Inovasi",
+      "Deputi Direktur Program & Implementasi": "Deputi Direktur Program & Implementasi",
+      "Deputi Direktur Pelatihan & Sertifikasi": "Deputi Direktur Pelatihan & Sertifikasi",
+      "Deputi Direktur Kemitraan & Kerjasama": "Deputi Direktur Kemitraan & Kerjasama"
+    }
   }
 }

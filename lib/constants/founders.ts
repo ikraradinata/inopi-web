@@ -13,23 +13,21 @@ export type FounderGroup =
   | 'kemitraan'
   | 'pelatihan'
 
+/** Label kelompok ada di messages (namespace "Founders", kunci "groups"). */
 export interface FounderGroupInfo {
   id: FounderGroup
-  label: string
-  /** Keterangan singkat di bawah judul kelompok. */
-  desc?: string
 }
 
 /** Urutan tampil mengikuti bagan struktur organisasi. */
 export const FOUNDER_GROUPS: FounderGroupInfo[] = [
-  { id: 'pembina', label: 'Dewan Pembina' },
-  { id: 'pengawas', label: 'Dewan Pengawas' },
-  { id: 'pakar', label: 'Dewan Pakar' },
-  { id: 'pengurus', label: 'Pengurus Harian' },
-  { id: 'riset', label: 'Riset & Inovasi' },
-  { id: 'program', label: 'Program & Implementasi' },
-  { id: 'kemitraan', label: 'Kemitraan & Kerjasama' },
-  { id: 'pelatihan', label: 'Pelatihan & Sertifikasi' },
+  { id: 'pembina' },
+  { id: 'pengawas' },
+  { id: 'pakar' },
+  { id: 'pengurus' },
+  { id: 'riset' },
+  { id: 'program' },
+  { id: 'kemitraan' },
+  { id: 'pelatihan' },
 ]
 
 /** Kelompok divisi, ditampilkan di bawah satu judul bersama. */
@@ -40,7 +38,7 @@ export interface Founder {
   name: string
   /** Nama lengkap beserta gelar, ditampilkan di dialog profil. */
   fullName?: string
-  /** Jabatan di struktur INOPI. */
+  /** Jabatan di struktur INOPI; juga kunci terjemahan di "Founders.roles". */
   role: string
   /** Kelompok pada struktur organisasi. */
   group: FounderGroup

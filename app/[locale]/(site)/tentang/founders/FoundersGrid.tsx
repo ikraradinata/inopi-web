@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import {
   FOUNDERS,
@@ -51,6 +52,7 @@ function FounderCard({
   showRole: boolean
   featured?: boolean
 }) {
+  const t = useTranslations('Founders')
   return (
     <button
       onClick={() => onSelect(founder)}
@@ -71,7 +73,7 @@ function FounderCard({
           className="font-body text-[12px] text-center mt-0.5 leading-tight"
           style={{ color: 'var(--inopi-teal-strong)' }}
         >
-          {founder.role}
+          {t(`roles.${founder.role}`)}
         </p>
       )}
       {founder.institution && (
@@ -87,6 +89,7 @@ function FounderCard({
 }
 
 function GroupHeading({ label, count }: { label: string; count: number }) {
+  const t = useTranslations('Founders')
   return (
     <div className="flex items-center gap-3 mb-4">
       <h2
@@ -99,7 +102,7 @@ function GroupHeading({ label, count }: { label: string; count: number }) {
         className="font-body text-[12px] tabular-nums flex-shrink-0"
         style={{ color: 'var(--inopi-sage-strong)' }}
       >
-        {count} orang
+        {t('peopleCount', { count })}
       </span>
       <span className="flex-1 h-px" style={{ background: 'var(--inopi-sand)' }} />
     </div>
@@ -107,6 +110,7 @@ function GroupHeading({ label, count }: { label: string; count: number }) {
 }
 
 export default function FoundersGrid() {
+  const t = useTranslations('Founders')
   const [selected, setSelected] = useState<Founder | null>(null)
 
   const byGroup = (g: FounderGroup) => FOUNDERS.filter((f) => f.group === g)
@@ -122,7 +126,7 @@ export default function FoundersGrid() {
           const members = byGroup(g.id)
           return (
             <section key={g.id}>
-              <GroupHeading label={g.label} count={members.length} />
+              <GroupHeading label={t(`groups.${g.id}`)} count={members.length} />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {members.map((f) => (
                   <FounderCard key={f.name} founder={f} onSelect={setSelected} showRole={false} />
@@ -134,7 +138,7 @@ export default function FoundersGrid() {
 
         {/* Pengurus Harian */}
         <section>
-          <GroupHeading label="Pengurus Harian" count={pengurus.length} />
+          <GroupHeading label={t('groups.pengurus')} count={pengurus.length} />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {pengurus.map((f) => (
               <FounderCard key={f.name} founder={f} onSelect={setSelected} showRole featured />
@@ -144,7 +148,7 @@ export default function FoundersGrid() {
 
         {/* Divisi */}
         <section>
-          <GroupHeading label="Divisi" count={divisions.reduce((n, g) => n + byGroup(g.id).length, 0)} />
+          <GroupHeading label={t('divisions')} count={divisions.reduce((n, g) => n + byGroup(g.id).length, 0)} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
             {divisions.map((g) => (
               <div key={g.id}>
@@ -152,7 +156,7 @@ export default function FoundersGrid() {
                   className="font-body text-[12px] font-semibold uppercase tracking-wider mb-3"
                   style={{ color: 'var(--inopi-orange-strong)' }}
                 >
-                  {g.label}
+                  {t(`groups.${g.id}`)}
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                   {byGroup(g.id).map((f) => (
@@ -182,7 +186,7 @@ export default function FoundersGrid() {
                 className="inline-flex self-start items-center px-2.5 py-1 rounded-full font-body text-[11px] font-semibold uppercase tracking-wider"
                 style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-espresso)' }}
               >
-                {selected.role}
+                {t(`roles.${selected.role}`)}
               </span>
 
               {selected.title && (
@@ -205,7 +209,7 @@ export default function FoundersGrid() {
                 </blockquote>
               ) : (
                 <p className="text-[13px] leading-relaxed mt-4" style={{ color: 'var(--inopi-sage-strong)' }}>
-                  Profil lengkap akan segera ditambahkan.
+                  {t('profileSoon')}
                 </p>
               )}
             </>
