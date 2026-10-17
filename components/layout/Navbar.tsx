@@ -7,13 +7,31 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { IconMenu2, IconX } from '@tabler/icons-react'
 import Logo from '@/components/ui/Logo'
 
-const navLinks = [
-  { label: 'Riset', href: '/riset' },
-  { label: 'Program', href: '/program' },
-  { label: 'Keanggotaan', href: '/keanggotaan' },
+interface NavItem {
+  label: string
+  href: string
+  children?: { label: string; href: string }[]
+}
+
+const navLinks: NavItem[] = [
   { label: 'Tentang', href: '/tentang' },
-  { label: 'Berita', href: '/berita' },
+  { label: 'Program', href: '/program' },
+  { label: 'Kemitraan', href: '/kemitraan' },
+  {
+    label: 'Wawasan',
+    href: '/riset',
+    children: [
+      { label: 'Riset & Publikasi', href: '/riset' },
+      { label: 'Berita & Artikel', href: '/berita' },
+    ],
+  },
+  { label: 'Acara', href: '/acara' },
 ]
+
+const isActive = (pathname: string, item: NavItem) =>
+  [item, ...(item.children ?? [])].some(
+    (l) => pathname === l.href || pathname.startsWith(l.href + '/'),
+  )
 
 interface NavbarProps {
   transparent?: boolean
@@ -44,20 +62,44 @@ export default function Navbar({ transparent }: NavbarProps) {
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => {
-                const active = pathname === link.href || pathname.startsWith(link.href + '/')
+                const active = isActive(pathname, link)
+                const linkClass =
+                  'font-body text-[13px] font-medium transition-colors hover:text-[var(--inopi-teal-strong)]'
+                const linkStyle = {
+                  color: active ? 'var(--inopi-teal-strong)' : 'var(--inopi-taupe-strong)',
+                  borderBottom: active ? '2px solid var(--inopi-teal-strong)' : '2px solid transparent',
+                  paddingBottom: '2px',
+                }
+                if (!link.children) {
+                  return (
+                    <Link key={link.href} href={link.href} className={linkClass} style={linkStyle}>
+                      {link.label}
+                    </Link>
+                  )
+                }
                 return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="font-body text-[13px] font-medium transition-colors hover:text-[var(--inopi-teal-strong)]"
-                    style={{
-                      color: active ? 'var(--inopi-teal-strong)' : 'var(--inopi-taupe-strong)',
-                      borderBottom: active ? '2px solid var(--inopi-teal-strong)' : '2px solid transparent',
-                      paddingBottom: '2px',
-                    }}
-                  >
-                    {link.label}
-                  </Link>
+                  <div key={link.label} className="relative group">
+                    <Link href={link.href} className={linkClass} style={linkStyle}>
+                      {link.label}
+                    </Link>
+                    <div className="absolute left-1/2 top-full -translate-x-1/2 pt-3 hidden group-hover:block group-focus-within:block">
+                      <div
+                        className="min-w-[180px] rounded-[8px] border bg-white py-1.5 shadow-sm"
+                        style={{ borderColor: 'var(--inopi-sand)' }}
+                      >
+                        {link.children.map((c) => (
+                          <Link
+                            key={c.href}
+                            href={c.href}
+                            className="block px-4 py-2 font-body text-[13px] hover:bg-[var(--inopi-ivory)] hover:text-[var(--inopi-teal-strong)]"
+                            style={{ color: 'var(--inopi-espresso)' }}
+                          >
+                            {c.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 )
               })}
             </nav>
@@ -69,12 +111,12 @@ export default function Navbar({ transparent }: NavbarProps) {
                 className="hidden md:inline-flex items-center px-4 py-2 text-[13px] font-medium text-white rounded-[8px] transition-all hover:-translate-y-px"
                 style={{ background: 'var(--inopi-espresso)' }}
               >
-                Join Membership
+                Gabung INOPI
               </Link>
               <button
                 className="md:hidden p-1.5 text-[var(--inopi-taupe-strong)]"
                 onClick={() => setOpen(true)}
-                aria-label="Open menu"
+                aria-label="Buka menu"
               >
                 <IconMenu2 size={22} />
               </button>
@@ -103,23 +145,47 @@ export default function Navbar({ transparent }: NavbarProps) {
             >
               <div className="flex items-center justify-between mb-8">
                 <Logo />
-                <button onClick={() => setOpen(false)} className="p-1 text-[var(--inopi-taupe-strong)]">
+                <button onClick={() => setOpen(false)} className="p-1 text-[var(--inopi-taupe-strong)]" aria-label="Tutup menu">
                   <IconX size={20} />
                 </button>
               </div>
               <nav className="flex flex-col gap-4 flex-1">
                 {navLinks.map((link) => {
-                  const active = pathname === link.href || pathname.startsWith(link.href + '/')
+                  const active = isActive(pathname, link)
+                  const items = link.children ?? [link]
                   return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setOpen(false)}
-                      className="font-body text-[15px] font-medium py-1 border-b border-[var(--inopi-sand)]"
-                      style={{ color: active ? 'var(--inopi-teal-strong)' : 'var(--inopi-espresso)' }}
-                    >
-                      {link.label}
-                    </Link>
+                    <div key={link.label} className="border-b border-[var(--inopi-sand)]">
+                      {link.children ? (
+                        <p
+                          className="font-body text-[15px] font-medium py-1"
+                          style={{ color: active ? 'var(--inopi-teal-strong)' : 'var(--inopi-espresso)' }}
+                        >
+                          {link.label}
+                        </p>
+                      ) : null}
+                      {items.map((c) => (
+                        <Link
+                          key={c.href}
+                          href={c.href}
+                          onClick={() => setOpen(false)}
+                          className={
+                            link.children
+                              ? 'block font-body text-[14px] py-1.5 pl-3'
+                              : 'block font-body text-[15px] font-medium py-1'
+                          }
+                          style={{
+                            color:
+                              !link.children && active
+                                ? 'var(--inopi-teal-strong)'
+                                : link.children
+                                  ? 'var(--inopi-taupe-strong)'
+                                  : 'var(--inopi-espresso)',
+                          }}
+                        >
+                          {c.label}
+                        </Link>
+                      ))}
+                    </div>
                   )
                 })}
               </nav>
@@ -129,7 +195,7 @@ export default function Navbar({ transparent }: NavbarProps) {
                 className="mt-4 flex items-center justify-center px-4 py-3 text-[13px] font-medium text-white rounded-[8px]"
                 style={{ background: 'var(--inopi-espresso)' }}
               >
-                Join Membership
+                Gabung INOPI
               </Link>
             </motion.div>
           </>

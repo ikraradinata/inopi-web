@@ -1,21 +1,43 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
-import { toast } from 'sonner'
-import { IconWorld, IconBrandLinkedin, IconBrandTwitter } from '@tabler/icons-react'
 import Logo from '@/components/ui/Logo'
 
+// Ikon media sosial dan newsletter disembunyikan sampai akun resmi dan
+// layanan berlangganan tersedia (docs/01_RENCANA_PERUBAHAN_STRUKTUR.md, bagian 3).
+const footerGroups = [
+  {
+    title: 'Organisasi',
+    links: [
+      { label: 'Tentang', href: '/tentang' },
+      { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
+      { label: 'Founder', href: '/tentang/founders' },
+      { label: 'Tata Kelola & Legal', href: '/tentang/tata-kelola' },
+    ],
+  },
+  {
+    title: 'Program',
+    links: [
+      { label: 'Program', href: '/program' },
+      { label: 'Kemitraan', href: '/kemitraan' },
+      { label: 'Acara', href: '/acara' },
+      { label: 'Wawasan', href: '/riset' },
+    ],
+  },
+  {
+    title: 'Bergabung',
+    links: [
+      { label: 'Keanggotaan', href: '/keanggotaan' },
+      { label: 'Daftar Anggota', href: '/keanggotaan/daftar' },
+      { label: 'Ajukan Kemitraan', href: '/kemitraan' },
+      { label: 'Kontak', href: '/kontak' },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [{ label: 'Kebijakan Privasi', href: '/privacy' }],
+  },
+]
+
 export default function Footer() {
-  const [email, setEmail] = useState('')
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email) return
-    toast.success('Terima kasih telah berlangganan!')
-    setEmail('')
-  }
-
   return (
     <footer style={{ background: 'var(--inopi-espresso)' }} className="pb-6">
       <svg
@@ -29,88 +51,31 @@ export default function Footer() {
         <path d="M0 40 C 260 100, 620 0, 960 50 S 1320 90, 1440 30 L1440 0 L0 0 Z" fill="var(--inopi-teal)" opacity={0.8} />
       </svg>
       <div className="container pt-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 mb-10">
           {/* Col 1 */}
-          <div className="lg:col-span-1" style={{ flex: '1.5' }}>
+          <div className="col-span-2 md:col-span-3 lg:col-span-1">
             <div className="mb-3">
               <Logo light={true} />
             </div>
             <p className="text-[13px] leading-relaxed mb-4" style={{ color: 'var(--inopi-sand)' }}>
               Asosiasi Inovasi Pembelajaran Indonesia. Membangun ekosistem inovasi pembelajaran berbasis AI dan kolaborasi nasional.
             </p>
-            <div className="flex gap-3">
-              <a href="#" className="transition-colors hover:text-[var(--inopi-teal)]" style={{ color: 'var(--inopi-sand)' }} aria-label="Website">
-                <IconWorld size={18} />
-              </a>
-              <a href="#" className="transition-colors hover:text-[var(--inopi-teal)]" style={{ color: 'var(--inopi-sand)' }} aria-label="LinkedIn">
-                <IconBrandLinkedin size={18} />
-              </a>
-              <a href="#" className="transition-colors hover:text-[var(--inopi-teal)]" style={{ color: 'var(--inopi-sand)' }} aria-label="Twitter">
-                <IconBrandTwitter size={18} />
-              </a>
+          </div>
+
+          {footerGroups.map((group) => (
+            <div key={group.title}>
+              <h4 className="text-white text-[13px] font-semibold mb-4 font-display">{group.title}</h4>
+              <ul className="space-y-2.5">
+                {group.links.map((l) => (
+                  <li key={group.title + l.label}>
+                    <Link href={l.href} className="text-[13px] transition-colors hover:text-[var(--inopi-teal)]" style={{ color: 'var(--inopi-sand)' }}>
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-
-          {/* Col 2 */}
-          <div>
-            <h4 className="text-white text-[13px] font-semibold mb-4 font-display">Navigasi</h4>
-            <ul className="space-y-2.5">
-              {[
-                { label: 'Research Portal', href: '/riset' },
-                { label: 'Strategic Programs', href: '/program' },
-                { label: 'Membership Benefits', href: '/keanggotaan' },
-              ].map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-[13px] transition-colors hover:text-[var(--inopi-teal)]" style={{ color: 'var(--inopi-sand)' }}>
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 3 */}
-          <div>
-            <h4 className="text-white text-[13px] font-semibold mb-4 font-display">Informasi</h4>
-            <ul className="space-y-2.5">
-              {[
-                { label: 'News & Insights', href: '/berita' },
-                { label: 'Privacy Policy', href: '/privacy' },
-                { label: 'Contact Support', href: '/kontak' },
-              ].map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-[13px] transition-colors hover:text-[var(--inopi-teal)]" style={{ color: 'var(--inopi-sand)' }}>
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 4 — Newsletter */}
-          <div>
-            <h4 className="text-white text-[13px] font-semibold mb-4 font-display">Newsletter</h4>
-            <p className="text-[12px] mb-3" style={{ color: 'var(--inopi-sand)' }}>
-              Dapatkan kabar terbaru INOPI langsung di inbox Anda.
-            </p>
-            <form onSubmit={handleNewsletterSubmit} className="flex">
-              <input
-                type="email"
-                placeholder="Email Anda"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 text-[13px] text-white placeholder-[var(--inopi-sand)]/60 px-3 py-2 rounded-l-[8px] outline-none"
-                style={{ background: 'var(--inopi-espresso)' }}
-              />
-              <button
-                type="submit"
-                className="px-4 py-2 text-[13px] font-medium text-white rounded-r-[8px] transition-colors hover:opacity-90"
-                style={{ background: 'var(--inopi-teal-strong)' }}
-              >
-                Langganan
-              </button>
-            </form>
-          </div>
+          ))}
         </div>
 
         {/* Bottom bar */}
