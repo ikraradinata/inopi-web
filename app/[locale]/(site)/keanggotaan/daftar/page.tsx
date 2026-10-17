@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import MembershipForm from './MembershipForm'
 
-export const metadata: Metadata = {
-  title: 'Daftar Keanggotaan',
-  description: 'Lengkapi formulir pendaftaran keanggotaan INOPI.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.membershipApply' })
+  return { title: t('title'), description: t('description') }
 }
 
 export default async function DaftarPage({ params }: { params: Promise<{ locale: string }> }) {

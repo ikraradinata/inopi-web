@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: { absolute: 'Halaman tidak ditemukan — INOPI' },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('Meta.notFound')
+  return { title: { absolute: t('title') } }
 }
 
 export default async function NotFound() {

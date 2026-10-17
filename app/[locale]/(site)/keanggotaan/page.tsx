@@ -5,10 +5,10 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { PLAN_META, BENEFIT_TIERS, type Tier } from '@/lib/constants/membership'
 
-export const metadata: Metadata = {
-  title: 'Keanggotaan',
-  description:
-    'Kategori dan manfaat keanggotaan INOPI: Student Rp 250.000, Profesional Rp 500.000, dan Corporate Rp 5.000.000 per tahun.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.membership' })
+  return { title: t('title'), description: t('description') }
 }
 
 function TierMark({ included, labels }: { included: boolean; labels: { yes: string; no: string } }) {

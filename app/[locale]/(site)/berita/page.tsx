@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: 'Berita & Artikel',
-  description: 'Berita terkini dan artikel opini seputar inovasi pembelajaran Indonesia.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.berita' })
+  return { title: t('title'), description: t('description') }
 }
 
 const categoryColors: Record<string, string> = {

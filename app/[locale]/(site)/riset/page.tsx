@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: 'Riset & Publikasi',
-  description: 'Database publikasi dan hasil riset INOPI.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.research' })
+  return { title: t('title'), description: t('description') }
 }
 
 // Tautan PDF Insight Brief. Isi (mis. '/publikasi/insight-brief-01.pdf')

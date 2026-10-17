@@ -4,9 +4,10 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { IconCalendarEvent, IconClock, IconMapPin } from '@tabler/icons-react'
 import { LAUNCH } from '@/lib/constants/launch'
 
-export const metadata: Metadata = {
-  title: { absolute: 'Acara — INOPI' },
-  description: 'Forum, seminar, dan pelatihan INOPI, termasuk INOPI Launching & Conference 26 Oktober 2026.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.acara' })
+  return { title: { absolute: t('title') }, description: t('description') }
 }
 
 const eyebrow = 'font-body text-[11px] font-semibold uppercase tracking-widest mb-4'

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Barlow_Semi_Condensed, Barlow } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
-import { getMessages, setRequestLocale } from 'next-intl/server'
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 import '../globals.css'
 import { routing } from '@/i18n/routing'
 import { CLIENT_NAMESPACES } from '@/i18n/clientNamespaces'
@@ -25,14 +25,18 @@ const barlow = Barlow({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://www.inopi.id'),
-  title: { default: 'INOPI — Asosiasi Inovasi Pembelajaran Indonesia', template: '%s | INOPI' },
-  description: 'Membangun ekosistem inovasi pembelajaran berbasis AI dan kolaborasi nasional untuk mencetak generasi unggul di era Industri 5.0.',
-  keywords: ['INOPI', 'inovasi pembelajaran', 'edtech indonesia', 'asosiasi pendidikan'],
-  openGraph: { type: 'website', locale: 'id_ID', url: 'https://www.inopi.id', siteName: 'INOPI' },
-  twitter: { card: 'summary_large_image', creator: '@inopi_id' },
-  robots: { index: true, follow: true },
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.site' })
+  return {
+    metadataBase: new URL('https://www.inopi.id'),
+    title: { default: t('title'), template: '%s | INOPI' },
+    description: t('description'),
+    keywords: t.raw('keywords') as string[],
+    openGraph: { type: 'website', locale: 'id_ID', url: 'https://www.inopi.id', siteName: 'INOPI' },
+    twitter: { card: 'summary_large_image', creator: '@inopi_id' },
+    robots: { index: true, follow: true },
+  }
 }
 
 export function generateStaticParams() {

@@ -3,10 +3,10 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import KemitraanForm from './KemitraanForm'
 import { COLLAB_MODELS } from '@/lib/constants/kemitraan'
 
-export const metadata: Metadata = {
-  title: { absolute: 'Kemitraan — INOPI' },
-  description:
-    'Bangun kolaborasi riset, proyek percontohan, dan pengembangan kompetensi bersama Asosiasi Inovasi Pembelajaran Indonesia.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.partnership' })
+  return { title: { absolute: t('title') }, description: t('description') }
 }
 
 const eyebrowClass = 'font-body text-[11px] font-semibold uppercase tracking-widest mb-3'

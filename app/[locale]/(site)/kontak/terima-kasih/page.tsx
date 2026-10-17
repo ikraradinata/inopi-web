@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import ThankYou from '@/components/sections/ThankYou'
 
-export const metadata: Metadata = {
-  title: { absolute: 'Terima Kasih — INOPI' },
-  robots: { index: false },
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.thanks' })
+  return { title: { absolute: t('title') }, robots: { index: false } }
 }
 
 export default async function KontakTerimaKasihPage({ params }: { params: Promise<{ locale: string }> }) {

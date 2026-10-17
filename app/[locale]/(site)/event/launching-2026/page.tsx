@@ -15,14 +15,28 @@ import {
 import { LAUNCH, RSVP_URL, SPEAKER_NAMES, MC } from '@/lib/constants/launch'
 import LaunchCountdown from '@/components/sections/LaunchCountdown'
 
-export const metadata: Metadata = {
-  title: `${LAUNCH.eyebrow} — ${LAUNCH.title}`,
-  description: `${LAUNCH.tagline}. ${LAUNCH.dateLabel}, ${LAUNCH.timeLabel} di ${LAUNCH.venue}, ${LAUNCH.venueAddress}.`,
-  openGraph: {
-    title: `${LAUNCH.eyebrow} — ${LAUNCH.title}`,
-    description: `${LAUNCH.dateLabel} · ${LAUNCH.timeLabel} · ${LAUNCH.venue}`,
-    images: [LAUNCH.poster],
-  },
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.launching' })
+  const tl = await getTranslations({ locale, namespace: 'Launch' })
+  const values = {
+    eyebrow: tl('eyebrow'),
+    title: tl('title'),
+    tagline: tl('tagline'),
+    dateLabel: tl('dateLabel'),
+    timeLabel: tl('timeLabel'),
+    venue: tl('venue'),
+    venueAddress: tl('venueAddress'),
+  }
+  return {
+    title: t('title', values),
+    description: t('description', values),
+    openGraph: {
+      title: t('title', values),
+      description: t('ogDescription', values),
+      images: [LAUNCH.poster],
+    },
+  }
 }
 
 const pillarIcons = [IconUsers, IconBook, IconBulb, IconAffiliate, IconChartBar]

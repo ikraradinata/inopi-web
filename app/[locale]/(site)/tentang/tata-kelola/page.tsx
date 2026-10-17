@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: { absolute: 'Tata Kelola & Informasi Legal — INOPI' },
-  description:
-    'Identitas badan hukum, struktur tata kelola, dan akuntabilitas Perkumpulan Asosiasi Inovasi Pembelajaran Indonesia.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.governance' })
+  return { title: { absolute: t('title') }, description: t('description') }
 }
 
 // Baris dengan data yang belum diputuskan pengurus (nomor SK pengesahan, NPWP,

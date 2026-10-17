@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import FoundersGrid from './FoundersGrid'
 
-export const metadata: Metadata = {
-  title: 'Para Pendiri INOPI',
-  description: '26 tokoh terkemuka dari akademik, industri, dan komunitas profesional pendiri INOPI.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.founders' })
+  return { title: t('title'), description: t('description') }
 }
 
 export default async function FoundersPage({ params }: { params: Promise<{ locale: string }> }) {

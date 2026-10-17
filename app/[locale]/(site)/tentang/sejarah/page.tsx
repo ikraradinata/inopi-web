@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { IconCheck, IconCircle, IconRocket } from '@tabler/icons-react'
 
-export const metadata: Metadata = {
-  title: 'Sejarah & Latar Belakang',
-  description: 'Perjalanan INOPI dari gagasan kolaboratif menuju asosiasi inovasi pembelajaran terkemuka Indonesia.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.history' })
+  return { title: t('title'), description: t('description') }
 }
 
 const timelineStatus = ['done', 'done', 'done', 'done', 'launch'] as const

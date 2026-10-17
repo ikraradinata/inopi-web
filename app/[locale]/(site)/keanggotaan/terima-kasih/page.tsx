@@ -5,9 +5,10 @@ import CopyButton from '@/components/ui/CopyButton'
 import { getPlanMeta } from '@/lib/constants/membership'
 import { ASSOCIATION_EMAIL, BANK_ACCOUNT, formatRupiah, isBankConfigured } from '@/lib/constants/registration'
 
-export const metadata: Metadata = {
-  title: { absolute: 'Terima Kasih — INOPI' },
-  robots: { index: false },
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.thanks' })
+  return { title: { absolute: t('title') }, robots: { index: false } }
 }
 
 const label = 'font-body text-[11px] uppercase tracking-wider'

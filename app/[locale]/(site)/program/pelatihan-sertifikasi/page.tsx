@@ -7,9 +7,10 @@ import TrainingCatalogSection from '@/components/sections/TrainingCatalogSection
 import SkillsCubeSection from '@/components/sections/SkillsCubeSection'
 import { IconCertificate } from '@tabler/icons-react'
 
-export const metadata: Metadata = {
-  title: 'Divisi Pelatihan & Sertifikasi',
-  description: 'Capacity builder INOPI — meningkatkan kompetensi SDM melalui pelatihan terstruktur, katalog 10 program training, dan metodologi INOPI Skills Cube.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.programTraining' })
+  return { title: t('title'), description: t('description') }
 }
 
 export default async function PelatihanSertifikasiPage({ params }: { params: Promise<{ locale: string }> }) {

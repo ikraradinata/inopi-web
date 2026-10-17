@@ -13,9 +13,10 @@ import {
   IconCertificate,
 } from '@tabler/icons-react'
 
-export const metadata: Metadata = {
-  title: 'Struktur Organisasi',
-  description: 'Struktur organisasi dan pengurus INOPI — Asosiasi Inovasi Pembelajaran Indonesia.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.organization' })
+  return { title: t('title'), description: t('description') }
 }
 
 const orgSections = [

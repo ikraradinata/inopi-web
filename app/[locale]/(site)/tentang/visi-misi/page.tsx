@@ -13,9 +13,10 @@ import {
   IconHeart,
 } from '@tabler/icons-react'
 
-export const metadata: Metadata = {
-  title: 'Visi & Misi',
-  description: 'Visi dan misi strategis INOPI dalam membangun ekosistem inovasi pembelajaran Indonesia.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.visionMission' })
+  return { title: t('title'), description: t('description') }
 }
 
 const missionIcons = [IconLayersIntersect, IconMicroscope, IconBuildingBridge, IconUsersGroup, IconAward]

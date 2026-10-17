@@ -3,9 +3,10 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import ContactForm from './ContactForm'
 import { IconMapPin, IconMail, IconPhone, IconClock } from '@tabler/icons-react'
 
-export const metadata: Metadata = {
-  title: 'Kontak',
-  description: 'Hubungi tim INOPI untuk pertanyaan dan kolaborasi.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.contact' })
+  return { title: t('title'), description: t('description') }
 }
 
 const infoIcons = [IconMapPin, IconMail, IconPhone, IconClock]

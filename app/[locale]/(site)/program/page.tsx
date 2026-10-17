@@ -5,9 +5,10 @@ import CtaDark from '@/components/sections/CtaDark'
 import PriorityProgramsSection from '@/components/sections/PriorityProgramsSection'
 import { IconFlask, IconRocket, IconCertificate, IconNetwork } from '@tabler/icons-react'
 
-export const metadata: Metadata = {
-  title: 'Program & Kegiatan Strategis',
-  description: 'Rangkaian program terstruktur INOPI untuk mendorong inovasi pembelajaran nasional.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.programs' })
+  return { title: t('title'), description: t('description') }
 }
 
 const programs = [

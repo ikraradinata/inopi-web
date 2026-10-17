@@ -4,9 +4,10 @@ import { getDivision } from '@/lib/constants/programs'
 import ProgramKerjaSection from '@/components/sections/ProgramKerjaSection'
 import { IconRocket } from '@tabler/icons-react'
 
-export const metadata: Metadata = {
-  title: 'Divisi Program & Implementasi',
-  description: 'Executor asosiasi INOPI — menjalankan program pilot, monitoring, dan mendokumentasikan dampak inovasi.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.programImplementation' })
+  return { title: t('title'), description: t('description') }
 }
 
 export default async function ImplementasiPage({ params }: { params: Promise<{ locale: string }> }) {

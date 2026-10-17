@@ -3111,5 +3111,108 @@
         "body": "Kebijakan ini dapat diperbarui. Versi terbaru selalu tersedia di halaman ini."
       }
     ]
+  },
+  "Meta": {
+    "acara": {
+      "title": "Acara — INOPI",
+      "description": "Forum, seminar, dan pelatihan INOPI, termasuk INOPI Launching & Conference 26 Oktober 2026."
+    },
+    "berita": {
+      "title": "Berita & Artikel",
+      "description": "Berita terkini dan artikel opini seputar inovasi pembelajaran Indonesia."
+    },
+    "event": {
+      "title": "Event & Kegiatan",
+      "description": "Kalender kegiatan INOPI. Agenda terdekat: {eyebrow}, {dateLabel} di {venue}."
+    },
+    "membershipApply": {
+      "title": "Daftar Keanggotaan",
+      "description": "Lengkapi formulir pendaftaran keanggotaan INOPI."
+    },
+    "membership": {
+      "title": "Keanggotaan",
+      "description": "Kategori dan manfaat keanggotaan INOPI: Student Rp 250.000, Profesional Rp 500.000, dan Corporate Rp 5.000.000 per tahun."
+    },
+    "partnership": {
+      "title": "Kemitraan — INOPI",
+      "description": "Bangun kolaborasi riset, proyek percontohan, dan pengembangan kompetensi bersama Asosiasi Inovasi Pembelajaran Indonesia."
+    },
+    "contact": {
+      "title": "Kontak",
+      "description": "Hubungi tim INOPI untuk pertanyaan dan kolaborasi."
+    },
+    "privacy": {
+      "title": "Kebijakan Privasi — INOPI",
+      "description": "Cara INOPI mengumpulkan, menggunakan, dan melindungi data pribadi pengguna website."
+    },
+    "programImplementation": {
+      "title": "Divisi Program & Implementasi",
+      "description": "Executor asosiasi INOPI — menjalankan program pilot, monitoring, dan mendokumentasikan dampak inovasi."
+    },
+    "programPartnership": {
+      "title": "Divisi Kemitraan & Kerjasama",
+      "description": "Network builder INOPI — membangun jejaring strategis dengan universitas, industri, dan pemerintah."
+    },
+    "programs": {
+      "title": "Program & Kegiatan Strategis",
+      "description": "Rangkaian program terstruktur INOPI untuk mendorong inovasi pembelajaran nasional."
+    },
+    "programTraining": {
+      "title": "Divisi Pelatihan & Sertifikasi",
+      "description": "Capacity builder INOPI — meningkatkan kompetensi SDM melalui pelatihan terstruktur, katalog 10 program training, dan metodologi INOPI Skills Cube."
+    },
+    "programResearch": {
+      "title": "Divisi Riset & Inovasi",
+      "description": "Think tank asosiasi INOPI — mengembangkan agenda riset, framework, dan publikasi ilmiah untuk inovasi pembelajaran."
+    },
+    "research": {
+      "title": "Riset & Publikasi",
+      "description": "Database publikasi dan hasil riset INOPI."
+    },
+    "founders": {
+      "title": "Para Pendiri INOPI",
+      "description": "26 tokoh terkemuka dari akademik, industri, dan komunitas profesional pendiri INOPI."
+    },
+    "about": {
+      "title": "Tentang INOPI",
+      "description": "INOPI adalah asosiasi profesional yang mendorong inovasi pembelajaran Indonesia."
+    },
+    "history": {
+      "title": "Sejarah & Latar Belakang",
+      "description": "Perjalanan INOPI dari gagasan kolaboratif menuju asosiasi inovasi pembelajaran terkemuka Indonesia."
+    },
+    "organization": {
+      "title": "Struktur Organisasi",
+      "description": "Struktur organisasi dan pengurus INOPI — Asosiasi Inovasi Pembelajaran Indonesia."
+    },
+    "governance": {
+      "title": "Tata Kelola & Informasi Legal — INOPI",
+      "description": "Identitas badan hukum, struktur tata kelola, dan akuntabilitas Perkumpulan Asosiasi Inovasi Pembelajaran Indonesia."
+    },
+    "visionMission": {
+      "title": "Visi & Misi",
+      "description": "Visi dan misi strategis INOPI dalam membangun ekosistem inovasi pembelajaran Indonesia."
+    },
+    "thanks": {
+      "title": "Terima Kasih — INOPI"
+    },
+    "notFound": {
+      "title": "Halaman tidak ditemukan — INOPI"
+    },
+    "launching": {
+      "title": "{eyebrow} — {title}",
+      "description": "{tagline}. {dateLabel}, {timeLabel} di {venue}, {venueAddress}.",
+      "ogDescription": "{dateLabel} · {timeLabel} · {venue}"
+    },
+    "site": {
+      "title": "INOPI — Asosiasi Inovasi Pembelajaran Indonesia",
+      "description": "Membangun ekosistem inovasi pembelajaran berbasis AI dan kolaborasi nasional untuk mencetak generasi unggul di era Industri 5.0.",
+      "keywords": [
+        "INOPI",
+        "inovasi pembelajaran",
+        "edtech indonesia",
+        "asosiasi pendidikan"
+      ]
+    }
   }
 }

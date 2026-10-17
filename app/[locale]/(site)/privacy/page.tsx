@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
-export const metadata: Metadata = {
-  title: { absolute: 'Kebijakan Privasi — INOPI' },
-  description: 'Cara INOPI mengumpulkan, menggunakan, dan melindungi data pribadi pengguna website.',
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'Meta.privacy' })
+  return { title: { absolute: t('title') }, description: t('description') }
 }
 
 // DRAF dari docs/02_KONTEN_BARU_P0.md bagian L, disusun mengikuti prinsip UU
