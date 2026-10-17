@@ -3017,5 +3017,99 @@
     "nearest": "Agenda Terdekat",
     "posterAlt": "Poster {eyebrow}",
     "link": "Lihat detail acara →"
+  },
+  "Riset": {
+    "title": "Riset & Publikasi",
+    "intro": "Portal riset dan database publikasi INOPI akan segera tersedia. Konten akan dikelola melalui Sanity CMS.",
+    "publications": "Publikasi",
+    "brief": "INOPI Insight Brief No. 01",
+    "briefTitle": "Peta Kompetensi 26 Founder INOPI: Modal SDM di Balik Ekosistem Inovasi Pembelajaran Indonesia",
+    "briefMeta": "Divisi Riset & Inovasi · Juli 2026",
+    "briefSummary": "Survei terhadap seluruh 26 founder (19–27 Juni 2026) menunjukkan rata-rata pengalaman profesional 22,8 tahun, 69% telah menjalankan program pelatihan, dan lebih dari sepuluh memiliki keahlian langsung di bidang AI.",
+    "download": "Unduh PDF"
+  },
+  "Berita": {
+    "title": "Berita & Artikel",
+    "intro": "Kabar terbaru, artikel opini, dan publikasi dari ekosistem INOPI.",
+    "categories": {
+      "Berita INOPI": "Berita INOPI",
+      "Artikel Opini": "Artikel Opini",
+      "Research Digest": "Research Digest",
+      "Press Release": "Press Release"
+    },
+    "articles": [
+      {
+        "category": "Berita INOPI",
+        "title": "INOPI Resmi Didirikan oleh 26 Tokoh Pendidikan Indonesia",
+        "date": "11 Apr 2026",
+        "excerpt": "Pada 11 April 2026, sebanyak 26 tokoh terkemuka dari dunia akademik, industri, dan komunitas profesional resmi mendirikan INOPI."
+      },
+      {
+        "category": "Artikel Opini",
+        "title": "AI dalam Pendidikan: Peluang dan Tantangan di Era Industri 5.0",
+        "date": "15 Apr 2026",
+        "excerpt": "Integrasi kecerdasan buatan dalam sistem pendidikan membuka peluang transformatif sekaligus menghadirkan tantangan yang perlu diantisipasi."
+      },
+      {
+        "category": "Research Digest",
+        "title": "Tren Adaptive Learning di Asia Tenggara 2025–2026",
+        "date": "20 Apr 2026",
+        "excerpt": "Laporan terbaru menunjukkan adopsi sistem pembelajaran adaptif meningkat 47% di kawasan Asia Tenggara dalam dua tahun terakhir."
+      }
+    ]
+  },
+  "NotFound": {
+    "title": "Halaman tidak ditemukan",
+    "text": "Halaman yang Anda cari mungkin sudah dipindahkan atau belum tersedia.",
+    "home": "Kembali ke Beranda",
+    "contact": "Hubungi Kami"
+  },
+  "Privacy": {
+    "title": "Kebijakan Privasi INOPI",
+    "sections": [
+      {
+        "title": "1. Siapa kami",
+        "body": "Website ini dikelola oleh Perkumpulan Asosiasi Inovasi Pembelajaran Indonesia (INOPI). INOPI bertanggung jawab atas data pribadi yang dikumpulkan melalui website ini."
+      },
+      {
+        "title": "2. Data yang kami kumpulkan",
+        "intro": "Kami hanya mengumpulkan data yang Anda berikan secara langsung melalui formulir:",
+        "items": [
+          "Formulir keanggotaan: nama, email, nomor WhatsApp, institusi, jabatan, bidang minat, dan kategori keanggotaan.",
+          "Formulir kemitraan: nama, email, nomor telepon (opsional), organisasi, dan informasi kolaborasi.",
+          "Formulir kontak: nama, email, topik, dan isi pesan."
+        ],
+        "outro": "Kami juga dapat mengumpulkan data penggunaan website secara anonim (misalnya halaman yang dikunjungi) untuk memahami cara website digunakan. Data ini tidak dipakai untuk mengenali Anda secara pribadi."
+      },
+      {
+        "title": "3. Tujuan penggunaan data",
+        "items": [
+          "Memproses pendaftaran keanggotaan dan iuran.",
+          "Menindaklanjuti pengajuan kemitraan dan pertanyaan.",
+          "Mengirim informasi kegiatan INOPI, hanya jika Anda menyetujuinya.",
+          "Meningkatkan kualitas website dan layanan."
+        ]
+      },
+      {
+        "title": "4. Siapa yang dapat mengakses data",
+        "body": "Data hanya diakses oleh pengurus INOPI yang bertugas menangani permintaan terkait. Kami tidak menjual data pribadi Anda. Kami dapat menggunakan penyedia layanan teknologi (misalnya layanan email dan hosting) yang terikat kewajiban menjaga kerahasiaan data."
+      },
+      {
+        "title": "5. Penyimpanan dan keamanan",
+        "body": "Data disimpan dengan akses terbatas dan perlindungan teknis yang wajar, selama diperlukan untuk tujuan di atas."
+      },
+      {
+        "title": "6. Hak Anda",
+        "body": "Anda berhak meminta akses, perbaikan, atau penghapusan data pribadi Anda, serta menarik persetujuan menerima informasi kegiatan kapan saja."
+      },
+      {
+        "title": "7. Hubungi kami",
+        "body": "Permintaan terkait data pribadi dapat dikirim ke asosiasi.inopi@gmail.com dengan subjek \"Data Pribadi\"."
+      },
+      {
+        "title": "8. Perubahan kebijakan",
+        "body": "Kebijakan ini dapat diperbarui. Versi terbaru selalu tersedia di halaman ini."
+      }
+    ]
   }
 }
