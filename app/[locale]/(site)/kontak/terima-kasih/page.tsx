@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import ThankYou from '@/components/sections/ThankYou'
 
 export const metadata: Metadata = {
@@ -6,12 +7,9 @@ export const metadata: Metadata = {
   robots: { index: false },
 }
 
-export default function KontakTerimaKasihPage() {
-  return (
-    <ThankYou
-      title="Pesan Anda sudah terkirim."
-      text="Terima kasih telah menghubungi INOPI. Kami akan membalas melalui email."
-      actions={[{ label: 'Kembali ke Beranda', href: '/' }]}
-    />
-  )
+export default async function KontakTerimaKasihPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'KontakThanks' })
+  return <ThankYou title={t('title')} text={t('text')} actions={[{ label: t('home'), href: '/' }]} />
 }

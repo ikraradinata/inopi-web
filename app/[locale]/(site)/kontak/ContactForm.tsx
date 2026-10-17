@@ -2,14 +2,16 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Field, Honeypot, PrivacyConsent, inputClass, inputStyle, readHoneypot } from '@/components/ui/FormField'
 import { CONTACT_TOPICS, kontakSchema, type KontakInput } from '@/lib/schemas/kontak'
-import { FAILURE_MESSAGE } from '@/lib/constants/kemitraan'
 
 export default function ContactForm() {
+  const t = useTranslations('ContactForm')
+  const tf = useTranslations('Forms')
   const router = useRouter()
   // Waktu halaman dibuka; server menolak kiriman yang terlalu cepat untuk manusia.
   const [startedAt] = useState(() => Date.now())
@@ -28,43 +30,43 @@ export default function ContactForm() {
       })
       const json = await res.json().catch(() => null)
       if (!res.ok || !json?.success) {
-        toast.error(json?.message ?? FAILURE_MESSAGE)
+        toast.error(json?.code === 'rate_limited' ? tf('rateLimited') : tf('failure'))
         return
       }
       router.push('/kontak/terima-kasih')
     } catch {
-      toast.error(FAILURE_MESSAGE)
+      toast.error(tf('failure'))
     }
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-4">
-      <Field label="Nama" required error={errors.nama?.message}>
-        <input {...register('nama')} type="text" autoComplete="name" placeholder="Nama lengkap Anda" className={inputClass} style={inputStyle} />
+      <Field label={t('name')} required error={errors.nama?.message}>
+        <input {...register('nama')} type="text" autoComplete="name" placeholder={t('namePlaceholder')} className={inputClass} style={inputStyle} />
       </Field>
-      <Field label="Email" required error={errors.email?.message}>
-        <input {...register('email')} type="email" autoComplete="email" placeholder="email@domain.com" className={inputClass} style={inputStyle} />
+      <Field label={t('email')} required error={errors.email?.message}>
+        <input {...register('email')} type="email" autoComplete="email" placeholder={t('emailPlaceholder')} className={inputClass} style={inputStyle} />
       </Field>
-      <Field label="Topik" required error={errors.topik?.message}>
+      <Field label={t('topic')} required error={errors.topik?.message}>
         <select {...register('topik')} defaultValue="" className={inputClass} style={inputStyle}>
           <option value="" disabled>
-            Pilih topik
+            {t('topicPlaceholder')}
           </option>
-          {CONTACT_TOPICS.map((t) => (
-            <option key={t} value={t}>
-              {t}
+          {CONTACT_TOPICS.map((topic) => (
+            <option key={topic} value={topic}>
+              {t(`topics.${topic}`)}
             </option>
           ))}
         </select>
       </Field>
-      <Field label="Subjek" required error={errors.subjek?.message}>
-        <input {...register('subjek')} type="text" placeholder="Perihal pesan" className={inputClass} style={inputStyle} />
+      <Field label={t('subject')} required error={errors.subjek?.message}>
+        <input {...register('subjek')} type="text" placeholder={t('subjectPlaceholder')} className={inputClass} style={inputStyle} />
       </Field>
-      <Field label="Pesan" required error={errors.pesan?.message}>
+      <Field label={t('message')} required error={errors.pesan?.message}>
         <textarea
           {...register('pesan')}
           rows={5}
-          placeholder="Tuliskan pesan Anda..."
+          placeholder={t('messagePlaceholder')}
           className={`${inputClass} resize-none`}
           style={inputStyle}
         />
@@ -79,7 +81,7 @@ export default function ContactForm() {
         className="py-3 text-[14px] font-semibold text-white rounded-[8px] transition-all hover:-translate-y-px disabled:opacity-60"
         style={{ background: 'var(--inopi-espresso)' }}
       >
-        {isSubmitting ? 'Mengirim...' : 'Kirim Pesan'}
+        {isSubmitting ? t('sending') : t('submit')}
       </button>
     </form>
   )

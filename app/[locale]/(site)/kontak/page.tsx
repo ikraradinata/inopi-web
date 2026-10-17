@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import ContactForm from './ContactForm'
 import { IconMapPin, IconMail, IconPhone, IconClock } from '@tabler/icons-react'
 
@@ -7,32 +8,29 @@ export const metadata: Metadata = {
   description: 'Hubungi tim INOPI untuk pertanyaan dan kolaborasi.',
 }
 
-export default function KontakPage() {
+const infoIcons = [IconMapPin, IconMail, IconPhone, IconClock]
+
+export default async function KontakPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'Kontak' })
+  const info = t.raw('info') as { label: string; value: string }[]
   return (
     <div className="py-14">
       <div className="container">
         <h1 className="font-display font-bold mb-2" style={{ fontSize: 'clamp(24px,4vw,36px)', color: 'var(--inopi-espresso)' }}>
-          Hubungi Kami
+          {t('title')}
         </h1>
         <p className="font-body text-[14px] mb-10" style={{ color: 'var(--inopi-taupe-strong)' }}>
-          Tim INOPI siap membantu Anda. Isi formulir di bawah dan kami akan merespons dalam 1×24 jam.
+          {t('intro')}
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Info */}
           <div>
             <div className="space-y-5">
-              {[
-                {
-                  icon: IconMapPin,
-                  label: 'Alamat',
-                  value: 'Prosperity Tower, 8th Floor, Kawasan District 8 LOT 13 SCBD, Jl. Jend. Sudirman Kav 52-53, Senayan, Jakarta Selatan – 12190',
-                },
-                { icon: IconMail, label: 'Email', value: 'asosiasi.inopi@gmail.com' },
-                { icon: IconPhone, label: 'Telepon', value: '+62 21 555 1234 (placeholder)' },
-                { icon: IconClock, label: 'Jam Operasional', value: 'Senin–Jumat 09:00–17:00 WIB' },
-              ].map((item) => {
-                const Icon = item.icon
+              {info.map((item, i) => {
+                const Icon = infoIcons[i]
                 return (
                   <div key={item.label} className="flex items-start gap-4">
                     <div className="w-9 h-9 rounded-[8px] flex items-center justify-center flex-shrink-0" style={{ background: 'var(--inopi-sand)' }}>
