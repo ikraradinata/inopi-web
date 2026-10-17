@@ -329,5 +329,55 @@
         "desc": "Mengedepankan kerja sama lintas disiplin."
       }
     ]
+  },
+  "Sejarah": {
+    "badge": "Perjalanan INOPI",
+    "title": "Sejarah & Latar Belakang",
+    "intro": "Dari gagasan kolaboratif menuju asosiasi inovasi pembelajaran terkemuka Indonesia.",
+    "timelineTitle": "Perjalanan Pembentukan",
+    "timeline": [
+      {
+        "label": "Nama Disetujui AHU",
+        "desc": "INOPI resmi terdaftar di Administrasi Hukum Umum Kemenkumham."
+      },
+      {
+        "label": "Inisiasi & Diskusi Founders",
+        "desc": "11 April 2026 — pertemuan perdana 26 founders dari berbagai institusi."
+      },
+      {
+        "label": "Penyusunan Visi, Misi & AD/ART",
+        "desc": "Landasan hukum dan arah strategis organisasi dirumuskan bersama 26 founder."
+      },
+      {
+        "label": "Pembentukan Struktur Organisasi",
+        "desc": "Pengurus harian dan empat divisi kerja INOPI ditetapkan."
+      }
+    ],
+    "launchLabel": "Launching INOPI",
+    "launchDesc": "{dateLabel} — {venue}, {venueDetail}.",
+    "challenges": [
+      {
+        "title": "Gelombang Transformasi",
+        "items": [
+          "AI (Artificial Intelligence)",
+          "Digital learning ecosystem",
+          "Smart education & adaptive learning",
+          "Immersive Technology",
+          "Society 5.0"
+        ]
+      },
+      {
+        "title": "Tantangan Utama Indonesia",
+        "items": [
+          "Fragmentasi inovasi pembelajaran",
+          "Kesenjangan akademik-industri-kebijakan",
+          "Kurangnya platform kolaborasi",
+          "Minimnya standardisasi",
+          "Terbatasnya adopsi teknologi"
+        ]
+      }
+    ],
+    "roleTitle": "Peran INOPI",
+    "roleBody": "INOPI hadir sebagai katalisator yang menghubungkan akademisi, industri, dan pemerintah dalam ekosistem inovasi pembelajaran yang inklusif dan berkelanjutan — menjawab tantangan transformasi digital pendidikan Indonesia."
   }
 }

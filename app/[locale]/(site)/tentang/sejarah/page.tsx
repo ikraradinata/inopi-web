@@ -1,49 +1,42 @@
 import type { Metadata } from 'next'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { IconCheck, IconCircle, IconRocket } from '@tabler/icons-react'
-import { LAUNCH } from '@/lib/constants/launch'
 
 export const metadata: Metadata = {
   title: 'Sejarah & Latar Belakang',
   description: 'Perjalanan INOPI dari gagasan kolaboratif menuju asosiasi inovasi pembelajaran terkemuka Indonesia.',
 }
 
-const timeline = [
-  { status: 'done', label: 'Nama Disetujui AHU', desc: 'INOPI resmi terdaftar di Administrasi Hukum Umum Kemenkumham.' },
-  { status: 'done', label: 'Inisiasi & Diskusi Founders', desc: '11 April 2026 — pertemuan perdana 26 founders dari berbagai institusi.' },
-  { status: 'done', label: 'Penyusunan Visi, Misi & AD/ART', desc: 'Landasan hukum dan arah strategis organisasi dirumuskan bersama 26 founder.' },
-  { status: 'done', label: 'Pembentukan Struktur Organisasi', desc: 'Pengurus harian dan empat divisi kerja INOPI ditetapkan.' },
-  {
-    status: 'launch',
-    label: 'Launching INOPI',
-    desc: `${LAUNCH.dateLabel} — ${LAUNCH.venue}, ${LAUNCH.venueDetail}.`,
-  },
-]
+const timelineStatus = ['done', 'done', 'done', 'done', 'launch'] as const
 
-const challenges = [
-  {
-    title: 'Gelombang Transformasi',
-    items: ['AI (Artificial Intelligence)', 'Digital learning ecosystem', 'Smart education & adaptive learning', 'Immersive Technology', 'Society 5.0'],
-  },
-  {
-    title: 'Tantangan Utama Indonesia',
-    items: ['Fragmentasi inovasi pembelajaran', 'Kesenjangan akademik-industri-kebijakan', 'Kurangnya platform kolaborasi', 'Minimnya standardisasi', 'Terbatasnya adopsi teknologi'],
-  },
-]
-
-export default function SejarahPage() {
+export default async function SejarahPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'Sejarah' })
+  const tl = await getTranslations({ locale, namespace: 'Launch' })
+  const base = t.raw('timeline') as { label: string; desc: string }[]
+  const timeline = [
+    ...base.map((b, i) => ({ status: timelineStatus[i], ...b })),
+    {
+      status: timelineStatus[4],
+      label: t('launchLabel'),
+      desc: t('launchDesc', { dateLabel: tl('dateLabel'), venue: tl('venue'), venueDetail: tl('venueDetail') }),
+    },
+  ]
+  const challenges = t.raw('challenges') as { title: string; items: string[] }[]
   return (
     <div className="py-14">
       {/* Hero */}
       <div className="container mb-12">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
           style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-teal)' }}>
-          Perjalanan INOPI
+          {t('badge')}
         </div>
         <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(24px,4vw,36px)', color: 'var(--inopi-espresso)' }}>
-          Sejarah & Latar Belakang
+          {t('title')}
         </h1>
         <p className="font-body text-[14px] max-w-xl" style={{ color: 'var(--inopi-taupe-strong)' }}>
-          Dari gagasan kolaboratif menuju asosiasi inovasi pembelajaran terkemuka Indonesia.
+          {t('intro')}
         </p>
       </div>
 
@@ -52,11 +45,11 @@ export default function SejarahPage() {
           {/* Timeline */}
           <div>
             <h2 className="font-display font-bold text-[18px] mb-6" style={{ color: 'var(--inopi-espresso)' }}>
-              Perjalanan Pembentukan
+              {t('timelineTitle')}
             </h2>
             <div className="relative">
-              {timeline.map((t, i) => (
-                <div key={t.label} className="flex gap-4 pb-7 relative">
+              {timeline.map((step, i) => (
+                <div key={step.label} className="flex gap-4 pb-7 relative">
                   {/* Connecting line */}
                   {i < timeline.length - 1 && (
                     <div
@@ -66,14 +59,14 @@ export default function SejarahPage() {
                   )}
                   {/* Dot */}
                   <div className="flex-shrink-0 mt-0.5">
-                    {t.status === 'done' ? (
+                    {step.status === 'done' ? (
                       <div
                         className="w-8 h-8 rounded-full flex items-center justify-center"
                         style={{ background: 'var(--inopi-teal-strong)' }}
                       >
                         <IconCheck size={14} color="white" />
                       </div>
-                    ) : t.status === 'launch' ? (
+                    ) : step.status === 'launch' ? (
                       <div
                         className="w-8 h-8 rounded-full flex items-center justify-center"
                         style={{ background: 'var(--inopi-sand)', border: '2px solid var(--inopi-teal-strong)' }}
@@ -91,10 +84,10 @@ export default function SejarahPage() {
                   </div>
                   <div>
                     <h3 className="font-display font-semibold text-[14px] mb-0.5" style={{ color: 'var(--inopi-espresso)' }}>
-                      {t.label}
+                      {step.label}
                     </h3>
                     <p className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--inopi-taupe-strong)' }}>
-                      {t.desc}
+                      {step.desc}
                     </p>
                   </div>
                 </div>
@@ -129,10 +122,10 @@ export default function SejarahPage() {
               style={{ background: 'var(--inopi-espresso)' }}
             >
               <h3 className="font-display font-semibold text-[15px] mb-3 text-white">
-                Peran INOPI
+                {t('roleTitle')}
               </h3>
               <p className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--inopi-sand)' }}>
-                INOPI hadir sebagai katalisator yang menghubungkan akademisi, industri, dan pemerintah dalam ekosistem inovasi pembelajaran yang inklusif dan berkelanjutan — menjawab tantangan transformasi digital pendidikan Indonesia.
+                {t('roleBody')}
               </p>
             </div>
           </div>
