@@ -511,5 +511,56 @@
     "accountabilityTitle": "Akuntabilitas",
     "reports": "Laporan kegiatan dan dampak program akan dipublikasikan setiap akhir tahun di website.",
     "questions": "Pertanyaan terkait tata kelola dapat diajukan melalui halaman <link>Kontak</link> dengan topik “Umum”."
+  },
+  "Program": {
+    "badge": "4 Divisi Strategis",
+    "title": "Program & Kegiatan Strategis",
+    "intro": "Empat divisi program INOPI yang bekerja sinergis untuk mendorong ekosistem inovasi pembelajaran nasional.",
+    "team": "Tim: {team}",
+    "items": [
+      {
+        "title": "Riset & Inovasi",
+        "desc": "Think tank asosiasi — mengembangkan agenda riset tahunan, framework pembelajaran, dan menerbitkan publikasi ilmiah.",
+        "orientation": "Akademik & Ilmiah"
+      },
+      {
+        "title": "Program & Implementasi",
+        "desc": "Executor asosiasi — menjalankan program pilot, monitoring, dan mendokumentasikan dampak inovasi.",
+        "orientation": "Operasional"
+      },
+      {
+        "title": "Kemitraan & Kerjasama",
+        "desc": "Network builder — membangun jejaring strategis dengan universitas, industri, dan pemerintah.",
+        "orientation": "Relasional & Strategis"
+      },
+      {
+        "title": "Pelatihan & Sertifikasi",
+        "desc": "Capacity builder — meningkatkan kompetensi SDM melalui pelatihan terstruktur dan sertifikasi nasional.",
+        "orientation": "Profesional & Kompetensi"
+      }
+    ],
+    "statusLegend": [
+      {
+        "label": "Direncanakan",
+        "meaning": "Sudah ditetapkan pengurus, belum dimulai."
+      },
+      {
+        "label": "Terbuka untuk Kolaborasi",
+        "meaning": "Mencari mitra atau peserta untuk memulai."
+      },
+      {
+        "label": "Berjalan",
+        "meaning": "Sedang dilaksanakan."
+      },
+      {
+        "label": "Selesai",
+        "meaning": "Telah dilaksanakan; dokumentasi tersedia."
+      }
+    ],
+    "cta": {
+      "title": "Punya gagasan program bersama?",
+      "description": "INOPI terbuka untuk riset kolaboratif, proyek percontohan, dan pengembangan kompetensi bersama mitra.",
+      "button": "Ajukan Kemitraan"
+    }
   }
 }
