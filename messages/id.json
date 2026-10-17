@@ -279,5 +279,55 @@
         }
       ]
     }
+  },
+  "VisiMisi": {
+    "visionLabel": "VISI INOPI",
+    "vision": "\"Menjadi pusat kolaborasi dan inovasi pembelajaran terdepan di Indonesia yang berdaya saing global.\"",
+    "missionTitle": "5 Misi Strategis",
+    "mission": [
+      {
+        "title": "Ekosistem Berkelanjutan",
+        "desc": "Mengembangkan ekosistem inovasi pembelajaran yang inklusif, adaptif, dan berkelanjutan."
+      },
+      {
+        "title": "Riset & Teknologi",
+        "desc": "Mendorong riset dan implementasi teknologi pendidikan yang relevan dengan kebutuhan zaman."
+      },
+      {
+        "title": "Jembatan Lintas Sektor",
+        "desc": "Menjadi jembatan strategis antara akademisi, industri, dan pemerintah."
+      },
+      {
+        "title": "Peningkatan Kapasitas SDM",
+        "desc": "Meningkatkan kompetensi dan kapasitas SDM di bidang pembelajaran digital."
+      },
+      {
+        "title": "Standar dan Best Practices",
+        "desc": "Menciptakan standar dan best practices inovasi pembelajaran di Indonesia."
+      }
+    ],
+    "valuesTitle": "Nilai Organisasi",
+    "values": [
+      {
+        "label": "Inklusif",
+        "desc": "Terbuka untuk semua kalangan tanpa diskriminasi."
+      },
+      {
+        "label": "Adaptif",
+        "desc": "Mampu menyesuaikan diri dengan perubahan zaman."
+      },
+      {
+        "label": "Berkelanjutan",
+        "desc": "Berorientasi pada dampak jangka panjang."
+      },
+      {
+        "label": "Inovatif",
+        "desc": "Selalu mendorong gagasan dan pendekatan baru."
+      },
+      {
+        "label": "Kolaboratif",
+        "desc": "Mengedepankan kerja sama lintas disiplin."
+      }
+    ]
   }
 }
