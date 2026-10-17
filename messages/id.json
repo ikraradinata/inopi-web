@@ -3214,5 +3214,14 @@
         "asosiasi pendidikan"
       ]
     }
+  },
+  "CopyButton": {
+    "copied": "{label} disalin",
+    "failed": "Gagal menyalin. Silakan salin manual.",
+    "done": "Tersalin",
+    "copy": "Salin"
+  },
+  "Common": {
+    "close": "Close"
   }
 }

@@ -9,16 +9,8 @@ export const LAUNCH_END = '2026-10-26T16:10:00+07:00'
 /** Ganti dengan tautan RSVP resmi (Google Form / Lu.ma) begitu tersedia. */
 export const RSVP_URL = '/kontak'
 
+// Teks acara (judul, tanggal, lokasi) ada di messages, namespace "Launch".
 export const LAUNCH = {
-  eyebrow: 'INOPI Launching & Conference 2026',
-  title: 'Beyond Technology: Shaping the Future of Learning',
-  tagline: 'Innovating Learning, Empowering the Future',
-  positioning: 'A Collaborative Platform for Learning Innovation in Indonesia',
-  dateLabel: 'Senin, 26 Oktober 2026',
-  timeLabel: '13.00 – 16.10 WIB',
-  venue: 'Markas Komdigi',
-  venueDetail: 'Midpoint Place, Lantai 21',
-  venueAddress: 'Jl. K.H. Fachrudin, Tanah Abang, Jakarta Pusat',
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Midpoint+Place+Jl.+K.H.+Fachrudin+Tanah+Abang+Jakarta+Pusat',
   href: '/event/launching-2026',
   poster: '/event/launching-2026-poster.jpg',
