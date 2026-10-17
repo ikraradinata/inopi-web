@@ -372,7 +372,7 @@ describe('tanda terima', () => {
     const { res } = fullRegister(env)
     const got = env.call({ action: 'receipt', receiptToken: res.receiptToken })
     expect(got).toMatchObject({ ok: true, regNumber: res.regNumber, category: 'student', status: 'Menunggu Verifikasi', locale: 'id' })
-    expect(got.verifyToken).toMatch(/^[0-9a-f]{64}$/)
+    expect(got.verifyToken).toBeUndefined() // token QR tidak ikut tanda terima
     expect(env.call({ action: 'receipt', receiptToken: res.regNumber }).error).toBe('not_found')
     expect(env.call({ action: 'receipt', receiptToken: '' }).error).toBe('not_found')
   })
@@ -777,8 +777,7 @@ describe('kode kursi: pendaftaran anggota', () => {
     expect(res).toMatchObject({ ok: true, kind: 'member', status: 'Aktif', institution: 'PT Inovasi Uji', category: 'corporate' })
     expect(res.regNumber).toMatch(/-C-0001-2$/)
     expect(res.receiptToken).toMatch(/^[0-9a-f]{64}$/)
-    expect(res.verifyToken).toMatch(/^[0-9a-f]{64}$/)
-    expect(res.receiptToken).not.toBe(res.verifyToken)
+    expect(res.verifyToken).toBeUndefined()
     expect(new Date(res.validUntil).toISOString()).toBe('2027-10-30T03:00:00.000Z') // sama dengan perusahaan, bukan 15 Nov
     expect(JSON.stringify(res)).not.toContain('rina@ptuji.co.id')
 
@@ -867,6 +866,104 @@ describe('kode kursi: pendaftaran anggota', () => {
     const got = env.call({ action: 'receipt', receiptToken: a.receiptToken })
     expect(got).toMatchObject({ ok: true, kind: 'member', regNumber: a.regNumber, status: 'Aktif', institution: 'PT Inovasi Uji' })
     expect(JSON.stringify(got)).not.toMatch(/rina|081355556666/i)
-    expect(env.call({ action: 'receipt', receiptToken: a.verifyToken }).error).toBe('not_found')
+    const card = env.call({ action: 'card', receiptToken: a.receiptToken })
+    expect(env.call({ action: 'receipt', receiptToken: card.verifyToken }).error).toBe('not_found')
+  })
+})
+
+/* ---------- Kartu dan verifikasi publik (R6) ---------- */
+
+const card = (env: RegistryEnv, receiptToken: string) => env.call({ action: 'card', receiptToken, ip: '3.3.3.3' })
+const verify = (env: RegistryEnv, verifyToken: string, ip = '3.3.3.3') => env.call({ action: 'verify', verifyToken, ip })
+
+describe('kartu anggota', () => {
+  it('Mahasiswa/Profesional: data kartu lewat token pribadi, status mengikuti Sheet', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env)
+    const pending = card(env, res.receiptToken)
+    expect(pending).toMatchObject({ ok: true, name: 'Siti Uji', category: 'student', institution: 'Universitas Uji', position: 'Kaprodi', status: 'Menunggu Verifikasi', number: res.regNumber, validUntil: '', locale: 'id' })
+    expect(pending.verifyToken).toMatch(/^[0-9a-f]{64}$/)
+    expect(pending.verifyToken).not.toBe(res.receiptToken)
+
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const active = card(env, res.receiptToken)
+    expect(active.status).toBe('Aktif')
+    expect(active.validUntil).toMatch(/^\d{4}-\d\d-\d\dT/)
+  })
+
+  it('kartu hanya bisa diambil dengan token pribadi, bukan token QR, nomor, atau tebakan', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env)
+    const c = card(env, res.receiptToken)
+    expect(card(env, c.verifyToken).error).toBe('not_found')
+    expect(card(env, res.regNumber).error).toBe('not_found')
+    expect(card(env, '0'.repeat(64)).error).toBe('not_found')
+    expect(card(env, '').error).toBe('not_found')
+  })
+
+  it('PIC Corporate: pendaftaran perusahaan tanpa kartu; kartu PIC ada di tab Anggota (kursi 1)', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env, corp, 'corporate')
+    expect(card(env, res.receiptToken).error).toBe('not_found')
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const picToken = sheetRows(env, 'Anggota')[0][16] as string
+    expect(card(env, picToken)).toMatchObject({ ok: true, name: 'Budi PIC', category: 'corporate', institution: 'PT Inovasi Uji', status: 'Aktif', number: `${res.regNumber}-1` })
+  })
+
+  it('anggota dari kode: kartu aktif dengan institusi perusahaan', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    const a = claim(env, codes[1])
+    expect(card(env, a.receiptToken)).toMatchObject({ name: 'Rina Rekan', institution: 'PT Inovasi Uji', status: 'Aktif', position: 'Staf' })
+  })
+
+  it('kartu anggota yang dinonaktifkan berstatus Nonaktif', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    const a = claim(env, codes[1])
+    run(env, 'replaceSeat', 3)
+    expect(card(env, a.receiptToken).status).toBe('Nonaktif')
+  })
+})
+
+describe('verifikasi publik', () => {
+  it('hanya memuat nama, kategori, institusi, status, berlaku s.d.', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env)
+    const vt = card(env, res.receiptToken).verifyToken
+    setRegCell(env, 1, 'Status', 'Aktif')
+    processAll(env)
+    const got = verify(env, vt)
+    expect(Object.keys(got).sort()).toEqual(['category', 'institution', 'name', 'ok', 'status', 'validUntil'])
+    expect(got).toMatchObject({ ok: true, name: 'Siti Uji', category: 'student', institution: 'Universitas Uji', status: 'Aktif' })
+    const text = JSON.stringify(got)
+    for (const secret of ['siti@example.com', '081234567890', 'Kaprodi', res.regNumber, String(env.ss.getSheetByName('Pendaftaran')!.rows[1][H(env, 'Nominal Transfer (Rp)')])]) {
+      expect(text).not.toContain(secret)
+    }
+  })
+
+  it('token pribadi tidak bisa dipakai di halaman verifikasi, dan sebaliknya', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env)
+    expect(verify(env, res.receiptToken).error).toBe('not_found')
+    expect(verify(env, 'x').error).toBe('not_found')
+  })
+
+  it('anggota Corporate: institusi tampil, status mengikuti kartu', () => {
+    const env = createRegistryEnv()
+    const codes = verifiedCompany(env)
+    const a = claim(env, codes[1])
+    const vt = card(env, a.receiptToken).verifyToken
+    expect(verify(env, vt)).toMatchObject({ name: 'Rina Rekan', category: 'corporate', institution: 'PT Inovasi Uji', status: 'Aktif' })
+    run(env, 'replaceSeat', 3)
+    expect(verify(env, vt).status).toBe('Nonaktif')
+  })
+
+  it('dibatasi 60 permintaan per 10 menit per IP', () => {
+    const env = createRegistryEnv()
+    for (let i = 0; i < 60; i++) expect(verify(env, '0'.repeat(64), '7.7.7.7').error).toBe('not_found')
+    expect(verify(env, '0'.repeat(64), '7.7.7.7').error).toBe('rate_limited')
   })
 })

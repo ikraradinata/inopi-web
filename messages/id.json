@@ -3419,5 +3419,26 @@
       "invalid_data": "Data belum lengkap. Periksa kembali isian Anda.",
       "generic": "Pendaftaran belum terkirim. Silakan coba lagi, atau hubungi asosiasi.inopi@gmail.com."
     }
+  },
+  "MembershipVerify": {
+    "title": "Verifikasi Kartu Anggota",
+    "intro": "Data publik pemilik kartu INOPI ini.",
+    "name": "Nama",
+    "category": "Kategori",
+    "institution": "Institusi",
+    "status": "Status",
+    "validUntil": "Berlaku s.d.",
+    "notYet": "Belum diverifikasi",
+    "statuses": {
+      "active": "Aktif",
+      "pending": "Menunggu verifikasi",
+      "inactive": "Tidak aktif",
+      "expired": "Kedaluwarsa"
+    },
+    "privacy": "Halaman ini sengaja hanya menampilkan data minimum.",
+    "home": "Ke beranda INOPI",
+    "notFoundTitle": "Kartu tidak ditemukan",
+    "notFoundText": "Tautan verifikasi ini tidak sah. Pastikan Anda memindai kode QR dari kartu anggota INOPI yang asli.",
+    "metaTitle": "Verifikasi Kartu Anggota — INOPI"
   }
 }

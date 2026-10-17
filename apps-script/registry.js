@@ -50,6 +50,8 @@ var CFG = {
     register: { limit: 8, windowSec: 600 },
     validateCode: { limit: 10, windowSec: 600 },
     registerCode: { limit: 10, windowSec: 600 },
+    card: { limit: 30, windowSec: 600 },
+    verify: { limit: 60, windowSec: 600 },
   },
 };
 
@@ -111,6 +113,8 @@ var ACTIONS = {
   receipt: actionReceipt,
   validateCode: actionValidateCode,
   registerCode: actionRegisterCode,
+  card: actionCard,
+  verify: actionVerify,
 };
 
 function handleRequest(body) {
@@ -370,6 +374,53 @@ function actionRegisterCode(req) {
   return ok(memberReceiptOf(mem.values));
 }
 
+// ---------------------------------------------------------------------------
+// Kartu anggota dan verifikasi publik
+// ---------------------------------------------------------------------------
+
+/**
+ * Cari pemilik kartu lewat token. `field`: 'receipt' (token pribadi pemilik, untuk unduh kartu) atau
+ * 'verify' (token di QR kartu, untuk halaman verifikasi publik). Pendaftaran Corporate (PIC) tidak
+ * punya kartu sendiri: kartu PIC ada di tab Anggota (kursi 1).
+ */
+function findCardHolder(field, token) {
+  if (!/^[0-9a-f]{64}$/.test(token)) return null;
+  var reg = findRow(sheet(CFG.SHEET_REG), col(field === 'receipt' ? 'Token Terima Kasih' : 'Token Verifikasi'), token);
+  if (reg) {
+    var v = reg.values;
+    if (v[col('Kategori')] === 'corporate') return null;
+    return {
+      name: v[col('Nama Lengkap')], category: v[col('Kategori')], position: v[col('Jabatan')] || v[col('Pekerjaan')],
+      institution: v[col('Institusi')], number: v[col('No. Anggota')], status: v[col('Status')],
+      validUntil: v[col('Berlaku s.d.')] ? toDate(v[col('Berlaku s.d.')]).toISOString() : '',
+      locale: v[col('Bahasa')], verifyToken: v[col('Token Verifikasi')],
+    };
+  }
+  var mem = findRow(sheet(CFG.SHEET_MEM), field === 'receipt' ? 16 : 15, token);
+  if (mem) {
+    var m = mem.values;
+    return {
+      name: m[1], category: 'corporate', position: m[5] || m[4], institution: m[6], number: m[0], status: m[11],
+      validUntil: m[12] ? toDate(m[12]).toISOString() : '', locale: m[13], verifyToken: m[15],
+    };
+  }
+  return null;
+}
+
+/** Data lengkap untuk mencetak kartu; hanya lewat token pribadi pemilik. */
+function actionCard(req) {
+  var h = findCardHolder('receipt', String(req.receiptToken || ''));
+  if (!h) throw regErr('not_found');
+  return ok(h);
+}
+
+/** Halaman verifikasi publik: HANYA nama, kategori, institusi, status, berlaku s.d. */
+function actionVerify(req) {
+  var h = findCardHolder('verify', String(req.verifyToken || ''));
+  if (!h) throw regErr('not_found');
+  return ok({ name: h.name, category: h.category, institution: h.institution, status: h.status, validUntil: h.validUntil });
+}
+
 function memberReceiptOf(v) {
   return {
     kind: 'member',
@@ -380,7 +431,6 @@ function memberReceiptOf(v) {
     institution: v[6],
     validUntil: toDate(v[12]).toISOString(),
     locale: v[13],
-    verifyToken: v[15],
   };
 }
 
@@ -397,7 +447,6 @@ function receiptOf(v) {
     status: v[col('Status')],
     transferAmount: Number(v[col('Nominal Transfer (Rp)')]),
     locale: v[col('Bahasa')],
-    verifyToken: v[col('Token Verifikasi')],
   };
 }
 

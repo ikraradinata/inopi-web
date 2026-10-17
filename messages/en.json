@@ -3420,5 +3420,26 @@
       "invalid_data": "Some details are missing. Please check your entries.",
       "generic": "Your registration was not sent. Please try again, or contact asosiasi.inopi@gmail.com."
     }
+  },
+  "MembershipVerify": {
+    "title": "Member Card Verification",
+    "intro": "Public details of this INOPI cardholder.",
+    "name": "Name",
+    "category": "Category",
+    "institution": "Organization",
+    "status": "Status",
+    "validUntil": "Valid until",
+    "notYet": "Not verified yet",
+    "statuses": {
+      "active": "Active",
+      "pending": "Pending verification",
+      "inactive": "Inactive",
+      "expired": "Expired"
+    },
+    "privacy": "This page deliberately shows only minimal data.",
+    "home": "Go to INOPI home",
+    "notFoundTitle": "Card not found",
+    "notFoundText": "This verification link is not valid. Make sure you scanned the QR code on a genuine INOPI member card.",
+    "metaTitle": "Member Card Verification — INOPI"
   }
 }

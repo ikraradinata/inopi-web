@@ -22,7 +22,6 @@ interface Receipt {
   transferAmount?: number
   institution?: string
   validUntil?: string
-  verifyToken: string
 }
 
 const STATUS_KEY: Record<string, 'pending' | 'active' | 'rejected' | 'inactive'> = {
@@ -133,7 +132,7 @@ export default async function KeanggotaanTerimaKasihPage({
         {isMember ? (
           // C6: kartu langsung aktif, tanpa menunggu verifikasi.
           <div className="rounded-[16px] p-5 mb-6 text-center" style={{ background: 'var(--inopi-sand)' }}>
-            <a href={`/api/membership/card/${receipt.verifyToken}`} className={`${linkPrimary} w-full`} style={{ background: 'var(--inopi-orange-strong)' }}>
+            <a href={`/api/membership/card/${token}`} className={`${linkPrimary} w-full`} style={{ background: 'var(--inopi-orange-strong)' }}>
               {t('downloadCard')}
             </a>
             <p className="font-body text-[12px] mt-3" style={{ color: 'var(--inopi-espresso)' }}>
@@ -169,8 +168,8 @@ export default async function KeanggotaanTerimaKasihPage({
             </p>
 
             <div className="rounded-[16px] p-5 mb-6 text-center" style={{ background: 'var(--inopi-sand)' }}>
-              {/* Endpoint kartu dibuat di R6; tautan memakai token verifikasi, bukan nomor yang bisa ditebak. */}
-              <a href={`/api/membership/card/${receipt.verifyToken}`} className={`${linkPrimary} w-full`} style={{ background: 'var(--inopi-orange-strong)' }}>
+              {/* Endpoint kartu dibuat di R6; tautan memakai token tanda terima pribadi, bukan nomor yang bisa ditebak. */}
+              <a href={`/api/membership/card/${token}`} className={`${linkPrimary} w-full`} style={{ background: 'var(--inopi-orange-strong)' }}>
                 {t('downloadCard')}
               </a>
               <p className="font-body text-[12px] mt-3" style={{ color: 'var(--inopi-espresso)' }}>

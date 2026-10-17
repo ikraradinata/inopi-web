@@ -29,6 +29,7 @@ export const routing = defineRouting({
     '/keanggotaan/daftar/kode': { id: '/keanggotaan/daftar/kode', en: '/membership/apply/code' },
     '/keanggotaan/daftar/corporate': { id: '/keanggotaan/daftar/corporate', en: '/membership/apply/corporate' },
     '/keanggotaan/terima-kasih': { id: '/keanggotaan/terima-kasih', en: '/membership/thank-you' },
+    '/verifikasi/[token]': { id: '/verifikasi/[token]', en: '/verify/[token]' },
 
     '/kemitraan': { id: '/kemitraan', en: '/partnerships' },
     '/kemitraan/terima-kasih': { id: '/kemitraan/terima-kasih', en: '/partnerships/thank-you' },
@@ -51,4 +52,5 @@ export const routing = defineRouting({
 
 export type Locale = (typeof routing.locales)[number]
 /** Kunci URL internal (URL Bahasa Indonesia). Dipakai untuk mengetik href tautan. */
-export type AppPathname = keyof typeof routing.pathnames
+/** Rute statis (tanpa parameter). Rute dinamis seperti '/verifikasi/[token]' tidak termasuk. */
+export type AppPathname = Exclude<keyof typeof routing.pathnames, `${string}[${string}`>
