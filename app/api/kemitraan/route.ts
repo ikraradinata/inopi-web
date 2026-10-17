@@ -3,7 +3,7 @@ import { kemitraanSchema } from '@/lib/schemas/kemitraan'
 import { COLLAB_MODELS, FAILURE_MESSAGE } from '@/lib/constants/kemitraan'
 import { ASSOCIATION_EMAIL } from '@/lib/constants/registration'
 import { sendEmail } from '@/lib/email'
-import { clientIp, isRateLimited, looksLikeBot, oneLine } from '@/lib/spam'
+import { guardForm, oneLine } from '@/lib/spam'
 
 // Penerima: KEMITRAAN_EMAIL (email Divisi Kemitraan & Kerjasama) bila diisi,
 // jika tidak, email asosiasi.
@@ -13,23 +13,10 @@ const fail = (status: number, message: string) =>
   NextResponse.json({ success: false, message }, { status })
 
 export async function POST(req: Request) {
-  if (isRateLimited(`kemitraan:${clientIp(req)}`, 5, 10 * 60 * 1000)) {
-    return fail(429, 'Terlalu banyak percobaan. Silakan coba lagi beberapa menit lagi.')
-  }
+  const guard = await guardForm(req, 'kemitraan')
+  if (!guard.ok) return guard.response
 
-  let body: Record<string, unknown>
-  try {
-    body = await req.json()
-  } catch {
-    return fail(400, 'Format permintaan tidak valid.')
-  }
-
-  // Bot dibalas seolah berhasil agar tidak mencoba ulang; datanya dibuang.
-  if (looksLikeBot(body)) {
-    return NextResponse.json({ success: true })
-  }
-
-  const parsed = kemitraanSchema.safeParse(body)
+  const parsed = kemitraanSchema.safeParse(guard.body)
   if (!parsed.success) {
     return fail(400, 'Data pengajuan belum lengkap atau tidak valid.')
   }

@@ -71,5 +71,3 @@ export const SUMMARY_MAX = 1000
 
 export const FAILURE_MESSAGE =
   'Maaf, pesan Anda belum terkirim. Silakan coba lagi, atau hubungi kami langsung di asosiasi.inopi@gmail.com.'
-
-export const PRIVACY_CONSENT_TEXT = 'Saya menyetujui pengumpulan dan penggunaan data pribadi saya oleh INOPI untuk keperluan memproses permintaan ini, sesuai dengan'

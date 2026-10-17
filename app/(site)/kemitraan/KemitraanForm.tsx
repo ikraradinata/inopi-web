@@ -1,51 +1,19 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
+import { Field, Honeypot, PrivacyConsent, inputClass, inputStyle, readHoneypot } from '@/components/ui/FormField'
 import { kemitraanSchema, type KemitraanInput } from '@/lib/schemas/kemitraan'
 import {
   COLLAB_MODELS,
   FAILURE_MESSAGE,
   ORG_TYPES,
-  PRIVACY_CONSENT_TEXT,
   START_TIMES,
   SUMMARY_MAX,
 } from '@/lib/constants/kemitraan'
-
-const inputClass =
-  'w-full px-3 py-2.5 text-[13px] rounded-[8px] border outline-none bg-white focus:border-[var(--inopi-teal-strong)] transition-colors'
-const inputStyle = { borderColor: 'var(--inopi-taupe-strong)', color: 'var(--inopi-espresso)' }
-
-function Field({
-  label,
-  required,
-  error,
-  children,
-}: {
-  label: string
-  required?: boolean
-  error?: string
-  children: React.ReactNode
-}) {
-  return (
-    <div>
-      <label className="font-body text-[13px] font-medium mb-1 block" style={{ color: 'var(--inopi-espresso)' }}>
-        {label}
-        {required && <span aria-hidden> *</span>}
-      </label>
-      {children}
-      {error && (
-        <p role="alert" className="text-[11px] mt-1" style={{ color: 'var(--destructive)' }}>
-          {error}
-        </p>
-      )}
-    </div>
-  )
-}
 
 export default function KemitraanForm() {
   const router = useRouter()
@@ -65,14 +33,13 @@ export default function KemitraanForm() {
   const ringkasanLength = useWatch({ control, name: 'ringkasan' })?.length ?? 0
 
   const onSubmit = async (data: KemitraanInput, event?: React.BaseSyntheticEvent) => {
-    const honeypot = (event?.target as HTMLFormElement | undefined)?.elements.namedItem('website')
     try {
       const res = await fetch('/api/kemitraan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
-          website: honeypot instanceof HTMLInputElement ? honeypot.value : '',
+          website: readHoneypot(event),
           startedAt,
         }),
       })
@@ -166,31 +133,9 @@ export default function KemitraanForm() {
         </select>
       </Field>
 
-      {/* Honeypot: tersembunyi dari pengguna, terisi oleh bot. */}
-      <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
-        <label>
-          Website
-          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
-        </label>
-      </div>
+      <Honeypot />
 
-      <div>
-        <label className="flex items-start gap-3 cursor-pointer">
-          <input type="checkbox" {...register('persetujuan')} className="mt-0.5" />
-          <span className="font-body text-[13px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            {PRIVACY_CONSENT_TEXT}{' '}
-            <Link href="/privacy" className="underline" style={{ color: 'var(--inopi-teal-strong)' }}>
-              Kebijakan Privasi
-            </Link>
-            .
-          </span>
-        </label>
-        {errors.persetujuan && (
-          <p role="alert" className="text-[11px] mt-1" style={{ color: 'var(--destructive)' }}>
-            {errors.persetujuan.message}
-          </p>
-        )}
-      </div>
+      <PrivacyConsent inputProps={register('persetujuan')} error={errors.persetujuan?.message} />
 
       <button
         type="submit"

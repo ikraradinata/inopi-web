@@ -1,3 +1,5 @@
+import { NextResponse } from 'next/server'
+
 // Perlindungan spam sederhana untuk route formulir: honeypot, waktu isi minimum,
 // dan pembatasan laju per IP.
 //
@@ -42,3 +44,34 @@ export function looksLikeBot(body: { website?: unknown; startedAt?: unknown }, m
 
 /** Hapus pemisah baris agar nilai dari pengguna aman dipakai di subjek email. */
 export const oneLine = (s: string): string => s.replace(/[\r\n]+/g, ' ').trim()
+
+
+export type GuardResult =
+  | { ok: true; body: Record<string, unknown> }
+  | { ok: false; response: NextResponse }
+
+/**
+ * Pemeriksaan awal untuk route formulir: batas laju per IP, JSON valid, dan
+ * honeypot/waktu isi. Bot dibalas seolah berhasil agar tidak mencoba ulang.
+ */
+export async function guardForm(req: Request, name: string, max = 5): Promise<GuardResult> {
+  const reply = (status: number, message: string) =>
+    ({ ok: false, response: NextResponse.json({ success: false, message }, { status }) }) as const
+
+  if (isRateLimited(`${name}:${clientIp(req)}`, max, 10 * 60 * 1000)) {
+    return reply(429, 'Terlalu banyak percobaan. Silakan coba lagi beberapa menit lagi.')
+  }
+
+  let body: Record<string, unknown>
+  try {
+    body = await req.json()
+  } catch {
+    return reply(400, 'Format permintaan tidak valid.')
+  }
+  if (typeof body !== 'object' || body === null) return reply(400, 'Format permintaan tidak valid.')
+
+  if (looksLikeBot(body)) {
+    return { ok: false, response: NextResponse.json({ success: true }) }
+  }
+  return { ok: true, body }
+}

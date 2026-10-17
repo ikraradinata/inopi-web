@@ -1,87 +1,78 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { toast } from 'sonner'
-import { IconCheck } from '@tabler/icons-react'
-
-const schema = z.object({
-  nama: z.string().min(2, 'Nama minimal 2 karakter'),
-  email: z.string().email('Email tidak valid'),
-  subjek: z.string().min(3, 'Subjek wajib diisi'),
-  pesan: z.string().min(10, 'Pesan minimal 10 karakter'),
-})
-
-type FormData = z.infer<typeof schema>
+import { Field, Honeypot, PrivacyConsent, inputClass, inputStyle, readHoneypot } from '@/components/ui/FormField'
+import { CONTACT_TOPICS, kontakSchema, type KontakInput } from '@/lib/schemas/kontak'
+import { FAILURE_MESSAGE } from '@/lib/constants/kemitraan'
 
 export default function ContactForm() {
-  const [sent, setSent] = useState(false)
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  })
+  const router = useRouter()
+  // Waktu halaman dibuka; server menolak kiriman yang terlalu cepat untuk manusia.
+  const [startedAt] = useState(() => Date.now())
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<KontakInput>({ resolver: zodResolver(kontakSchema) })
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: KontakInput, event?: React.BaseSyntheticEvent) => {
     try {
-      await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, website: readHoneypot(event), startedAt }),
       })
-    } catch {}
-    setSent(true)
-    toast.success('Pesan Anda berhasil terkirim!')
-  }
-
-  if (sent) {
-    return (
-      <div className="text-center py-12">
-        <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'var(--inopi-sand)' }}>
-          <IconCheck size={24} style={{ color: 'var(--inopi-teal-strong)' }} />
-        </div>
-        <h3 className="font-display font-bold text-[18px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>Pesan Terkirim!</h3>
-        <p className="font-body text-[14px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
-          Pesan Anda berhasil terkirim. Tim kami akan merespons dalam 1×24 jam.
-        </p>
-      </div>
-    )
+      const json = await res.json().catch(() => null)
+      if (!res.ok || !json?.success) {
+        toast.error(json?.message ?? FAILURE_MESSAGE)
+        return
+      }
+      router.push('/kontak/terima-kasih')
+    } catch {
+      toast.error(FAILURE_MESSAGE)
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      {[
-        { name: 'nama', label: 'Nama', type: 'text', placeholder: 'Nama lengkap Anda' },
-        { name: 'email', label: 'Email', type: 'email', placeholder: 'email@domain.com' },
-        { name: 'subjek', label: 'Subjek', type: 'text', placeholder: 'Perihal pesan' },
-      ].map((f) => (
-        <div key={f.name}>
-          <label className="font-body text-[13px] font-medium mb-1 block" style={{ color: 'var(--inopi-espresso)' }}>{f.label}</label>
-          <input
-            {...register(f.name as keyof FormData)}
-            type={f.type}
-            placeholder={f.placeholder}
-            className="w-full px-3 py-2.5 text-[13px] rounded-[8px] border outline-none focus:border-[var(--inopi-teal-strong)] transition-colors"
-            style={{ borderColor: 'var(--inopi-sand)', color: 'var(--inopi-espresso)' }}
-          />
-          {errors[f.name as keyof FormData] && (
-            <p className="text-[11px] mt-1" style={{ color: 'var(--destructive)' }}>
-              {errors[f.name as keyof FormData]?.message}
-            </p>
-          )}
-        </div>
-      ))}
-      <div>
-        <label className="font-body text-[13px] font-medium mb-1 block" style={{ color: 'var(--inopi-espresso)' }}>Pesan</label>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-4">
+      <Field label="Nama" required error={errors.nama?.message}>
+        <input {...register('nama')} type="text" autoComplete="name" placeholder="Nama lengkap Anda" className={inputClass} style={inputStyle} />
+      </Field>
+      <Field label="Email" required error={errors.email?.message}>
+        <input {...register('email')} type="email" autoComplete="email" placeholder="email@domain.com" className={inputClass} style={inputStyle} />
+      </Field>
+      <Field label="Topik" required error={errors.topik?.message}>
+        <select {...register('topik')} defaultValue="" className={inputClass} style={inputStyle}>
+          <option value="" disabled>
+            Pilih topik
+          </option>
+          {CONTACT_TOPICS.map((t) => (
+            <option key={t} value={t}>
+              {t}
+            </option>
+          ))}
+        </select>
+      </Field>
+      <Field label="Subjek" required error={errors.subjek?.message}>
+        <input {...register('subjek')} type="text" placeholder="Perihal pesan" className={inputClass} style={inputStyle} />
+      </Field>
+      <Field label="Pesan" required error={errors.pesan?.message}>
         <textarea
           {...register('pesan')}
           rows={5}
           placeholder="Tuliskan pesan Anda..."
-          className="w-full px-3 py-2.5 text-[13px] rounded-[8px] border outline-none focus:border-[var(--inopi-teal-strong)] transition-colors resize-none"
-          style={{ borderColor: 'var(--inopi-sand)', color: 'var(--inopi-espresso)' }}
+          className={`${inputClass} resize-none`}
+          style={inputStyle}
         />
-        {errors.pesan && <p className="text-[11px] mt-1" style={{ color: 'var(--destructive)' }}>{errors.pesan.message}</p>}
-      </div>
+      </Field>
+
+      <Honeypot />
+      <PrivacyConsent inputProps={register('persetujuan')} error={errors.persetujuan?.message} />
+
       <button
         type="submit"
         disabled={isSubmitting}
