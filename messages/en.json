@@ -2,5 +2,3227 @@
   "Locale": {
     "id": "Bahasa Indonesia",
     "en": "English"
+  },
+  "Nav": {
+    "about": "About",
+    "programs": "Programs",
+    "partnerships": "Partnerships",
+    "insights": "Insights",
+    "research": "Research & Publications",
+    "news": "News & Articles",
+    "events": "Events",
+    "join": "Join INOPI",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Footer": {
+    "tagline": "Indonesian Learning Innovation Association. Building an AI-driven learning innovation ecosystem and national collaboration.",
+    "copyright": "© {year} Indonesian Learning Innovation Association (INOPI)",
+    "groups": {
+      "organization": "Organization",
+      "program": "Programs",
+      "join": "Get Involved",
+      "legal": "Legal"
+    },
+    "links": {
+      "about": "About",
+      "structure": "Organizational Structure",
+      "founders": "Founders",
+      "governance": "Governance & Legal",
+      "programs": "Programs",
+      "partnerships": "Partnerships",
+      "events": "Events",
+      "insights": "Insights",
+      "membership": "Membership",
+      "register": "Apply for Membership",
+      "applyPartnership": "Propose a Partnership",
+      "contact": "Contact",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "Launch": {
+    "eyebrow": "INOPI Launching & Conference 2026",
+    "title": "Beyond Technology: Shaping the Future of Learning",
+    "tagline": "Innovating Learning, Empowering the Future",
+    "positioning": "A Collaborative Platform for Learning Innovation in Indonesia",
+    "dateLabel": "Monday, 26 October 2026",
+    "timeLabel": "13:00–16:10 WIB",
+    "venue": "Markas Komdigi",
+    "venueDetail": "Midpoint Place, 21st Floor",
+    "venueAddress": "Jl. K.H. Fachrudin, Tanah Abang, Central Jakarta"
+  },
+  "AnnouncementBar": {
+    "detail": "Details"
+  },
+  "Hero": {
+    "headlineLead": "Beyond Technology:",
+    "headlineAccent": "Shaping the Future of Learning",
+    "intro": "{tagline}. The official launch of INOPI — {positioning}.",
+    "posterAlt": "Poster {eyebrow} — {title}",
+    "confirm": "Confirm Attendance →",
+    "details": "Event Details"
+  },
+  "Countdown": {
+    "label": "Countdown to the event",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "live": "The event is under way",
+    "done": "The event has ended — thank you for taking part."
+  },
+  "Stats": {
+    "items": [
+      {
+        "value": "26",
+        "label": "Founders"
+      },
+      {
+        "value": "4",
+        "label": "Core Divisions"
+      },
+      {
+        "value": "5",
+        "label": "Priority Programs"
+      },
+      {
+        "value": "1",
+        "label": "National Vision"
+      }
+    ]
+  },
+  "WhyInopi": {
+    "eyebrow": "Why INOPI",
+    "title": "Learning innovation is growing across Indonesia, but it is not yet connected",
+    "body": "Learning innovation in Indonesia comes from universities, schools, industry, and government. Most of it, however, happens in isolation: research stays in journals, technology does not reach the classroom, and industry needs go unheard by educators. INOPI connects all of them in one ecosystem, so ideas can be tested, applied, and turned into real impact.",
+    "cards": [
+      {
+        "title": "For members",
+        "desc": "Cross-sector networks, competency development, and space to test and grow your ideas."
+      },
+      {
+        "title": "For partners",
+        "desc": "Clear pathways for joint research, pilot projects, and talent development."
+      },
+      {
+        "title": "For Indonesia",
+        "desc": "Learning practices that are documented, measurable, and replicable across regions."
+      }
+    ]
+  },
+  "Ekosistem": {
+    "title": "National Innovation Ecosystem",
+    "body": "INOPI (the Indonesian Learning Innovation Association) acts as a catalyst connecting academia, industry, and government. We believe the future of Indonesian education depends on integrating technology that is humane and sustainable.",
+    "features": [
+      {
+        "title": "Applied Research",
+        "desc": "Promoting research and the implementation of education technology that is relevant to the needs of the times."
+      },
+      {
+        "title": "Active Collaboration",
+        "desc": "Serving as a strategic bridge between academia, industry, and government in the innovation ecosystem."
+      },
+      {
+        "title": "Policy Advocacy",
+        "desc": "Creating learning innovation standards and best practices that influence national policy."
+      }
+    ]
+  },
+  "ProgramHighlights": {
+    "title": "Our Strategic Programs",
+    "subtitle": "Four program divisions driving national learning innovation",
+    "more": "Learn more →",
+    "items": [
+      {
+        "title": "Research & Innovation",
+        "desc": "The association's think tank — developing the research agenda and learning frameworks, and publishing scholarly work."
+      },
+      {
+        "title": "Programs & Implementation",
+        "desc": "The association's executor — running pilot programs, monitoring, and documenting innovation impact in the field."
+      },
+      {
+        "title": "Partnerships & Collaboration",
+        "desc": "The association's network builder — building strategic networks with universities, industry, and government."
+      },
+      {
+        "title": "Training & Certification",
+        "desc": "The association's capacity builder — raising workforce competency through structured training and national certification."
+      }
+    ]
+  },
+  "PriorityPrograms": {
+    "eyebrow": "First-year priority programs",
+    "title": "Five first steps for INOPI",
+    "all": "View all programs",
+    "status": {
+      "live": "Taking place 26 Oct 2026",
+      "planned": "Planned",
+      "open": "Open for Collaboration"
+    },
+    "items": [
+      {
+        "title": "Launch & Declaration",
+        "desc": "The official launch of INOPI and a national declaration marking the birth of Indonesia's learning innovation association.",
+        "status": "live"
+      },
+      {
+        "title": "National Roadmap",
+        "desc": "A comprehensive, measurable roadmap for technology-enabled learning innovation in Indonesia.",
+        "status": "planned"
+      },
+      {
+        "title": "National Forum & EduTech Asia",
+        "desc": "A national forum on AI in education and participation in EduTech Asia for international visibility.",
+        "status": "planned"
+      },
+      {
+        "title": "Pilot Project",
+        "desc": "Smart learning implementation at selected institutions as a model for replication.",
+        "status": "open"
+      },
+      {
+        "title": "Platform & Collaboration",
+        "desc": "A knowledge-sharing platform and international collaboration with partner countries.",
+        "status": "planned"
+      }
+    ]
+  },
+  "CollabEcosystem": {
+    "eyebrow": "Collaboration ecosystem",
+    "title": "Who we work with",
+    "cta": "Propose a Partnership",
+    "groups": [
+      {
+        "title": "Academics & Researchers",
+        "desc": "Lecturers, researchers, and scientists advancing learning research."
+      },
+      {
+        "title": "Education Institutions",
+        "desc": "Schools, universities, and vocational institutions across Indonesia."
+      },
+      {
+        "title": "Industry & Technology Companies",
+        "desc": "Organizations driving the adoption of modern learning solutions."
+      },
+      {
+        "title": "EdTech Startups",
+        "desc": "Young companies building innovative education solutions."
+      },
+      {
+        "title": "Government & Regulators",
+        "desc": "Ministries, education offices, and agencies that shape policy."
+      },
+      {
+        "title": "Professional Communities",
+        "desc": "Associations and networks of education and technology practitioners."
+      }
+    ]
+  },
+  "EventList": {
+    "eyebrow": "National Agenda & Forums",
+    "day": "26",
+    "month": "Oct",
+    "details": "View Details"
+  },
+  "Home": {
+    "cta": {
+      "eyebrow": "Join Now",
+      "title": "Become Part of a National Movement",
+      "description": "Join thousands of educators and innovators across Indonesia. Together we will build a better learning ecosystem.",
+      "register": "Apply Now",
+      "partnership": "Propose a Partnership",
+      "talk": "Talk to Our Team"
+    }
+  },
+  "About": {
+    "title": "About INOPI",
+    "intro": "INOPI (the Indonesian Learning Innovation Association) is a professional association that connects academia, industry, and government in the national learning innovation ecosystem.",
+    "more": "Learn more →",
+    "subPages": [
+      {
+        "title": "History & Background",
+        "desc": "INOPI's journey from a collaborative idea."
+      },
+      {
+        "title": "Vision & Mission",
+        "desc": "INOPI's strategic direction and organizational values."
+      },
+      {
+        "title": "Organizational Structure",
+        "desc": "INOPI's board and divisions."
+      },
+      {
+        "title": "Our Founders",
+        "desc": "26 founders from academia and industry."
+      }
+    ],
+    "logo": {
+      "title": "The Meaning of Our Logo",
+      "intro": "The INOPI logo is minimalist, built from simple geometric forms.",
+      "items": [
+        {
+          "title": "The diamond",
+          "desc": "Stands for balance, precision, and integrity. Its four sides represent four pillars of learning that support one another as equals: educators, learners, institutions, and innovation. Its shape also resembles a gemstone, a symbol of knowledge that is continually refined."
+        },
+        {
+          "title": "The diagonal line",
+          "desc": "Represents the flow of ideas and the shift from conventional to innovative practice, bridging theory and practice. It also forms an implied letter \"I\": Innovation and Indonesia."
+        },
+        {
+          "title": "The small circle at the top",
+          "desc": "Represents ideas and sparks of insight. Placed outside the main shape, it signals openness to new thinking. It also resembles a human head: the learner at the center of everything the association does."
+        },
+        {
+          "title": "The neutral palette",
+          "desc": "Taupe and warm brown convey wisdom, depth, stability, and sustainability."
+        }
+      ]
+    }
+  },
+  "VisiMisi": {
+    "visionLabel": "INOPI Vision",
+    "vision": "\"To become the leading center of collaboration and learning innovation in Indonesia, with global competitiveness.\"",
+    "missionTitle": "5 Strategic Missions",
+    "mission": [
+      {
+        "title": "Sustainable Ecosystem",
+        "desc": "Developing an inclusive, adaptive, and sustainable learning innovation ecosystem."
+      },
+      {
+        "title": "Research & Technology",
+        "desc": "Promoting research and the implementation of education technology that is relevant to the needs of the times."
+      },
+      {
+        "title": "Cross-Sector Bridge",
+        "desc": "Serving as a strategic bridge between academia, industry, and government."
+      },
+      {
+        "title": "Human Resource Capacity Building",
+        "desc": "Raising the competency and capacity of human resources in digital learning."
+      },
+      {
+        "title": "Standards and Best Practices",
+        "desc": "Establishing learning innovation standards and best practices in Indonesia."
+      }
+    ],
+    "valuesTitle": "Organizational Values",
+    "values": [
+      {
+        "label": "Inclusive",
+        "desc": "Open to everyone, without discrimination."
+      },
+      {
+        "label": "Adaptive",
+        "desc": "Able to adapt to changing times."
+      },
+      {
+        "label": "Sustainable",
+        "desc": "Oriented toward long-term impact."
+      },
+      {
+        "label": "Innovative",
+        "desc": "Always encouraging new ideas and approaches."
+      },
+      {
+        "label": "Collaborative",
+        "desc": "Putting cross-disciplinary cooperation first."
+      }
+    ]
+  },
+  "Sejarah": {
+    "badge": "INOPI's Journey",
+    "title": "History & Background",
+    "intro": "From a collaborative idea to Indonesia's leading learning innovation association.",
+    "timelineTitle": "The Formation Journey",
+    "timeline": [
+      {
+        "label": "Name Approved by AHU",
+        "desc": "INOPI is officially registered with the General Legal Administration (AHU) of the Ministry of Law."
+      },
+      {
+        "label": "Initiation & Founders' Discussions",
+        "desc": "11 April 2026 — the first meeting of the 26 founders from various institutions."
+      },
+      {
+        "label": "Drafting the Vision, Mission & Articles of Association/Bylaws",
+        "desc": "The legal foundation and strategic direction of the organization were formulated together with the 26 founders."
+      },
+      {
+        "label": "Forming the Organizational Structure",
+        "desc": "The executive board and INOPI's four working divisions were established."
+      }
+    ],
+    "launchLabel": "INOPI Launch",
+    "launchDesc": "{dateLabel} — {venue}, {venueDetail}.",
+    "challenges": [
+      {
+        "title": "Waves of Transformation",
+        "items": [
+          "AI (Artificial Intelligence)",
+          "Digital learning ecosystem",
+          "Smart education & adaptive learning",
+          "Immersive Technology",
+          "Society 5.0"
+        ]
+      },
+      {
+        "title": "Indonesia's Main Challenges",
+        "items": [
+          "Fragmentation of learning innovation",
+          "Gap between academia, industry, and policy",
+          "Lack of collaboration platforms",
+          "Lack of standardization",
+          "Limited technology adoption"
+        ]
+      }
+    ],
+    "roleTitle": "INOPI's Role",
+    "roleBody": "INOPI serves as a catalyst connecting academia, industry, and government in an inclusive and sustainable learning innovation ecosystem — answering the challenge of digital transformation in Indonesian education."
+  },
+  "Founders": {
+    "eyebrow": "About INOPI",
+    "title": "INOPI's Founders",
+    "intro": "26 prominent figures from academia, industry, and professional communities who together founded INOPI on 11 April 2026.",
+    "peopleCount": "{count} people",
+    "divisions": "Divisions",
+    "profileSoon": "Full profile coming soon.",
+    "groups": {
+      "pembina": "Board of Patrons",
+      "pengawas": "Supervisory Board",
+      "pakar": "Board of Experts",
+      "pengurus": "Executive Board",
+      "riset": "Research & Innovation",
+      "program": "Programs & Implementation",
+      "kemitraan": "Partnerships & Collaboration",
+      "pelatihan": "Training & Certification"
+    },
+    "roles": {
+      "Dewan Pembina": "Board of Patrons",
+      "Dewan Pakar": "Board of Experts",
+      "Dewan Pengawas": "Supervisory Board",
+      "Ketua Umum": "Chair",
+      "Wakil Ketua Umum": "Vice Chair",
+      "Sekretaris Jenderal": "Secretary General",
+      "Bendahara Umum": "General Treasurer",
+      "Direktur Riset & Inovasi": "Director of Research & Innovation",
+      "Direktur Program & Implementasi": "Director of Programs & Implementation",
+      "Direktur Pelatihan & Sertifikasi": "Director of Training & Certification",
+      "Direktur Kemitraan & Kerjasama": "Director of Partnerships & Collaboration",
+      "Deputi Direktur Riset & Inovasi": "Deputy Director of Research & Innovation",
+      "Deputi Direktur Program & Implementasi": "Deputy Director of Programs & Implementation",
+      "Deputi Direktur Pelatihan & Sertifikasi": "Deputy Director of Training & Certification",
+      "Deputi Direktur Kemitraan & Kerjasama": "Deputy Director of Partnerships & Collaboration"
+    }
+  },
+  "StrukturOrg": {
+    "badge": "INOPI Organization",
+    "title": "Organizational Structure",
+    "intro": "INOPI's board and divisions working in synergy to realize the organization's vision.",
+    "councils": [
+      {
+        "title": "Board of Patrons",
+        "description": "Safeguards the long-term vision and opens access to the national education policy ecosystem."
+      },
+      {
+        "title": "Supervisory Board",
+        "description": "Ensures programs and finances comply with the Articles of Association/Bylaws and regulations."
+      },
+      {
+        "title": "Board of Experts",
+        "description": "Provides academic legitimacy and evidence-based direction for innovation."
+      }
+    ],
+    "leadershipTitle": "Leadership & Secretariat",
+    "leadership": [
+      "Chair",
+      "Vice Chair",
+      "Secretary General",
+      "General Treasurer"
+    ],
+    "divisionsTitle": "Divisions",
+    "divisions": [
+      {
+        "title": "Research & Innovation",
+        "role": "The association's think tank",
+        "orientation": "Academic & Scientific"
+      },
+      {
+        "title": "Programs & Implementation",
+        "role": "The association's executor",
+        "orientation": "Operational"
+      },
+      {
+        "title": "Partnerships & Collaboration",
+        "role": "The association's network builder",
+        "orientation": "Relational & Strategic"
+      },
+      {
+        "title": "Training & Certification",
+        "role": "The association's capacity builder",
+        "orientation": "Professional & Competency"
+      }
+    ],
+    "pic": "Person in charge: {names}",
+    "viewProgram": "View Work Programs →"
+  },
+  "TataKelola": {
+    "title": "Governance & Legal Information",
+    "intro": "INOPI is governed openly and accountably in accordance with its Articles of Association, Bylaws, and applicable Indonesian law.",
+    "identityTitle": "Legal Identity",
+    "identity": [
+      {
+        "label": "Official name",
+        "value": "Perkumpulan Asosiasi Inovasi Pembelajaran Indonesia (INOPI)"
+      },
+      {
+        "label": "Legal form",
+        "value": "Incorporated non-profit association"
+      },
+      {
+        "label": "Deed of Establishment",
+        "value": "No. 122, dated 30 March 2026, Notary Ahmad Fadillah, S.H., M.Kn., Cirebon"
+      },
+      {
+        "label": "Principles",
+        "value": "Pancasila and the 1945 Constitution of the Republic of Indonesia"
+      }
+    ],
+    "governanceTitle": "Governance Structure",
+    "governance": [
+      {
+        "title": "Board of Patrons",
+        "desc": "Safeguards the long-term vision and opens access to the national education policy ecosystem."
+      },
+      {
+        "title": "Supervisory Board",
+        "desc": "Ensures programs and finances comply with the Articles of Association, Bylaws, and regulations."
+      },
+      {
+        "title": "Board of Experts",
+        "desc": "Provides academic legitimacy and evidence-based direction for innovation."
+      },
+      {
+        "title": "Executive Board",
+        "desc": "The Chair, Vice Chair, Secretary, and Treasurer, who run the organization day to day with four divisions."
+      }
+    ],
+    "names": "Board members are listed on the <link>Organizational Structure page</link>.",
+    "accountabilityTitle": "Accountability",
+    "reports": "Activity and impact reports will be published on this website at the end of each year.",
+    "questions": "Governance questions can be submitted through the <link>Contact</link> page under the topic “General”."
+  },
+  "Program": {
+    "badge": "4 Strategic Divisions",
+    "title": "Strategic Programs & Activities",
+    "intro": "INOPI's four program divisions work in synergy to drive the national learning innovation ecosystem.",
+    "team": "Team: {team}",
+    "items": [
+      {
+        "title": "Research & Innovation",
+        "desc": "The association's think tank — developing the annual research agenda and learning frameworks, and publishing scholarly work.",
+        "orientation": "Academic & Scientific"
+      },
+      {
+        "title": "Programs & Implementation",
+        "desc": "The association's executor — running pilot programs, monitoring, and documenting innovation impact.",
+        "orientation": "Operational"
+      },
+      {
+        "title": "Partnerships & Collaboration",
+        "desc": "The association's network builder — building strategic networks with universities, industry, and government.",
+        "orientation": "Relational & Strategic"
+      },
+      {
+        "title": "Training & Certification",
+        "desc": "The association's capacity builder — raising workforce competency through structured training and national certification.",
+        "orientation": "Professional & Competency"
+      }
+    ],
+    "statusLegend": [
+      {
+        "label": "Planned",
+        "meaning": "Approved by the board, not yet started."
+      },
+      {
+        "label": "Open for Collaboration",
+        "meaning": "Seeking partners or participants to begin."
+      },
+      {
+        "label": "In Progress",
+        "meaning": "Currently running."
+      },
+      {
+        "label": "Completed",
+        "meaning": "Delivered; documentation available."
+      }
+    ],
+    "cta": {
+      "title": "Have an idea for a joint program?",
+      "description": "INOPI welcomes collaborative research, pilot projects, and joint competency development with partners.",
+      "button": "Propose a Partnership"
+    }
+  },
+  "Programs": {
+    "divisions": {
+      "riset-inovasi": {
+        "title": "Research & Innovation Division",
+        "role": "The association's think tank",
+        "orientation": "Academic & Scientific",
+        "responsibilities": [
+          "Designing and carrying out the annual research agenda",
+          "Developing learning models, frameworks, and methodologies",
+          "Publishing research results (journals, proceedings, white papers)",
+          "Managing the learning innovation repository",
+          "Collaborating on joint research",
+          "Identifying global trends",
+          "Serving as internal reviewer"
+        ],
+        "semester1": [
+          {
+            "no": 1,
+            "name": "Mapping Learning Innovation in Indonesia",
+            "description": "An online survey of members and partner institutions to map innovations already under way.",
+            "output": "A 15–20 page report serving as the association's baseline"
+          },
+          {
+            "no": 2,
+            "name": "INOPI Annual Research Agenda + Journal Publisher",
+            "description": "A one-day workshop with the Board of Experts to agree on 3–5 priority research themes.",
+            "output": "Research Agenda 2026/2027 document and preparation to become a journal publisher"
+          },
+          {
+            "no": 3,
+            "name": "INOPI Insight Brief",
+            "description": "A short monthly policy brief, article, or infographic curated from members' research, published on the website and LinkedIn.",
+            "output": "Monthly social media content"
+          }
+        ],
+        "semester2": [
+          {
+            "no": 4,
+            "name": "Learning Innovation Repository",
+            "description": "A simple online database of INOPI members' work, research, and innovative practices (Resource & Knowledge Base).",
+            "output": "Digital knowledge base platform"
+          },
+          {
+            "no": 5,
+            "name": "Journal in the Field of LearnTech",
+            "description": "A flagship scholarly publication on a selected priority theme (e.g. AI in Education Indonesia), written collaboratively by 4–6 members and launched at the National Forum.",
+            "output": "Launch at the National Forum"
+          },
+          {
+            "no": 6,
+            "name": "Joint Research Pilot",
+            "description": "One joint research pilot with 2–3 partner universities or schools, small scale, 4–6 months, focused on smart learning.",
+            "output": "Case study & research report"
+          }
+        ]
+      },
+      "implementasi": {
+        "title": "Programs & Implementation Division",
+        "role": "The association's executor",
+        "orientation": "Operational",
+        "semester1": [
+          {
+            "no": 1,
+            "name": "INOPI Program Calendar 2026/2027",
+            "description": "Drawing up the annual activity calendar published on the website: monthly webinars, one national forum, one pilot project.",
+            "output": "Digital calendar on the website"
+          },
+          {
+            "no": 2,
+            "name": "INOPI Talks Monthly Webinar",
+            "description": "One webinar per month via Zoom (60–90 minutes) with speakers from members and partners; recordings uploaded to YouTube.",
+            "output": "YouTube and website content assets"
+          },
+          {
+            "no": 3,
+            "name": "INOPI Launch",
+            "description": "A launch event for founders and members, focused on documentation and a press release (including the website).",
+            "output": "Press release & documentation"
+          }
+        ],
+        "semester2": [
+          {
+            "no": 4,
+            "name": "INOPI National Forum",
+            "description": "One annual national forum on AI in Learning Technology, targeting 200–300 participants, hybrid format.",
+            "output": "Forum impact & documentation"
+          },
+          {
+            "no": 5,
+            "name": "Member Project Implementation",
+            "description": "One pilot project at 1–2 partner schools or campuses, small scale (one class or study program), one semester.",
+            "output": "Case study + impact report"
+          },
+          {
+            "no": 6,
+            "name": "Monitoring & Impact Report",
+            "description": "A year-end program impact report (10–15 pages): participant metrics, outputs, testimonials. Published on the website.",
+            "output": "Online impact report"
+          }
+        ]
+      },
+      "kemitraan": {
+        "title": "Partnerships & Collaboration Division",
+        "role": "The association's network builder",
+        "orientation": "Relational & Strategic",
+        "semester1": [
+          {
+            "no": 1,
+            "name": "Strategic Partner Database",
+            "description": "A directory of 30–50 prospective partners (campuses, edtech, ministries, associations) in spreadsheet format, with a person in charge and status.",
+            "output": "Digital partner directory"
+          },
+          {
+            "no": 2,
+            "name": "First MoUs (3 Priority Partners)",
+            "description": "Targeting 3 MoUs: one major university, one edtech company, one ministry or agency.",
+            "output": "3 active MoUs"
+          },
+          {
+            "no": 3,
+            "name": "Founders' Courtesy Visits",
+            "description": "Founders visit 5–7 potential partner institutions to introduce INOPI and explore cooperation.",
+            "output": "Visit reports"
+          }
+        ],
+        "semester2": [
+          {
+            "no": 4,
+            "name": "INOPI Partner Day",
+            "description": "One networking event bringing together strategic partners and members (~80 people). Format: panel + networking.",
+            "output": "Event documentation"
+          },
+          {
+            "no": 5,
+            "name": "International Outreach",
+            "description": "Partnership proposals to 2–3 international organizations (SEAMEO, regional UNESCO, Asian associations).",
+            "output": "International LoI/MoU"
+          },
+          {
+            "no": 6,
+            "name": "INOPI Sponsorship Pack",
+            "description": "A sponsorship deck with 3 tiers (Gold/Silver/Bronze), targeting 2–3 sponsors for the National Forum and operations.",
+            "output": "Active sponsorship package"
+          }
+        ]
+      },
+      "pelatihan-sertifikasi": {
+        "title": "Training & Certification Division",
+        "role": "The association's capacity builder",
+        "orientation": "Professional & Competency",
+        "semester1": [
+          {
+            "no": 1,
+            "name": "Training Needs Assessment",
+            "description": "A short survey of members on the training topics most needed. Output: top 5 themes + participant personas.",
+            "output": "TNA document"
+          },
+          {
+            "no": 2,
+            "name": "AI Literacy Workshop for Educators",
+            "description": "A one-day online workshop (4 hours) for 50–100 participants; content: prompt engineering and AI tools in the classroom.",
+            "output": "Workshop recording & materials"
+          },
+          {
+            "no": 3,
+            "name": "Digital Pedagogy Module",
+            "description": "One self-paced module (5–6 short videos + PDF handout) on a free Google Classroom/LMS, accessible to members at any time.",
+            "output": "E-learning module"
+          }
+        ],
+        "semester2": [
+          {
+            "no": 4,
+            "name": "First Training of Trainers (ToT)",
+            "description": "A two-day bootcamp for 20–30 member facilitators with an INOPI certificate; they become multipliers.",
+            "output": "Database of certified facilitators"
+          },
+          {
+            "no": 5,
+            "name": "Learning Innovation Certification (Pilot)",
+            "description": "INOPI's internal certification scheme, portfolio assessment + presentation, one pilot batch of 30 participants, a foundation for moving toward BNSP.",
+            "output": "INOPI certification system"
+          },
+          {
+            "no": 6,
+            "name": "Training Alumni Community",
+            "description": "A WhatsApp/Telegram group + one online meetup per quarter to retain alumni and recruit speakers.",
+            "output": "Active alumni community"
+          }
+        ]
+      }
+    },
+    "pic": "Person in charge: {names}",
+    "responsibilitiesTitle": "Duties & Responsibilities"
+  },
+  "ProgramKerja": {
+    "title": "Work Program",
+    "semester1": "Semester 1",
+    "semester2": "Semester 2"
+  },
+  "Training": {
+    "ui": {
+      "badge": "Division Flagship Product",
+      "title": "Training: INOPI's First Concrete Step",
+      "intro": "INOPI's training curriculum and materials blueprint for improving work productivity and employability — <b>10 programs</b> across <b>3 launch time horizons</b>, mapped onto a Proficiency Level × Job Grade matrix, covering 10 hard skills and 12 soft skills, with 12 industries as case study sources.",
+      "conclusionLabel": "Conclusion: ",
+      "placementTitle": "Which Program Is Right for Me?",
+      "placementIntro": "A program placement matrix based on Proficiency Level × Job Grade.",
+      "placementCorner": "Proficiency ↓ / Job Grade →",
+      "grades": [
+        "Staff",
+        "Manager",
+        "Executive"
+      ],
+      "catalogTitle": "Catalog of 10 Training Programs",
+      "flagship": "⭐ Flagship",
+      "spec": {
+        "proficiency": "Proficiency",
+        "jobGrade": "Job Grade",
+        "skillComposition": "Skill Composition",
+        "format": "Format",
+        "capacity": "Capacity",
+        "price": "Price"
+      },
+      "module": "Module",
+      "duration": "Duration",
+      "certTitle": "3 Initial Certification Schemes",
+      "certHeaders": [
+        "Scheme",
+        "Linked Program",
+        "Assessment Structure"
+      ],
+      "customization": "Customization / Variants",
+      "trainer": "Trainer",
+      "targetMarket": "Target Market",
+      "industryTitle": "Industry Use Cases — Materials & Customization",
+      "industryIntro": "12 industries as sources of real case studies for customizing training materials.",
+      "industryHeaders": [
+        "Industry",
+        "Priority",
+        "Use Case for Materials",
+        "Related Experts"
+      ],
+      "priority": "Priority {n}",
+      "pathTitle": "Learning Path — Participant Development Track",
+      "pathIntro": "A staged funnel from the ecosystem's entry point to becoming a multiplier for INOPI."
+    },
+    "rationale": {
+      "points": [
+        {
+          "title": "Mass AI Adoption, Lagging Workforce Readiness",
+          "desc": "Companies and educational institutions are adopting AI quickly, but workforce competency has not caught up. The need for structured training is very large and has not been served systematically. The association needs to step in to fill this gap as a provider of standards and competency development."
+        },
+        {
+          "title": "The Association's Launch Needs a Flagship Program",
+          "desc": "The launch momentum is effective only when accompanied by a real program, not just a declaration. Training is the fastest program to execute and the one whose benefits members feel immediately. It marks INOPI's identity and credibility from day one."
+        }
+      ],
+      "conclusion": "Training is the first concrete step — immediate impact, fast to execute, and INOPI's flagship program at launch."
+    },
+    "horizons": {
+      "short": {
+        "label": "Short Term",
+        "range": "0–3 Months"
+      },
+      "medium": {
+        "label": "Medium Term",
+        "range": "3–6 Months"
+      },
+      "long": {
+        "label": "Long Term",
+        "range": "6–12 Months"
+      }
+    },
+    "placementMatrix": [
+      {
+        "proficiency": "BASIC",
+        "proficiencyDesc": "Not yet familiar with digital/AI tools",
+        "cells": [
+          {
+            "grade": "Staff",
+            "codes": [
+              "P4"
+            ]
+          },
+          {
+            "grade": "Manager",
+            "codes": [
+              "P4"
+            ]
+          },
+          {
+            "grade": "Executive",
+            "codes": [
+              "P3 (½-day Awareness)"
+            ]
+          }
+        ]
+      },
+      {
+        "proficiency": "INTERMEDIATE",
+        "proficiencyDesc": "Already uses digital tools, wants to optimize",
+        "cells": [
+          {
+            "grade": "Staff",
+            "codes": [
+              "P1 (Practitioner Track)"
+            ]
+          },
+          {
+            "grade": "Manager",
+            "codes": [
+              "P1 (Practitioner Track)",
+              "P2"
+            ]
+          },
+          {
+            "grade": "Executive",
+            "codes": [
+              "P2",
+              "P3"
+            ]
+          }
+        ]
+      },
+      {
+        "proficiency": "ADVANCED",
+        "proficiencyDesc": "Power user, ready to lead transformation",
+        "cells": [
+          {
+            "grade": "Staff",
+            "codes": [
+              "P10"
+            ]
+          },
+          {
+            "grade": "Manager",
+            "codes": [
+              "P2 + Specialization",
+              "P7 (ToT)"
+            ]
+          },
+          {
+            "grade": "Executive",
+            "codes": [
+              "P3",
+              "P6 (B2B Advisory)"
+            ]
+          }
+        ]
+      }
+    ],
+    "industryUseCases": [
+      {
+        "industry": "Banking",
+        "priority": 1,
+        "useCase": "Fraud detection, AI credit scoring, customer-service chatbots, AI governance & POJK compliance, AML monitoring",
+        "expert": "Idha Kristiana (16 years in banking AI), Daniel Adhinugraha"
+      },
+      {
+        "industry": "Finance & Fintech",
+        "priority": 1,
+        "useCase": "Robo-advisory, risk analytics, digital lending, RegTech, decision intelligence",
+        "expert": "Idha Kristiana, Subchan Gatot"
+      },
+      {
+        "industry": "Education",
+        "priority": 1,
+        "useCase": "Adaptive learning, AI tutor, automated assessment, LMS, distance learning (PJJ)",
+        "expert": "Gogot Suharwoto, Prof. Meyliana, Paulina Pannen, Nunik Afriliana, Bobi Kurniawan"
+      },
+      {
+        "industry": "Manufacturing",
+        "priority": 1,
+        "useCase": "Predictive maintenance, QC computer vision, smart factory, IoT monitoring, digital twin",
+        "expert": "Subchan Gatot, Jahja, Bambang Yapri, Nita Felia"
+      },
+      {
+        "industry": "Technology",
+        "priority": 1,
+        "useCase": "AI copilot development, MLOps, product analytics, SaaS growth",
+        "expert": "12 founders from the technology sector — the largest pool"
+      },
+      {
+        "industry": "Government & BUMN",
+        "priority": 1,
+        "useCase": "Public service chatbots, document automation, smart city, civil servant (ASN) digital literacy",
+        "expert": "Boni Pudjianto, Gogot Suharwoto, Yasser Syaiful"
+      },
+      {
+        "industry": "Healthcare",
+        "priority": 2,
+        "useCase": "AI diagnostic support, patient triage, admin automation, telemedicine, health data privacy",
+        "expert": "Nunik Afriliana"
+      },
+      {
+        "industry": "Retail & E-Commerce",
+        "priority": 2,
+        "useCase": "Recommendation engine, dynamic pricing, inventory AI, customer analytics",
+        "expert": "Siti Elda Hiererra"
+      },
+      {
+        "industry": "FMCG",
+        "priority": 2,
+        "useCase": "Trade promo optimization, consumer insights, demand forecasting, route-to-market analytics",
+        "expert": "—"
+      },
+      {
+        "industry": "F&B",
+        "priority": 3,
+        "useCase": "Demand forecasting, menu engineering AI, supply chain optimization, food safety monitoring",
+        "expert": "—"
+      },
+      {
+        "industry": "Mining & Gas",
+        "priority": 3,
+        "useCase": "Predictive safety (HSE), geological analysis AI, equipment monitoring IoT, ESG reporting",
+        "expert": "—"
+      },
+      {
+        "industry": "Creative Industry",
+        "priority": 3,
+        "useCase": "GenAI content production, design automation, IP & copyright era AI, media analytics",
+        "expert": "Siti Elda Hiererra"
+      }
+    ],
+    "learningPath": [
+      {
+        "order": 1,
+        "level": "Entry — Basic",
+        "program": "P4 · AI Literacy for Everyone",
+        "func": "Entry point to the ecosystem, high volume, affordable price"
+      },
+      {
+        "order": 2,
+        "level": "Core — Basic–Intermediate",
+        "program": "P1 · AI for Business (Flagship)",
+        "func": "Flagship program & main revenue source"
+      },
+      {
+        "order": 3,
+        "level": "Growth — Intermediate–Advanced",
+        "program": "P2 · Digital Leadership",
+        "func": "For P1 alumni who have been promoted"
+      },
+      {
+        "order": 4,
+        "level": "Premium — Advanced",
+        "program": "P3 · AI Governance Executive",
+        "func": "The summit of the individual track — directors & C-level"
+      },
+      {
+        "order": 5,
+        "level": "Multiplier",
+        "program": "P7 · Certified Trainer (ToT)",
+        "func": "Top alumni become certified facilitators"
+      }
+    ],
+    "programs": [
+      {
+        "code": "P1",
+        "title": "AI for Business: From Literacy to Productivity",
+        "flagship": true,
+        "horizon": "short",
+        "tagline": "INOPI's flagship program — from AI literacy to daily work productivity",
+        "description": "INOPI's flagship program that teaches professionals how to use AI practically to raise work productivity — from basic literacy to applying AI tools in daily workflows, with real industry case studies from the founders.",
+        "spec": {
+          "proficiency": "Basic–Intermediate (Basic Track & Practitioner Track)",
+          "jobGrade": "Staff–Manager",
+          "skillComposition": "70% Hard / 30% Soft — AI/GenAI, Data Literacy, Cyber Aware · Critical Thinking, Problem Solving, Adaptability",
+          "format": "2-day bootcamp (16 lesson hours), offline, 30–50 participants/batch, INOPI Certificate",
+          "capacity": "30–50 participants/batch",
+          "price": "IDR 2.5–5 million/participant"
+        },
+        "moduleGroups": [
+          {
+            "heading": "Day 1 — Foundation & Core Skills (8 lesson hours)",
+            "metaLabel": "Skill",
+            "rows": [
+              {
+                "no": 1,
+                "name": "AI & GenAI Fundamentals — what AI/ML/LLMs are without the jargon, how GenAI works, demos of ChatGPT/Claude/Gemini/Copilot",
+                "duration": "90 min",
+                "meta": "AI Literacy, Curiosity"
+              },
+              {
+                "no": 2,
+                "name": "AI Tools Landscape for Productivity — a map of 20+ tools, criteria for choosing tools",
+                "duration": "90 min",
+                "meta": "AI/GenAI, Cloud/SaaS"
+              },
+              {
+                "no": 3,
+                "name": "Prompt Engineering Mastery — anatomy of an effective prompt, few-shot, chain-of-thought",
+                "duration": "120 min",
+                "meta": "Prompt Eng., Critical Thinking"
+              },
+              {
+                "no": 4,
+                "name": "Hands-on Lab: AI for Daily Tasks — email, reports, document summaries, slides",
+                "duration": "120 min",
+                "meta": "AI Applied, Problem Solving"
+              },
+              {
+                "name": "Day 1 Recap + Q&A",
+                "duration": "30 min"
+              }
+            ]
+          },
+          {
+            "heading": "Day 2 — Application & Integration (8 lesson hours)",
+            "metaLabel": "Skill",
+            "rows": [
+              {
+                "no": 5,
+                "name": "AI by Job Function — breakouts for Marketing/HR/Finance/Operations",
+                "duration": "120 min",
+                "meta": "AI Applied, RPA Basic"
+              },
+              {
+                "no": 6,
+                "name": "Industry Use Case Deep-Dive — case studies matched to participants' profiles",
+                "duration": "90 min",
+                "meta": "Creative Thinking, Collaboration"
+              },
+              {
+                "no": 7,
+                "name": "AI Risks, Ethics & Data Security — hallucinations, the PDP Law (UU PDP), bias, workplace AI policy",
+                "duration": "90 min",
+                "meta": "Cyber Security, Critical Thinking"
+              },
+              {
+                "no": 8,
+                "name": "Capstone: Personal AI Productivity Blueprint",
+                "duration": "120 min",
+                "meta": "Decision Making, Public Speaking"
+              },
+              {
+                "name": "Certification & Closing",
+                "duration": "60 min"
+              }
+            ]
+          }
+        ],
+        "totalLabel": "Total: 2 Days · 16 lesson hours + 2-Week Post-Training Assignment",
+        "customization": [
+          "Banking/Finance — fraud analytics, compliance",
+          "Manufacturing — predictive maintenance, QC vision",
+          "Education — AI tutor, adaptive learning",
+          "Government/SOEs — public services, SPBE (e-government)"
+        ],
+        "trainers": [
+          "Idha Kristiana",
+          "Boni Pudjianto",
+          "Nita Felia",
+          "Andy Bintoro",
+          "Prof. Meyliana",
+          "Tyo Guritno"
+        ],
+        "targetMarket": "Corporate Staff, Middle Management, SOEs (BUMN), Startups"
+      },
+      {
+        "code": "P2",
+        "title": "Digital Leadership & Future-Ready Skills",
+        "horizon": "short",
+        "tagline": "Leading digital transformation with confidence",
+        "description": "Equips organizational leaders to lead digital transformation: managing hybrid teams, making data-driven decisions, and leading AI adoption with confidence.",
+        "spec": {
+          "proficiency": "Intermediate–Advanced (prerequisite: leading a team for at least 2 years, or a P1 graduate)",
+          "jobGrade": "Manager–Executive",
+          "skillComposition": "35% Hard / 65% Soft — AI Strategy, Data-Driven · Leadership, Change Mgmt, Communication, Decision Making",
+          "format": "2-day workshop + 2× Group Coaching, offline, 20–30 participants, INOPI Certificate",
+          "capacity": "20–30 participants/batch",
+          "price": "IDR 6–9 million/participant"
+        },
+        "moduleGroups": [
+          {
+            "heading": "Day 1 — Leading Self & Team in the Digital Era (8 lesson hours)",
+            "metaLabel": "Skill",
+            "rows": [
+              {
+                "no": 1,
+                "name": "Leadership in the Age of AI — self-assessment Digital Leadership Readiness",
+                "duration": "90 min",
+                "meta": "Leadership, Self-awareness"
+              },
+              {
+                "no": 2,
+                "name": "Digital Mindset & Change Management — ADKAR/Kotter, case simulations",
+                "duration": "120 min",
+                "meta": "Change Mgmt, Empathy"
+              },
+              {
+                "no": 3,
+                "name": "Data-Driven Decision Making — data literacy for leaders",
+                "duration": "120 min",
+                "meta": "Data Literacy, Decision Making"
+              },
+              {
+                "no": 4,
+                "name": "Leading Hybrid & Multigenerational Teams",
+                "duration": "90 min",
+                "meta": "Communication, Collaboration"
+              }
+            ]
+          },
+          {
+            "heading": "Day 2 — Leading the Organization & Transformation (8 lesson hours)",
+            "metaLabel": "Skill",
+            "rows": [
+              {
+                "no": 5,
+                "name": "Digital Strategy & Business Model Innovation",
+                "duration": "120 min",
+                "meta": "Digital Strategy, Creative Thinking"
+              },
+              {
+                "no": 6,
+                "name": "AI for Leaders: Practical & Strategic",
+                "duration": "90 min",
+                "meta": "AI/GenAI, Critical Thinking"
+              },
+              {
+                "no": 7,
+                "name": "Executive Communication & Influence",
+                "duration": "90 min",
+                "meta": "Public Speaking, Negotiation"
+              },
+              {
+                "no": 8,
+                "name": "Capstone: 90-Day Leadership Action Plan",
+                "duration": "120 min",
+                "meta": "Decision Making, Accountability"
+              }
+            ]
+          },
+          {
+            "heading": "Follow-up — Group Coaching (Online)",
+            "rows": [
+              {
+                "no": "C1",
+                "name": "Coaching Session 1 (Week 3)",
+                "duration": "90 min"
+              },
+              {
+                "no": "C2",
+                "name": "Coaching Session 2 (Week 8)",
+                "duration": "90 min"
+              }
+            ]
+          }
+        ],
+        "totalLabel": "Total: 2-Day Workshop (16 lesson hours) + 2× Coaching (3 lesson hours) = 19 lesson hours over 8 weeks",
+        "trainers": [
+          "Victor Osman",
+          "Tutut Handayani",
+          "Nita Felia",
+          "Daniel Adhinugraha",
+          "Jahja",
+          "Bambang Yapri"
+        ],
+        "targetMarket": "Senior Managers, C-Level, Department Heads, Government"
+      },
+      {
+        "code": "P3",
+        "title": "AI Governance & Responsible AI for Executives",
+        "horizon": "short",
+        "tagline": "AI governance and risk management for board level",
+        "description": "An exclusive board-level program equipping top decision-makers with AI governance frameworks, risk management, and a responsible AI adoption strategy.",
+        "spec": {
+          "proficiency": "Intermediate–Advanced (no technical AI expertise required)",
+          "jobGrade": "Executive (directors, C-level, commissioners, heads of risk/compliance/digital, regulators)",
+          "skillComposition": "55% Hard / 45% Soft — AI Governance, Risk Mgmt, Cyber/Privacy · Strategic Decision, Critical Thinking",
+          "format": "1-day Executive Seminar (premium), small group of 15–20, roundtable",
+          "capacity": "15–20 participants",
+          "price": "IDR 10–15 million/participant"
+        },
+        "moduleGroups": [
+          {
+            "heading": "One Full Day (8 lesson hours)",
+            "metaLabel": "Skill",
+            "rows": [
+              {
+                "no": 1,
+                "name": "AI Strategic Landscape for Executives",
+                "duration": "75 min",
+                "meta": "AI Strategy, Strategic Thinking"
+              },
+              {
+                "no": 2,
+                "name": "AI Readiness Assessment Framework",
+                "duration": "90 min",
+                "meta": "AI Readiness, Analytical"
+              },
+              {
+                "no": 3,
+                "name": "AI Governance & Regulatory Landscape — NIST AI RMF, ISO 42001, EU AI Act, the PDP Law (UU PDP), POJK",
+                "duration": "105 min",
+                "meta": "AI Governance, Regulatory"
+              },
+              {
+                "no": 4,
+                "name": "AI Risk Management & Responsible AI",
+                "duration": "90 min",
+                "meta": "Risk Mgmt, Decision Making"
+              },
+              {
+                "no": 5,
+                "name": "Executive Roundtable: AI Adoption Roadmap",
+                "duration": "90 min",
+                "meta": "Peer Learning, Networking"
+              },
+              {
+                "name": "Executive Toolkit & Closing",
+                "duration": "30 min"
+              }
+            ]
+          }
+        ],
+        "totalLabel": "Total: 1 Intensive Day (8 lesson hours) + 1 Follow-up Consultation Session",
+        "trainers": [
+          "Idha Kristiana (lead)",
+          "Boni Pudjianto",
+          "Prof. Meyliana",
+          "Subchan Gatot"
+        ],
+        "targetMarket": "Directors, C-Level, Risk/Compliance, Banking"
+      },
+      {
+        "code": "P4",
+        "title": "AI Literacy for Everyone",
+        "horizon": "short",
+        "tagline": "INOPI's entry point to the ecosystem — affordable AI literacy for everyone",
+        "description": "An affordable AI literacy program for the wider public — students, first jobbers, MSMEs. Strategic function: the entry point to the INOPI ecosystem and the funnel to advanced programs.",
+        "spec": {
+          "proficiency": "Basic (no prerequisites)",
+          "jobGrade": "Staff, Students, General Public",
+          "skillComposition": "60% Hard / 40% Soft",
+          "format": "1 day (8 lesson hours), online/offline, 50–100 participants, repeatable monthly",
+          "capacity": "50–100 participants/batch",
+          "price": "IDR 350,000–1 million/participant"
+        },
+        "moduleGroups": [
+          {
+            "heading": "1 Day (8 lesson hours) — Repeatable Every Month",
+            "rows": [
+              {
+                "no": 1,
+                "name": "Understanding AI Without the Jargon",
+                "duration": "60 min"
+              },
+              {
+                "no": 2,
+                "name": "Free AI Tools for Life & Work",
+                "duration": "90 min"
+              },
+              {
+                "no": 3,
+                "name": "Prompt Engineering for Beginners",
+                "duration": "90 min"
+              },
+              {
+                "no": 4,
+                "name": "AI, Career Futures & Employability",
+                "duration": "60 min"
+              },
+              {
+                "no": 5,
+                "name": "Ethics & Security: Becoming a Smart AI User",
+                "duration": "60 min"
+              },
+              {
+                "no": 6,
+                "name": "Mini Project & Showcase",
+                "duration": "90 min"
+              },
+              {
+                "name": "Digital Certification & Next Steps",
+                "duration": "30 min"
+              }
+            ]
+          }
+        ],
+        "totalLabel": "Total: 1 Day (8 lesson hours) — Repeatable Every Month",
+        "customization": [
+          "Campus Edition",
+          "MSME Edition",
+          "Civil Servant (ASN) Edition",
+          "Teacher Edition"
+        ],
+        "trainers": [
+          "Andy Bintoro",
+          "Yasser Syaiful",
+          "Tyo Guritno",
+          "Nunik Afriliana",
+          "Ikrar Adinata",
+          "Bobi Kurniawan"
+        ],
+        "targetMarket": "Students, First Jobbers, MSMEs, General Public"
+      },
+      {
+        "code": "P5",
+        "title": "EdTech Innovation & Smart Learning Design",
+        "horizon": "medium",
+        "tagline": "INOPI's signature program — a combination of policy, research, and learning technology",
+        "description": "INOPI's signature program combining Ministry of Education (Kemendikbud) policy perspectives, distance-learning (PJJ) research, AI in Education, and learning technology — a combination of experts that no other association in Indonesia has.",
+        "spec": {
+          "proficiency": "Intermediate–Advanced",
+          "jobGrade": "Staff–Manager (lecturers, teachers, instructional designers, heads of study programs, school principals, corporate L&D)",
+          "skillComposition": "50% Hard / 50% Soft",
+          "format": "3 intensive days (24 lesson hours), offline, 25–40 participants, design sprint + showcase",
+          "capacity": "25–40 participants/batch",
+          "price": "IDR 3.5–6 million/participant"
+        },
+        "moduleGroups": [
+          {
+            "heading": "Day 1 — Landscape & AI in Education (8 lesson hours)",
+            "rows": [
+              {
+                "no": 1,
+                "name": "Learning Innovation Landscape 2026",
+                "duration": "90 min"
+              },
+              {
+                "no": 2,
+                "name": "AI in Education Deep-Dive",
+                "duration": "120 min"
+              },
+              {
+                "no": 3,
+                "name": "Learning Analytics & Data-Driven Teaching",
+                "duration": "90 min"
+              },
+              {
+                "no": 4,
+                "name": "Hands-on Lab: AI for Teaching Materials",
+                "duration": "150 min"
+              }
+            ]
+          },
+          {
+            "heading": "Day 2 — Design & Technology (8 lesson hours)",
+            "rows": [
+              {
+                "no": 5,
+                "name": "Modern Instructional Design",
+                "duration": "120 min"
+              },
+              {
+                "no": 6,
+                "name": "Immersive Learning: AR/VR & Simulation",
+                "duration": "90 min"
+              },
+              {
+                "no": 7,
+                "name": "LMS & Digital Learning Ecosystem",
+                "duration": "90 min"
+              },
+              {
+                "no": 8,
+                "name": "Gamification & Engagement + Innovative Assessment",
+                "duration": "120 min"
+              }
+            ]
+          },
+          {
+            "heading": "Day 3 — Design Sprint & Showcase (8 lesson hours)",
+            "rows": [
+              {
+                "no": 9,
+                "name": "Design Sprint: Designing Learning Innovation",
+                "duration": "240 min"
+              },
+              {
+                "no": 10,
+                "name": "Showcase & Expert Panel Feedback",
+                "duration": "150 min"
+              },
+              {
+                "name": "Certification & Practitioner Community",
+                "duration": "30 min"
+              }
+            ]
+          }
+        ],
+        "totalLabel": "Total: 3 Intensive Days (24 lesson hours)",
+        "customization": [
+          "Higher Education",
+          "K-12/Schools",
+          "Corporate L&D",
+          "Education Offices/Government"
+        ],
+        "trainers": [
+          "Gogot Suharwoto",
+          "Prof. Meyliana",
+          "Paulina Pannen",
+          "Nunik Afriliana",
+          "Bobi Kurniawan",
+          "Sunardi",
+          "Pony Halim"
+        ],
+        "targetMarket": "Lecturers, Teachers, Education Offices, Universities, EdTech"
+      },
+      {
+        "code": "P6",
+        "title": "Enterprise AI Strategy & Digital Transformation (B2B)",
+        "horizon": "medium",
+        "tagline": "Customized B2B engagement for large corporations and SOEs",
+        "description": "A customized B2B engagement for large corporations and SOEs (BUMN): digital maturity assessment, AI use case mapping, a 12–24 month roadmap ready to present to the board, plus 3 months of advisory.",
+        "spec": {
+          "proficiency": "Intermediate–Advanced",
+          "jobGrade": "Manager–Executive (digital transformation team + C-level sponsor, 10–20 people per engagement)",
+          "skillComposition": "60% Hard / 40% Soft",
+          "format": "4 modular days + 3 months of advisory, in-house at the client's site",
+          "capacity": "10–20 people/engagement",
+          "price": "IDR 150–300 million/engagement"
+        },
+        "moduleGroups": [
+          {
+            "heading": "Phase A — Discover (Day 1)",
+            "rows": [
+              {
+                "no": 1,
+                "name": "Digital & AI Maturity Assessment",
+                "duration": "120 min"
+              },
+              {
+                "no": 2,
+                "name": "Industry Disruption & Benchmark",
+                "duration": "90 min"
+              },
+              {
+                "no": 3,
+                "name": "Data & Infrastructure Readiness Review",
+                "duration": "120 min"
+              },
+              {
+                "no": 4,
+                "name": "Executive Alignment Session",
+                "duration": "90 min"
+              }
+            ]
+          },
+          {
+            "heading": "Phase B — Design (Days 2–3)",
+            "rows": [
+              {
+                "no": 5,
+                "name": "AI Opportunity Mapping Workshop",
+                "duration": "150 min"
+              },
+              {
+                "no": 6,
+                "name": "Use Case Prioritization & Business Case",
+                "duration": "120 min"
+              },
+              {
+                "no": 7,
+                "name": "Target Operating Model & Talent Strategy",
+                "duration": "120 min"
+              },
+              {
+                "no": 8,
+                "name": "AI Governance & Risk Setup + Vendor Landscape",
+                "duration": "150 min"
+              }
+            ]
+          },
+          {
+            "heading": "Phase C — Deliver (Day 4)",
+            "rows": [
+              {
+                "no": 9,
+                "name": "Transformation Roadmap, 12–24 Months",
+                "duration": "150 min"
+              },
+              {
+                "no": 10,
+                "name": "Quick-Win Sprint Planning (30-60-90)",
+                "duration": "120 min"
+              },
+              {
+                "no": 11,
+                "name": "Board Presentation Preparation",
+                "duration": "90 min"
+              }
+            ]
+          },
+          {
+            "heading": "Advisory — Execution Support (3 Months)",
+            "rows": [
+              {
+                "no": "A",
+                "name": "Monthly Advisory Check-in ×3",
+                "duration": "3×90 min"
+              }
+            ]
+          }
+        ],
+        "totalLabel": "Total: 4-Day Workshop (32 lesson hours) + 3-Month Advisory",
+        "customization": [
+          "SOEs (BUMN)",
+          "Banking & Finance",
+          "Manufacturing",
+          "Holding/Conglomerates"
+        ],
+        "trainers": [
+          "Idha Kristiana (lead)",
+          "Pony Halim",
+          "Ferry Sutanto",
+          "Kun Wardana",
+          "Daniel Adhinugraha",
+          "Ikrar Adinata"
+        ],
+        "targetMarket": "SOEs (BUMN), Banking & Finance, Manufacturing, Holding/Conglomerates"
+      },
+      {
+        "code": "P7",
+        "title": "INOPI Certified Trainer Program (Training of Trainers)",
+        "horizon": "medium",
+        "tagline": "Producing certified facilitators — the key to INOPI's scalability",
+        "description": "Producing INOPI-certified facilitators from top alumni and member practitioners — the key to scalability so that INOPI does not depend on its founders.",
+        "spec": {
+          "proficiency": "Advanced (prerequisite: passed P1/P5 with good marks, or an experienced practitioner who passes a portfolio screening)",
+          "jobGrade": "Senior Staff–Manager",
+          "skillComposition": "30% Hard / 70% Soft",
+          "format": "2-day bootcamp + co-teaching, 20–30 participants, recorded micro-teaching, 2-year certificate",
+          "capacity": "20–30 participants/batch",
+          "price": "IDR 4–6 million/participant (50% subsidy for INOPI members who commit to teaching)"
+        },
+        "moduleGroups": [
+          {
+            "heading": "Day 1 — Foundations of Facilitation (8 lesson hours)",
+            "rows": [
+              {
+                "no": 1,
+                "name": "Adult Learning Principles (Andragogy)",
+                "duration": "90 min"
+              },
+              {
+                "no": 2,
+                "name": "INOPI Teaching Standards & Curriculum",
+                "duration": "90 min"
+              },
+              {
+                "no": 3,
+                "name": "Facilitation Skills Lab",
+                "duration": "120 min"
+              },
+              {
+                "no": 4,
+                "name": "Digital Classroom Tools",
+                "duration": "90 min"
+              },
+              {
+                "no": 5,
+                "name": "Handling Difficult Situations",
+                "duration": "90 min"
+              }
+            ]
+          },
+          {
+            "heading": "Day 2 — Practice & Assessment (8 lesson hours)",
+            "rows": [
+              {
+                "no": 6,
+                "name": "Micro-Teaching Round 1 (recorded and graded with a rubric)",
+                "duration": "150 min"
+              },
+              {
+                "no": 7,
+                "name": "Feedback & Coaching Session",
+                "duration": "90 min"
+              },
+              {
+                "no": 8,
+                "name": "Micro-Teaching Round 2 (Improvement)",
+                "duration": "150 min"
+              },
+              {
+                "no": 9,
+                "name": "Certification Pathway & Commitment",
+                "duration": "60 min"
+              }
+            ]
+          },
+          {
+            "heading": "Post-Bootcamp — Co-Teaching (required for full certification)",
+            "rows": [
+              {
+                "no": "C",
+                "name": "Co-Teaching 1 Real Batch + Evaluation",
+                "duration": "1 batch"
+              }
+            ]
+          }
+        ],
+        "totalLabel": "Total: 2-Day Bootcamp (16 lesson hours) + Co-Teaching 1 Batch + 2-Year Certificate",
+        "trainers": [
+          "Andy Bintoro (coordinator)",
+          "Nita Felia",
+          "Victor Osman",
+          "Tutut Handayani",
+          "Bambang Yapri"
+        ],
+        "targetMarket": "Top P1/P5 alumni, experienced practitioners"
+      },
+      {
+        "code": "P8",
+        "title": "National Certification in Learning Innovation (BNSP Track)",
+        "horizon": "long",
+        "tagline": "Certification infrastructure that gives all INOPI programs official standing",
+        "description": "Building a competency certification scheme recognized by BNSP — not a training program, but certification infrastructure that gives all INOPI programs official standing.",
+        "spec": {
+          "proficiency": "Candidates: Intermediate–Advanced",
+          "jobGrade": "Staff–Manager",
+          "skillComposition": "Certification Scheme + Assessment (candidates are assessed, not trained)",
+          "format": "Build timeline Months 6–12, assessment pilot in months 11–12",
+          "price": "IDR 2.5–4 million/candidate"
+        },
+        "moduleGroups": [
+          {
+            "heading": "Scheme Development Roadmap (6 Months)",
+            "metaLabel": "PIC",
+            "rows": [
+              {
+                "no": 1,
+                "name": "Drafting the Scheme & Competency Units",
+                "duration": "Months 6–7",
+                "meta": "Prof Mey, Paulina, Idha"
+              },
+              {
+                "no": 2,
+                "name": "BNSP Harmonization & Exploring an LSP (set up our own LSP vs. use an existing one)",
+                "duration": "Months 7–8",
+                "meta": "Gogot, Victor, Siti Elda"
+              },
+              {
+                "no": 3,
+                "name": "Competency Assessor Training (at least 6 certified assessors)",
+                "duration": "Months 8–9",
+                "meta": "Andy + 6 assessor candidates"
+              },
+              {
+                "no": 4,
+                "name": "Developing Assessment Tools (MUK)",
+                "duration": "Months 9–10",
+                "meta": "Idha, Tutut"
+              },
+              {
+                "no": 5,
+                "name": "Assessment Pilot, Batch 1 (30–60 candidates)",
+                "duration": "Months 11–12",
+                "meta": "The whole team + assessors"
+              }
+            ]
+          }
+        ],
+        "totalLabel": "Build Timeline: Months 6–12 · Assessment Pilot Months 11–12",
+        "certificationSchemes": [
+          {
+            "name": "AI Practitioner for Work Productivity",
+            "linkedProgram": "P1 alumni",
+            "assessmentStructure": "Portfolio (60 min) → Practical test (120 min) → Interview (60 min)"
+          },
+          {
+            "name": "Digital Learning Designer",
+            "linkedProgram": "P5 alumni",
+            "assessmentStructure": "Design portfolio (60 min) → Design demonstration (120 min) → Interview (60 min)"
+          },
+          {
+            "name": "Innovative Learning Facilitator",
+            "linkedProgram": "P7 (ToT) alumni",
+            "assessmentStructure": "Teaching portfolio (60 min) → Teaching simulation (120 min) → Interview (60 min)"
+          }
+        ],
+        "trainers": [
+          "Gogot Suharwoto",
+          "Prof. Meyliana",
+          "Idha Kristiana",
+          "Andy Bintoro"
+        ],
+        "targetMarket": "P1, P5, P7 (ToT) alumni"
+      },
+      {
+        "code": "P9",
+        "title": "INOPI AI Education Summit (Annual National Forum)",
+        "horizon": "long",
+        "tagline": "The annual flagship event on \"AI in Learning Technology\"",
+        "description": "The annual flagship event themed \"AI in Learning Technology\" bringing together the whole ecosystem: academia, industry, government, and EdTech startups.",
+        "spec": {
+          "proficiency": "—",
+          "jobGrade": "The entire education & AI ecosystem",
+          "skillComposition": "2 days, hybrid — in person in Jakarta + national streaming",
+          "format": "Target 300–500 participants · Timing: months 10–12 (preparation starts in month 6)",
+          "capacity": "300–500 participants",
+          "price": "Tickets IDR 250,000 (students) – IDR 1.5 million (professionals)"
+        },
+        "moduleGroups": [
+          {
+            "heading": "Day 1 — Vision & Industry",
+            "metaLabel": "Speakers",
+            "rows": [
+              {
+                "no": 1,
+                "name": "Opening Ceremony & Government Keynote",
+                "duration": "60 min",
+                "meta": "Via Gogot Suharwoto (Ministry of Education)"
+              },
+              {
+                "no": 2,
+                "name": "Global Industry Keynote",
+                "duration": "45 min",
+                "meta": "International partners (target: Google for Education/Microsoft Education/ELSA)"
+              },
+              {
+                "no": 3,
+                "name": "Main Panel: AI in Learning Technology",
+                "duration": "90 min",
+                "meta": "Prof Mey, Idha, industry, government"
+              },
+              {
+                "no": 4,
+                "name": "Parallel Workshops — 4 Tracks (P1/P5/P3/P4 teasers)",
+                "duration": "120 min",
+                "meta": "Certified Trainers + founders"
+              },
+              {
+                "no": 5,
+                "name": "Exhibition & Networking Evening",
+                "duration": "90 min",
+                "meta": "Partnerships Division"
+              }
+            ]
+          },
+          {
+            "heading": "Day 2 — Research, Awards & Declaration",
+            "metaLabel": "Speakers",
+            "rows": [
+              {
+                "no": 6,
+                "name": "Research Showcase & White Paper/Journal Launch",
+                "duration": "90 min",
+                "meta": "Bobi, Nunik + writing team"
+              },
+              {
+                "no": 7,
+                "name": "Policy Panel & Certification Scheme Launch (link to P8)",
+                "duration": "90 min",
+                "meta": "Gogot, Andy, BNSP representatives"
+              },
+              {
+                "no": 8,
+                "name": "INOPI Innovation Awards",
+                "duration": "60 min",
+                "meta": "Board of Experts as judges"
+              },
+              {
+                "no": 9,
+                "name": "Declaration & Closing",
+                "duration": "45 min",
+                "meta": "All board members & founders"
+              }
+            ]
+          }
+        ],
+        "totalLabel": "2 Days Hybrid — In Person in Jakarta + National Streaming",
+        "trainers": [
+          "Nita Felia & Yasser Syaiful (implementation leads)",
+          "Victor Osman & Siti Elda (sponsorship)",
+          "Gogot Suharwoto (government relations)"
+        ],
+        "targetMarket": "Academia, industry, government, EdTech startups"
+      },
+      {
+        "code": "P10",
+        "title": "Data Science & AI Builder Bootcamp",
+        "horizon": "long",
+        "tagline": "Producing practitioners who can BUILD AI solutions",
+        "description": "An intensive technical program to produce practitioners who can build AI solutions — not just use them.",
+        "spec": {
+          "proficiency": "Advanced (prerequisite: strong logic, passing a basic logic entry test)",
+          "jobGrade": "Staff–Manager (analysts, engineers, technical product managers, IT staff)",
+          "skillComposition": "85% Hard / 15% Soft",
+          "format": "5 intensive days (40 lesson hours) or 8 weeks part-time (Saturdays), 20–25 participants",
+          "capacity": "20–25 participants/batch",
+          "price": "IDR 8–15 million/participant"
+        },
+        "moduleGroups": [
+          {
+            "heading": "Day 1 — Python & Data Foundations (8 lesson hours)",
+            "rows": [
+              {
+                "no": 1,
+                "name": "Python for Data (from Scratch)",
+                "duration": "240 min"
+              },
+              {
+                "no": 2,
+                "name": "Data Cleaning & Preparation",
+                "duration": "240 min"
+              }
+            ]
+          },
+          {
+            "heading": "Day 2 — Analysis & Visualization (8 lesson hours)",
+            "rows": [
+              {
+                "no": 3,
+                "name": "Exploratory Data Analysis (EDA)",
+                "duration": "240 min"
+              },
+              {
+                "no": 4,
+                "name": "Data Visualization & Storytelling",
+                "duration": "240 min"
+              }
+            ]
+          },
+          {
+            "heading": "Day 3 — Machine Learning Fundamentals (8 lesson hours)",
+            "rows": [
+              {
+                "no": 5,
+                "name": "ML Concepts & Supervised Learning",
+                "duration": "240 min"
+              },
+              {
+                "no": 6,
+                "name": "Model Evaluation & Responsible AI",
+                "duration": "240 min"
+              }
+            ]
+          },
+          {
+            "heading": "Day 4 — GenAI & AI App Building (8 lesson hours)",
+            "rows": [
+              {
+                "no": 7,
+                "name": "Working with LLM APIs",
+                "duration": "240 min"
+              },
+              {
+                "no": 8,
+                "name": "Simple RAG & Low-Code AI Apps",
+                "duration": "240 min"
+              }
+            ]
+          },
+          {
+            "heading": "Day 5 — Capstone & Deployment (8 lesson hours)",
+            "rows": [
+              {
+                "no": 9,
+                "name": "Capstone Project End-to-End",
+                "duration": "300 min"
+              },
+              {
+                "no": 10,
+                "name": "Demo Day & Certification",
+                "duration": "180 min"
+              }
+            ]
+          }
+        ],
+        "totalLabel": "Total: 5 Intensive Days (40 lesson hours) — or 8 Weeks Part-Time",
+        "customization": [
+          "Banking/Finance",
+          "Manufacturing",
+          "Retail/E-commerce",
+          "Education"
+        ],
+        "trainers": [
+          "Ikrar Adinata (lead)",
+          "Nunik Afriliana",
+          "Ferry Sutanto",
+          "Bobi Kurniawan",
+          "Idha Kristiana"
+        ],
+        "targetMarket": "Analysts, engineers, technical product managers, IT staff"
+      }
+    ]
+  },
+  "SkillsCube": {
+    "ui": {
+      "badge": "INOPI Methodology",
+      "title": "INOPI Skills Cube",
+      "intro": "A 4-dimensional framework for analyzing training needs — Proficiency × Job Grade × Skill (Hard/Soft) × Industry. One-size-fits-all training is no longer enough: skill needs differ by level, role, type of skill, and industry. The INOPI Skills Cube maps all of them so that training hits the mark.",
+      "dimensionsTitle": "One Cube, Four Dimensions",
+      "proficiency": "Proficiency Level",
+      "jobGrade": "Job Grade",
+      "layersTitle": "Assessment · Coaching · Delivery Layers",
+      "layersIntro": "Two thin layers wrap every cube cell — determining how skills are measured, trained, and delivered.",
+      "codesTitle": "Code System",
+      "formatLabel": "Format: ",
+      "codesLegend": "Industry · Skill Type + Domain · Grade + Level",
+      "hardCodes": "Hard Skill Codes (H)",
+      "softCodes": "Soft Skill Codes (S)",
+      "examples": "Application Examples",
+      "reading": "How to Read Grade × Level",
+      "readingNote": "A larger number = more senior & deeper.",
+      "hardMatrixTitle": "Hard Skill Priority Matrix by Industry",
+      "hardMatrixLegend": "High = urgent & widespread · Medium = important/growing · Emerging = becoming relevant",
+      "hardMatrixCorner": "Emerging Tech \\ Industry",
+      "softMatrixTitle": "Soft Skill Priority Matrix by Level",
+      "softMatrixLegend": "Analytical thinking, creative thinking & resilience = high priority at all levels (WEF 2025).",
+      "softMatrixCorner": "Soft Skill \\ Job Grade",
+      "recoTitle": "Data-Driven Recommendations",
+      "topHard": "Top 5 Most Needed Hard Skills",
+      "topSoft": "Top 5 Most Needed Soft Skills",
+      "comboTitle": "Priority Combinations by Industry Group",
+      "hardSkill": "Hard Skill: ",
+      "softSkill": "Soft Skill: ",
+      "useCase": "Use Case: ",
+      "flowTitle": "Application Flow — 6 Stages",
+      "metricsTitle": "Success Metrics"
+    },
+    "levels": {
+      "high": "High",
+      "medium": "Medium",
+      "emerging": "Emerging"
+    },
+    "supportingStats": [
+      {
+        "value": "+148%",
+        "label": "Surge in demand for AI talent in Indonesia (2023–2025)"
+      },
+      {
+        "value": "9 million",
+        "label": "Additional digital talent needed by 2030"
+      },
+      {
+        "value": "~100,000",
+        "label": "Shortage of cybersecurity experts"
+      },
+      {
+        "value": "39%",
+        "label": "Core skills that will change by 2030 (WEF)"
+      }
+    ],
+    "dimensions": [
+      {
+        "no": 1,
+        "name": "Proficiency Level",
+        "detail": "Basic (L1) · Intermediate (L2) · Advanced (L3)"
+      },
+      {
+        "no": 2,
+        "name": "Job Grade",
+        "detail": "Staff (G1) · Manager (G2) · Executive (G3)"
+      },
+      {
+        "no": 3,
+        "name": "Skill",
+        "detail": "Hard Skill (H) · Soft Skill (S)"
+      },
+      {
+        "no": 4,
+        "name": "Industry",
+        "detail": "Banking, Healthcare, Manufacturing, Tech, etc."
+      }
+    ],
+    "proficiencyLevels": [
+      {
+        "level": "Basic",
+        "code": "L1",
+        "desc": "Knows basic concepts & follows procedures with guidance"
+      },
+      {
+        "level": "Intermediate",
+        "code": "L2",
+        "desc": "Applies skills independently; handles intermediate problems"
+      },
+      {
+        "level": "Advanced",
+        "code": "L3",
+        "desc": "Designs solutions, evaluates, leads & drives strategic innovation"
+      }
+    ],
+    "jobGrades": [
+      {
+        "grade": "Staff",
+        "code": "G1",
+        "desc": "Executor — technical proficiency & completing daily tasks"
+      },
+      {
+        "grade": "Manager",
+        "code": "G2",
+        "desc": "Manager — orchestrating teams, tactical decisions, problem solving"
+      },
+      {
+        "grade": "Executive",
+        "code": "G3",
+        "desc": "Strategic — vision, governance, transformation leadership"
+      }
+    ],
+    "layers": [
+      {
+        "code": "A",
+        "name": "Assessment",
+        "func": "Measure & map competencies",
+        "components": [
+          "Skill gap assessment",
+          "Pre-test & post-test",
+          "Competency mapping (L1→L3)",
+          "Tiered certification",
+          "Work-impact evaluation"
+        ]
+      },
+      {
+        "code": "C",
+        "name": "Coaching",
+        "func": "Guide skill improvement",
+        "components": [
+          "Mentoring 1-on-1",
+          "On-the-job coaching",
+          "Regular feedback & review",
+          "Peer & group learning",
+          "Support on real projects"
+        ]
+      },
+      {
+        "code": "D",
+        "name": "Delivery",
+        "func": "Deliver the learning",
+        "components": [
+          "Blended learning",
+          "Workshops & industry case studies",
+          "Project-based learning",
+          "Microlearning",
+          "e-Learning + in-person classes"
+        ]
+      }
+    ],
+    "skillCodes": {
+      "hard": [
+        {
+          "name": "AI & Machine Learning",
+          "code": "AI"
+        },
+        {
+          "name": "Big Data & Analytics",
+          "code": "DATA"
+        },
+        {
+          "name": "Cloud Computing",
+          "code": "CLOUD"
+        },
+        {
+          "name": "Cyber Security",
+          "code": "CYBER"
+        },
+        {
+          "name": "Internet of Things",
+          "code": "IOT"
+        },
+        {
+          "name": "Blockchain",
+          "code": "BLOCK"
+        },
+        {
+          "name": "Immersive Tech / AR-VR",
+          "code": "XR"
+        },
+        {
+          "name": "Robotics / Automation",
+          "code": "RPA"
+        }
+      ],
+      "soft": [
+        {
+          "name": "Analytical Thinking",
+          "code": "ANLY"
+        },
+        {
+          "name": "Creative Thinking",
+          "code": "CREA"
+        },
+        {
+          "name": "Problem Solving & Decision Making",
+          "code": "PROB"
+        },
+        {
+          "name": "Communication",
+          "code": "COMM"
+        },
+        {
+          "name": "Leadership & Social Influence",
+          "code": "LEAD"
+        },
+        {
+          "name": "Negotiation",
+          "code": "NEGO"
+        },
+        {
+          "name": "Change Management",
+          "code": "CHG"
+        },
+        {
+          "name": "Resilience & Adaptability",
+          "code": "RESI"
+        }
+      ]
+    },
+    "codeExamples": [
+      {
+        "code": "BANK · H-AI · G1L1",
+        "meaning": "Basic AI for Staff in Banking (\"Basic Staff\")"
+      },
+      {
+        "code": "EDU · S-CREA · G1L1",
+        "meaning": "Basic Creative Thinking for Education Staff"
+      },
+      {
+        "code": "MFG · H-IOT · G2L3",
+        "meaning": "Advanced-level IoT for Manufacturing Managers"
+      }
+    ],
+    "gradeLevelReading": [
+      {
+        "combo": "G1L1",
+        "label": "Staff · Basic → \"Foundation\""
+      },
+      {
+        "combo": "G2L2",
+        "label": "\"Manager\""
+      },
+      {
+        "combo": "G3L3",
+        "label": "\"Visionary\""
+      }
+    ],
+    "industryColumns": [
+      "Banking/Finance",
+      "Healthcare",
+      "Education",
+      "Manufacturing",
+      "Mining/Energy",
+      "Technology",
+      "Retail/FMCG"
+    ],
+    "hardSkillIndustryMatrix": [
+      {
+        "skill": "AI & Machine Learning",
+        "values": [
+          "high",
+          "high",
+          "medium",
+          "high",
+          "medium",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Big Data & Analytics",
+        "values": [
+          "high",
+          "high",
+          "medium",
+          "high",
+          "high",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Cloud Computing",
+        "values": [
+          "high",
+          "medium",
+          "medium",
+          "medium",
+          "medium",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Cyber Security",
+        "values": [
+          "high",
+          "high",
+          "medium",
+          "medium",
+          "medium",
+          "high",
+          "medium"
+        ]
+      },
+      {
+        "skill": "Internet of Things (IoT)",
+        "values": [
+          "emerging",
+          "medium",
+          "emerging",
+          "high",
+          "high",
+          "medium",
+          "medium"
+        ]
+      },
+      {
+        "skill": "Blockchain",
+        "values": [
+          "high",
+          "emerging",
+          "emerging",
+          "emerging",
+          "medium",
+          "medium",
+          "medium"
+        ]
+      },
+      {
+        "skill": "Immersive Tech (AR/VR)",
+        "values": [
+          "emerging",
+          "medium",
+          "high",
+          "medium",
+          "medium",
+          "medium",
+          "medium"
+        ]
+      },
+      {
+        "skill": "Robotics / RPA",
+        "values": [
+          "high",
+          "medium",
+          "emerging",
+          "high",
+          "medium",
+          "medium",
+          "medium"
+        ]
+      }
+    ],
+    "jobGradeColumns": [
+      "Staff (G1)",
+      "Manager (G2)",
+      "Executive (G3)"
+    ],
+    "softSkillGradeMatrix": [
+      {
+        "skill": "Analytical Thinking",
+        "values": [
+          "high",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Creative Thinking",
+        "values": [
+          "high",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Problem Solving & Decision Making",
+        "values": [
+          "medium",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Communication",
+        "values": [
+          "high",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Leadership & Social Influence",
+        "values": [
+          "medium",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Negotiation",
+        "values": [
+          "emerging",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Change Management",
+        "values": [
+          "medium",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Resilience & Adaptability",
+        "values": [
+          "high",
+          "high",
+          "high"
+        ]
+      },
+      {
+        "skill": "Public Speaking",
+        "values": [
+          "medium",
+          "medium",
+          "high"
+        ]
+      },
+      {
+        "skill": "Lifelong Learning & Curiosity",
+        "values": [
+          "high",
+          "high",
+          "medium"
+        ]
+      }
+    ],
+    "topHardSkills": [
+      {
+        "rank": 1,
+        "name": "AI & Machine Learning",
+        "desc": "The No. 1 technology skill in the world (WEF). Demand for AI talent in Indonesia +148% (2023–2025). Generative & Agentic AI are driving productivity across sectors."
+      },
+      {
+        "rank": 2,
+        "name": "Big Data & Analytics",
+        "desc": "The foundation of every digital & AI initiative. Indonesia needs 9 million digital talents by 2030."
+      },
+      {
+        "rank": 3,
+        "name": "Cyber Security",
+        "desc": "~3,300 cyberattacks per week (highest in ASEAN); a shortage of ~100,000 experts; the market is growing at ~24% CAGR."
+      },
+      {
+        "rank": 4,
+        "name": "Cloud Computing",
+        "desc": "Investment in cloud regions & large data centers; the foundation for digital scale and AI adoption."
+      },
+      {
+        "rank": 5,
+        "name": "IoT & Automation / RPA",
+        "desc": "The key to Industry 4.0: predictive maintenance, digital twins, process automation (manufacturing & energy)."
+      }
+    ],
+    "topSoftSkills": [
+      {
+        "rank": 1,
+        "name": "Analytical Thinking",
+        "desc": "The No. 1 core soft skill per the WEF Future of Jobs 2025 — judged most essential by most employers."
+      },
+      {
+        "rank": 2,
+        "name": "Creative Thinking",
+        "desc": "The fastest-rising skill in value; the key to innovation in the age of automation & AI."
+      },
+      {
+        "rank": 3,
+        "name": "Resilience & Adaptability",
+        "desc": "Resilience in the face of rapid change; one of the most sought-after core skills toward 2030."
+      },
+      {
+        "rank": 4,
+        "name": "Leadership & Social Influence",
+        "desc": "Crucial for Managers & Executives to lead transformation and teams."
+      },
+      {
+        "rank": 5,
+        "name": "Curiosity & Lifelong Learning",
+        "desc": "39% of skills will change by 2030 — continuous learning ability becomes a must-have meta-skill."
+      }
+    ],
+    "industryComboRecommendations": [
+      {
+        "cluster": "Banking & Finance",
+        "hardSkill": "AI/ML, Big Data, Cyber Security",
+        "softSkill": "Analytical Thinking, Decision Making",
+        "useCase": "Fraud detection, credit scoring, compliance"
+      },
+      {
+        "cluster": "Healthcare & Education",
+        "hardSkill": "AI, Big Data, Immersive Tech",
+        "softSkill": "Communication, Creative Thinking",
+        "useCase": "Telemedicine, adaptive & VR learning"
+      },
+      {
+        "cluster": "Manufacturing, Mining & Energy",
+        "hardSkill": "IoT, Automation/RPA, Big Data",
+        "softSkill": "Problem Solving, Adaptability",
+        "useCase": "Industri 4.0, predictive maintenance, HSE"
+      },
+      {
+        "cluster": "Technology, Retail & FMCG",
+        "hardSkill": "AI, Cloud, Data Analytics",
+        "softSkill": "Creative Thinking, Agility",
+        "useCase": "Personalization, forecasting, supply chain"
+      }
+    ],
+    "applicationSteps": [
+      {
+        "no": 1,
+        "stage": "Skill Mapping",
+        "activity": "Map positions across the 4 dimensions"
+      },
+      {
+        "no": 2,
+        "stage": "Gap Analysis",
+        "activity": "Compare current level vs. target"
+      },
+      {
+        "no": 3,
+        "stage": "Curriculum Design",
+        "activity": "Choose priority cube cells"
+      },
+      {
+        "no": 4,
+        "stage": "Delivery",
+        "activity": "Blended: e-learning, workshops, projects"
+      },
+      {
+        "no": 5,
+        "stage": "Assessment",
+        "activity": "Measure proficiency gains & certification"
+      },
+      {
+        "no": 6,
+        "stage": "Impact",
+        "activity": "Productivity & employability evaluation"
+      }
+    ],
+    "successMetrics": [
+      {
+        "dimension": "Productivity",
+        "indicators": "Task time ↓, errors ↓, output per worker ↑, tool adoption"
+      },
+      {
+        "dimension": "Employability",
+        "indicators": "Level gains, certification, promotions & career mobility"
+      },
+      {
+        "dimension": "Organization",
+        "indicators": "Cost efficiency, speed of transformation, talent retention"
+      }
+    ]
+  },
+  "Membership": {
+    "eyebrow": "INOPI Membership",
+    "title": "Join the Innovation Ecosystem",
+    "intro": "Become part of Indonesia's community of educators, practitioners, and learning innovators. The total value of membership benefits reaches <b>{value}</b> per year.",
+    "totalValue": "IDR 11,600,000",
+    "register": "Apply Now",
+    "contact": "Contact us",
+    "categoriesTitle": "Membership Categories",
+    "perYear": "per year",
+    "perYearNote": "per year · {note}",
+    "choose": "Choose {name}",
+    "plans": {
+      "student": {
+        "name": "Student",
+        "desc": "For university and school students.",
+        "price": "IDR 250,000"
+      },
+      "professional": {
+        "name": "Professional",
+        "desc": "For lecturers, practitioners, and professionals.",
+        "price": "IDR 500,000"
+      },
+      "corporate": {
+        "name": "Corporate",
+        "desc": "For companies and institutions.",
+        "price": "IDR 5,000,000",
+        "note": "Covers 3 people"
+      }
+    },
+    "benefits": [
+      "Quarterly on-site events in Jakarta",
+      "Molen, the monthly national online learning event",
+      "NEXT EDU, the annual summit",
+      "Special rates for training",
+      "Special rates for assessment",
+      "Network opportunities",
+      "Special rates on EdTech services from fellow members",
+      "EdTech Lab consultation with PPOTD",
+      "Annual Industry Outlook",
+      "Career opportunities",
+      "Study experience"
+    ],
+    "stepsTitle": "How to Apply",
+    "steps": [
+      {
+        "title": "Choose a category",
+        "desc": "Student, Professional, or Corporate."
+      },
+      {
+        "title": "Fill in your details",
+        "desc": "Identity, institution, and areas of interest."
+      },
+      {
+        "title": "Submit & verification",
+        "desc": "The INOPI team reviews your details and emails you the next steps."
+      }
+    ],
+    "comparisonTitle": "Benefits Comparison",
+    "comparisonIntro": "The total value of membership benefits is {value} per year.",
+    "benefitColumn": "Benefit",
+    "included": "Included",
+    "notIncluded": "Not included",
+    "onsiteEyebrow": "On-Site Registration",
+    "onsiteTitle": "Register in person at the launch",
+    "onsiteBody": "A membership registration desk will be available at {eyebrow}, {dateLabel} at {venue}.",
+    "eventDetails": "Event Details",
+    "rightsTitle": "Member Rights & Responsibilities",
+    "rights": {
+      "title": "Member rights",
+      "body": "attend and speak at the General Assembly of Members; vote and stand for election in accordance with the Articles of Association and Bylaws; receive INOPI services, guidance, and information; propose programs; and receive the board's accountability reports."
+    },
+    "duties": {
+      "title": "Member responsibilities",
+      "body": "comply with the Articles of Association, Bylaws, and INOPI's code of ethics; take an active part in activities; uphold INOPI's reputation; pay the registration fee and annual membership fee; and provide accurate information and report any changes to member data."
+    },
+    "faqTitle": "Frequently Asked Questions",
+    "faqs": [
+      {
+        "q": "What membership categories does INOPI offer?",
+        "a": "There are three categories: Student for university and school students, Professional for lecturers and practitioners, and Corporate for companies and institutions, with a quota of three people."
+      },
+      {
+        "q": "What are Molen and NEXT EDU?",
+        "a": "Molen is a national-scale monthly online learning event held every month. NEXT EDU is INOPI's annual gathering, or summit. Both are open to all membership categories."
+      },
+      {
+        "q": "How do I apply?",
+        "a": "You can apply through the form on this site, or in person at {eyebrow}, {dateLabel} at {venue}."
+      },
+      {
+        "q": "What makes Corporate membership different?",
+        "a": "In addition to all core benefits, Corporate members receive special rates on EdTech services from fellow members, EdTech lab consultation by PPOTD, and the annual industry outlook."
+      },
+      {
+        "q": "How do I pay the membership fee?",
+        "a": "Payment information is sent by email after your application has been verified."
+      }
+    ]
+  },
+  "Forms": {
+    "failure": "Sorry, your message could not be sent. Please try again, or contact us directly at asosiasi.inopi@gmail.com.",
+    "privacyConsent": "I agree to INOPI collecting and using my personal data to process this request, in accordance with the",
+    "privacyPolicy": "Privacy Policy",
+    "rateLimited": "Too many attempts. Please try again in a few minutes."
+  },
+  "Validation": {
+    "nameMin": "Name must be at least 2 characters",
+    "emailInvalid": "Please enter a valid email address.",
+    "phoneInvalid": "Please enter a valid WhatsApp number",
+    "phoneTooLong": "The number is too long",
+    "institutionRequired": "Institution is required",
+    "max1000": "Please keep this under 1,000 characters.",
+    "privacyRequired": "You must agree to the privacy policy",
+    "phoneInvalidTel": "Please enter a valid phone number",
+    "orgRequired": "Organization name is required",
+    "orgTypeRequired": "Select an organization type",
+    "modelRequired": "Select at least one collaboration model",
+    "summaryMin": "Summary must be at least 10 characters",
+    "max1000plain": "Please keep this under 1,000 characters.",
+    "topicRequired": "Select a topic",
+    "subjectRequired": "Subject is required",
+    "messageMin": "Message must be at least 10 characters",
+    "max2000": "Please keep this under 2,000 characters."
+  },
+  "MembershipForm": {
+    "chooseCategory": "Choose a Category",
+    "perYear": "per year",
+    "next": "Continue →",
+    "back": "← Back",
+    "detailsTitle": "Your Details",
+    "fields": {
+      "nama": {
+        "label": "Full Name",
+        "placeholder": "Your full name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "email@institusi.ac.id"
+      },
+      "hp": {
+        "label": "WhatsApp Number",
+        "placeholder": "+62 812 3456 7890"
+      },
+      "institusi": {
+        "label": "Institution/Organization",
+        "placeholder": "Your university / company"
+      },
+      "jabatan": {
+        "label": "Position/Role (optional)",
+        "placeholder": "e.g. Lecturer, L&D Manager"
+      }
+    },
+    "interestsLabel": "Areas of Interest (optional)",
+    "interests": {
+      "Riset & Inovasi": "Research & Innovation",
+      "Implementasi & Pilot Project": "Implementation & Pilot Projects",
+      "Kemitraan": "Partnerships",
+      "Pelatihan & Sertifikasi": "Training & Certification",
+      "Kebijakan Pendidikan": "Education Policy"
+    },
+    "reasonLabel": "Reason for Joining (optional)",
+    "confirmTitle": "Confirmation",
+    "summary": {
+      "category": "Category",
+      "name": "Name",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "institution": "Institution",
+      "role": "Position/Role",
+      "interests": "Areas of Interest",
+      "fee": "Annual fee"
+    },
+    "afterSubmit": "After submitting, you will receive a registration number and payment instructions.",
+    "infoConsent": "I would like to receive information about INOPI events and programs by email or WhatsApp.",
+    "sending": "Sending…",
+    "submit": "Submit Application"
+  },
+  "MembershipThanks": {
+    "title": "Thank you — we have received your application.",
+    "text": "The INOPI team will review your details and send the next steps to the email address you provided.",
+    "home": "Back to home",
+    "events": "See INOPI events",
+    "registrationNumber": "Registration Number",
+    "category": "Category",
+    "paymentTitle": "Membership fee payment",
+    "bankLine": "{bank} · a.n. {accountName}",
+    "transferNote": "Include the registration number in the transfer note, then send the proof of transfer to {email}.",
+    "paymentByEmail": "Payment information is sent by email after your application has been verified. Keep the registration number above for reference."
+  },
+  "MembershipApply": {
+    "title": "Membership Application",
+    "intro": "Complete the form below to start your INOPI membership application."
+  },
+  "Kemitraan": {
+    "eyebrow": "Partnerships",
+    "title": "Build Impact Together with INOPI",
+    "intro": "We collaborate with universities, industry, government, and international organizations to turn learning ideas into measurable practice.",
+    "apply": "Propose a Partnership",
+    "whyTitle": "Why partner with INOPI",
+    "why": [
+      {
+        "title": "Cross-sector networks in one place.",
+        "desc": "INOPI's founders come from academia, industry, and government."
+      },
+      {
+        "title": "Proven expertise.",
+        "desc": "69% of founders were running training programs before INOPI was established (Insight Brief No. 01, June 2026 survey, n=26)."
+      },
+      {
+        "title": "A focus on impact.",
+        "desc": "Every collaboration is designed with clear objectives, indicators, and documentation."
+      }
+    ],
+    "typesTitle": "Partner types",
+    "types": [
+      {
+        "title": "Universities & Research Institutions",
+        "desc": "Joint research, publications, curriculum development, pilots in study programs."
+      },
+      {
+        "title": "Industry & EdTech",
+        "desc": "Solution trials, workforce competency development, talent link-and-match."
+      },
+      {
+        "title": "Government & Public Institutions",
+        "desc": "Policy studies, capacity building for educators and civil servants, regional pilot programs."
+      },
+      {
+        "title": "International Organizations",
+        "desc": "Knowledge exchange, regional forums, cross-border research collaboration."
+      }
+    ],
+    "modelsTitle": "Collaboration models",
+    "models": {
+      "riset": {
+        "title": "Collaborative Research",
+        "desc": "Joint studies and experiments in learning innovation."
+      },
+      "pilot": {
+        "title": "Pilot Projects & Implementation",
+        "desc": "Small, documented trials that can then be replicated."
+      },
+      "pelatihan": {
+        "title": "Training & Competency Development",
+        "desc": "Upskilling programs tailored to partner needs."
+      },
+      "acara": {
+        "title": "Events & Knowledge Exchange",
+        "desc": "Joint seminars, webinars, and forums."
+      },
+      "publikasi": {
+        "title": "Publications & Impact Studies",
+        "desc": "Public documentation of collaboration results."
+      }
+    },
+    "formTitle": "Partnership Proposal Form"
+  },
+  "KemitraanForm": {
+    "name": "Full name",
+    "email": "Email",
+    "phone": "Phone/WhatsApp",
+    "organization": "Organization name",
+    "orgType": "Organization type",
+    "orgTypePlaceholder": "Select an organization type",
+    "orgTypes": {
+      "Perguruan Tinggi": "University",
+      "Lembaga Riset": "Research Institution",
+      "Industri": "Industry",
+      "Startup EdTech": "EdTech Startup",
+      "Pemerintah": "Government",
+      "Organisasi Internasional": "International Organization",
+      "Lainnya": "Other"
+    },
+    "models": "Collaboration models of interest",
+    "summary": "Summary of your idea or need",
+    "startTime": "Expected start",
+    "startPlaceholder": "Select expected start",
+    "startTimes": {
+      "Dalam 3 bulan": "Within 3 months",
+      "3–6 bulan": "3–6 months",
+      "Lebih dari 6 bulan": "More than 6 months",
+      "Belum ditentukan": "Not decided yet"
+    },
+    "sending": "Sending...",
+    "submit": "Submit Proposal"
+  },
+  "KemitraanThanks": {
+    "title": "Thank you — we have received your partnership proposal.",
+    "text": "Our Partnerships & Collaboration Division will review your proposal and contact you by email.",
+    "home": "Back to home",
+    "programs": "View programs"
+  },
+  "Kontak": {
+    "title": "Contact us",
+    "intro": "The INOPI team is ready to help. Fill in the form below and we will respond within 24 hours.",
+    "info": [
+      {
+        "label": "Address",
+        "value": "SCBD, Treasury Tower Building, Kawasan District 8 LOT 28, Jalan Tulodong Atas 2 No. 28, Senayan Subdistrict, Kebayoran Baru District, South Jakarta Administrative City, DKI Jakarta Province, Postal Code: 12190"
+      },
+      {
+        "label": "Email",
+        "value": "asosiasi.inopi@gmail.com"
+      },
+      {
+        "label": "Phone",
+        "value": "+62 21 555 1234 (placeholder)"
+      },
+      {
+        "label": "Operating Hours",
+        "value": "Monday–Friday 09:00–17:00 WIB"
+      }
+    ]
+  },
+  "ContactForm": {
+    "name": "Name",
+    "namePlaceholder": "Your full name",
+    "email": "Email",
+    "emailPlaceholder": "email@domain.com",
+    "topic": "Topic",
+    "topicPlaceholder": "Select a topic",
+    "topics": {
+      "Keanggotaan": "Membership",
+      "Kemitraan": "Partnership",
+      "Program": "Programs",
+      "Media & Publikasi": "Media & Publications",
+      "Acara": "Events",
+      "Umum": "General"
+    },
+    "subject": "Subject",
+    "subjectPlaceholder": "Subject of your message",
+    "message": "Message",
+    "messagePlaceholder": "Write your message...",
+    "sending": "Sending...",
+    "submit": "Send message"
+  },
+  "KontakThanks": {
+    "title": "Your message has been sent.",
+    "text": "Thank you for contacting INOPI. We will reply by email.",
+    "home": "Back to home"
+  },
+  "LaunchPage": {
+    "details": {
+      "date": "Date",
+      "time": "Time",
+      "location": "Location"
+    },
+    "confirm": "Confirm Attendance →",
+    "openMap": "Open Location Map",
+    "posterAlt": "Poster {eyebrow}",
+    "brandTagline": "Together for a Brighter Learning Future",
+    "pillarsTitle": "Five Pillars of INOPI",
+    "pillars": [
+      {
+        "label": "People",
+        "desc": "Empowering Learners & Educators"
+      },
+      {
+        "label": "Learning",
+        "desc": "Advancing Learning Innovation"
+      },
+      {
+        "label": "Innovation",
+        "desc": "Exploring New Possibilities"
+      },
+      {
+        "label": "Collaboration",
+        "desc": "Connecting Ecosystem Stakeholders"
+      },
+      {
+        "label": "Impact",
+        "desc": "Creating Lasting Value"
+      }
+    ],
+    "rundownTitle": "Event Rundown",
+    "rundown": [
+      {
+        "time": "10:00–10:30",
+        "segment": "Founder call time"
+      },
+      {
+        "time": "11:00–12:00",
+        "segment": "Press conference"
+      },
+      {
+        "time": "11:00–12:50",
+        "segment": "Registration & break (ISHOMA)"
+      },
+      {
+        "time": "12:50–13:00",
+        "segment": "Call to seat"
+      },
+      {
+        "time": "13:00–13:05",
+        "segment": "Opening & Indonesia Raya (national anthem)"
+      },
+      {
+        "time": "13:05–13:10",
+        "segment": "Remarks from Komdigi"
+      },
+      {
+        "time": "13:10–13:15",
+        "segment": "Remarks from Kemendikdasmen"
+      },
+      {
+        "time": "13:15–13:20",
+        "segment": "Remarks from the Chair"
+      },
+      {
+        "time": "13:20–13:25",
+        "segment": "Introduction of the 26 founders"
+      },
+      {
+        "time": "13:25–13:40",
+        "segment": "Launch ceremony, membership invitation & group photo",
+        "highlight": true
+      },
+      {
+        "time": "13:40–14:00",
+        "segment": "Keynote"
+      },
+      {
+        "time": "14:00–14:50",
+        "segment": "Panel 1 — AI & Learning Innovation"
+      },
+      {
+        "time": "14:50–15:00",
+        "segment": "Break & coffee break"
+      },
+      {
+        "time": "15:00–15:50",
+        "segment": "Panel 2 — Building Indonesia's EdTech Ecosystem"
+      },
+      {
+        "time": "15:50–16:10",
+        "segment": "Closing remark & networking"
+      }
+    ],
+    "rundownNote": "Registration opens at 11:00 WIB. The schedule may change at any time.",
+    "speakersEyebrow": "Speakers",
+    "speakersTitle": "Resource Persons",
+    "speakers": [
+      {
+        "title": "Keynote",
+        "subtitle": "Beyond Technology"
+      },
+      {
+        "title": "Panel 1",
+        "subtitle": "AI & Learning Innovation"
+      },
+      {
+        "title": "Panel 2",
+        "subtitle": "Building Indonesia's EdTech Ecosystem"
+      },
+      {
+        "title": "Closing Remark"
+      }
+    ],
+    "moderator": "Moderator: {name}",
+    "mcLabel": "Masters of Ceremonies",
+    "locationEyebrow": "Event Location",
+    "directions": "Directions on Google Maps",
+    "valuesLabel": "INOPI Values",
+    "brandValues": [
+      "Modern",
+      "Human-Centered",
+      "Collaborative",
+      "Impactful"
+    ],
+    "about": "{positioning}. This event marks the start of cross-sector collaboration between academia, industry, and government in a single learning innovation ecosystem."
+  },
+  "Acara": {
+    "title": "INOPI Events",
+    "intro": "Forums, seminars, and training that bring Indonesia's learning innovation ecosystem together.",
+    "upcoming": "Upcoming Events",
+    "venueCity": "Jakarta",
+    "details": "View Details",
+    "routine": "Recurring Events",
+    "planned": "Planned",
+    "routineEvents": [
+      {
+        "title": "Molen",
+        "desc": "A monthly national online learning event."
+      },
+      {
+        "title": "NEXT EDU",
+        "desc": "The annual gathering of members and partners."
+      },
+      {
+        "title": "Quarterly on-site events",
+        "desc": "Member meet-ups in Jakarta every three months."
+      }
+    ]
+  },
+  "EventPage": {
+    "eyebrow": "INOPI Agenda",
+    "title": "Events & Activities",
+    "intro": "Forums, conferences, and collaborative activities of INOPI with academia, industry, and government.",
+    "nearest": "Next Up",
+    "posterAlt": "Poster {eyebrow}",
+    "link": "View event details →"
+  },
+  "Riset": {
+    "title": "Research & Publications",
+    "intro": "The INOPI research portal and publication database will be available soon. Content will be managed through Sanity CMS.",
+    "publications": "Publications",
+    "brief": "INOPI Insight Brief No. 01",
+    "briefTitle": "Competency Map of INOPI's 26 Founders: The Human Capital Behind Indonesia's Learning Innovation Ecosystem",
+    "briefMeta": "Research & Innovation Division · July 2026",
+    "briefSummary": "A survey of all 26 founders (19–27 June 2026) found an average of 22.8 years of professional experience, 69% already running training programs, and more than ten with direct expertise in AI.",
+    "download": "Download PDF (Bahasa Indonesia)"
+  },
+  "Berita": {
+    "title": "News & Articles",
+    "intro": "Latest news, opinion articles, and publications from the INOPI ecosystem.",
+    "categories": {
+      "Berita INOPI": "INOPI News",
+      "Artikel Opini": "Opinion Article",
+      "Research Digest": "Research Digest",
+      "Press Release": "Press Release"
+    },
+    "articles": [
+      {
+        "category": "INOPI News",
+        "title": "INOPI Officially Founded by 26 Indonesian Education Leaders",
+        "date": "11 Apr 2026",
+        "excerpt": "On 11 April 2026, 26 prominent figures from academia, industry, and professional communities officially founded INOPI."
+      },
+      {
+        "category": "Opinion Article",
+        "title": "AI in Education: Opportunities and Challenges in the Industry 5.0 Era",
+        "date": "15 Apr 2026",
+        "excerpt": "Integrating artificial intelligence into education systems opens transformative opportunities while also bringing challenges that need to be anticipated."
+      },
+      {
+        "category": "Research Digest",
+        "title": "Adaptive Learning Trends in Southeast Asia 2025–2026",
+        "date": "20 Apr 2026",
+        "excerpt": "A recent report shows adoption of adaptive learning systems rising 47% across Southeast Asia over the past two years."
+      }
+    ]
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "text": "The page you are looking for may have moved or is not available yet.",
+    "home": "Back to home",
+    "contact": "Contact us"
+  },
+  "Privacy": {
+    "title": "INOPI Privacy Policy",
+    "sections": [
+      {
+        "title": "1. Who we are",
+        "body": "This website is operated by Perkumpulan Asosiasi Inovasi Pembelajaran Indonesia (INOPI). INOPI is responsible for the personal data collected through this website."
+      },
+      {
+        "title": "2. Data we collect",
+        "intro": "We only collect data you provide directly through our forms:",
+        "items": [
+          "Membership form: name, email, WhatsApp number, institution, position, areas of interest, and membership category.",
+          "Partnership form: name, email, phone number (optional), organization, and collaboration details.",
+          "Contact form: name, email, topic, and message."
+        ],
+        "outro": "We may also collect anonymous website usage data (such as pages visited) to understand how the website is used. This data is not used to identify you personally."
+      },
+      {
+        "title": "3. How we use your data",
+        "items": [
+          "To process membership applications and fees.",
+          "To follow up on partnership proposals and enquiries.",
+          "To send information about INOPI activities, only if you have agreed to receive it.",
+          "To improve our website and services."
+        ]
+      },
+      {
+        "title": "4. Who can access your data",
+        "body": "Data is accessed only by INOPI board members responsible for handling the relevant request. We do not sell your personal data. We may use technology service providers (such as email and hosting services) that are bound to keep the data confidential."
+      },
+      {
+        "title": "5. Storage and security",
+        "body": "Data is stored with restricted access and reasonable technical safeguards, for as long as needed for the purposes above."
+      },
+      {
+        "title": "6. Your rights",
+        "body": "You may request access to, correction of, or deletion of your personal data, and withdraw your consent to receive activity information at any time. This policy follows the principles of Indonesia's Law No. 27 of 2022 on Personal Data Protection."
+      },
+      {
+        "title": "7. Contact us",
+        "body": "Send requests regarding your personal data to asosiasi.inopi@gmail.com with the subject \"Personal Data\"."
+      },
+      {
+        "title": "8. Changes to this policy",
+        "body": "This policy may be updated. The latest version is always available on this page."
+      }
+    ],
+    "note": "This is an English translation. If there is any difference between the English and Bahasa Indonesia versions, the Bahasa Indonesia version prevails."
+  },
+  "Meta": {
+    "acara": {
+      "title": "Events — INOPI",
+      "description": "INOPI forums, seminars, and training, including the INOPI Launching & Conference on 26 October 2026."
+    },
+    "berita": {
+      "title": "News & Articles — INOPI",
+      "description": "Latest news and opinion articles on learning innovation in Indonesia."
+    },
+    "event": {
+      "title": "Events & Activities — INOPI",
+      "description": "INOPI's activity calendar. Next up: {eyebrow}, {dateLabel} at {venue}."
+    },
+    "membershipApply": {
+      "title": "Apply for Membership — INOPI",
+      "description": "Complete the INOPI membership application form."
+    },
+    "membership": {
+      "title": "Membership — INOPI",
+      "description": "Join INOPI as a Student, Professional, or Corporate member and grow with Indonesia's learning innovation community."
+    },
+    "partnership": {
+      "title": "Partnerships — INOPI",
+      "description": "Build joint research, pilot projects, and competency development with the Indonesian Learning Innovation Association."
+    },
+    "contact": {
+      "title": "Contact — INOPI",
+      "description": "Get in touch with INOPI about membership, partnerships, programs, media, or events."
+    },
+    "privacy": {
+      "title": "Privacy Policy — INOPI",
+      "description": "How INOPI collects, uses, and protects the personal data of website users."
+    },
+    "programImplementation": {
+      "title": "Programs & Implementation Division — INOPI",
+      "description": "The association's executor — running pilot programs, monitoring, and documenting innovation impact."
+    },
+    "programPartnership": {
+      "title": "Partnerships & Collaboration Division — INOPI",
+      "description": "The association's network builder — building strategic networks with universities, industry, and government."
+    },
+    "programs": {
+      "title": "Programs — INOPI",
+      "description": "Research, implementation, partnerships, and training programs of the Indonesian Learning Innovation Association."
+    },
+    "programTraining": {
+      "title": "Training & Certification Division — INOPI",
+      "description": "The association's capacity builder — raising workforce competency through structured training, a catalog of 10 training programs, and the INOPI Skills Cube methodology."
+    },
+    "programResearch": {
+      "title": "Research & Innovation Division — INOPI",
+      "description": "The association's think tank — developing the research agenda, frameworks, and scholarly publications for learning innovation."
+    },
+    "research": {
+      "title": "Research & Publications — INOPI",
+      "description": "INOPI's publication database and research results."
+    },
+    "founders": {
+      "title": "Our Founders — INOPI",
+      "description": "26 prominent figures from academia, industry, and professional communities who founded INOPI."
+    },
+    "about": {
+      "title": "About — INOPI",
+      "description": "Who we are, our vision, mission, values, founders, and organizational structure."
+    },
+    "history": {
+      "title": "History & Background — INOPI",
+      "description": "INOPI's journey from a collaborative idea to Indonesia's leading learning innovation association."
+    },
+    "organization": {
+      "title": "Organizational Structure — INOPI",
+      "description": "INOPI's organizational structure and board — Indonesian Learning Innovation Association."
+    },
+    "governance": {
+      "title": "Governance & Legal Information — INOPI",
+      "description": "Legal identity, governance structure, and accountability of the Indonesian Learning Innovation Association."
+    },
+    "visionMission": {
+      "title": "Vision & Mission — INOPI",
+      "description": "INOPI's strategic vision and mission for building Indonesia's learning innovation ecosystem."
+    },
+    "thanks": {
+      "title": "Thank You — INOPI"
+    },
+    "notFound": {
+      "title": "Page not found — INOPI"
+    },
+    "launching": {
+      "title": "{eyebrow} — {title}",
+      "description": "{tagline}. {dateLabel}, {timeLabel} at {venue}, {venueAddress}.",
+      "ogDescription": "{dateLabel} · {timeLabel} · {venue}"
+    },
+    "site": {
+      "title": "INOPI — Indonesian Learning Innovation Association",
+      "description": "Connecting academia, industry, and government to turn learning innovation into real impact in Indonesia.",
+      "keywords": [
+        "INOPI",
+        "learning innovation",
+        "edtech indonesia",
+        "education association"
+      ]
+    }
+  },
+  "CopyButton": {
+    "copied": "{label} copied",
+    "failed": "Could not copy. Please copy it manually.",
+    "done": "Copied",
+    "copy": "Copy"
+  },
+  "Common": {
+    "close": "Close"
   }
 }

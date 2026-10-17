@@ -24,6 +24,11 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
         <h1 className="font-display font-bold mb-8" style={{ fontSize: 'clamp(24px,4vw,36px)', color: 'var(--inopi-espresso)' }}>
           {t('title')}
         </h1>
+        {t.has('note') && (
+          <p className="font-body text-[13px] italic mb-8" style={{ color: 'var(--inopi-taupe-strong)' }}>
+            {t('note')}
+          </p>
+        )}
         <div className="space-y-8">
           {sections.map((s) => (
             <section key={s.title}>
