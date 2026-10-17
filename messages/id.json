@@ -414,5 +414,56 @@
       "Deputi Direktur Pelatihan & Sertifikasi": "Deputi Direktur Pelatihan & Sertifikasi",
       "Deputi Direktur Kemitraan & Kerjasama": "Deputi Direktur Kemitraan & Kerjasama"
     }
+  },
+  "StrukturOrg": {
+    "badge": "Organisasi INOPI",
+    "title": "Struktur Organisasi",
+    "intro": "Pengurus dan divisi-divisi INOPI yang bekerja sinergis untuk mewujudkan visi organisasi.",
+    "councils": [
+      {
+        "title": "Dewan Pembina",
+        "description": "Menjaga visi jangka panjang, membuka akses ke ekosistem kebijakan pendidikan nasional."
+      },
+      {
+        "title": "Dewan Pengawas",
+        "description": "Memastikan program dan keuangan sesuai AD/ART dan regulasi."
+      },
+      {
+        "title": "Dewan Pakar",
+        "description": "Memberikan legitimasi akademik dan arah inovasi berbasis evidence."
+      }
+    ],
+    "leadershipTitle": "Pimpinan & Sekretariat",
+    "leadership": [
+      "Ketua Umum",
+      "Wakil Ketua Umum",
+      "Sekretaris Jenderal",
+      "Bendahara Umum"
+    ],
+    "divisionsTitle": "Divisi-Divisi",
+    "divisions": [
+      {
+        "title": "Riset & Inovasi",
+        "role": "Think tank asosiasi",
+        "orientation": "Akademik & Ilmiah"
+      },
+      {
+        "title": "Program & Implementasi",
+        "role": "Executor asosiasi",
+        "orientation": "Operasional"
+      },
+      {
+        "title": "Kemitraan & Kerjasama",
+        "role": "Network builder",
+        "orientation": "Relasional & Strategis"
+      },
+      {
+        "title": "Pelatihan & Sertifikasi",
+        "role": "Capacity builder",
+        "orientation": "Profesional & Kompetensi"
+      }
+    ],
+    "pic": "PIC: {names}",
+    "viewProgram": "Lihat Program Kerja →"
   }
 }

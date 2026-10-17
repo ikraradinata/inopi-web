@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import {
   IconShieldCheck,
   IconEye,
@@ -19,71 +20,59 @@ export const metadata: Metadata = {
 
 const orgSections = [
   {
-    title: 'Dewan Pembina',
     icon: IconShieldCheck,
-    description: 'Menjaga visi jangka panjang, membuka akses ke ekosistem kebijakan pendidikan nasional.',
     members: ['Pony Halim', 'Gogot Suharwoto', 'M. Aditya Warman', 'Bonifasius W. Pudjianto', 'Subchan Gatot', 'Heru Dewanto'],
     accent: 'var(--inopi-espresso)',
   },
   {
-    title: 'Dewan Pengawas',
     icon: IconEye,
-    description: 'Memastikan program dan keuangan sesuai AD/ART dan regulasi.',
     members: ['Paulina Pannen', 'Tutut Handayani', 'Bambang Yapri'],
     accent: 'var(--inopi-teal)',
   },
   {
-    title: 'Dewan Pakar',
     icon: IconBrain,
-    description: 'Memberikan legitimasi akademik dan arah inovasi berbasis evidence.',
     members: ['Stephen Ng', 'Tyo Guritno', 'Kun Wardana', 'Ferry Sutanto', 'Jahja'],
     accent: 'var(--inopi-teal-strong)',
   },
 ]
 
 const pimpinan = [
-  { jabatan: 'Ketua Umum', name: 'Meyliana', icon: IconCrown },
-  { jabatan: 'Wakil Ketua Umum', name: 'Sunardi', icon: IconCrown },
-  { jabatan: 'Sekretaris Jenderal', name: 'Idha Kristiana', icon: IconFileText },
-  { jabatan: 'Bendahara Umum', name: 'Ikrar Adinata Arin', icon: IconCoin },
+  { name: 'Meyliana', icon: IconCrown },
+  { name: 'Sunardi', icon: IconCrown },
+  { name: 'Idha Kristiana', icon: IconFileText },
+  { name: 'Ikrar Adinata Arin', icon: IconCoin },
 ]
 
 const divisi = [
   {
-    title: 'Riset & Inovasi',
     icon: IconFlask,
     pic: 'Bobi Kurniawan, Nunik Afriliana',
-    role: 'Think tank asosiasi',
-    orientation: 'Akademik & Ilmiah',
     href: '/program/riset-inovasi',
   },
   {
-    title: 'Program & Implementasi',
     icon: IconRocket,
     pic: 'Nita Felia Pambudi, Yasser Muhammad Syaiful',
-    role: 'Executor asosiasi',
-    orientation: 'Operasional',
     href: '/program/implementasi',
   },
   {
-    title: 'Kemitraan & Kerjasama',
     icon: IconNetwork,
     pic: 'Victor Osman, Siti Elda Hiererra',
-    role: 'Network builder',
-    orientation: 'Relasional & Strategis',
     href: '/program/kemitraan',
   },
   {
-    title: 'Pelatihan & Sertifikasi',
     icon: IconCertificate,
     pic: 'Andy Febrico Bintoro, Daniel Adhinugraha W.',
-    role: 'Capacity builder',
-    orientation: 'Profesional & Kompetensi',
     href: '/program/pelatihan-sertifikasi',
   },
 ]
 
-export default function StrukturOrganisasiPage() {
+export default async function StrukturOrganisasiPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'StrukturOrg' })
+  const councils = t.raw('councils') as { title: string; description: string }[]
+  const leadership = t.raw('leadership') as string[]
+  const divisions = t.raw('divisions') as { title: string; role: string; orientation: string }[]
   return (
     <div className="py-14">
       <div className="container">
@@ -93,23 +82,23 @@ export default function StrukturOrganisasiPage() {
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
             style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-teal)' }}
           >
-            Organisasi INOPI
+            {t('badge')}
           </div>
           <h1 className="font-display font-bold mb-3" style={{ fontSize: 'clamp(24px,4vw,36px)', color: 'var(--inopi-espresso)' }}>
-            Struktur Organisasi
+            {t('title')}
           </h1>
           <p className="font-body text-[14px] max-w-xl mx-auto" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            Pengurus dan divisi-divisi INOPI yang bekerja sinergis untuk mewujudkan visi organisasi.
+            {t('intro')}
           </p>
         </div>
 
         {/* Dewan-Dewan */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {orgSections.map((section) => {
+          {orgSections.map((section, i) => {
             const Icon = section.icon
             return (
               <div
-                key={section.title}
+                key={councils[i].title}
                 className="rounded-[12px] p-5 border bg-white"
                 style={{ borderColor: 'var(--inopi-sand)' }}
               >
@@ -121,11 +110,11 @@ export default function StrukturOrganisasiPage() {
                     <Icon size={16} style={{ color: section.accent }} />
                   </div>
                   <h2 className="font-display font-bold text-[15px]" style={{ color: 'var(--inopi-espresso)' }}>
-                    {section.title}
+                    {councils[i].title}
                   </h2>
                 </div>
                 <p className="font-body text-[12px] leading-relaxed mb-4" style={{ color: 'var(--inopi-taupe-strong)' }}>
-                  {section.description}
+                  {councils[i].description}
                 </p>
                 <div className="space-y-1.5">
                   {section.members.map((member) => (
@@ -150,13 +139,13 @@ export default function StrukturOrganisasiPage() {
         {/* Pimpinan */}
         <div className="mb-10">
           <h2 className="font-display font-bold text-[18px] mb-5 text-center" style={{ color: 'var(--inopi-espresso)' }}>
-            Pimpinan & Sekretariat
+            {t('leadershipTitle')}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {pimpinan.map((p) => {
+            {pimpinan.map((p, i) => {
               return (
                 <div
-                  key={p.jabatan}
+                  key={leadership[i]}
                   className="rounded-[12px] p-5 text-center border bg-white"
                   style={{ borderColor: 'var(--inopi-sand)' }}
                 >
@@ -170,7 +159,7 @@ export default function StrukturOrganisasiPage() {
                     {p.name}
                   </p>
                   <p className="font-body text-[12px] mt-0.5" style={{ color: 'var(--inopi-teal-strong)' }}>
-                    {p.jabatan}
+                    {leadership[i]}
                   </p>
                 </div>
               )
@@ -181,14 +170,14 @@ export default function StrukturOrganisasiPage() {
         {/* Divisi */}
         <div>
           <h2 className="font-display font-bold text-[18px] mb-5 text-center" style={{ color: 'var(--inopi-espresso)' }}>
-            Divisi-Divisi
+            {t('divisionsTitle')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {divisi.map((d) => {
+            {divisi.map((d, i) => {
               const Icon = d.icon
               return (
                 <a
-                  key={d.title}
+                  key={divisions[i].title}
                   href={d.href}
                   className="rounded-[12px] p-5 border bg-white transition-all hover:border-[var(--inopi-teal-strong)] hover:shadow-hover block"
                   style={{ borderColor: 'var(--inopi-sand)' }}
@@ -202,18 +191,18 @@ export default function StrukturOrganisasiPage() {
                     </div>
                     <div>
                       <h3 className="font-display font-semibold text-[14px]" style={{ color: 'var(--inopi-espresso)' }}>
-                        {d.title}
+                        {divisions[i].title}
                       </h3>
                       <span className="font-body text-[11px]" style={{ color: 'var(--inopi-sage-strong)' }}>
-                        {d.role} · {d.orientation}
+                        {divisions[i].role} · {divisions[i].orientation}
                       </span>
                     </div>
                   </div>
                   <p className="font-body text-[12px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
-                    PIC: {d.pic}
+                    {t('pic', { names: d.pic })}
                   </p>
                   <span className="font-body text-[12px] mt-2 block" style={{ color: 'var(--inopi-teal-strong)' }}>
-                    Lihat Program Kerja →
+                    {t('viewProgram')}
                   </span>
                 </a>
               )
