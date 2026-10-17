@@ -275,14 +275,13 @@ describe('pendaftaran jalur A', () => {
     expect(env.call({ action: 'register', category: 'student', reservationToken: r2.token, uploadToken: u.uploadToken, ...person, email: 'b@example.com' }).error).toBe('upload_not_found')
   })
 
-  it('menolak: pesanan tidak ada, kategori tidak cocok, Corporate, tanpa persetujuan', () => {
+  it('menolak: pesanan tidak ada, kategori tidak cocok, tanpa persetujuan', () => {
     const env = createRegistryEnv()
     const u = upload(env)
     const r = reserve(env, 'professional')
     const base = { action: 'register', uploadToken: u.uploadToken, ...person }
     expect(env.call({ ...base, category: 'student', reservationToken: 'tidak-ada' }).error).toBe('reservation_not_found')
     expect(env.call({ ...base, category: 'student', reservationToken: r.token }).error).toBe('reservation_mismatch')
-    expect(env.call({ ...base, category: 'corporate', reservationToken: r.token }).error).toBe('corporate_flow')
     expect(env.call({ ...base, category: 'professional', reservationToken: r.token, consent: false }).error).toBe('consent_required')
     expect(regRows(env)).toHaveLength(0)
   })
@@ -385,5 +384,104 @@ describe('tanda terima', () => {
     expect(text).not.toContain('siti@example.com')
     expect(text).not.toContain('081234567890')
     expect(text).not.toContain('Siti Uji')
+  })
+})
+
+const corp = {
+  organization: 'PT Inovasi Uji',
+  name: 'Budi PIC',
+  position: 'Direktur SDM',
+  email: 'budi@ptuji.co.id',
+  whatsapp: '081200001111',
+  country: 'ID',
+  useSeat1: true,
+  needInvoice: false,
+  billingAddress: '',
+  locale: 'id',
+  consent: true,
+}
+const sheetRows = (env: RegistryEnv, name: string) => env.ss.getSheetByName(name)!.rows.slice(1)
+
+describe('pendaftaran Corporate', () => {
+  it('mencatat pendaftaran, perusahaan, dan 3 kursi tersedia tanpa kode', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env, corp, 'corporate')
+    expect(res).toMatchObject({ ok: true, category: 'corporate', status: 'Menunggu Verifikasi' })
+    expect(res.regNumber).toMatch(/^INP-\d\d-C-0001$/)
+    expect(res.transferAmount).toBeGreaterThan(MEMBERSHIP_PRICES.corporate)
+    expect(res.transferAmount).toBeLessThan(MEMBERSHIP_PRICES.corporate + 1000)
+
+    const reg = regRows(env)[0]
+    expect(reg[H(env, 'Kategori')]).toBe('corporate')
+    expect(reg[H(env, 'Nama Lengkap')]).toBe('Budi PIC')
+    expect(reg[H(env, 'Institusi')]).toBe('PT Inovasi Uji')
+    expect(reg[H(env, 'Iuran (Rp)')]).toBe(5_000_000)
+
+    const orgs = sheetRows(env, 'Perusahaan')
+    expect(orgs).toHaveLength(1)
+    expect(orgs[0][1]).toBe(res.regNumber)
+    expect(orgs[0][2]).toBe('PT Inovasi Uji')
+    expect(orgs[0][8]).toBe('Ya')
+    expect(orgs[0][9]).toBe('Tidak')
+
+    const seats = sheetRows(env, 'Kursi')
+    expect(seats).toHaveLength(3)
+    seats.forEach((seat, i) => {
+      expect(seat[1]).toBe(res.regNumber)
+      expect(seat[2]).toBe(i + 1)
+      expect(seat[3]).toBe('') // belum ada kode kursi
+      expect(seat[4]).toBe('Tersedia')
+      expect(seat[5]).toBe('')
+    })
+  })
+
+  it('menyimpan permintaan invoice beserta alamat; toggle kursi 1 bisa dimatikan', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env, { ...corp, useSeat1: false, needInvoice: true, billingAddress: 'Jl. Sudirman No. 1, Jakarta' }, 'corporate')
+    expect(res.ok).toBe(true)
+    const org = sheetRows(env, 'Perusahaan')[0]
+    expect(org[8]).toBe('Tidak')
+    expect(org[9]).toBe('Ya')
+    expect(org[10]).toBe('Jl. Sudirman No. 1, Jakarta')
+  })
+
+  it('wajib alamat penagihan bila butuh invoice, dan jabatan PIC', () => {
+    const env = createRegistryEnv()
+    expect(fullRegister(env, { ...corp, needInvoice: true, billingAddress: 'x' }, 'corporate').res.error).toBe('invalid_billing')
+    expect(fullRegister(env, { ...corp, position: '' }, 'corporate').res.error).toBe('invalid_position')
+    expect(fullRegister(env, { ...corp, organization: '' }, 'corporate').res.error).toBe('invalid_institution')
+    expect(regRows(env)).toHaveLength(0)
+    expect(sheetRows(env, 'Kursi')).toHaveLength(0)
+  })
+
+  it('kirim ganda dengan pesanan sama tidak membuat perusahaan atau kursi ganda', () => {
+    const env = createRegistryEnv()
+    const r = reserve(env, 'corporate')
+    const u = upload(env)
+    const call = () => env.call({ action: 'register', category: 'corporate', reservationToken: r.token, uploadToken: u.uploadToken, ...corp })
+    const a = call()
+    const b = call()
+    expect(b.regNumber).toBe(a.regNumber)
+    expect(regRows(env)).toHaveLength(1)
+    expect(sheetRows(env, 'Perusahaan')).toHaveLength(1)
+    expect(sheetRows(env, 'Kursi')).toHaveLength(3)
+  })
+
+  it('nomor urut Corporate terpisah dari kategori lain dan menaik', () => {
+    const env = createRegistryEnv()
+    fullRegister(env)
+    const a = fullRegister(env, corp, 'corporate').res
+    const b = fullRegister(env, { ...corp, email: 'lain@ptuji.co.id' }, 'corporate').res
+    expect(a.regNumber).toMatch(/-C-0001$/)
+    expect(b.regNumber).toMatch(/-C-0002$/)
+    expect(sheetRows(env, 'Kursi')).toHaveLength(6)
+  })
+
+  it('mencegah injeksi rumus pada nama institusi dan alamat', () => {
+    const env = createRegistryEnv()
+    fullRegister(env, { ...corp, organization: '=HYPERLINK("http://x")', needInvoice: true, billingAddress: '=cmd|calc halo dunia' }, 'corporate')
+    const org = sheetRows(env, 'Perusahaan')[0]
+    expect(String(org[2]).startsWith("'=")).toBe(true)
+    expect(String(org[10]).startsWith("'=")).toBe(true)
   })
 })

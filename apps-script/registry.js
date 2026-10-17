@@ -17,9 +17,13 @@ var CFG = {
   SHEET_REG: 'Pendaftaran',
   SHEET_RES: 'Reservasi',
   SHEET_UP: 'Unggahan',
+  SHEET_ORG: 'Perusahaan',
+  SHEET_SEAT: 'Kursi',
   FOLDER_NAME: 'INOPI - Bukti Transfer',
   PRICES: { student: 250000, professional: 500000, corporate: 5000000 },
   LETTER: { student: 'S', professional: 'P', corporate: 'C' },
+  CORPORATE_SEATS: 3,
+  SEAT_AVAILABLE: 'Tersedia',
   CODE_MIN: 1,
   CODE_MAX: 999,
   RESERVE_HOURS: 24,
@@ -45,6 +49,16 @@ var REG_HEADERS = [
 ];
 var RES_HEADERS = ['Token', 'Kategori', 'Kode Unik', 'Berlaku Sampai', 'Terpakai Pada', 'No. Pendaftaran'];
 var UP_HEADERS = ['Token', 'File ID', 'Tipe', 'Ukuran (byte)', 'Dibuat', 'Terpakai Pada'];
+var ORG_HEADERS = [
+  'ID Perusahaan', 'No. Pendaftaran', 'Nama Institusi', 'Negara',
+  'Nama PIC', 'Jabatan PIC', 'Email PIC', 'WhatsApp PIC',
+  'PIC Memakai Kursi 1', 'Butuh Invoice', 'Alamat Penagihan', 'Dibuat',
+];
+// Kode Kursi sengaja kosong sampai Bendahara mengaktifkan pendaftaran; kursi tanpa kode tidak bisa dipakai.
+var SEAT_HEADERS = [
+  'ID Perusahaan', 'No. Pendaftaran', 'Kursi Ke', 'Kode Kursi', 'Status Kursi',
+  'Nama Pemegang', 'Email Pemegang', 'Diklaim Pada',
+];
 
 var ALLOWED_PROOF_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
 var PROOF_EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'application/pdf': 'pdf' };
@@ -162,9 +176,9 @@ function actionUpload(req) {
 
 function actionRegister(req) {
   var category = req.category;
-  if (category === 'corporate') throw regErr('corporate_flow');
   if (!CFG.PRICES[category]) throw regErr('invalid_category');
-  var data = validateRegistrant(req);
+  var corporate = category === 'corporate';
+  var data = corporate ? validateCorporate(req) : validateRegistrant(req);
   if (req.consent !== true) throw regErr('consent_required');
 
   var resSheet = sheet(CFG.SHEET_RES);
@@ -227,6 +241,8 @@ function actionRegister(req) {
   values[col('No. Anggota')] = regNumber;
   sheet(CFG.SHEET_REG).appendRow(values);
 
+  if (corporate) createOrganization(regNumber, yy, seq, data, now);
+
   resSheet.getRange(resRow.row, 5, 1, 2).setValues([[now, regNumber]]);
   upSheet.getRange(upRow.row, 6, 1, 1).setValues([[now]]);
 
@@ -275,6 +291,41 @@ function validateRegistrant(req) {
   return { name: name, email: email, whatsapp: whatsapp, occupation: occupation, position: position, institution: institution, country: country, locale: locale };
 }
 
+/**
+ * Pendaftaran Corporate: PIC mendaftarkan institusinya. Dipetakan ke kolom Pendaftaran yang sama
+ * (Nama = PIC, Institusi = nama perusahaan/kampus, Pekerjaan = jabatan PIC).
+ */
+function validateCorporate(req) {
+  var org = clean(req.organization, 160);
+  if (clean(req.position, 120).length < 2) throw regErr('invalid_position');
+  var base = validateRegistrant({
+    name: req.name, email: req.email, whatsapp: req.whatsapp,
+    occupation: req.position, position: req.position, institution: org,
+    country: req.country, locale: req.locale,
+  });
+  var needInvoice = req.needInvoice === true;
+  var billing = clean(req.billingAddress, 400);
+  if (needInvoice && billing.length < 10) throw regErr('invalid_billing');
+  base.useSeat1 = req.useSeat1 !== false;
+  base.needInvoice = needInvoice;
+  base.billingAddress = needInvoice ? billing : '';
+  return base;
+}
+
+/** Mencatat Perusahaan dan 3 kursi "Tersedia" (belum berkode, belum bisa dipakai). */
+function createOrganization(regNumber, yy, seq, data, now) {
+  var orgId = 'ORG-' + yy + '-' + pad(seq, 4);
+  sheet(CFG.SHEET_ORG).appendRow([
+    orgId, regNumber, safeCell(data.institution), data.country,
+    safeCell(data.name), safeCell(data.position), safeCell(data.email), safeCell(data.whatsapp),
+    data.useSeat1 ? 'Ya' : 'Tidak', data.needInvoice ? 'Ya' : 'Tidak', safeCell(data.billingAddress), now,
+  ]);
+  var seats = [];
+  for (var n = 1; n <= CFG.CORPORATE_SEATS; n++) seats.push([orgId, regNumber, n, '', CFG.SEAT_AVAILABLE, '', '', '']);
+  var sh = sheet(CFG.SHEET_SEAT);
+  sh.getRange(sh.getLastRow() + 1, 1, seats.length, SEAT_HEADERS.length).setValues(seats);
+}
+
 function clean(v, max) {
   return String(v == null ? '' : v).replace(/[\u0000-\u001f\u007f]+/g, ' ').trim().slice(0, max);
 }
@@ -297,7 +348,11 @@ function notifyTreasurer(regNumber, category, data, amount) {
         'Kategori        : ' + category + '\n' +
         'Nominal transfer: Rp ' + amount + '\n' +
         'Nama            : ' + data.name + '\n' +
-        'Institusi       : ' + data.institution + '\n\n' +
+        'Institusi       : ' + data.institution + '\n' +
+        (category === 'corporate'
+          ? 'Butuh invoice   : ' + (data.needInvoice ? 'Ya (alamat di tab "' + CFG.SHEET_ORG + '")' : 'Tidak') + '\n'
+          : '') +
+        '\n' +
         'Cocokkan nominal dengan mutasi rekening, lalu ubah kolom Status di tab "' + CFG.SHEET_REG + '".',
     });
   } catch (err) {
@@ -323,6 +378,8 @@ function ensureSheets() {
   ensureSheet(CFG.SHEET_REG, REG_HEADERS, false);
   ensureSheet(CFG.SHEET_RES, RES_HEADERS, true);
   ensureSheet(CFG.SHEET_UP, UP_HEADERS, true);
+  ensureSheet(CFG.SHEET_ORG, ORG_HEADERS, false);
+  ensureSheet(CFG.SHEET_SEAT, SEAT_HEADERS, false);
 }
 
 function ensureSheet(name, headers, hidden) {
@@ -359,7 +416,13 @@ function readRows(sh) {
 }
 
 function headerWidth(sh) {
-  return sh.getName() === CFG.SHEET_REG ? REG_HEADERS.length : sh.getName() === CFG.SHEET_RES ? RES_HEADERS.length : UP_HEADERS.length;
+  var all = {};
+  all[CFG.SHEET_REG] = REG_HEADERS;
+  all[CFG.SHEET_RES] = RES_HEADERS;
+  all[CFG.SHEET_UP] = UP_HEADERS;
+  all[CFG.SHEET_ORG] = ORG_HEADERS;
+  all[CFG.SHEET_SEAT] = SEAT_HEADERS;
+  return all[sh.getName()].length;
 }
 
 /** Mencari baris yang kolom `colIndex`-nya sama persis dengan `value`. */

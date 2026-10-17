@@ -2644,7 +2644,10 @@
     "occupationRequired": "Pekerjaan wajib diisi",
     "countryRequired": "Pilih negara",
     "categoryRequired": "Pilih jenis keanggotaan",
-    "proofRequired": "Unggah bukti transfer"
+    "proofRequired": "Unggah bukti transfer",
+    "positionRequired": "Jabatan wajib diisi",
+    "billingRequired": "Alamat penagihan minimal 10 karakter",
+    "max400": "Maksimal 400 karakter"
   },
   "MembershipForm": {
     "steps": [
@@ -2759,7 +2762,15 @@
     "home": "Kembali ke Beranda",
     "events": "Lihat Acara INOPI",
     "notFoundTitle": "Pendaftaran tidak ditemukan",
-    "notFoundText": "Tautan ini tidak sah atau sudah tidak berlaku. Jika Anda sudah mendaftar, periksa email Anda atau hubungi sekretariat."
+    "notFoundText": "Tautan ini tidak sah atau sudah tidak berlaku. Jika Anda sudah mendaftar, periksa email Anda atau hubungi sekretariat.",
+    "corporateIntro": "Pendaftaran Corporate untuk institusi Anda sudah kami terima.",
+    "corporateNextTitle": "Langkah berikutnya",
+    "corporateSteps": [
+      "Bendahara memverifikasi pembayaran Anda (maksimal {hours} jam kerja).",
+      "Setelah terverifikasi, PIC menerima 3 kode kursi lewat email.",
+      "Rekan Anda mendaftar sendiri dengan kode tersebut, tanpa membayar lagi."
+    ],
+    "corporateNote": "Kode kursi belum tersedia. Kode dikirim ke email PIC setelah pembayaran diverifikasi."
   },
   "MembershipApply": {
     "title": "Pendaftaran Keanggotaan",
@@ -3272,6 +3283,10 @@
         "edtech indonesia",
         "asosiasi pendidikan"
       ]
+    },
+    "membershipCorporate": {
+      "title": "Pendaftaran Corporate — INOPI",
+      "description": "Daftarkan institusi Anda sebagai anggota Corporate INOPI: 3 kursi dalam satu keanggotaan."
     }
   },
   "CopyButton": {
@@ -3289,5 +3304,75 @@
     "text": "Halaman ini sedang disiapkan. Untuk sementara, hubungi sekretariat INOPI.",
     "contact": "Hubungi sekretariat",
     "back": "Kembali ke pendaftaran"
+  },
+  "MembershipCorporate": {
+    "title": "Pendaftaran Corporate",
+    "intro": "Daftarkan institusi Anda sebagai anggota Corporate. Prosesnya sekitar 3 menit.",
+    "steps": [
+      "Data institusi",
+      "Pembayaran"
+    ],
+    "stepCounter": "Langkah {current} dari 2",
+    "back": "Kembali ke pilihan keanggotaan",
+    "institution": {
+      "title": "Data institusi",
+      "intro": "Anda mendaftar sebagai PIC (penanggung jawab) untuk institusi Anda. Keanggotaan Corporate mencakup 3 kursi.",
+      "fields": {
+        "organisasi": {
+          "label": "Nama perusahaan / kampus",
+          "placeholder": "Nama institusi"
+        },
+        "negara": {
+          "label": "Negara"
+        }
+      }
+    },
+    "pic": {
+      "title": "Data PIC",
+      "intro": "PIC menerima kode kursi dan menjadi kontak INOPI untuk institusi ini.",
+      "fields": {
+        "nama": {
+          "label": "Nama lengkap PIC",
+          "placeholder": "Sesuai identitas"
+        },
+        "jabatan": {
+          "label": "Jabatan",
+          "placeholder": "mis. Direktur SDM"
+        },
+        "email": {
+          "label": "Email kantor",
+          "placeholder": "nama@perusahaan.co.id"
+        },
+        "hp": {
+          "label": "Nomor WhatsApp",
+          "placeholder": "0812 3456 7890"
+        }
+      }
+    },
+    "seat1": {
+      "label": "Saya memakai kursi 1",
+      "hint": "Kursi 1 otomatis atas nama Anda dan kartu anggota Anda aktif setelah pembayaran diverifikasi. Matikan bila kursi ini akan diberikan kepada orang lain."
+    },
+    "summary": "{seats} kursi · {amount} per tahun",
+    "next": "Lanjut ke pembayaran",
+    "reserving": "Menyiapkan pembayaran…",
+    "invoice": {
+      "label": "Butuh invoice?",
+      "yes": "Ya, butuh invoice",
+      "no": "Tidak perlu",
+      "address": {
+        "label": "Alamat penagihan",
+        "placeholder": "Nama penerima, alamat lengkap, kode pos"
+      },
+      "hint": "Sekretariat akan menghubungi PIC lewat email untuk menyiapkan invoice."
+    },
+    "submit": {
+      "button": "Kirim pendaftaran Corporate"
+    },
+    "errors": {
+      "invalid_position": "Jabatan PIC wajib diisi.",
+      "invalid_billing": "Alamat penagihan wajib diisi lengkap bila butuh invoice.",
+      "invalid_data": "Data belum lengkap. Periksa kembali isian Anda."
+    }
   }
 }

@@ -2644,7 +2644,10 @@
     "occupationRequired": "Occupation is required",
     "countryRequired": "Select a country",
     "categoryRequired": "Choose a membership type",
-    "proofRequired": "Upload your proof of transfer"
+    "proofRequired": "Upload your proof of transfer",
+    "positionRequired": "Position is required",
+    "billingRequired": "Billing address must be at least 10 characters",
+    "max400": "Maximum 400 characters"
   },
   "MembershipForm": {
     "steps": [
@@ -2759,7 +2762,15 @@
     "home": "Back to home",
     "events": "See INOPI events",
     "notFoundTitle": "Application not found",
-    "notFoundText": "This link is invalid or no longer valid. If you have already applied, please check your email or contact the secretariat."
+    "notFoundText": "This link is invalid or no longer valid. If you have already applied, please check your email or contact the secretariat.",
+    "corporateIntro": "We have received the Corporate registration for your organization.",
+    "corporateNextTitle": "What happens next",
+    "corporateSteps": [
+      "Our Treasurer verifies your payment (at most {hours} working hours).",
+      "Once verified, the PIC receives 3 seat codes by email.",
+      "Your colleagues register on their own with those codes, with no further payment."
+    ],
+    "corporateNote": "Seat codes are not available yet. They are emailed to the PIC after payment is verified."
   },
   "MembershipApply": {
     "title": "Membership Application",
@@ -3273,6 +3284,10 @@
         "edtech indonesia",
         "education association"
       ]
+    },
+    "membershipCorporate": {
+      "title": "Corporate Registration — INOPI",
+      "description": "Register your organization as an INOPI Corporate member: 3 seats in one membership."
     }
   },
   "CopyButton": {
@@ -3290,5 +3305,75 @@
     "text": "This page is being prepared. In the meantime, please contact the INOPI secretariat.",
     "contact": "Contact the secretariat",
     "back": "Back to registration"
+  },
+  "MembershipCorporate": {
+    "title": "Corporate registration",
+    "intro": "Register your organization as a Corporate member. It takes about 3 minutes.",
+    "steps": [
+      "Organization",
+      "Payment"
+    ],
+    "stepCounter": "Step {current} of 2",
+    "back": "Back to membership options",
+    "institution": {
+      "title": "Organization details",
+      "intro": "You are registering as the PIC (person in charge) for your organization. Corporate membership covers 3 seats.",
+      "fields": {
+        "organisasi": {
+          "label": "Company / university name",
+          "placeholder": "Organization name"
+        },
+        "negara": {
+          "label": "Country"
+        }
+      }
+    },
+    "pic": {
+      "title": "PIC details",
+      "intro": "The PIC receives the seat codes and is INOPI's contact for this organization.",
+      "fields": {
+        "nama": {
+          "label": "PIC full name",
+          "placeholder": "As on your ID"
+        },
+        "jabatan": {
+          "label": "Position",
+          "placeholder": "e.g. HR Director"
+        },
+        "email": {
+          "label": "Work email",
+          "placeholder": "name@company.com"
+        },
+        "hp": {
+          "label": "WhatsApp number",
+          "placeholder": "+62 812 3456 7890"
+        }
+      }
+    },
+    "seat1": {
+      "label": "I will use seat 1",
+      "hint": "Seat 1 is assigned to you automatically and your member card becomes active once payment is verified. Turn off if this seat will go to someone else."
+    },
+    "summary": "{seats} seats · {amount} per year",
+    "next": "Continue to payment",
+    "reserving": "Preparing payment…",
+    "invoice": {
+      "label": "Do you need an invoice?",
+      "yes": "Yes, I need an invoice",
+      "no": "No, thanks",
+      "address": {
+        "label": "Billing address",
+        "placeholder": "Recipient name, full address, postal code"
+      },
+      "hint": "The secretariat will contact the PIC by email to prepare the invoice."
+    },
+    "submit": {
+      "button": "Submit Corporate registration"
+    },
+    "errors": {
+      "invalid_position": "The PIC position is required.",
+      "invalid_billing": "A complete billing address is required if you need an invoice.",
+      "invalid_data": "Some details are missing. Please check your entries."
+    }
   }
 }

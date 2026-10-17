@@ -5,25 +5,17 @@ import { useLocale, useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { IconCamera, IconCheck, IconFileUpload, IconLoader2, IconX } from '@tabler/icons-react'
+import { IconCheck, IconLoader2 } from '@tabler/icons-react'
 import { Link, useRouter } from '@/i18n/navigation'
 import { Field, Honeypot, PrivacyConsent, inputStyle, readHoneypot } from '@/components/ui/FormField'
-import CopyButton from '@/components/ui/CopyButton'
+import PaymentBox, { type Reservation } from '@/components/membership/PaymentBox'
+import ProofPicker, { useProofFile } from '@/components/membership/ProofPicker'
 import { formatRupiah } from '@/lib/constants/registration'
 import { DEFAULT_COUNTRY } from '@/lib/membership/countries'
 import { MEMBERSHIP_PRICES } from '@/lib/membership/config'
 import { registrantSchema, type RegistrantInput } from '@/lib/schemas/keanggotaan'
-import { ProofFileError, prepareProofFile } from '@/lib/client/proofFile'
 
 type Category = 'student' | 'professional' | 'corporate'
-
-interface Reservation {
-  token: string
-  uniqueCode: number
-  baseAmount: number
-  transferAmount: number
-  bank: { bank: string; accountNumber: string; accountName: string } | null
-}
 
 interface Props {
   countries: { code: string; name: string }[]
@@ -50,20 +42,13 @@ export default function RegistrationForm({ countries }: Props) {
   const [category, setCategory] = useState<Category | null>(null)
   const [reservation, setReservation] = useState<Reservation | null>(null)
   const [reserving, setReserving] = useState(false)
-
-  const [file, setFile] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-  const [fileError, setFileError] = useState<string | null>(null)
-  const [processing, setProcessing] = useState(false)
+  const proof = useProofFile()
 
   const [agreed, setAgreed] = useState(false)
   const [agreeError, setAgreeError] = useState(false)
   const [phase, setPhase] = useState<'idle' | 'uploading' | 'sending'>('idle')
-  const [uploadToken, setUploadToken] = useState<string | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
 
-  const cameraRef = useRef<HTMLInputElement>(null)
-  const galleryRef = useRef<HTMLInputElement>(null)
   // Mencegah kiriman ganda saat tombol diketuk dua kali sebelum tampilan sempat diperbarui.
   const inFlight = useRef(false)
 
@@ -137,33 +122,6 @@ export default function RegistrationForm({ countries }: Props) {
     }
   }
 
-  /* ---------- Bagian 3: berkas bukti ---------- */
-  const onPickFile = async (input: HTMLInputElement) => {
-    const picked = input.files?.[0]
-    input.value = ''
-    if (!picked) return
-    setFileError(null)
-    setProcessing(true)
-    try {
-      const prepared = await prepareProofFile(picked)
-      if (previewUrl) URL.revokeObjectURL(previewUrl)
-      setFile(prepared)
-      setPreviewUrl(prepared.type.startsWith('image/') ? URL.createObjectURL(prepared) : null)
-      setUploadToken(null) // berkas baru: unggah ulang
-    } catch (err) {
-      setFileError(t(`proof.errors.${err instanceof ProofFileError ? err.key : 'read'}`))
-    } finally {
-      setProcessing(false)
-    }
-  }
-
-  const removeFile = () => {
-    if (previewUrl) URL.revokeObjectURL(previewUrl)
-    setFile(null)
-    setPreviewUrl(null)
-    setUploadToken(null)
-  }
-
   /* ---------- Kirim ---------- */
   const submit = async (data: RegistrantInput, event?: React.BaseSyntheticEvent) => {
     if (step === 1) return goToPlan()
@@ -171,8 +129,8 @@ export default function RegistrationForm({ countries }: Props) {
     setFormError(null)
 
     let blocked = false
-    if (!file) {
-      setFileError(t('proof.errors.required'))
+    if (!proof.file) {
+      proof.setError(t('proof.errors.required'))
       blocked = true
     }
     if (!agreed) {
@@ -183,18 +141,13 @@ export default function RegistrationForm({ countries }: Props) {
     inFlight.current = true
 
     try {
-      let token = uploadToken
-      if (!token) {
-        setPhase('uploading')
-        const up = await fetch('/api/membership/upload', { method: 'POST', headers: { 'Content-Type': file!.type }, body: file })
-        const upJson = await up.json().catch(() => null)
-        if (!up.ok || !upJson?.ok) {
-          setFormError(t.has(`errors.${upJson?.error}`) ? t(`errors.${upJson.error}`) : t('errors.upload'))
-          return
-        }
-        token = upJson.uploadToken as string
-        setUploadToken(token)
+      setPhase('uploading')
+      const up = await proof.upload()
+      if ('error' in up) {
+        setFormError(up.error)
+        return
       }
+      const token = up.token
 
       setPhase('sending')
       const res = await fetch('/api/membership', {
@@ -224,7 +177,7 @@ export default function RegistrationForm({ countries }: Props) {
         if (fresh) setFormError(t('errors.reservationLost', { amount: money(fresh.transferAmount) }))
         return
       }
-      if (code === 'upload_not_found') setUploadToken(null)
+      if (code === 'upload_not_found') proof.resetToken()
       setFormError(errorText(code))
     } catch {
       setFormError(tf('failure'))
@@ -235,11 +188,6 @@ export default function RegistrationForm({ countries }: Props) {
   }
 
   const price = (c: Category) => MEMBERSHIP_PRICES[c]
-  const splitAmount = (n: number) => {
-    const s = money(n)
-    return { head: s.slice(0, -3), tail: s.slice(-3) }
-  }
-
   const stepLabels = t.raw('steps') as string[]
 
   return (
@@ -404,111 +352,9 @@ export default function RegistrationForm({ countries }: Props) {
             {t('pay.intro')}
           </p>
 
-          {reservation && (
-            <div className="rounded-[14px] p-4 sm:p-5 mb-5" style={{ background: 'var(--inopi-espresso)', color: 'var(--inopi-ivory)' }}>
-              <p className="font-body text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--inopi-gold)' }}>
-                {t('pay.transferTo')}
-              </p>
-              {reservation.bank ? (
-                <dl className="flex flex-col gap-3">
-                  <div>
-                    <dt className="font-body text-[11px]" style={{ color: 'var(--inopi-sand)' }}>{t('pay.bank')}</dt>
-                    <dd className="font-body text-[15px] font-medium">{reservation.bank.bank}</dd>
-                  </div>
-                  <div>
-                    <dt className="font-body text-[11px]" style={{ color: 'var(--inopi-sand)' }}>{t('pay.accountNumber')}</dt>
-                    <dd className="flex items-center gap-3 flex-wrap">
-                      <span className="font-display font-bold text-[22px] tabular-nums tracking-wide">{reservation.bank.accountNumber}</span>
-                      <CopyButton onDark value={reservation.bank.accountNumber.replace(/\s/g, '')} label={t('pay.accountNumber')} />
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="font-body text-[11px]" style={{ color: 'var(--inopi-sand)' }}>{t('pay.accountName')}</dt>
-                    <dd className="font-body text-[15px] font-medium">{reservation.bank.accountName}</dd>
-                  </div>
-                </dl>
-              ) : (
-                <p className="font-body text-[13px]" style={{ color: 'var(--inopi-sand)' }}>{t('pay.bankMissing')}</p>
-              )}
+          {reservation && <PaymentBox reservation={reservation} />}
 
-              <div className="mt-4 pt-4" style={{ borderTop: '1px solid color-mix(in srgb, var(--inopi-ivory) 25%, transparent)' }}>
-                <p className="font-body text-[11px]" style={{ color: 'var(--inopi-sand)' }}>{t('pay.amount')}</p>
-                <div className="flex items-center gap-3 flex-wrap mt-0.5">
-                  <span className="font-display font-bold text-[28px] tabular-nums leading-tight" aria-label={money(reservation.transferAmount)}>
-                    {splitAmount(reservation.transferAmount).head}
-                    <mark className="rounded px-1 ml-0.5" style={{ background: 'var(--inopi-gold)', color: 'var(--inopi-espresso)' }}>
-                      {splitAmount(reservation.transferAmount).tail}
-                    </mark>
-                  </span>
-                  <CopyButton onDark value={String(reservation.transferAmount)} label={t('pay.amount')} />
-                </div>
-                <p className="font-body text-[12px] mt-2" style={{ color: 'var(--inopi-sand)' }}>
-                  {t('pay.breakdown', { base: money(reservation.baseAmount), code: String(reservation.uniqueCode).padStart(3, '0') })}
-                </p>
-                <p className="font-body text-[12px] mt-1 leading-relaxed" style={{ color: 'var(--inopi-sand)' }}>
-                  {t('pay.uniqueHint')}
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* Bukti transfer */}
-          <div>
-            <p className="font-body text-[13px] font-medium mb-2" style={{ color: 'var(--inopi-espresso)' }}>
-              {t('proof.label')} <span aria-hidden>*</span>
-            </p>
-            <input ref={cameraRef} type="file" accept="image/*" capture="environment" className="sr-only" tabIndex={-1} onChange={(e) => onPickFile(e.target)} />
-            <input ref={galleryRef} type="file" accept="image/jpeg,image/png,application/pdf" className="sr-only" tabIndex={-1} onChange={(e) => onPickFile(e.target)} />
-
-            {file ? (
-              <div className="flex items-center gap-3 rounded-[12px] border p-3" style={{ borderColor: 'var(--inopi-sand)' }}>
-                {previewUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={previewUrl} alt="" className="w-14 h-14 rounded-[8px] object-cover flex-shrink-0" />
-                ) : (
-                  <span className="w-14 h-14 rounded-[8px] flex items-center justify-center flex-shrink-0" style={{ background: 'var(--inopi-sand)' }}>
-                    <IconFileUpload size={22} style={{ color: 'var(--inopi-espresso)' }} />
-                  </span>
-                )}
-                <span className="min-w-0 flex-1">
-                  <span className="font-body text-[13px] font-medium block truncate" style={{ color: 'var(--inopi-espresso)' }}>{file.name}</span>
-                  <span className="font-body text-[12px]" style={{ color: 'var(--inopi-taupe-strong)' }}>{(file.size / 1024).toFixed(0)} KB</span>
-                </span>
-                <button type="button" onClick={removeFile} disabled={busy} className="p-2 rounded-full" aria-label={t('proof.remove')} style={{ color: 'var(--inopi-taupe-strong)' }}>
-                  <IconX size={18} />
-                </button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  disabled={processing}
-                  onClick={() => cameraRef.current?.click()}
-                  className="h-12 inline-flex items-center justify-center gap-2 rounded-[10px] border text-[14px] font-medium"
-                  style={{ borderColor: 'var(--inopi-espresso)', color: 'var(--inopi-espresso)' }}
-                >
-                  <IconCamera size={18} /> {t('proof.camera')}
-                </button>
-                <button
-                  type="button"
-                  disabled={processing}
-                  onClick={() => galleryRef.current?.click()}
-                  className="h-12 inline-flex items-center justify-center gap-2 rounded-[10px] border text-[14px] font-medium"
-                  style={{ borderColor: 'var(--inopi-espresso)', color: 'var(--inopi-espresso)' }}
-                >
-                  <IconFileUpload size={18} /> {t('proof.gallery')}
-                </button>
-              </div>
-            )}
-            <p className="font-body text-[12px] mt-2" style={{ color: 'var(--inopi-taupe-strong)' }} aria-live="polite">
-              {processing ? t('proof.processing') : t('proof.hint')}
-            </p>
-            {fileError && (
-              <p role="alert" className="text-[12px] mt-1" style={{ color: 'var(--destructive)' }}>
-                {fileError}
-              </p>
-            )}
-          </div>
+          <ProofPicker proof={proof} busy={busy} />
 
           <Honeypot />
 
@@ -531,7 +377,7 @@ export default function RegistrationForm({ countries }: Props) {
             </p>
           )}
 
-          <button type="submit" disabled={busy || processing || !reservation} className={`${buttonPrimary} mt-5`} style={{ background: 'var(--inopi-orange-strong)' }}>
+          <button type="submit" disabled={busy || proof.processing || !reservation} className={`${buttonPrimary} mt-5`} style={{ background: 'var(--inopi-orange-strong)' }}>
             {busy && <IconLoader2 size={16} className="animate-spin" />}
             {phase === 'uploading' ? t('submit.uploading') : phase === 'sending' ? t('submit.sending') : t('submit.button')}
           </button>

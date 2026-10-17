@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 import { RegistryError, registryCall } from '@/lib/registry/client'
-import { submitSchema } from '@/lib/schemas/keanggotaan'
+import { corporateSubmitSchema, submitSchema } from '@/lib/schemas/keanggotaan'
 import { clientIp, looksLikeBot } from '@/lib/spam'
 
 export const maxDuration = 30
 export const dynamic = 'force-dynamic'
 
-/** Mengirim pendaftaran jalur A (Student/Profesional). */
+/** Mengirim pendaftaran: jalur A (Student/Profesional) atau Corporate (PIC). */
 export async function POST(req: Request) {
   let body: Record<string, unknown>
   try {
@@ -18,11 +18,42 @@ export async function POST(req: Request) {
   // Bot dibalas seolah berhasil agar tidak mencoba ulang; tidak ada yang disimpan.
   if (looksLikeBot(body)) return NextResponse.json({ ok: true, receiptToken: '0'.repeat(64) })
 
-  const parsed = submitSchema.safeParse(body)
-  if (!parsed.success) {
-    const corporate = body.category === 'corporate'
-    return NextResponse.json({ ok: false, error: corporate ? 'corporate_flow' : 'invalid_data' }, { status: 400 })
+  const ip = clientIp(req)
+
+  if (body.category === 'corporate') {
+    const parsed = corporateSubmitSchema.safeParse({ ...body, category: undefined })
+    if (!parsed.success) return NextResponse.json({ ok: false, error: 'invalid_data' }, { status: 400 })
+    const d = parsed.data
+    try {
+      const r = await registryCall<{ receiptToken: string }>(
+        'register',
+        {
+          category: 'corporate',
+          reservationToken: d.reservationToken,
+          uploadToken: d.uploadToken,
+          organization: d.organisasi,
+          country: d.negara,
+          name: d.nama,
+          position: d.jabatan,
+          email: d.email,
+          whatsapp: d.hp,
+          useSeat1: d.pakaiKursi1,
+          needInvoice: d.butuhInvoice,
+          billingAddress: d.butuhInvoice ? (d.alamatTagihan ?? '') : '',
+          locale: d.locale,
+          consent: d.persetujuan,
+        },
+        ip,
+      )
+      return NextResponse.json({ ok: true, receiptToken: r.receiptToken })
+    } catch (err) {
+      const e = err instanceof RegistryError ? err : new RegistryError('server_error', 500)
+      return NextResponse.json({ ok: false, error: e.code }, { status: e.httpStatus })
+    }
   }
+
+  const parsed = submitSchema.safeParse(body)
+  if (!parsed.success) return NextResponse.json({ ok: false, error: 'invalid_data' }, { status: 400 })
   const d = parsed.data
 
   try {
@@ -42,7 +73,7 @@ export async function POST(req: Request) {
         locale: d.locale,
         consent: d.persetujuan,
       },
-      clientIp(req),
+      ip,
     )
     return NextResponse.json({ ok: true, receiptToken: r.receiptToken })
   } catch (err) {

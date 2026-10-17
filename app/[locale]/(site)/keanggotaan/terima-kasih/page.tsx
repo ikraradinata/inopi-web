@@ -72,6 +72,7 @@ export default async function KeanggotaanTerimaKasihPage({
     )
   }
 
+  const corporate = receipt.category === 'corporate'
   const statusKey = STATUS_KEY[receipt.status] ?? 'pending'
   const rows: [string, string][] = [
     [t('numberLabel'), receipt.regNumber],
@@ -91,7 +92,7 @@ export default async function KeanggotaanTerimaKasihPage({
             {t('title')}
           </h1>
           <p className="font-body text-[14px]" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            {t('intro')}
+            {corporate ? t('corporateIntro') : t('intro')}
           </p>
         </div>
 
@@ -112,19 +113,45 @@ export default async function KeanggotaanTerimaKasihPage({
           ))}
         </dl>
 
-        <p className="font-body text-[14px] leading-relaxed text-center mb-6" style={{ color: 'var(--inopi-espresso)' }}>
-          {t('whatNext', { hours: VERIFICATION_PROMISE_WORKING_HOURS })}
-        </p>
+        {corporate ? (
+          // C3: PIC belum menerima kode kursi; kode dikirim setelah Bendahara memverifikasi.
+          <div className="rounded-[16px] p-5 mb-6" style={{ background: 'var(--inopi-sand)' }}>
+            <h2 className="font-display font-bold text-[16px] mb-3" style={{ color: 'var(--inopi-espresso)' }}>
+              {t('corporateNextTitle')}
+            </h2>
+            <ol className="flex flex-col gap-3">
+              {(t.raw('corporateSteps') as string[]).map((step, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 font-display font-bold text-[13px] text-white" style={{ background: 'var(--inopi-espresso)' }}>
+                    {i + 1}
+                  </span>
+                  <span className="font-body text-[14px] leading-relaxed" style={{ color: 'var(--inopi-espresso)' }}>
+                    {step.replace('{hours}', String(VERIFICATION_PROMISE_WORKING_HOURS))}
+                  </span>
+                </li>
+              ))}
+            </ol>
+            <p className="font-body text-[12px] mt-4" style={{ color: 'var(--inopi-espresso)' }}>
+              {t('corporateNote')}
+            </p>
+          </div>
+        ) : (
+          <>
+            <p className="font-body text-[14px] leading-relaxed text-center mb-6" style={{ color: 'var(--inopi-espresso)' }}>
+              {t('whatNext', { hours: VERIFICATION_PROMISE_WORKING_HOURS })}
+            </p>
 
-        <div className="rounded-[16px] p-5 mb-6 text-center" style={{ background: 'var(--inopi-sand)' }}>
-          {/* Endpoint kartu dibuat di R6; tautan memakai token verifikasi, bukan nomor yang bisa ditebak. */}
-          <a href={`/api/membership/card/${receipt.verifyToken}`} className={`${linkPrimary} w-full`} style={{ background: 'var(--inopi-orange-strong)' }}>
-            {t('downloadCard')}
-          </a>
-          <p className="font-body text-[12px] mt-3" style={{ color: 'var(--inopi-espresso)' }}>
-            {t('cardNote')}
-          </p>
-        </div>
+            <div className="rounded-[16px] p-5 mb-6 text-center" style={{ background: 'var(--inopi-sand)' }}>
+              {/* Endpoint kartu dibuat di R6; tautan memakai token verifikasi, bukan nomor yang bisa ditebak. */}
+              <a href={`/api/membership/card/${receipt.verifyToken}`} className={`${linkPrimary} w-full`} style={{ background: 'var(--inopi-orange-strong)' }}>
+                {t('downloadCard')}
+              </a>
+              <p className="font-body text-[12px] mt-3" style={{ color: 'var(--inopi-espresso)' }}>
+                {t('cardNote')}
+              </p>
+            </div>
+          </>
+        )}
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/" className={linkPrimary} style={{ background: 'var(--inopi-espresso)' }}>
