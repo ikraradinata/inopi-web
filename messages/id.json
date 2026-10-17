@@ -2986,5 +2986,36 @@
       "Impactful"
     ],
     "about": "{positioning}. Acara ini menandai dimulainya kolaborasi lintas sektor antara akademisi, industri, dan pemerintah dalam satu ekosistem inovasi pembelajaran."
+  },
+  "Acara": {
+    "title": "Acara INOPI",
+    "intro": "Forum, seminar, dan pelatihan untuk mempertemukan ekosistem inovasi pembelajaran Indonesia.",
+    "upcoming": "Acara Mendatang",
+    "venueCity": "Jakarta",
+    "details": "Lihat Detail",
+    "routine": "Acara Rutin",
+    "planned": "Direncanakan",
+    "routineEvents": [
+      {
+        "title": "Molen",
+        "desc": "Acara pembelajaran daring nasional setiap bulan."
+      },
+      {
+        "title": "NEXT EDU",
+        "desc": "Pertemuan tahunan anggota dan mitra."
+      },
+      {
+        "title": "Acara onsite kuartalan",
+        "desc": "Pertemuan anggota di Jakarta setiap tiga bulan."
+      }
+    ]
+  },
+  "EventPage": {
+    "eyebrow": "Agenda INOPI",
+    "title": "Event & Kegiatan",
+    "intro": "Forum, konferensi, dan kegiatan kolaboratif INOPI bersama akademisi, industri, dan pemerintah.",
+    "nearest": "Agenda Terdekat",
+    "posterAlt": "Poster {eyebrow}",
+    "link": "Lihat detail acara →"
   }
 }
