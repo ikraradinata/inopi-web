@@ -160,7 +160,7 @@ export default function SkillsCubeSection() {
             {t('ui.codesTitle')}
           </h3>
           <p className="font-body text-[13px] mb-2" style={{ color: 'var(--inopi-taupe-strong)' }}>
-            {t('ui.formatLabel')}<code className="font-mono text-[12px] px-1.5 py-0.5 rounded" style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-espresso)' }}>[INDUSTRI] · [H/S + DOMAIN] · [G#L#]</code>
+            {t('ui.formatLabel')}<code className="font-mono text-[12px] px-1.5 py-0.5 rounded" style={{ background: 'var(--inopi-sand)', color: 'var(--inopi-espresso)' }}>{t('ui.codeFormat')}</code>
           </p>
           <p className="font-body text-[12px] mb-6" style={{ color: 'var(--inopi-sage-strong)' }}>
             {t('ui.codesLegend')}

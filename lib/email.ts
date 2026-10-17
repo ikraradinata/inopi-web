@@ -2,6 +2,7 @@
 //
 // Aktifkan dengan mengisi variabel lingkungan:
 //   RESEND_API_KEY  — kunci API dari resend.com
+//   RESEND_API_URL  — (opsional) alamat API pengganti, untuk pengujian dengan server tiruan
 //   MAIL_FROM       — alamat pengirim, mis. "INOPI <noreply@inopi.id>"
 //                     (tanpa domain terverifikasi, Resend hanya mengizinkan
 //                      "onboarding@resend.dev" dan tujuan email pemilik akun)
@@ -31,7 +32,7 @@ export async function sendEmail({ to, subject, text, replyTo }: SendEmailOptions
   }
 
   try {
-    const res = await fetch('https://api.resend.com/emails', {
+    const res = await fetch(process.env.RESEND_API_URL ?? 'https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${apiKey}`,

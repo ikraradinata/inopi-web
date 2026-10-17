@@ -307,7 +307,7 @@ export default function MembershipForm() {
                     if (e.target.checked) setAgreeError(false)
                   },
                 }}
-                error={agreeError ? tv('privacyRequired') : undefined}
+                error={agreeError ? 'privacyRequired' : undefined}
               />
               <label className="flex items-start gap-3 cursor-pointer">
                 <input

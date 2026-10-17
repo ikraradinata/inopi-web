@@ -948,7 +948,7 @@
         "expert": "12 founders from the technology sector — the largest pool"
       },
       {
-        "industry": "Government & BUMN",
+        "industry": "Government & SOEs (BUMN)",
         "priority": 1,
         "useCase": "Public service chatbots, document automation, smart city, civil servant (ASN) digital literacy",
         "expert": "Boni Pudjianto, Gogot Suharwoto, Yasser Syaiful"
@@ -1979,7 +1979,8 @@
       "softSkill": "Soft Skill: ",
       "useCase": "Use Case: ",
       "flowTitle": "Application Flow — 6 Stages",
-      "metricsTitle": "Success Metrics"
+      "metricsTitle": "Success Metrics",
+      "codeFormat": "[INDUSTRY] · [H/S + DOMAIN] · [G#L#]"
     },
     "levels": {
       "high": "High",
@@ -2461,7 +2462,7 @@
         "cluster": "Manufacturing, Mining & Energy",
         "hardSkill": "IoT, Automation/RPA, Big Data",
         "softSkill": "Problem Solving, Adaptability",
-        "useCase": "Industri 4.0, predictive maintenance, HSE"
+        "useCase": "Industry 4.0, predictive maintenance, HSE"
       },
       {
         "cluster": "Technology, Retail & FMCG",

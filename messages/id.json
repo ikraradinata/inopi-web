@@ -1979,7 +1979,8 @@
       "softSkill": "Soft Skill: ",
       "useCase": "Use Case: ",
       "flowTitle": "Alur Penerapan — 6 Tahap",
-      "metricsTitle": "Metrik Keberhasilan"
+      "metricsTitle": "Metrik Keberhasilan",
+      "codeFormat": "[INDUSTRI] · [H/S + DOMAIN] · [G#L#]"
     },
     "levels": {
       "high": "Tinggi",
