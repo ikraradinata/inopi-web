@@ -27,6 +27,9 @@ interface SheetRow {
   hp: string
   institusi: string
   bidang?: string
+  jabatan?: string
+  alasan?: string
+  infoKegiatan?: boolean
 }
 
 export interface SheetResult {
@@ -54,6 +57,9 @@ export async function appendToSheet(row: SheetRow): Promise<SheetResult> {
         hp: row.hp,
         institusi: row.institusi,
         bidang: row.bidang ?? '',
+        jabatan: row.jabatan ?? '',
+        alasan: row.alasan ?? '',
+        infoKegiatan: Boolean(row.infoKegiatan),
       }),
       // Apps Script Web App mengirim redirect 302 sebelum balasan akhir;
       // follow (default) diperlukan agar fetch tidak gagal di langkah ini.
@@ -85,7 +91,8 @@ function doPost(e) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow([
       'Waktu Submit', 'No. Registrasi', 'Kategori', 'Iuran (Rp)',
-      'Nama', 'Email', 'No. HP', 'Institusi', 'Bidang', 'Status Pembayaran'
+      'Nama', 'Email', 'No. HP', 'Institusi', 'Bidang', 'Status Pembayaran',
+      'Jabatan', 'Alasan Bergabung', 'Bersedia Terima Info'
     ]);
     sheet.setFrozenRows(1);
   }
@@ -102,7 +109,10 @@ function doPost(e) {
     data.hp,
     data.institusi,
     data.bidang || '-',
-    'Menunggu Pembayaran'
+    'Menunggu Pembayaran',
+    data.jabatan || '-',
+    data.alasan || '-',
+    data.infoKegiatan ? 'Ya' : 'Tidak'
   ]);
 
   return ContentService

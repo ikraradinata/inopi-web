@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { z } from 'zod'
+import { keanggotaanSchema } from '@/lib/schemas/keanggotaan'
 import { getPlan } from '@/lib/constants/membership'
 import {
   ASSOCIATION_EMAIL,
@@ -8,17 +8,10 @@ import {
   formatRupiah,
   isBankConfigured,
 } from '@/lib/constants/registration'
+import { FAILURE_MESSAGE } from '@/lib/constants/kemitraan'
 import { sendEmail } from '@/lib/email'
 import { appendToSheet } from '@/lib/sheet'
-
-const schema = z.object({
-  category: z.enum(['student', 'professional', 'corporate']),
-  nama: z.string().min(2).max(120),
-  email: z.string().email().max(160),
-  hp: z.string().min(8).max(32),
-  institusi: z.string().min(2).max(160),
-  bidang: z.string().max(160).optional(),
-})
+import { guardForm, oneLine } from '@/lib/spam'
 
 const jakartaTime = (d: Date) =>
   new Intl.DateTimeFormat('id-ID', {
@@ -28,14 +21,10 @@ const jakartaTime = (d: Date) =>
   }).format(d)
 
 export async function POST(req: Request) {
-  let body: unknown
-  try {
-    body = await req.json()
-  } catch {
-    return NextResponse.json({ success: false, message: 'Format permintaan tidak valid.' }, { status: 400 })
-  }
+  const guard = await guardForm(req, 'keanggotaan')
+  if (!guard.ok) return guard.response
 
-  const parsed = schema.safeParse(body)
+  const parsed = keanggotaanSchema.safeParse(guard.body)
   if (!parsed.success) {
     return NextResponse.json(
       { success: false, message: 'Data pendaftaran belum lengkap atau tidak valid.' },
@@ -44,6 +33,7 @@ export async function POST(req: Request) {
   }
 
   const data = parsed.data
+  const bidang = data.bidang?.join(', ') ?? ''
   const plan = getPlan(data.category)!
   const registrationId = generateRegistrationId()
   const submittedAt = new Date()
@@ -73,7 +63,11 @@ export async function POST(req: Request) {
     `Email            : ${data.email}`,
     `No. HP           : ${data.hp}`,
     `Institusi        : ${data.institusi}`,
-    `Bidang           : ${data.bidang?.trim() || '-'}`,
+    `Jabatan/peran    : ${data.jabatan || '-'}`,
+    `Bidang minat     : ${bidang || '-'}`,
+    `Alasan bergabung : ${data.alasan || '-'}`,
+    `Terima info      : ${data.infoKegiatan ? 'Ya' : 'Tidak'}`,
+    'Persetujuan privasi : Ya',
     '',
     `Rekening tujuan  : ${rekening}`,
     '',
@@ -83,7 +77,7 @@ export async function POST(req: Request) {
 
   const result = await sendEmail({
     to: ASSOCIATION_EMAIL,
-    subject: `[INOPI] Pendaftaran ${plan.name} — ${data.nama} (${registrationId})`,
+    subject: `[INOPI] Pendaftaran ${plan.name} — ${oneLine(data.nama)} (${registrationId})`,
     text: notification,
     replyTo: data.email,
   })
@@ -101,19 +95,25 @@ export async function POST(req: Request) {
     email: data.email,
     hp: data.hp,
     institusi: data.institusi,
-    bidang: data.bidang,
+    bidang,
+    jabatan: data.jabatan,
+    alasan: data.alasan,
+    infoKegiatan: data.infoKegiatan,
   })
 
   if (!sheetResult.recorded && sheetResult.reason !== 'not_configured') {
     console.error('[membership] Gagal mencatat ke Sheet:', sheetResult.reason, { registrationId })
   }
 
-  // Pendaftaran tetap dianggap berhasil bagi pendaftar; kegagalan email atau
-  // pencatatan Sheet adalah urusan internal dan sudah tercatat di log.
+  // Bila email dan Sheet sama-sama gagal, data hanya ada di log server:
+  // pendaftar diberi tahu agar mencoba lagi atau menghubungi pengurus.
+  if (!result.delivered && !sheetResult.recorded) {
+    return NextResponse.json({ success: false, message: FAILURE_MESSAGE }, { status: 502 })
+  }
+
   return NextResponse.json({
     success: true,
     registrationId,
-    notified: result.delivered,
-    recorded: sheetResult.recorded,
+    category: data.category,
   })
 }

@@ -28,7 +28,25 @@ const faqs = [
     q: 'Apa yang membedakan kategori Corporate?',
     a: 'Selain seluruh manfaat dasar, anggota Corporate memperoleh harga khusus layanan EdTech dari sesama anggota, konsultasi EdTech lab oleh PPOTD, serta annual industry outlook.',
   },
+  {
+    q: 'Bagaimana cara pembayaran iuran?',
+    a: 'Informasi pembayaran dikirim melalui email setelah data pendaftaran diverifikasi.',
+  },
 ]
+
+const steps = [
+  { title: 'Pilih kategori', desc: 'Student, Profesional, atau Corporate.' },
+  { title: 'Lengkapi data', desc: 'Identitas, institusi, dan bidang minat.' },
+  {
+    title: 'Kirim & verifikasi',
+    desc: 'Tim INOPI memeriksa data dan mengirimkan informasi selanjutnya melalui email.',
+  },
+]
+
+const rights =
+  'menghadiri dan menyampaikan pendapat dalam Rapat Umum Anggota; memilih dan dipilih sesuai ketentuan AD/ART; memperoleh layanan, pembinaan, dan informasi INOPI; mengusulkan program; serta menerima laporan pertanggungjawaban pengurus.'
+const duties =
+  'mematuhi AD/ART dan kode etik INOPI; aktif berpartisipasi dalam kegiatan; menjaga nama baik INOPI; membayar iuran pendaftaran dan iuran tahunan; serta memberikan informasi yang benar dan melaporkan perubahan data.'
 
 function TierMark({ included }: { included: boolean }) {
   return included ? (
@@ -154,6 +172,37 @@ export default function KeanggotaanPage() {
         </div>
       </section>
 
+      {/* Alur pendaftaran */}
+      <section style={{ background: 'var(--inopi-sand)' }} className="py-14">
+        <div className="container max-w-3xl">
+          <h2
+            className="font-display font-bold text-center mb-8"
+            style={{ fontSize: 'clamp(20px,3vw,26px)', color: 'var(--inopi-espresso)' }}
+          >
+            Alur Pendaftaran
+          </h2>
+          <ol className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {steps.map((st, i) => (
+              <li
+                key={st.title}
+                className="rounded-[12px] p-5 border"
+                style={{ borderColor: 'var(--inopi-sand)', background: 'var(--inopi-ivory)' }}
+              >
+                <span className="font-display font-bold text-[28px] leading-none block mb-3" style={{ color: 'var(--inopi-orange)' }}>
+                  {i + 1}
+                </span>
+                <h3 className="font-display font-semibold text-[15px] mb-1.5" style={{ color: 'var(--inopi-espresso)' }}>
+                  {st.title}
+                </h3>
+                <p className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--inopi-taupe-strong)' }}>
+                  {st.desc}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
       {/* Matriks manfaat */}
       <section className="py-14 bg-white">
         <div className="container max-w-3xl">
@@ -242,6 +291,33 @@ export default function KeanggotaanPage() {
               <IconCalendarEvent size={16} />
               Detail Acara
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Hak & kewajiban */}
+      <section style={{ background: 'var(--inopi-sand)' }} className="py-14">
+        <div className="container max-w-3xl">
+          <h2
+            className="font-display font-bold text-center mb-8"
+            style={{ fontSize: 'clamp(20px,3vw,26px)', color: 'var(--inopi-espresso)' }}
+          >
+            Hak &amp; Kewajiban Anggota
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {[
+              { title: 'Hak anggota', body: rights },
+              { title: 'Kewajiban anggota', body: duties },
+            ].map((b) => (
+              <div key={b.title} className="rounded-[12px] p-5 bg-white border" style={{ borderColor: 'var(--inopi-sand)' }}>
+                <h3 className="font-display font-semibold text-[15px] mb-2" style={{ color: 'var(--inopi-espresso)' }}>
+                  {b.title}
+                </h3>
+                <p className="font-body text-[13px] leading-relaxed first-letter:uppercase" style={{ color: 'var(--inopi-taupe-strong)' }}>
+                  {b.body}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
