@@ -1,9 +1,9 @@
 'use client'
 
-import { useRef } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { kemitraanSchema, type KemitraanInput } from '@/lib/schemas/kemitraan'
@@ -50,30 +50,30 @@ function Field({
 export default function KemitraanForm() {
   const router = useRouter()
   // Waktu halaman dibuka; server menolak kiriman yang terlalu cepat untuk manusia.
-  const startedAt = useRef(Date.now())
-  const honeypot = useRef<HTMLInputElement>(null)
+  const [startedAt] = useState(() => Date.now())
 
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<KemitraanInput>({
     resolver: zodResolver(kemitraanSchema),
     defaultValues: { model: [], waktuMulai: '' },
   })
 
-  const ringkasanLength = watch('ringkasan')?.length ?? 0
+  const ringkasanLength = useWatch({ control, name: 'ringkasan' })?.length ?? 0
 
-  const onSubmit = async (data: KemitraanInput) => {
+  const onSubmit = async (data: KemitraanInput, event?: React.BaseSyntheticEvent) => {
+    const honeypot = (event?.target as HTMLFormElement | undefined)?.elements.namedItem('website')
     try {
       const res = await fetch('/api/kemitraan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
-          website: honeypot.current?.value ?? '',
-          startedAt: startedAt.current,
+          website: honeypot instanceof HTMLInputElement ? honeypot.value : '',
+          startedAt,
         }),
       })
       const json = await res.json().catch(() => null)
@@ -170,7 +170,7 @@ export default function KemitraanForm() {
       <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
         <label>
           Website
-          <input ref={honeypot} type="text" name="website" tabIndex={-1} autoComplete="off" />
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
 
