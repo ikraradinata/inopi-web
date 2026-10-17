@@ -5,11 +5,13 @@ interface CtaDarkProps {
   title: string
   description: string
   primaryCta: { label: string; href: string }
+  /** Tombol tambahan, ditampilkan di antara tombol utama dan sekunder. */
+  extraCta?: { label: string; href: string }
   secondaryCta?: { label: string; href: string }
   className?: string
 }
 
-export default function CtaDark({ eyebrow, title, description, primaryCta, secondaryCta, className }: CtaDarkProps) {
+export default function CtaDark({ eyebrow, title, description, primaryCta, extraCta, secondaryCta, className }: CtaDarkProps) {
   return (
     <div
       className={`relative overflow-hidden rounded-[16px] px-8 py-12 text-center ${className ?? ''}`}
@@ -42,6 +44,15 @@ export default function CtaDark({ eyebrow, title, description, primaryCta, secon
           >
             {primaryCta.label}
           </Link>
+          {extraCta && (
+            <Link
+              href={extraCta.href}
+              className="inline-flex items-center px-5 py-2.5 text-[14px] font-medium rounded-[8px] border transition-all hover:border-[var(--inopi-teal-strong)]"
+              style={{ color: 'var(--inopi-sand)', borderColor: 'var(--inopi-sand)' }}
+            >
+              {extraCta.label}
+            </Link>
+          )}
           {secondaryCta && (
             <Link
               href={secondaryCta.href}
