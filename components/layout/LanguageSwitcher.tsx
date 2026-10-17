@@ -32,7 +32,7 @@ function Switcher({ className }: { className?: string }) {
             </span>
           ) : (
             <Link
-              href={{ pathname, query }}
+              href={{ pathname, query } as React.ComponentProps<typeof Link>['href']}
               locale={l}
               hrefLang={l}
               lang={l}

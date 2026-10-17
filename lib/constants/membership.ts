@@ -3,9 +3,7 @@
 // dan matriks manfaat membership pada materi Update Founder.
 //
 // Teks (nama, deskripsi, harga tertulis, label manfaat) ada di messages,
-// namespace "Membership". Di sini hanya angka dan pemetaan yang tidak
-// diterjemahkan. Untuk teks Indonesia di sisi server (email), lihat
-// lib/constants/membershipText.ts.
+// namespace "Membership". Di sini hanya angka dan pemetaan yang tidak diterjemahkan.
 
 export type Tier = 'student' | 'professional' | 'corporate'
 

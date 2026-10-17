@@ -26,6 +26,8 @@ export const routing = defineRouting({
 
     '/keanggotaan': { id: '/keanggotaan', en: '/membership' },
     '/keanggotaan/daftar': { id: '/keanggotaan/daftar', en: '/membership/apply' },
+    '/keanggotaan/daftar/kode': { id: '/keanggotaan/daftar/kode', en: '/membership/apply/code' },
+    '/keanggotaan/daftar/corporate': { id: '/keanggotaan/daftar/corporate', en: '/membership/apply/corporate' },
     '/keanggotaan/terima-kasih': { id: '/keanggotaan/terima-kasih', en: '/membership/thank-you' },
 
     '/kemitraan': { id: '/kemitraan', en: '/partnerships' },

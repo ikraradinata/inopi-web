@@ -2640,76 +2640,132 @@
     "topicRequired": "Pilih topik",
     "subjectRequired": "Subjek wajib diisi",
     "messageMin": "Pesan minimal 10 karakter",
-    "max2000": "Maksimal 2.000 karakter"
+    "max2000": "Maksimal 2.000 karakter",
+    "occupationRequired": "Pekerjaan wajib diisi",
+    "countryRequired": "Pilih negara",
+    "categoryRequired": "Pilih jenis keanggotaan",
+    "proofRequired": "Unggah bukti transfer"
   },
   "MembershipForm": {
-    "chooseCategory": "Pilih Kategori",
-    "perYear": "per tahun",
-    "next": "Lanjut →",
-    "back": "← Kembali",
-    "detailsTitle": "Data Diri",
-    "fields": {
-      "nama": {
-        "label": "Nama Lengkap",
-        "placeholder": "Nama lengkap Anda"
+    "steps": [
+      "Data diri",
+      "Pilih keanggotaan",
+      "Pembayaran"
+    ],
+    "stepCounter": "Langkah {current} dari 3",
+    "personal": {
+      "title": "Data diri",
+      "intro": "Gunakan email dan WhatsApp yang aktif. Kartu anggota akan dikirim ke email Anda.",
+      "fields": {
+        "nama": {
+          "label": "Nama lengkap",
+          "placeholder": "Sesuai identitas"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "nama@email.com"
+        },
+        "hp": {
+          "label": "Nomor WhatsApp",
+          "placeholder": "0812 3456 7890"
+        },
+        "pekerjaan": {
+          "label": "Pekerjaan",
+          "placeholder": "mis. Dosen, Mahasiswa, Manajer"
+        },
+        "jabatan": {
+          "label": "Jabatan (opsional)",
+          "placeholder": "mis. Kepala Program Studi"
+        },
+        "institusi": {
+          "label": "Perusahaan / Kampus",
+          "placeholder": "Nama instansi Anda"
+        },
+        "negara": {
+          "label": "Negara"
+        }
       },
-      "email": {
-        "label": "Email",
-        "placeholder": "email@institusi.ac.id"
-      },
-      "hp": {
-        "label": "Nomor WhatsApp",
-        "placeholder": "+62 812 3456 7890"
-      },
-      "institusi": {
-        "label": "Institusi/Organisasi",
-        "placeholder": "Universitas / perusahaan Anda"
-      },
-      "jabatan": {
-        "label": "Jabatan/Peran (opsional)",
-        "placeholder": "mis. Dosen, Manajer L&D"
+      "next": "Lanjut"
+    },
+    "plan": {
+      "title": "Pilih keanggotaan",
+      "perYear": "per tahun",
+      "corporateInfo": "Keanggotaan Corporate didaftarkan lewat alur khusus oleh PIC perusahaan, dan rekan Anda mendaftar dengan kode. Anda akan diarahkan ke halaman pendaftaran Corporate.",
+      "corporateGo": "Lanjut ke pendaftaran Corporate",
+      "payNext": "Lanjut ke pembayaran",
+      "reserving": "Menyiapkan pembayaran…",
+      "back": "Kembali",
+      "edit": "Ubah",
+      "summary": "Iuran {amount} per tahun"
+    },
+    "pay": {
+      "title": "Pembayaran",
+      "intro": "Transfer sesuai jumlah di bawah, lalu unggah bukti transfernya.",
+      "transferTo": "Transfer ke rekening INOPI",
+      "bank": "Bank",
+      "accountNumber": "Nomor rekening",
+      "accountName": "Atas nama",
+      "amount": "Jumlah transfer",
+      "uniqueBadge": "Kode unik {code}",
+      "uniqueHint": "Transfer tepat sesuai jumlah, termasuk 3 digit terakhir, agar pembayaran Anda mudah dicocokkan.",
+      "breakdown": "Iuran {base} + kode unik {code}",
+      "bankMissing": "Nomor rekening belum diatur. Hubungi sekretariat sebelum melakukan transfer."
+    },
+    "proof": {
+      "label": "Bukti transfer",
+      "camera": "Ambil foto",
+      "gallery": "Pilih dari galeri atau berkas",
+      "hint": "JPG, PNG, atau PDF, maks. 4 MB",
+      "remove": "Hapus",
+      "processing": "Memproses gambar…",
+      "errors": {
+        "type": "Hanya berkas JPG, PNG, atau PDF.",
+        "size": "Ukuran berkas maksimal 4 MB.",
+        "read": "Berkas tidak dapat dibaca. Coba foto atau berkas lain.",
+        "required": "Unggah bukti transfer terlebih dahulu."
       }
     },
-    "interestsLabel": "Bidang Minat (opsional)",
-    "interests": {
-      "Riset & Inovasi": "Riset & Inovasi",
-      "Implementasi & Pilot Project": "Implementasi & Pilot Project",
-      "Kemitraan": "Kemitraan",
-      "Pelatihan & Sertifikasi": "Pelatihan & Sertifikasi",
-      "Kebijakan Pendidikan": "Kebijakan Pendidikan"
+    "submit": {
+      "button": "Kirim pendaftaran",
+      "uploading": "Mengunggah bukti…",
+      "sending": "Mengirim…"
     },
-    "reasonLabel": "Alasan Bergabung (opsional)",
-    "confirmTitle": "Konfirmasi",
-    "summary": {
-      "category": "Kategori",
-      "name": "Nama",
-      "email": "Email",
-      "whatsapp": "WhatsApp",
-      "institution": "Institusi",
-      "role": "Jabatan/Peran",
-      "interests": "Bidang Minat",
-      "fee": "Iuran per tahun"
-    },
-    "afterSubmit": "Setelah dikirim, Anda akan menerima nomor registrasi dan instruksi pembayaran.",
-    "infoConsent": "Saya bersedia menerima informasi kegiatan dan program INOPI melalui email atau WhatsApp.",
-    "sending": "Mengirim…",
-    "submit": "Kirim Pendaftaran"
+    "errors": {
+      "generic": "Pendaftaran belum terkirim. Silakan coba lagi, atau hubungi asosiasi.inopi@gmail.com.",
+      "rate_limited": "Terlalu banyak percobaan. Silakan coba lagi beberapa menit lagi.",
+      "busy": "Sistem sedang sibuk. Silakan coba lagi sebentar lagi.",
+      "codes_exhausted": "Pendaftaran sedang penuh. Silakan coba lagi nanti atau hubungi sekretariat.",
+      "reservationLost": "Kode unik transfer Anda sudah diperbarui. Jumlah transfer yang benar sekarang {amount}. Periksa jumlahnya, lalu kirim lagi.",
+      "upload": "Bukti transfer gagal diunggah. Silakan coba lagi.",
+      "invalid_file_type": "Berkas bukan JPG, PNG, atau PDF yang sah.",
+      "file_too_large": "Ukuran berkas melebihi 4 MB."
+    }
   },
   "MembershipThanks": {
-    "title": "Terima kasih, pendaftaran Anda sudah kami terima.",
-    "text": "Tim INOPI akan memeriksa data Anda dan mengirimkan informasi selanjutnya ke email yang Anda daftarkan.",
+    "title": "Terima kasih atas pendaftarannya",
+    "intro": "Pendaftaran Anda sudah kami terima.",
+    "numberLabel": "No. pendaftaran",
+    "categoryLabel": "Kategori",
+    "statusLabel": "Status",
+    "amountLabel": "Jumlah transfer",
+    "status": {
+      "pending": "Menunggu verifikasi",
+      "active": "Aktif",
+      "rejected": "Ditolak"
+    },
+    "whatNext": "Bendahara akan mencocokkan pembayaran Anda. Verifikasi memerlukan maksimal {hours} jam kerja, lalu kartu anggota aktif dikirim ke email Anda.",
+    "downloadCard": "Unduh kartu anggota",
+    "cardNote": "Kartu berstatus Menunggu Verifikasi sampai pembayaran Anda dikonfirmasi.",
     "home": "Kembali ke Beranda",
     "events": "Lihat Acara INOPI",
-    "registrationNumber": "Nomor Registrasi",
-    "category": "Kategori",
-    "paymentTitle": "Pembayaran iuran",
-    "bankLine": "{bank} · a.n. {accountName}",
-    "transferNote": "Cantumkan nomor registrasi pada berita transfer, lalu kirim bukti transfer ke {email}.",
-    "paymentByEmail": "Informasi pembayaran dikirim melalui email setelah data pendaftaran diverifikasi. Simpan nomor registrasi di atas sebagai rujukan."
+    "notFoundTitle": "Pendaftaran tidak ditemukan",
+    "notFoundText": "Tautan ini tidak sah atau sudah tidak berlaku. Jika Anda sudah mendaftar, periksa email Anda atau hubungi sekretariat."
   },
   "MembershipApply": {
     "title": "Pendaftaran Keanggotaan",
-    "intro": "Lengkapi formulir berikut untuk memulai proses pendaftaran keanggotaan INOPI."
+    "intro": "Isi data Anda, pilih keanggotaan, lalu lakukan pembayaran. Prosesnya sekitar 3 menit.",
+    "corporateQuestion": "Punya kode Corporate?",
+    "corporateLink": "Daftar dengan kode"
   },
   "Kemitraan": {
     "eyebrow": "Kemitraan",
@@ -3226,5 +3282,12 @@
   },
   "Common": {
     "close": "Close"
+  },
+  "MembershipSoon": {
+    "corporateTitle": "Pendaftaran Corporate",
+    "codeTitle": "Daftar dengan kode Corporate",
+    "text": "Halaman ini sedang disiapkan. Untuk sementara, hubungi sekretariat INOPI.",
+    "contact": "Hubungi sekretariat",
+    "back": "Kembali ke pendaftaran"
   }
 }

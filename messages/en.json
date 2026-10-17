@@ -2640,76 +2640,132 @@
     "topicRequired": "Select a topic",
     "subjectRequired": "Subject is required",
     "messageMin": "Message must be at least 10 characters",
-    "max2000": "Please keep this under 2,000 characters."
+    "max2000": "Please keep this under 2,000 characters.",
+    "occupationRequired": "Occupation is required",
+    "countryRequired": "Select a country",
+    "categoryRequired": "Choose a membership type",
+    "proofRequired": "Upload your proof of transfer"
   },
   "MembershipForm": {
-    "chooseCategory": "Choose a Category",
-    "perYear": "per year",
-    "next": "Continue →",
-    "back": "← Back",
-    "detailsTitle": "Your Details",
-    "fields": {
-      "nama": {
-        "label": "Full Name",
-        "placeholder": "Your full name"
+    "steps": [
+      "Your details",
+      "Choose membership",
+      "Payment"
+    ],
+    "stepCounter": "Step {current} of 3",
+    "personal": {
+      "title": "Your details",
+      "intro": "Use an email address and WhatsApp number you actively use. Your member card will be sent by email.",
+      "fields": {
+        "nama": {
+          "label": "Full name",
+          "placeholder": "As on your ID"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "name@email.com"
+        },
+        "hp": {
+          "label": "WhatsApp number",
+          "placeholder": "+62 812 3456 7890"
+        },
+        "pekerjaan": {
+          "label": "Occupation",
+          "placeholder": "e.g. Lecturer, Student, Manager"
+        },
+        "jabatan": {
+          "label": "Position (optional)",
+          "placeholder": "e.g. Head of Study Program"
+        },
+        "institusi": {
+          "label": "Company / University",
+          "placeholder": "Name of your organization"
+        },
+        "negara": {
+          "label": "Country"
+        }
       },
-      "email": {
-        "label": "Email",
-        "placeholder": "email@institusi.ac.id"
-      },
-      "hp": {
-        "label": "WhatsApp Number",
-        "placeholder": "+62 812 3456 7890"
-      },
-      "institusi": {
-        "label": "Institution/Organization",
-        "placeholder": "Your university / company"
-      },
-      "jabatan": {
-        "label": "Position/Role (optional)",
-        "placeholder": "e.g. Lecturer, L&D Manager"
+      "next": "Continue"
+    },
+    "plan": {
+      "title": "Choose membership",
+      "perYear": "per year",
+      "corporateInfo": "Corporate membership is registered through a dedicated flow by your company's PIC, and colleagues then register with a code. You will be taken to the Corporate registration page.",
+      "corporateGo": "Continue to Corporate registration",
+      "payNext": "Continue to payment",
+      "reserving": "Preparing your payment…",
+      "back": "Back",
+      "edit": "Change",
+      "summary": "Membership fee {amount} per year"
+    },
+    "pay": {
+      "title": "Payment",
+      "intro": "Transfer the exact amount below, then upload your proof of transfer.",
+      "transferTo": "Transfer to the INOPI account",
+      "bank": "Bank",
+      "accountNumber": "Account number",
+      "accountName": "Account holder",
+      "amount": "Transfer amount",
+      "uniqueBadge": "Unique code {code}",
+      "uniqueHint": "Transfer the exact amount, including the last 3 digits, so your payment can be matched easily.",
+      "breakdown": "Fee {base} + unique code {code}",
+      "bankMissing": "The account number has not been set yet. Please contact the secretariat before transferring."
+    },
+    "proof": {
+      "label": "Proof of transfer",
+      "camera": "Take a photo",
+      "gallery": "Choose from gallery or files",
+      "hint": "JPG, PNG, or PDF, max. 4 MB",
+      "remove": "Remove",
+      "processing": "Processing image…",
+      "errors": {
+        "type": "Only JPG, PNG, or PDF files.",
+        "size": "The file must be 4 MB or smaller.",
+        "read": "The file could not be read. Please try another photo or file.",
+        "required": "Please upload your proof of transfer first."
       }
     },
-    "interestsLabel": "Areas of Interest (optional)",
-    "interests": {
-      "Riset & Inovasi": "Research & Innovation",
-      "Implementasi & Pilot Project": "Implementation & Pilot Projects",
-      "Kemitraan": "Partnerships",
-      "Pelatihan & Sertifikasi": "Training & Certification",
-      "Kebijakan Pendidikan": "Education Policy"
+    "submit": {
+      "button": "Submit application",
+      "uploading": "Uploading proof…",
+      "sending": "Submitting…"
     },
-    "reasonLabel": "Reason for Joining (optional)",
-    "confirmTitle": "Confirmation",
-    "summary": {
-      "category": "Category",
-      "name": "Name",
-      "email": "Email",
-      "whatsapp": "WhatsApp",
-      "institution": "Institution",
-      "role": "Position/Role",
-      "interests": "Areas of Interest",
-      "fee": "Annual fee"
-    },
-    "afterSubmit": "After submitting, you will receive a registration number and payment instructions.",
-    "infoConsent": "I would like to receive information about INOPI events and programs by email or WhatsApp.",
-    "sending": "Sending…",
-    "submit": "Submit Application"
+    "errors": {
+      "generic": "Your application could not be submitted. Please try again, or contact asosiasi.inopi@gmail.com.",
+      "rate_limited": "Too many attempts. Please try again in a few minutes.",
+      "busy": "The system is busy. Please try again in a moment.",
+      "codes_exhausted": "Registration is full at the moment. Please try again later or contact the secretariat.",
+      "reservationLost": "Your unique transfer code has been updated. The correct transfer amount is now {amount}. Please check it, then submit again.",
+      "upload": "Your proof of transfer could not be uploaded. Please try again.",
+      "invalid_file_type": "The file is not a valid JPG, PNG, or PDF.",
+      "file_too_large": "The file is larger than 4 MB."
+    }
   },
   "MembershipThanks": {
-    "title": "Thank you — we have received your application.",
-    "text": "The INOPI team will review your details and send the next steps to the email address you provided.",
+    "title": "Thank you for registering",
+    "intro": "We have received your application.",
+    "numberLabel": "Application no.",
+    "categoryLabel": "Category",
+    "statusLabel": "Status",
+    "amountLabel": "Transfer amount",
+    "status": {
+      "pending": "Pending verification",
+      "active": "Active",
+      "rejected": "Rejected"
+    },
+    "whatNext": "Our Treasurer will match your payment. Verification takes at most {hours} working hours, after which your active member card is sent to your email.",
+    "downloadCard": "Download member card",
+    "cardNote": "The card shows Pending Verification until your payment is confirmed.",
     "home": "Back to home",
     "events": "See INOPI events",
-    "registrationNumber": "Registration Number",
-    "category": "Category",
-    "paymentTitle": "Membership fee payment",
-    "bankLine": "{bank} · a.n. {accountName}",
-    "transferNote": "Include the registration number in the transfer note, then send the proof of transfer to {email}.",
-    "paymentByEmail": "Payment information is sent by email after your application has been verified. Keep the registration number above for reference."
+    "notFoundTitle": "Application not found",
+    "notFoundText": "This link is invalid or no longer valid. If you have already applied, please check your email or contact the secretariat."
   },
   "MembershipApply": {
     "title": "Membership Application",
-    "intro": "Complete the form below to start your INOPI membership application."
+    "intro": "Enter your details, choose a membership, then make your payment. It takes about 3 minutes.",
+    "corporateQuestion": "Have a Corporate code?",
+    "corporateLink": "Register with a code"
   },
   "Kemitraan": {
     "eyebrow": "Partnerships",
@@ -3227,5 +3283,12 @@
   },
   "Common": {
     "close": "Close"
+  },
+  "MembershipSoon": {
+    "corporateTitle": "Corporate registration",
+    "codeTitle": "Register with a Corporate code",
+    "text": "This page is being prepared. In the meantime, please contact the INOPI secretariat.",
+    "contact": "Contact the secretariat",
+    "back": "Back to registration"
   }
 }
