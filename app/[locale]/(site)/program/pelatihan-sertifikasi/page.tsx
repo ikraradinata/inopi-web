@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageAlternates } from '@/lib/i18n/seo'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 import { getDivision } from '@/lib/constants/programs'
@@ -10,7 +11,8 @@ import { IconCertificate } from '@tabler/icons-react'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.programTraining' })
-  return { title: t('title'), description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/program/pelatihan-sertifikasi'), title: { absolute: t('title') }, description: t('description') }
 }
 
 export default async function PelatihanSertifikasiPage({ params }: { params: Promise<{ locale: string }> }) {

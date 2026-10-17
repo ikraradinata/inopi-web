@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useTranslations } from 'next-intl'
+import { useRouter } from '@/i18n/navigation'
+import { useLocale, useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
@@ -11,6 +11,7 @@ import { CONTACT_TOPICS, kontakSchema, type KontakInput } from '@/lib/schemas/ko
 
 export default function ContactForm() {
   const t = useTranslations('ContactForm')
+  const locale = useLocale()
   const tf = useTranslations('Forms')
   const router = useRouter()
   // Waktu halaman dibuka; server menolak kiriman yang terlalu cepat untuk manusia.
@@ -26,7 +27,7 @@ export default function ContactForm() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, website: readHoneypot(event), startedAt }),
+        body: JSON.stringify({ ...data, locale, website: readHoneypot(event), startedAt }),
       })
       const json = await res.json().catch(() => null)
       if (!res.ok || !json?.success) {

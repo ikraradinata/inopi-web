@@ -12,6 +12,7 @@ import { FAILURE_MESSAGE } from '@/lib/constants/formMessages'
 import { sendEmail } from '@/lib/email'
 import { appendToSheet } from '@/lib/sheet'
 import { guardForm, oneLine } from '@/lib/spam'
+import { LANGUAGE_LABEL, senderLocale } from '@/lib/i18n/language'
 
 const jakartaTime = (d: Date) =>
   new Intl.DateTimeFormat('id-ID', {
@@ -34,6 +35,7 @@ export async function POST(req: Request) {
 
   const data = parsed.data
   const bidang = data.bidang?.join(', ') ?? ''
+  const lang = senderLocale(guard.body)
   const plan = getPlan(data.category)!
   const registrationId = generateRegistrationId()
   const submittedAt = new Date()
@@ -59,6 +61,7 @@ export async function POST(req: Request) {
     `Kategori         : ${plan.name}`,
     `Iuran            : ${formatRupiah(plan.amount)}${plan.note ? ` (${plan.note})` : ''}`,
     '',
+    `Bahasa pengirim  : ${LANGUAGE_LABEL[lang]}`,
     `Nama             : ${data.nama}`,
     `Email            : ${data.email}`,
     `No. HP           : ${data.hp}`,
@@ -99,6 +102,7 @@ export async function POST(req: Request) {
     jabatan: data.jabatan,
     alasan: data.alasan,
     infoKegiatan: data.infoKegiatan,
+    bahasa: LANGUAGE_LABEL[lang],
   })
 
   if (!sheetResult.recorded && sheetResult.reason !== 'not_configured') {

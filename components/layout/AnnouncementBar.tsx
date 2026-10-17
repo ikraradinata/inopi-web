@@ -1,7 +1,7 @@
 'use client'
 
 import { useSyncExternalStore } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { IconCalendarEvent, IconArrowRight } from '@tabler/icons-react'
 import { LAUNCH, LAUNCH_END } from '@/lib/constants/launch'

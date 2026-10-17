@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { IconMapPin, IconClock } from '@tabler/icons-react'
 import { LAUNCH } from '@/lib/constants/launch'

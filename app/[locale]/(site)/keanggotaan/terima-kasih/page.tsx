@@ -56,7 +56,7 @@ export default async function KeanggotaanTerimaKasihPage({
                 </p>
               </div>
               <span className="font-display font-bold text-[22px]" style={{ color: 'var(--inopi-orange)' }}>
-                {formatRupiah(plan.amount)}
+                {formatRupiah(plan.amount, locale)}
               </span>
             </div>
           </div>

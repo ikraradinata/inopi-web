@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
+import { pageAlternates } from '@/lib/i18n/seo'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
+import type { AppPathname } from '@/i18n/routing'
 import {
   IconShieldCheck,
   IconEye,
@@ -16,7 +19,8 @@ import {
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.organization' })
-  return { title: t('title'), description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/tentang/struktur-organisasi'), title: { absolute: t('title') }, description: t('description') }
 }
 
 const orgSections = [
@@ -44,7 +48,7 @@ const pimpinan = [
   { name: 'Ikrar Adinata Arin', icon: IconCoin },
 ]
 
-const divisi = [
+const divisi: { icon: typeof IconFlask; pic: string; href: AppPathname }[] = [
   {
     icon: IconFlask,
     pic: 'Bobi Kurniawan, Nunik Afriliana',
@@ -177,7 +181,7 @@ export default async function StrukturOrganisasiPage({ params }: { params: Promi
             {divisi.map((d, i) => {
               const Icon = d.icon
               return (
-                <a
+                <Link
                   key={divisions[i].title}
                   href={d.href}
                   className="rounded-[12px] p-5 border bg-white transition-all hover:border-[var(--inopi-teal-strong)] hover:shadow-hover block"
@@ -205,7 +209,7 @@ export default async function StrukturOrganisasiPage({ params }: { params: Promi
                   <span className="font-body text-[12px] mt-2 block" style={{ color: 'var(--inopi-teal-strong)' }}>
                     {t('viewProgram')}
                   </span>
-                </a>
+                </Link>
               )
             })}
           </div>

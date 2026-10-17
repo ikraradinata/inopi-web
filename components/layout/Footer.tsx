@@ -1,10 +1,11 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import Logo from '@/components/ui/Logo'
+import type { AppPathname } from '@/i18n/routing'
 
 // Ikon media sosial dan newsletter disembunyikan sampai akun resmi dan
 // layanan berlangganan tersedia (docs/01_RENCANA_PERUBAHAN_STRUKTUR.md, bagian 3).
-const footerGroups = [
+const footerGroups: { title: string; links: { label: string; href: AppPathname }[] }[] = [
   {
     title: 'organization',
     links: [

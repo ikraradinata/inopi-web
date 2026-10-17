@@ -1,14 +1,17 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { pageAlternates } from '@/lib/i18n/seo'
+import { Link } from '@/i18n/navigation'
+import type { AppPathname } from '@/i18n/routing'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.about' })
-  return { title: t('title'), description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/tentang'), title: { absolute: t('title') }, description: t('description') }
 }
 
-const subPages = [
+const subPages: { href: AppPathname }[] = [
   { href: '/tentang/sejarah' },
   { href: '/tentang/visi-misi' },
   { href: '/tentang/struktur-organisasi' },

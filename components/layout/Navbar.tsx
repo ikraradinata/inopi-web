@@ -1,18 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { Link } from '@/i18n/navigation'
+import { usePathname } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IconMenu2, IconX } from '@tabler/icons-react'
 import Logo from '@/components/ui/Logo'
+import LanguageSwitcher from '@/components/layout/LanguageSwitcher'
+import type { AppPathname } from '@/i18n/routing'
 
 interface NavItem {
   /** Kunci di namespace "Nav". */
   label: string
-  href: string
-  children?: { label: string; href: string }[]
+  href: AppPathname
+  children?: { label: string; href: AppPathname }[]
 }
 
 const navLinks: NavItem[] = [
@@ -109,6 +111,7 @@ export default function Navbar({ transparent }: NavbarProps) {
 
             {/* CTA + Hamburger */}
             <div className="flex items-center gap-3">
+              <LanguageSwitcher className="hidden md:flex mr-1" />
               <Link
                 href="/keanggotaan/daftar"
                 className="hidden md:inline-flex items-center px-4 py-2 text-[13px] font-medium text-white rounded-[8px] transition-all hover:-translate-y-px"
@@ -192,6 +195,7 @@ export default function Navbar({ transparent }: NavbarProps) {
                   )
                 })}
               </nav>
+              <LanguageSwitcher className="mt-4 justify-center" />
               <Link
                 href="/keanggotaan/daftar"
                 onClick={() => setOpen(false)}

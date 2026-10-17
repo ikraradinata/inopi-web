@@ -1,10 +1,10 @@
 import type { MetadataRoute } from 'next'
+import { routing, type AppPathname } from '@/i18n/routing'
+import { absoluteUrl } from '@/lib/i18n/seo'
 
-const BASE_URL = 'https://www.inopi.id'
-
-// Hanya halaman yang sudah ada dan layak diindeks. Halaman terima kasih
+// Halaman yang diindeks, dalam dua bahasa. Halaman terima kasih dan 404
 // sengaja tidak dimasukkan.
-const paths = [
+const paths: AppPathname[] = [
   '/',
   '/tentang',
   '/tentang/visi-misi',
@@ -30,5 +30,16 @@ const paths = [
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return paths.map((path) => ({ url: `${BASE_URL}${path}`, lastModified: new Date() }))
+  const lastModified = new Date()
+  return paths.flatMap((pathname) => {
+    const languages = {
+      id: absoluteUrl('id', pathname),
+      en: absoluteUrl('en', pathname),
+    }
+    return routing.locales.map((locale) => ({
+      url: absoluteUrl(locale, pathname),
+      lastModified,
+      alternates: { languages },
+    }))
+  })
 }

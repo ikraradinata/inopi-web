@@ -1,13 +1,15 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
+
+import type { AppPathname } from '@/i18n/routing'
 
 interface CtaDarkProps {
   eyebrow?: string
   title: string
   description: string
-  primaryCta: { label: string; href: string }
+  primaryCta: { label: string; href: AppPathname }
   /** Tombol tambahan, ditampilkan di antara tombol utama dan sekunder. */
-  extraCta?: { label: string; href: string }
-  secondaryCta?: { label: string; href: string }
+  extraCta?: { label: string; href: AppPathname }
+  secondaryCta?: { label: string; href: AppPathname }
   className?: string
 }
 

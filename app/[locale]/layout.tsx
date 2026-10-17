@@ -33,7 +33,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: { default: t('title'), template: '%s | INOPI' },
     description: t('description'),
     keywords: t.raw('keywords') as string[],
-    openGraph: { type: 'website', locale: 'id_ID', url: 'https://www.inopi.id', siteName: 'INOPI' },
+    openGraph: {
+      type: 'website',
+      locale: locale === 'en' ? 'en_US' : 'id_ID',
+      alternateLocale: locale === 'en' ? 'id_ID' : 'en_US',
+      url: 'https://www.inopi.id',
+      siteName: 'INOPI',
+    },
     twitter: { card: 'summary_large_image', creator: '@inopi_id' },
     robots: { index: true, follow: true },
   }

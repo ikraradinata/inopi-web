@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { pageAlternates } from '@/lib/i18n/seo'
+import { Link } from '@/i18n/navigation'
 import { IconCheck, IconMinus, IconCalendarEvent } from '@tabler/icons-react'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
@@ -8,7 +9,8 @@ import { PLAN_META, BENEFIT_TIERS, type Tier } from '@/lib/constants/membership'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.membership' })
-  return { title: t('title'), description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/keanggotaan'), title: { absolute: t('title') }, description: t('description') }
 }
 
 function TierMark({ included, labels }: { included: boolean; labels: { yes: string; no: string } }) {

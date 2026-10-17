@@ -1,13 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 import { IconCheck, IconLoader2 } from '@tabler/icons-react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { PLAN_META, getPlanMeta } from '@/lib/constants/membership'
 import { formatRupiah } from '@/lib/constants/registration'
 import { Honeypot, PrivacyConsent, readHoneypot } from '@/components/ui/FormField'
@@ -19,6 +19,7 @@ type FormData = KeanggotaanDetails
 
 export default function MembershipForm() {
   const t = useTranslations('MembershipForm')
+  const locale = useLocale()
   const tm = useTranslations('Membership')
   const tf = useTranslations('Forms')
   const tv = useTranslations('Validation')
@@ -62,6 +63,7 @@ export default function MembershipForm() {
         body: JSON.stringify({
           ...data,
           category,
+          locale,
           persetujuan: true,
           infoKegiatan: wantsInfo,
           website: readHoneypot(event),
@@ -75,8 +77,7 @@ export default function MembershipForm() {
         return
       }
 
-      const params = new URLSearchParams({ reg: json.registrationId, k: json.category })
-      router.push(`/keanggotaan/terima-kasih?${params.toString()}`)
+      router.push({ pathname: '/keanggotaan/terima-kasih', query: { reg: json.registrationId, k: json.category } })
     } catch {
       toast.error(tf('failure'))
     } finally {
@@ -284,7 +285,7 @@ export default function MembershipForm() {
                   >
                     <span style={{ color: 'var(--inopi-taupe-strong)' }}>{t('summary.fee')}</span>
                     <span className="font-display font-bold text-[16px]" style={{ color: 'var(--inopi-orange)' }}>
-                      {formatRupiah(selectedPlan.amount)}
+                      {formatRupiah(selectedPlan.amount, locale)}
                     </span>
                   </div>
                 )}

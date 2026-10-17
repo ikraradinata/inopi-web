@@ -1,17 +1,20 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { pageAlternates } from '@/lib/i18n/seo'
+import { Link } from '@/i18n/navigation'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import CtaDark from '@/components/sections/CtaDark'
+import type { AppPathname } from '@/i18n/routing'
 import PriorityProgramsSection from '@/components/sections/PriorityProgramsSection'
 import { IconFlask, IconRocket, IconCertificate, IconNetwork } from '@tabler/icons-react'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.programs' })
-  return { title: t('title'), description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/program'), title: { absolute: t('title') }, description: t('description') }
 }
 
-const programs = [
+const programs: { icon: typeof IconFlask; href: AppPathname; team: string }[] = [
   { icon: IconFlask, href: '/program/riset-inovasi', team: 'Bobi Kurniawan Soegoto, Nunik Afriliana' },
   { icon: IconRocket, href: '/program/implementasi', team: 'Nita Felia, Yasser Muhammad Syaiful' },
   { icon: IconNetwork, href: '/program/kemitraan', team: 'Victor Osman, Siti Elda Hiererra' },

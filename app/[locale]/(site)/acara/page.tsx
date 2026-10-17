@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { pageAlternates } from '@/lib/i18n/seo'
+import { Link } from '@/i18n/navigation'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { IconCalendarEvent, IconClock, IconMapPin } from '@tabler/icons-react'
 import { LAUNCH } from '@/lib/constants/launch'
@@ -7,7 +8,8 @@ import { LAUNCH } from '@/lib/constants/launch'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.acara' })
-  return { title: { absolute: t('title') }, description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/acara'), title: { absolute: t('title') }, description: t('description') }
 }
 
 const eyebrow = 'font-body text-[11px] font-semibold uppercase tracking-widest mb-4'

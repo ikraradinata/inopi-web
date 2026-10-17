@@ -30,6 +30,7 @@ interface SheetRow {
   jabatan?: string
   alasan?: string
   infoKegiatan?: boolean
+  bahasa?: string
 }
 
 export interface SheetResult {
@@ -60,6 +61,7 @@ export async function appendToSheet(row: SheetRow): Promise<SheetResult> {
         jabatan: row.jabatan ?? '',
         alasan: row.alasan ?? '',
         infoKegiatan: Boolean(row.infoKegiatan),
+        bahasa: row.bahasa ?? '',
       }),
       // Apps Script Web App mengirim redirect 302 sebelum balasan akhir;
       // follow (default) diperlukan agar fetch tidak gagal di langkah ini.
@@ -92,7 +94,7 @@ function doPost(e) {
     sheet.appendRow([
       'Waktu Submit', 'No. Registrasi', 'Kategori', 'Iuran (Rp)',
       'Nama', 'Email', 'No. HP', 'Institusi', 'Bidang', 'Status Pembayaran',
-      'Jabatan', 'Alasan Bergabung', 'Bersedia Terima Info'
+      'Jabatan', 'Alasan Bergabung', 'Bersedia Terima Info', 'Bahasa'
     ]);
     sheet.setFrozenRows(1);
   }
@@ -112,7 +114,8 @@ function doPost(e) {
     'Menunggu Pembayaran',
     data.jabatan || '-',
     data.alasan || '-',
-    data.infoKegiatan ? 'Ya' : 'Tidak'
+    data.infoKegiatan ? 'Ya' : 'Tidak',
+    data.bahasa || '-'
   ]);
 
   return ContentService

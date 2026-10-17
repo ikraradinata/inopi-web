@@ -1,4 +1,6 @@
+import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { pageAlternates } from '@/lib/i18n/seo'
 import HeroSection from '@/components/sections/HeroSection'
 import StatsBar from '@/components/sections/StatsBar'
 import EkosistemSection from '@/components/sections/EkosistemSection'
@@ -8,6 +10,11 @@ import CtaDark from '@/components/sections/CtaDark'
 import WhyInopiSection from '@/components/sections/WhyInopiSection'
 import PriorityProgramsSection from '@/components/sections/PriorityProgramsSection'
 import CollabEcosystemSection from '@/components/sections/CollabEcosystemSection'
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  return { alternates: pageAlternates(locale, '/') }
+}
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

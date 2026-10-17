@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
+import { pageAlternates } from '@/lib/i18n/seo'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import MembershipForm from './MembershipForm'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.membershipApply' })
-  return { title: t('title'), description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/keanggotaan/daftar'), title: { absolute: t('title') }, description: t('description') }
 }
 
 export default async function DaftarPage({ params }: { params: Promise<{ locale: string }> }) {

@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
+import { pageAlternates } from '@/lib/i18n/seo'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.privacy' })
-  return { title: { absolute: t('title') }, description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/privacy'), title: { absolute: t('title') }, description: t('description') }
 }
 
 // DRAF dari docs/02_KONTEN_BARU_P0.md bagian L, disusun mengikuti prinsip UU

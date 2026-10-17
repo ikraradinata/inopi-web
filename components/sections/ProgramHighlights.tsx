@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import {
   IconFlask,
@@ -6,8 +6,9 @@ import {
   IconCertificate,
   IconNetwork,
 } from '@tabler/icons-react'
+import type { AppPathname } from '@/i18n/routing'
 
-const programs = [
+const programs: { icon: typeof IconFlask; href: AppPathname }[] = [
   { icon: IconFlask, href: '/program/riset-inovasi' },
   { icon: IconRocket, href: '/program/implementasi' },
   { icon: IconNetwork, href: '/program/kemitraan' },

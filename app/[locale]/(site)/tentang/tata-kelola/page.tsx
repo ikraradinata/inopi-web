@@ -1,11 +1,14 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { pageAlternates } from '@/lib/i18n/seo'
+import { Link } from '@/i18n/navigation'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import type { AppPathname } from '@/i18n/routing'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.governance' })
-  return { title: { absolute: t('title') }, description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/tentang/tata-kelola'), title: { absolute: t('title') }, description: t('description') }
 }
 
 // Baris dengan data yang belum diputuskan pengurus (nomor SK pengesahan, NPWP,
@@ -19,7 +22,7 @@ export default async function TataKelolaPage({ params }: { params: Promise<{ loc
   const t = await getTranslations({ locale, namespace: 'TataKelola' })
   const identity = t.raw('identity') as { label: string; value: string }[]
   const governance = t.raw('governance') as { title: string; desc: string }[]
-  const underline = (href: string) =>
+  const underline = (href: AppPathname) =>
     function Anchor(chunks: React.ReactNode) {
       return (
         <Link href={href} className="underline" style={{ color: 'var(--inopi-teal-strong)' }}>

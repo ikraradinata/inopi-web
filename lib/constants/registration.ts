@@ -31,5 +31,13 @@ export function generateRegistrationId(date = new Date()): string {
   return `INOPI-${date.getFullYear()}-${suffix}`
 }
 
-export const formatRupiah = (amount: number): string =>
-  new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount)
+/**
+ * Format rupiah per bahasa: "Rp 250.000" (id) dan "IDR 250,000" (en).
+ * Bahasa Indonesia tetap menjadi default, dipakai juga oleh email ke pengurus.
+ */
+export const formatRupiah = (amount: number, locale: string = 'id'): string =>
+  locale === 'en'
+    ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'IDR', currencyDisplay: 'code', maximumFractionDigits: 0 })
+        .format(amount)
+        .replace(/\u00a0/g, ' ')
+    : new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount)

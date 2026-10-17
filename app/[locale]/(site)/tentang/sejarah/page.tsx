@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
+import { pageAlternates } from '@/lib/i18n/seo'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { IconCheck, IconCircle, IconRocket } from '@tabler/icons-react'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.history' })
-  return { title: t('title'), description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/tentang/sejarah'), title: { absolute: t('title') }, description: t('description') }
 }
 
 const timelineStatus = ['done', 'done', 'done', 'done', 'launch'] as const

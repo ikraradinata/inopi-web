@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useTranslations } from 'next-intl'
+import { useRouter } from '@/i18n/navigation'
+import { useLocale, useTranslations } from 'next-intl'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
@@ -12,6 +12,7 @@ import { COLLAB_MODELS, ORG_TYPES, START_TIMES, SUMMARY_MAX } from '@/lib/consta
 
 export default function KemitraanForm() {
   const t = useTranslations('KemitraanForm')
+  const locale = useLocale()
   const tk = useTranslations('Kemitraan')
   const tf = useTranslations('Forms')
   const tv = useTranslations('Validation')
@@ -38,6 +39,7 @@ export default function KemitraanForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
+          locale,
           website: readHoneypot(event),
           startedAt,
         }),

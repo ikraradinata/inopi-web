@@ -13,7 +13,8 @@
     "events": "Events",
     "join": "Join INOPI",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "language": "Language"
   },
   "Footer": {
     "tagline": "Indonesian Learning Innovation Association. Building an AI-driven learning innovation ecosystem and national collaboration.",
@@ -3039,13 +3040,13 @@
     },
     "articles": [
       {
-        "category": "INOPI News",
+        "category": "Berita INOPI",
         "title": "INOPI Officially Founded by 26 Indonesian Education Leaders",
         "date": "11 Apr 2026",
         "excerpt": "On 11 April 2026, 26 prominent figures from academia, industry, and professional communities officially founded INOPI."
       },
       {
-        "category": "Opinion Article",
+        "category": "Artikel Opini",
         "title": "AI in Education: Opportunities and Challenges in the Industry 5.0 Era",
         "date": "15 Apr 2026",
         "excerpt": "Integrating artificial intelligence into education systems opens transformative opportunities while also bringing challenges that need to be anticipated."
@@ -3201,9 +3202,10 @@
       "title": "Page not found — INOPI"
     },
     "launching": {
-      "title": "{eyebrow} — {title}",
+      "title": "{eyebrow} — {title} | INOPI",
       "description": "{tagline}. {dateLabel}, {timeLabel} at {venue}, {venueAddress}.",
-      "ogDescription": "{dateLabel} · {timeLabel} · {venue}"
+      "ogDescription": "{dateLabel} · {timeLabel} · {venue}",
+      "ogTitle": "{eyebrow} — {title}"
     },
     "site": {
       "title": "INOPI — Indonesian Learning Innovation Association",

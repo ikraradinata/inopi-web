@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
+import { pageAlternates } from '@/lib/i18n/seo'
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import {
   IconCalendarEvent,
@@ -29,10 +30,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     venueAddress: tl('venueAddress'),
   }
   return {
-    title: t('title', values),
+    alternates: pageAlternates(locale, '/event/launching-2026'),
+    title: { absolute: t('title', values) },
     description: t('description', values),
     openGraph: {
-      title: t('title', values),
+      title: t('ogTitle', values),
       description: t('ogDescription', values),
       images: [LAUNCH.poster],
     },

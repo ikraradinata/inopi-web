@@ -1,10 +1,12 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { IconCheck } from '@tabler/icons-react'
+
+import type { AppPathname } from '@/i18n/routing'
 
 interface ThankYouProps {
   title: string
   text: string
-  actions: { label: string; href: string }[]
+  actions: { label: string; href: AppPathname }[]
   children?: React.ReactNode
 }
 

@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
+import { pageAlternates } from '@/lib/i18n/seo'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.research' })
-  return { title: t('title'), description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/riset'), title: { absolute: t('title') }, description: t('description') }
 }
 
 // Tautan PDF Insight Brief. Isi (mis. '/publikasi/insight-brief-01.pdf')

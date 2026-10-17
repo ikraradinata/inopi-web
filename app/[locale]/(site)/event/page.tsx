@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { pageAlternates } from '@/lib/i18n/seo'
+import { Link } from '@/i18n/navigation'
 import Image from 'next/image'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { IconCalendarEvent, IconClock, IconMapPin } from '@tabler/icons-react'
@@ -10,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'Meta.event' })
   const tl = await getTranslations({ locale, namespace: 'Launch' })
   return {
-    title: t('title'),
+    alternates: pageAlternates(locale, '/event'),
+    title: { absolute: t('title') },
     description: t('description', { eyebrow: tl('eyebrow'), dateLabel: tl('dateLabel'), venue: tl('venue') }),
   }
 }

@@ -48,3 +48,5 @@ export const routing = defineRouting({
 })
 
 export type Locale = (typeof routing.locales)[number]
+/** Kunci URL internal (URL Bahasa Indonesia). Dipakai untuk mengetik href tautan. */
+export type AppPathname = keyof typeof routing.pathnames

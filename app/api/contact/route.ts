@@ -4,6 +4,7 @@ import { FAILURE_MESSAGE } from '@/lib/constants/formMessages'
 import { ASSOCIATION_EMAIL } from '@/lib/constants/registration'
 import { sendEmail } from '@/lib/email'
 import { guardForm, oneLine } from '@/lib/spam'
+import { LANGUAGE_LABEL, senderLocale } from '@/lib/i18n/language'
 
 // Penerima: KONTAK_EMAIL bila diisi, jika tidak, email asosiasi.
 const RECIPIENT = process.env.KONTAK_EMAIL || ASSOCIATION_EMAIL
@@ -17,6 +18,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, message: 'Data pesan belum lengkap atau tidak valid.' }, { status: 400 })
   }
   const d = parsed.data
+  const lang = senderLocale(guard.body)
 
   const submittedAt = new Intl.DateTimeFormat('id-ID', {
     dateStyle: 'full',
@@ -34,6 +36,7 @@ export async function POST(req: Request) {
       'Pesan baru dari formulir kontak INOPI.',
       '',
       `Waktu   : ${submittedAt} WIB`,
+      `Bahasa  : ${LANGUAGE_LABEL[lang]}`,
       `Topik   : ${d.topik}`,
       `Nama    : ${d.nama}`,
       `Email   : ${d.email}`,

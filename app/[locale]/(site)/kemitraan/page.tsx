@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageAlternates } from '@/lib/i18n/seo'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import KemitraanForm from './KemitraanForm'
 import { COLLAB_MODELS } from '@/lib/constants/kemitraan'
@@ -6,7 +7,8 @@ import { COLLAB_MODELS } from '@/lib/constants/kemitraan'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'Meta.partnership' })
-  return { title: { absolute: t('title') }, description: t('description') }
+  return {
+    alternates: pageAlternates(locale, '/kemitraan'), title: { absolute: t('title') }, description: t('description') }
 }
 
 const eyebrowClass = 'font-body text-[11px] font-semibold uppercase tracking-widest mb-3'
