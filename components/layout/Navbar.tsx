@@ -3,29 +3,31 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IconMenu2, IconX } from '@tabler/icons-react'
 import Logo from '@/components/ui/Logo'
 
 interface NavItem {
+  /** Kunci di namespace "Nav". */
   label: string
   href: string
   children?: { label: string; href: string }[]
 }
 
 const navLinks: NavItem[] = [
-  { label: 'Tentang', href: '/tentang' },
-  { label: 'Program', href: '/program' },
-  { label: 'Kemitraan', href: '/kemitraan' },
+  { label: 'about', href: '/tentang' },
+  { label: 'programs', href: '/program' },
+  { label: 'partnerships', href: '/kemitraan' },
   {
-    label: 'Wawasan',
+    label: 'insights',
     href: '/riset',
     children: [
-      { label: 'Riset & Publikasi', href: '/riset' },
-      { label: 'Berita & Artikel', href: '/berita' },
+      { label: 'research', href: '/riset' },
+      { label: 'news', href: '/berita' },
     ],
   },
-  { label: 'Acara', href: '/acara' },
+  { label: 'events', href: '/acara' },
 ]
 
 const isActive = (pathname: string, item: NavItem) =>
@@ -40,6 +42,7 @@ interface NavbarProps {
 export default function Navbar({ transparent }: NavbarProps) {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
+  const t = useTranslations('Nav')
 
   return (
     <>
@@ -73,14 +76,14 @@ export default function Navbar({ transparent }: NavbarProps) {
                 if (!link.children) {
                   return (
                     <Link key={link.href} href={link.href} className={linkClass} style={linkStyle}>
-                      {link.label}
+                      {t(link.label)}
                     </Link>
                   )
                 }
                 return (
-                  <div key={link.label} className="relative group">
+                  <div key={t(link.label)} className="relative group">
                     <Link href={link.href} className={linkClass} style={linkStyle}>
-                      {link.label}
+                      {t(link.label)}
                     </Link>
                     <div className="absolute left-1/2 top-full -translate-x-1/2 pt-3 hidden group-hover:block group-focus-within:block">
                       <div
@@ -94,7 +97,7 @@ export default function Navbar({ transparent }: NavbarProps) {
                             className="block px-4 py-2 font-body text-[13px] hover:bg-[var(--inopi-ivory)] hover:text-[var(--inopi-teal-strong)]"
                             style={{ color: 'var(--inopi-espresso)' }}
                           >
-                            {c.label}
+                            {t(c.label)}
                           </Link>
                         ))}
                       </div>
@@ -111,12 +114,12 @@ export default function Navbar({ transparent }: NavbarProps) {
                 className="hidden md:inline-flex items-center px-4 py-2 text-[13px] font-medium text-white rounded-[8px] transition-all hover:-translate-y-px"
                 style={{ background: 'var(--inopi-espresso)' }}
               >
-                Gabung INOPI
+                {t('join')}
               </Link>
               <button
                 className="md:hidden p-1.5 text-[var(--inopi-taupe-strong)]"
                 onClick={() => setOpen(true)}
-                aria-label="Buka menu"
+                aria-label={t('openMenu')}
               >
                 <IconMenu2 size={22} />
               </button>
@@ -145,7 +148,7 @@ export default function Navbar({ transparent }: NavbarProps) {
             >
               <div className="flex items-center justify-between mb-8">
                 <Logo />
-                <button onClick={() => setOpen(false)} className="p-1 text-[var(--inopi-taupe-strong)]" aria-label="Tutup menu">
+                <button onClick={() => setOpen(false)} className="p-1 text-[var(--inopi-taupe-strong)]" aria-label={t('closeMenu')}>
                   <IconX size={20} />
                 </button>
               </div>
@@ -154,13 +157,13 @@ export default function Navbar({ transparent }: NavbarProps) {
                   const active = isActive(pathname, link)
                   const items = link.children ?? [link]
                   return (
-                    <div key={link.label} className="border-b border-[var(--inopi-sand)]">
+                    <div key={t(link.label)} className="border-b border-[var(--inopi-sand)]">
                       {link.children ? (
                         <p
                           className="font-body text-[15px] font-medium py-1"
                           style={{ color: active ? 'var(--inopi-teal-strong)' : 'var(--inopi-espresso)' }}
                         >
-                          {link.label}
+                          {t(link.label)}
                         </p>
                       ) : null}
                       {items.map((c) => (
@@ -182,7 +185,7 @@ export default function Navbar({ transparent }: NavbarProps) {
                                   : 'var(--inopi-espresso)',
                           }}
                         >
-                          {c.label}
+                          {t(c.label)}
                         </Link>
                       ))}
                     </div>
@@ -195,7 +198,7 @@ export default function Navbar({ transparent }: NavbarProps) {
                 className="mt-4 flex items-center justify-center px-4 py-3 text-[13px] font-medium text-white rounded-[8px]"
                 style={{ background: 'var(--inopi-espresso)' }}
               >
-                Gabung INOPI
+                {t('join')}
               </Link>
             </motion.div>
           </>

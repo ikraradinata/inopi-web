@@ -2,9 +2,10 @@ import type { Metadata } from 'next'
 import { Barlow_Semi_Condensed, Barlow } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
-import { setRequestLocale } from 'next-intl/server'
+import { getMessages, setRequestLocale } from 'next-intl/server'
 import '../globals.css'
 import { routing } from '@/i18n/routing'
+import { CLIENT_NAMESPACES } from '@/i18n/clientNamespaces'
 import AnnouncementBar from '@/components/layout/AnnouncementBar'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -48,11 +49,15 @@ export default async function RootLayout({
   const { locale } = await params
   if (!hasLocale(routing.locales, locale)) notFound()
   setRequestLocale(locale)
+  const allMessages = await getMessages()
+  const clientMessages = Object.fromEntries(
+    CLIENT_NAMESPACES.filter((ns) => ns in allMessages).map((ns) => [ns, allMessages[ns as keyof typeof allMessages]]),
+  )
 
   return (
     <html lang={locale} className={`${barlowSemiCondensed.variable} ${barlow.variable}`}>
       <body className="min-h-screen flex flex-col" suppressHydrationWarning>
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={clientMessages}>
           <AnnouncementBar />
           <Navbar />
           <main className="flex-1">{children}</main>

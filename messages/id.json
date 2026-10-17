@@ -2,5 +2,56 @@
   "Locale": {
     "id": "Bahasa Indonesia",
     "en": "English"
+  },
+  "Nav": {
+    "about": "Tentang",
+    "programs": "Program",
+    "partnerships": "Kemitraan",
+    "insights": "Wawasan",
+    "research": "Riset & Publikasi",
+    "news": "Berita & Artikel",
+    "events": "Acara",
+    "join": "Gabung INOPI",
+    "openMenu": "Buka menu",
+    "closeMenu": "Tutup menu"
+  },
+  "Footer": {
+    "tagline": "Asosiasi Inovasi Pembelajaran Indonesia. Membangun ekosistem inovasi pembelajaran berbasis AI dan kolaborasi nasional.",
+    "copyright": "© {year} INOPI, Advancing Academic Excellence through Technology.",
+    "groups": {
+      "organization": "Organisasi",
+      "program": "Program",
+      "join": "Bergabung",
+      "legal": "Legal"
+    },
+    "links": {
+      "about": "Tentang",
+      "structure": "Struktur Organisasi",
+      "founders": "Founder",
+      "governance": "Tata Kelola & Legal",
+      "programs": "Program",
+      "partnerships": "Kemitraan",
+      "events": "Acara",
+      "insights": "Wawasan",
+      "membership": "Keanggotaan",
+      "register": "Daftar Anggota",
+      "applyPartnership": "Ajukan Kemitraan",
+      "contact": "Kontak",
+      "privacy": "Kebijakan Privasi"
+    }
+  },
+  "Launch": {
+    "eyebrow": "INOPI Launching & Conference 2026",
+    "title": "Beyond Technology: Shaping the Future of Learning",
+    "tagline": "Innovating Learning, Empowering the Future",
+    "positioning": "A Collaborative Platform for Learning Innovation in Indonesia",
+    "dateLabel": "Senin, 26 Oktober 2026",
+    "timeLabel": "13.00 – 16.10 WIB",
+    "venue": "Markas Komdigi",
+    "venueDetail": "Midpoint Place, Lantai 21",
+    "venueAddress": "Jl. K.H. Fachrudin, Tanah Abang, Jakarta Pusat"
+  },
+  "AnnouncementBar": {
+    "detail": "Detail"
   }
 }

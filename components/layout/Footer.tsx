@@ -1,43 +1,45 @@
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import Logo from '@/components/ui/Logo'
 
 // Ikon media sosial dan newsletter disembunyikan sampai akun resmi dan
 // layanan berlangganan tersedia (docs/01_RENCANA_PERUBAHAN_STRUKTUR.md, bagian 3).
 const footerGroups = [
   {
-    title: 'Organisasi',
+    title: 'organization',
     links: [
-      { label: 'Tentang', href: '/tentang' },
-      { label: 'Struktur Organisasi', href: '/tentang/struktur-organisasi' },
-      { label: 'Founder', href: '/tentang/founders' },
-      { label: 'Tata Kelola & Legal', href: '/tentang/tata-kelola' },
+      { label: 'about', href: '/tentang' },
+      { label: 'structure', href: '/tentang/struktur-organisasi' },
+      { label: 'founders', href: '/tentang/founders' },
+      { label: 'governance', href: '/tentang/tata-kelola' },
     ],
   },
   {
-    title: 'Program',
+    title: 'program',
     links: [
-      { label: 'Program', href: '/program' },
-      { label: 'Kemitraan', href: '/kemitraan' },
-      { label: 'Acara', href: '/acara' },
-      { label: 'Wawasan', href: '/riset' },
+      { label: 'programs', href: '/program' },
+      { label: 'partnerships', href: '/kemitraan' },
+      { label: 'events', href: '/acara' },
+      { label: 'insights', href: '/riset' },
     ],
   },
   {
-    title: 'Bergabung',
+    title: 'join',
     links: [
-      { label: 'Keanggotaan', href: '/keanggotaan' },
-      { label: 'Daftar Anggota', href: '/keanggotaan/daftar' },
-      { label: 'Ajukan Kemitraan', href: '/kemitraan' },
-      { label: 'Kontak', href: '/kontak' },
+      { label: 'membership', href: '/keanggotaan' },
+      { label: 'register', href: '/keanggotaan/daftar' },
+      { label: 'applyPartnership', href: '/kemitraan' },
+      { label: 'contact', href: '/kontak' },
     ],
   },
   {
-    title: 'Legal',
-    links: [{ label: 'Kebijakan Privasi', href: '/privacy' }],
+    title: 'legal',
+    links: [{ label: 'privacy', href: '/privacy' }],
   },
 ]
 
 export default function Footer() {
+  const t = useTranslations('Footer')
   return (
     <footer style={{ background: 'var(--inopi-espresso)' }} className="pb-6">
       <svg
@@ -58,18 +60,18 @@ export default function Footer() {
               <Logo light={true} />
             </div>
             <p className="text-[13px] leading-relaxed mb-4" style={{ color: 'var(--inopi-sand)' }}>
-              Asosiasi Inovasi Pembelajaran Indonesia. Membangun ekosistem inovasi pembelajaran berbasis AI dan kolaborasi nasional.
+              {t('tagline')}
             </p>
           </div>
 
           {footerGroups.map((group) => (
             <div key={group.title}>
-              <h4 className="text-white text-[13px] font-semibold mb-4 font-display">{group.title}</h4>
+              <h4 className="text-white text-[13px] font-semibold mb-4 font-display">{t(`groups.${group.title}`)}</h4>
               <ul className="space-y-2.5">
                 {group.links.map((l) => (
                   <li key={group.title + l.label}>
                     <Link href={l.href} className="text-[13px] transition-colors hover:text-[var(--inopi-teal)]" style={{ color: 'var(--inopi-sand)' }}>
-                      {l.label}
+                      {t(`links.${l.label}`)}
                     </Link>
                   </li>
                 ))}
@@ -81,7 +83,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="pt-6" style={{ borderTop: '1px solid var(--inopi-espresso)' }}>
           <p className="text-[12px] text-center" style={{ color: 'var(--inopi-sand)' }}>
-            © {new Date().getFullYear()} INOPI, Advancing Academic Excellence through Technology.
+            {t('copyright', { year: String(new Date().getFullYear()) })}
           </p>
         </div>
       </div>
