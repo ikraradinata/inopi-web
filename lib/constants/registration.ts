@@ -6,14 +6,14 @@ export const ASSOCIATION_EMAIL = 'asosiasi.inopi@gmail.com'
 /**
  * Rekening resmi INOPI untuk pembayaran iuran keanggotaan.
  *
- * PENTING: isi ketiga kolom di bawah dengan data rekening yang sebenarnya.
- * Selama masih kosong, situs sengaja TIDAK menampilkan nomor rekening dan
- * hanya memberitahu pendaftar bahwa instruksi pembayaran dikirim via email.
+ * Rekening atas nama Bendahara Umum (diberikan pengurus). Bila ketiga kolom
+ * dikosongkan, situs TIDAK menampilkan nomor rekening dan hanya memberitahu
+ * pendaftar bahwa instruksi pembayaran dikirim via email.
  */
 export const BANK_ACCOUNT = {
-  bank: '',
-  accountNumber: '',
-  accountName: '',
+  bank: 'Bank Mandiri',
+  accountNumber: '1650004326881',
+  accountName: 'Ikrar Adinata Arin (Bendahara Umum)',
   /** Opsional, mis. cabang atau kode bank. */
   note: '',
 }
