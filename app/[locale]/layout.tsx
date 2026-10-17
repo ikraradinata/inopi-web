@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
 import { Barlow_Semi_Condensed, Barlow } from 'next/font/google'
-import './globals.css'
+import { notFound } from 'next/navigation'
+import { hasLocale, NextIntlClientProvider } from 'next-intl'
+import { setRequestLocale } from 'next-intl/server'
+import '../globals.css'
+import { routing } from '@/i18n/routing'
 import AnnouncementBar from '@/components/layout/AnnouncementBar'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -30,15 +34,31 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
+
+export default async function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!hasLocale(routing.locales, locale)) notFound()
+  setRequestLocale(locale)
+
   return (
-    <html lang="id" className={`${barlowSemiCondensed.variable} ${barlow.variable}`}>
+    <html lang={locale} className={`${barlowSemiCondensed.variable} ${barlow.variable}`}>
       <body className="min-h-screen flex flex-col" suppressHydrationWarning>
-        <AnnouncementBar />
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <Toaster />
+        <NextIntlClientProvider>
+          <AnnouncementBar />
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <Toaster />
+        </NextIntlClientProvider>
       </body>
     </html>
   )
