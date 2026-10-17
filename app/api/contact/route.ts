@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { kontakSchema } from '@/lib/schemas/kontak'
-import { FAILURE_MESSAGE } from '@/lib/constants/kemitraan'
+import { FAILURE_MESSAGE } from '@/lib/constants/formMessages'
 import { ASSOCIATION_EMAIL } from '@/lib/constants/registration'
 import { sendEmail } from '@/lib/email'
 import { guardForm, oneLine } from '@/lib/spam'

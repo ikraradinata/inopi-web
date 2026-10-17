@@ -5,6 +5,7 @@ export const inputClass =
   'w-full px-3 py-2.5 text-[13px] rounded-[8px] border outline-none bg-white focus:border-[var(--inopi-teal-strong)] transition-colors'
 export const inputStyle = { borderColor: 'var(--inopi-taupe-strong)', color: 'var(--inopi-espresso)' }
 
+/** `error` adalah kunci di messages, namespace "Validation". */
 export function Field({
   label,
   required,
@@ -16,6 +17,7 @@ export function Field({
   error?: string
   children: React.ReactNode
 }) {
+  const tv = useTranslations('Validation')
   return (
     <div>
       <label className="font-body text-[13px] font-medium mb-1 block" style={{ color: 'var(--inopi-espresso)' }}>
@@ -25,7 +27,7 @@ export function Field({
       {children}
       {error && (
         <p role="alert" className="text-[11px] mt-1" style={{ color: 'var(--destructive)' }}>
-          {error}
+          {tv(error)}
         </p>
       )}
     </div>
@@ -59,6 +61,7 @@ export function PrivacyConsent({
   error?: string
 }) {
   const t = useTranslations('Forms')
+  const tv = useTranslations('Validation')
   return (
     <div>
       <label className="flex items-start gap-3 cursor-pointer">
@@ -73,7 +76,7 @@ export function PrivacyConsent({
       </label>
       {error && (
         <p role="alert" className="text-[11px] mt-1" style={{ color: 'var(--destructive)' }}>
-          {error}
+          {tv(error)}
         </p>
       )}
     </div>

@@ -2,20 +2,19 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Field, Honeypot, PrivacyConsent, inputClass, inputStyle, readHoneypot } from '@/components/ui/FormField'
 import { kemitraanSchema, type KemitraanInput } from '@/lib/schemas/kemitraan'
-import {
-  COLLAB_MODELS,
-  FAILURE_MESSAGE,
-  ORG_TYPES,
-  START_TIMES,
-  SUMMARY_MAX,
-} from '@/lib/constants/kemitraan'
+import { COLLAB_MODELS, ORG_TYPES, START_TIMES, SUMMARY_MAX } from '@/lib/constants/kemitraan'
 
 export default function KemitraanForm() {
+  const t = useTranslations('KemitraanForm')
+  const tk = useTranslations('Kemitraan')
+  const tf = useTranslations('Forms')
+  const tv = useTranslations('Validation')
   const router = useRouter()
   // Waktu halaman dibuka; server menolak kiriman yang terlalu cepat untuk manusia.
   const [startedAt] = useState(() => Date.now())
@@ -45,40 +44,40 @@ export default function KemitraanForm() {
       })
       const json = await res.json().catch(() => null)
       if (!res.ok || !json?.success) {
-        toast.error(json?.message ?? FAILURE_MESSAGE)
+        toast.error(json?.code === 'rate_limited' ? tf('rateLimited') : tf('failure'))
         return
       }
       router.push('/kemitraan/terima-kasih')
     } catch {
-      toast.error(FAILURE_MESSAGE)
+      toast.error(tf('failure'))
     }
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-5">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <Field label="Nama lengkap" required error={errors.nama?.message}>
+        <Field label={t('name')} required error={errors.nama?.message}>
           <input {...register('nama')} type="text" autoComplete="name" className={inputClass} style={inputStyle} />
         </Field>
-        <Field label="Email" required error={errors.email?.message}>
+        <Field label={t('email')} required error={errors.email?.message}>
           <input {...register('email')} type="email" autoComplete="email" className={inputClass} style={inputStyle} />
         </Field>
-        <Field label="Nomor telepon/WhatsApp" error={errors.telepon?.message}>
+        <Field label={t('phone')} error={errors.telepon?.message}>
           <input {...register('telepon')} type="tel" autoComplete="tel" className={inputClass} style={inputStyle} />
         </Field>
-        <Field label="Nama organisasi" required error={errors.organisasi?.message}>
+        <Field label={t('organization')} required error={errors.organisasi?.message}>
           <input {...register('organisasi')} type="text" autoComplete="organization" className={inputClass} style={inputStyle} />
         </Field>
       </div>
 
-      <Field label="Jenis organisasi" required error={errors.jenisOrganisasi?.message}>
+      <Field label={t('orgType')} required error={errors.jenisOrganisasi?.message}>
         <select {...register('jenisOrganisasi')} defaultValue="" className={inputClass} style={inputStyle}>
           <option value="" disabled>
-            Pilih jenis organisasi
+            {t('orgTypePlaceholder')}
           </option>
-          {ORG_TYPES.map((t) => (
-            <option key={t} value={t}>
-              {t}
+          {ORG_TYPES.map((ot) => (
+            <option key={ot} value={ot}>
+              {t(`orgTypes.${ot}`)}
             </option>
           ))}
         </select>
@@ -86,7 +85,7 @@ export default function KemitraanForm() {
 
       <fieldset>
         <legend className="font-body text-[13px] font-medium mb-2" style={{ color: 'var(--inopi-espresso)' }}>
-          Model kolaborasi yang diminati <span aria-hidden>*</span>
+          {t('models')} <span aria-hidden>*</span>
         </legend>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {COLLAB_MODELS.map((m) => (
@@ -97,19 +96,19 @@ export default function KemitraanForm() {
             >
               <input type="checkbox" value={m.value} {...register('model')} className="mt-0.5" />
               <span className="font-body text-[13px]" style={{ color: 'var(--inopi-espresso)' }}>
-                {m.title}
+                {tk(`models.${m.value}.title`)}
               </span>
             </label>
           ))}
         </div>
         {errors.model && (
           <p role="alert" className="text-[11px] mt-1" style={{ color: 'var(--destructive)' }}>
-            {errors.model.message}
+            {tv(errors.model.message as string)}
           </p>
         )}
       </fieldset>
 
-      <Field label="Ringkasan gagasan atau kebutuhan" required error={errors.ringkasan?.message}>
+      <Field label={t('summary')} required error={errors.ringkasan?.message}>
         <textarea
           {...register('ringkasan')}
           rows={5}
@@ -122,12 +121,12 @@ export default function KemitraanForm() {
         </p>
       </Field>
 
-      <Field label="Perkiraan waktu mulai" error={errors.waktuMulai?.message}>
+      <Field label={t('startTime')} error={errors.waktuMulai?.message}>
         <select {...register('waktuMulai')} className={inputClass} style={inputStyle}>
-          <option value="">Pilih perkiraan waktu</option>
-          {START_TIMES.map((t) => (
-            <option key={t} value={t}>
-              {t}
+          <option value="">{t('startPlaceholder')}</option>
+          {START_TIMES.map((st) => (
+            <option key={st} value={st}>
+              {t(`startTimes.${st}`)}
             </option>
           ))}
         </select>
@@ -143,7 +142,7 @@ export default function KemitraanForm() {
         className="py-3 text-[14px] font-semibold text-white rounded-[8px] transition-all hover:-translate-y-px disabled:opacity-60"
         style={{ background: 'var(--inopi-espresso)' }}
       >
-        {isSubmitting ? 'Mengirim...' : 'Kirim Pengajuan'}
+        {isSubmitting ? t('sending') : t('submit')}
       </button>
     </form>
   )

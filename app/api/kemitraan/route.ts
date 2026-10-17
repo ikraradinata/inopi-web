@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { kemitraanSchema } from '@/lib/schemas/kemitraan'
-import { COLLAB_MODELS, FAILURE_MESSAGE } from '@/lib/constants/kemitraan'
+import idMessages from '@/messages/id.json'
+import { FAILURE_MESSAGE } from '@/lib/constants/formMessages'
 import { ASSOCIATION_EMAIL } from '@/lib/constants/registration'
 import { sendEmail } from '@/lib/email'
 import { guardForm, oneLine } from '@/lib/spam'
@@ -22,7 +23,8 @@ export async function POST(req: Request) {
   }
 
   const d = parsed.data
-  const modelLabels = d.model.map((v) => COLLAB_MODELS.find((m) => m.value === v)!.title)
+  const models = idMessages.Kemitraan.models as Record<string, { title: string }>
+  const modelLabels = d.model.map((v) => models[v].title)
   const submittedAt = new Intl.DateTimeFormat('id-ID', {
     dateStyle: 'full',
     timeStyle: 'short',

@@ -8,7 +8,7 @@ import {
   formatRupiah,
   isBankConfigured,
 } from '@/lib/constants/registration'
-import { FAILURE_MESSAGE } from '@/lib/constants/kemitraan'
+import { FAILURE_MESSAGE } from '@/lib/constants/formMessages'
 import { sendEmail } from '@/lib/email'
 import { appendToSheet } from '@/lib/sheet'
 import { guardForm, oneLine } from '@/lib/spam'

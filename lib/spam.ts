@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import idMessages from '@/messages/id.json'
 
 // Perlindungan spam sederhana untuk route formulir: honeypot, waktu isi minimum,
 // dan pembatasan laju per IP.
@@ -55,11 +56,11 @@ export type GuardResult =
  * honeypot/waktu isi. Bot dibalas seolah berhasil agar tidak mencoba ulang.
  */
 export async function guardForm(req: Request, name: string, max = 5): Promise<GuardResult> {
-  const reply = (status: number, message: string) =>
-    ({ ok: false, response: NextResponse.json({ success: false, message }, { status }) }) as const
+  const reply = (status: number, message: string, code?: string) =>
+    ({ ok: false, response: NextResponse.json({ success: false, message, code }, { status }) }) as const
 
   if (isRateLimited(`${name}:${clientIp(req)}`, max, 10 * 60 * 1000)) {
-    return reply(429, 'Terlalu banyak percobaan. Silakan coba lagi beberapa menit lagi.')
+    return reply(429, idMessages.Forms.rateLimited, 'rate_limited')
   }
 
   let body: Record<string, unknown>

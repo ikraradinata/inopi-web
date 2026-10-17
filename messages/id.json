@@ -2618,7 +2618,8 @@
   "Forms": {
     "failure": "Maaf, pesan Anda belum terkirim. Silakan coba lagi, atau hubungi kami langsung di asosiasi.inopi@gmail.com.",
     "privacyConsent": "Saya menyetujui pengumpulan dan penggunaan data pribadi saya oleh INOPI untuk keperluan memproses permintaan ini, sesuai dengan",
-    "privacyPolicy": "Kebijakan Privasi"
+    "privacyPolicy": "Kebijakan Privasi",
+    "rateLimited": "Terlalu banyak percobaan. Silakan coba lagi beberapa menit lagi."
   },
   "Validation": {
     "nameMin": "Nama minimal 2 karakter",
@@ -2627,7 +2628,17 @@
     "phoneTooLong": "Nomor terlalu panjang",
     "institutionRequired": "Institusi wajib diisi",
     "max1000": "Maksimal 1.000 karakter",
-    "privacyRequired": "Anda harus menyetujui kebijakan privasi"
+    "privacyRequired": "Anda harus menyetujui kebijakan privasi",
+    "phoneInvalidTel": "Nomor telepon tidak valid",
+    "orgRequired": "Nama organisasi wajib diisi",
+    "orgTypeRequired": "Pilih jenis organisasi",
+    "modelRequired": "Pilih minimal satu model kolaborasi",
+    "summaryMin": "Ringkasan minimal 10 karakter",
+    "max1000plain": "Maksimal 1000 karakter",
+    "topicRequired": "Pilih topik",
+    "subjectRequired": "Subjek wajib diisi",
+    "messageMin": "Pesan minimal 10 karakter",
+    "max2000": "Maksimal 2.000 karakter"
   },
   "MembershipForm": {
     "chooseCategory": "Pilih Kategori",
@@ -2697,5 +2708,153 @@
   "MembershipApply": {
     "title": "Pendaftaran Keanggotaan",
     "intro": "Lengkapi formulir berikut untuk memulai proses pendaftaran keanggotaan INOPI."
+  },
+  "Kemitraan": {
+    "eyebrow": "Kemitraan",
+    "title": "Bangun Dampak Bersama INOPI",
+    "intro": "Kami membuka kolaborasi dengan perguruan tinggi, industri, pemerintah, dan organisasi internasional untuk mengubah gagasan pembelajaran menjadi praktik yang terukur.",
+    "apply": "Ajukan Kemitraan",
+    "whyTitle": "Mengapa bermitra dengan INOPI",
+    "why": [
+      {
+        "title": "Jejaring lintas sektor dalam satu wadah.",
+        "desc": "Founder INOPI berasal dari akademisi, industri, dan pemerintah."
+      },
+      {
+        "title": "Keahlian yang sudah teruji.",
+        "desc": "69% founder telah menjalankan program pelatihan sebelum INOPI berdiri (Insight Brief No. 01, survei Juni 2026, n=26)."
+      },
+      {
+        "title": "Fokus pada dampak.",
+        "desc": "Setiap kolaborasi dirancang dengan tujuan, indikator, dan dokumentasi yang jelas."
+      }
+    ],
+    "typesTitle": "Jenis mitra",
+    "types": [
+      {
+        "title": "Perguruan Tinggi & Lembaga Riset",
+        "desc": "Riset bersama, publikasi, pengembangan kurikulum, pilot di program studi."
+      },
+      {
+        "title": "Industri & EdTech",
+        "desc": "Uji coba solusi, pengembangan kompetensi karyawan, link and match talenta."
+      },
+      {
+        "title": "Pemerintah & Lembaga Publik",
+        "desc": "Kajian kebijakan, peningkatan kapasitas pendidik dan ASN, program percontohan daerah."
+      },
+      {
+        "title": "Organisasi Internasional",
+        "desc": "Pertukaran pengetahuan, forum regional, kolaborasi riset lintas negara."
+      }
+    ],
+    "modelsTitle": "Model kolaborasi",
+    "models": {
+      "riset": {
+        "title": "Riset Kolaboratif",
+        "desc": "Kajian dan eksperimen inovasi pembelajaran bersama."
+      },
+      "pilot": {
+        "title": "Proyek Percontohan & Implementasi",
+        "desc": "Uji coba skala kecil yang terdokumentasi, lalu direplikasi."
+      },
+      "pelatihan": {
+        "title": "Pelatihan & Pengembangan Kompetensi",
+        "desc": "Program peningkatan keterampilan sesuai kebutuhan mitra."
+      },
+      "acara": {
+        "title": "Acara & Pertukaran Pengetahuan",
+        "desc": "Seminar, webinar, dan forum bersama."
+      },
+      "publikasi": {
+        "title": "Publikasi & Studi Dampak",
+        "desc": "Dokumentasi hasil kolaborasi untuk publik."
+      }
+    },
+    "formTitle": "Formulir Pengajuan Kemitraan"
+  },
+  "KemitraanForm": {
+    "name": "Nama lengkap",
+    "email": "Email",
+    "phone": "Nomor telepon/WhatsApp",
+    "organization": "Nama organisasi",
+    "orgType": "Jenis organisasi",
+    "orgTypePlaceholder": "Pilih jenis organisasi",
+    "orgTypes": {
+      "Perguruan Tinggi": "Perguruan Tinggi",
+      "Lembaga Riset": "Lembaga Riset",
+      "Industri": "Industri",
+      "Startup EdTech": "Startup EdTech",
+      "Pemerintah": "Pemerintah",
+      "Organisasi Internasional": "Organisasi Internasional",
+      "Lainnya": "Lainnya"
+    },
+    "models": "Model kolaborasi yang diminati",
+    "summary": "Ringkasan gagasan atau kebutuhan",
+    "startTime": "Perkiraan waktu mulai",
+    "startPlaceholder": "Pilih perkiraan waktu",
+    "startTimes": {
+      "Dalam 3 bulan": "Dalam 3 bulan",
+      "3–6 bulan": "3–6 bulan",
+      "Lebih dari 6 bulan": "Lebih dari 6 bulan",
+      "Belum ditentukan": "Belum ditentukan"
+    },
+    "sending": "Mengirim...",
+    "submit": "Kirim Pengajuan"
+  },
+  "KemitraanThanks": {
+    "title": "Terima kasih, pengajuan kemitraan Anda sudah kami terima.",
+    "text": "Divisi Kemitraan & Kerjasama akan menelaah pengajuan Anda dan menghubungi Anda melalui email.",
+    "home": "Kembali ke Beranda",
+    "programs": "Lihat Program"
+  },
+  "Kontak": {
+    "title": "Hubungi Kami",
+    "intro": "Tim INOPI siap membantu Anda. Isi formulir di bawah dan kami akan merespons dalam 1×24 jam.",
+    "info": [
+      {
+        "label": "Alamat",
+        "value": "Prosperity Tower, 8th Floor, Kawasan District 8 LOT 13 SCBD, Jl. Jend. Sudirman Kav 52-53, Senayan, Jakarta Selatan – 12190"
+      },
+      {
+        "label": "Email",
+        "value": "asosiasi.inopi@gmail.com"
+      },
+      {
+        "label": "Telepon",
+        "value": "+62 21 555 1234 (placeholder)"
+      },
+      {
+        "label": "Jam Operasional",
+        "value": "Senin–Jumat 09:00–17:00 WIB"
+      }
+    ]
+  },
+  "ContactForm": {
+    "name": "Nama",
+    "namePlaceholder": "Nama lengkap Anda",
+    "email": "Email",
+    "emailPlaceholder": "email@domain.com",
+    "topic": "Topik",
+    "topicPlaceholder": "Pilih topik",
+    "topics": {
+      "Keanggotaan": "Keanggotaan",
+      "Kemitraan": "Kemitraan",
+      "Program": "Program",
+      "Media & Publikasi": "Media & Publikasi",
+      "Acara": "Acara",
+      "Umum": "Umum"
+    },
+    "subject": "Subjek",
+    "subjectPlaceholder": "Perihal pesan",
+    "message": "Pesan",
+    "messagePlaceholder": "Tuliskan pesan Anda...",
+    "sending": "Mengirim...",
+    "submit": "Kirim Pesan"
+  },
+  "KontakThanks": {
+    "title": "Pesan Anda sudah terkirim.",
+    "text": "Terima kasih telah menghubungi INOPI. Kami akan membalas melalui email.",
+    "home": "Kembali ke Beranda"
   }
 }
