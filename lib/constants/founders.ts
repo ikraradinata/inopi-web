@@ -168,6 +168,7 @@ export const FOUNDERS: Founder[] = [
     name: 'Siti Elda Hiererra',
     role: 'Deputi Direktur Kemitraan & Kerjasama',
     group: 'kemitraan',
+    photo: 'siti-elda-hiererra',
     initials: 'SE',
   },
   {
